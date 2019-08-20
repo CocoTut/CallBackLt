@@ -1,7 +1,7 @@
 package com.cherepanovky.callbackit.core.di
 
+import com.cherepanovky.callbackit.core.platform.RootViewProvider
 import dagger.BindsInstance
-import ru.cherepanovk.imgurtest.core.platform.RootViewProvider
 
 interface ViewComponentBuilder<Component> {
     @BindsInstance

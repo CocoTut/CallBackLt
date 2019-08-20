@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import ru.cherepanovk.imgurtest.core.platform.ActivityStarter
+import com.cherepanovky.callbackit.core.platform.ActivityStarter
 
 fun ActivityStarter.openSettings(context: Context) {
     val uri = Uri.parse("package:" + context.packageName)
