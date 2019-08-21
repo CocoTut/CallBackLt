@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rvCardView"
-    android:layout_width="match_parent"
-
-    android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true">
-
-    <android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/rvCardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <TextView
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
+    <TextView
             android:id="@+id/tvTimeRv"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-
-            android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
-            android:gravity="right"
+
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="end"
             android:paddingTop="8dp"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -30,55 +25,57 @@
             app:layout_constraintTop_toBottomOf="@+id/tvDateRv"
             tools:text="Time" />
 
-        <TextView
+    <TextView
             android:id="@+id/tvDateRv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-
             android:layout_marginTop="8dp"
-            android:gravity="right"
+            android:layout_marginEnd="16dp"
+            android:gravity="end"
             android:paddingTop="0dp"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Date" />
 
-        <TextView
+    <TextView
             android:id="@+id/tvPhoneNumberRv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:paddingBottom="8dp"
+            android:layout_marginBottom="8dp"
             android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDescriptionRv"
             tools:text="PhoneNumber" />
 
-        <TextView
+    <TextView
             android:id="@+id/tvDescriptionRv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:paddingBottom="0dp"
-            android:paddingLeft="8dp"
+            android:layout_marginEnd="8dp"
             android:paddingTop="0dp"
+            android:paddingBottom="0dp"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/tvDateRv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Description" />
-    </android.support.constraint.ConstraintLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
-</android.support.v7.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
