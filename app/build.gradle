@@ -12,7 +12,7 @@ android {
         applicationId "com.cherepanovky.callbackit"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
+        versionCode 50
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -53,6 +53,14 @@ dependencies {
 
     //gson
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    //groupie fro RecyclerView
+    implementation "com.xwray:groupie:2.5.0"
+    implementation "com.xwray:groupie-kotlin-android-extensions:2.5.0"
+
+    //ormlite
+    implementation 'com.j256.ormlite:ormlite-core:5.1'
+    implementation 'com.j256.ormlite:ormlite-android:5.1'
 
 
     testImplementation 'junit:junit:4.12'
