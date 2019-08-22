@@ -1,1 +1,7 @@
 include ':app'
+
+file('core').eachDir { dir ->
+    include dir.name
+    project(":${dir.name}").projectDir = dir
+}
+
