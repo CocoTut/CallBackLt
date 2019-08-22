@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 import dependencies.Libs
 
@@ -27,6 +28,10 @@ dependencies {
     implementation Libs.Core.KOTLIN_STDLIB
     implementation Libs.AndroidX.ANDROIDX_APPCOMPAT
     implementation Libs.AndroidX.ANDROIDX_CORE_KTX
+
+    //dagger 2
+    implementation Libs.Core.DAGGER
+    kapt Libs.Core.DAGGER_COMPILER
 
     testImplementation Libs.Test.TEST_LIB_JUNIT
     androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
