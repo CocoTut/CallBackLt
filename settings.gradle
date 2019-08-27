@@ -1,7 +1,8 @@
 include ':app'
+include ':core_network_api'
+include ':core_db_api'
+include ':core_db_impl'
+include ':core_utils'
 
-file('core').eachDir { dir ->
-    include dir.name
-    project(":${dir.name}").projectDir = dir
-}
+
 

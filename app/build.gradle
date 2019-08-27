@@ -25,9 +25,11 @@ android {
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation Libs.Core.KOTLIN_STDLIB
     implementation Libs.AndroidX.ANDROIDX_APPCOMPAT
     implementation Libs.AndroidX.ANDROIDX_CORE_KTX
+
     implementation Libs.AndroidX.ANDROIDX_CONSTRAINT_LAYOUT
     implementation Libs.AndroidX.ANDROIDX_CARD_VIEW
 
