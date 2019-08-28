@@ -1,6 +1,5 @@
 package com.cherepanovky.callbackit.features.events.di
 
-import com.cherepanovky.callbackit.core.di.OldDbProvider
 import com.cherepanovky.callbackit.core.di.viewmodel.ViewModelModule
 import com.cherepanovky.callbackit.features.events.EventsFragment
 import dagger.Component

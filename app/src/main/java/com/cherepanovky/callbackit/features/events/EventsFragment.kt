@@ -11,6 +11,7 @@ import com.cherepanovky.callbackit.features.events.di.DaggerEventsComponent
 import kotlinx.android.synthetic.main.toolbar_burger_months.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core_db_impl.di.DaggerCoreDbComponent
 import javax.inject.Inject
 
 class EventsFragment : BaseFragment(R.layout.fragment_events) {
@@ -28,12 +29,13 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     override fun inject(componentManager: ComponentManager) {
             DaggerEventsComponent.builder()
                 .contextProvider(componentManager.getOrThrow())
-                .coreDbApi(componentManager.getOrThrow())
+                .coreDbApi(
+                    DaggerCoreDbComponent.builder()
+                        .contextProvider(componentManager.getOrThrow())
+                        .build()
+                )
                 .build()
                 .inject(this)
-//            .rootViewProvider(RootViewProvider { viewContainer })
-//            .build()
-//            .inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
