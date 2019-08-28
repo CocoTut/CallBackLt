@@ -21,8 +21,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     @Inject
     lateinit var errorHandler: ErrorHandler
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+
 
     private lateinit var popupMenu: PopupMenu
 
