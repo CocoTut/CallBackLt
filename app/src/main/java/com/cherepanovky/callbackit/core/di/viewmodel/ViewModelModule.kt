@@ -1,12 +1,11 @@
-package com.cherepanovky.callbackit.core.di.di.viewmodel
+package com.cherepanovky.callbackit.core.di.viewmodel
 
 import androidx.lifecycle.ViewModelProvider
-import com.cherepanovky.callbackit.core.di.viewmodel.ViewModelFactory
 import dagger.Binds
 import dagger.Module
 
 @Module
 abstract class ViewModelModule {
     @Binds
-    internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
+    abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 }

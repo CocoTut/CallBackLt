@@ -1,13 +1,13 @@
 package com.cherepanovky.callbackit.features.events.repository
 
-import com.cherepanovky.callbackit.core.storage.olddb.Event
-import com.cherepanovky.callbackit.core.storage.olddb.LocalBase
+import ru.cherepanovk.core_db_api.data.OldDbClientApi
+import ru.cherepanovk.core_db_api.data.Reminder
 import javax.inject.Inject
 
 class EventsRepositroyImpl @Inject constructor(
-    private val oldBase: LocalBase
+    private val oldBase: OldDbClientApi
 ) : EventsRepository {
-    override fun getAllEventsFromOldBase(): List<Event> {
-        return oldBase.allEvents
+    override fun getAllEventsFromOldBase(): List<Reminder> {
+        return oldBase.getAllEvents()
     }
 }

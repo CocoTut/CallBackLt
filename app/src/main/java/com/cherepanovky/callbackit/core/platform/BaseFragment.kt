@@ -8,17 +8,16 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.cherepanovky.callbackit.core.di.ComponentManager
+import ru.cherepanovk.core.di.ComponentManager
 
 import javax.inject.Inject
 
 abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), ActivityStarter {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    protected val componentManager get() = ComponentManager
 
     override fun onAttach(context: Context?) {
-        inject(ComponentManager)
+//        inject(ComponentManager)
         super.onAttach(context)
     }
 

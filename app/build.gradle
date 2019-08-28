@@ -26,6 +26,10 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation project(':core_db_api')
+    implementation project(':core_db_impl')
+    implementation project(':core')
+
     implementation Libs.Core.KOTLIN_STDLIB
     implementation Libs.AndroidX.ANDROIDX_APPCOMPAT
     implementation Libs.AndroidX.ANDROIDX_CORE_KTX
