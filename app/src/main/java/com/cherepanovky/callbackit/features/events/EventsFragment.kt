@@ -28,6 +28,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     override fun inject(componentManager: ComponentManager) {
             DaggerEventsComponent.builder()
                 .contextProvider(componentManager.getOrThrow())
+                .viewModelProvider(componentManager.getOrThrow())
                 .coreDbApi(
                     DaggerCoreDbComponent.builder()
                         .contextProvider(componentManager.getOrThrow())
