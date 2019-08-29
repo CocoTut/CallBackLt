@@ -44,6 +44,7 @@ object Versions {
 
     object DataBase {
         const val ORM_LITE = "5.1"
+        const val ROOM = "2.1.0"
     }
 
     object Utils {
@@ -124,6 +125,10 @@ object Libs {
     object DataBase {
         const val ORM_LITE_CORE = "com.j256.ormlite:ormlite-core:${Versions.DataBase.ORM_LITE}"
         const val ORM_LITE_ANDROID = "com.j256.ormlite:ormlite-android:${Versions.DataBase.ORM_LITE}"
+
+        const val ROOM = "androidx.room:room-runtime:${Versions.DataBase.ROOM}"
+        const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.DataBase.ROOM}"
+        const val ROOM_KTX = "androidx.room:room-ktx:${Versions.DataBase.ROOM}"
     }
 
     object Utils {

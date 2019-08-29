@@ -40,9 +40,14 @@ dependencies {
     implementation Libs.Core.DAGGER
     kapt Libs.Core.DAGGER_COMPILER
 
-    //ormlite
+    //db ormlite
     implementation Libs.DataBase.ORM_LITE_CORE
     implementation Libs.DataBase.ORM_LITE_ANDROID
+
+    //db room
+    implementation Libs.DataBase.ROOM
+    implementation Libs.DataBase.ROOM_KTX
+    kapt Libs.DataBase.ROOM_COMPILER
 
 
 }
