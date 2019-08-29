@@ -2,6 +2,7 @@ package com.cherepanovky.callbackit.features.events.di
 
 import androidx.lifecycle.ViewModel
 import com.cherepanovky.callbackit.core.di.viewmodel.ViewModelKey
+import com.cherepanovky.callbackit.core.di.viewmodel.ViewModelModule
 import com.cherepanovky.callbackit.features.events.EventsViewModel
 import com.cherepanovky.callbackit.features.events.repository.EventsRepository
 import com.cherepanovky.callbackit.features.events.repository.EventsRepositroyImpl
@@ -9,7 +10,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 
-@Module
+@Module(includes = [ViewModelModule::class])
 abstract class EventsModule {
 
     @Binds

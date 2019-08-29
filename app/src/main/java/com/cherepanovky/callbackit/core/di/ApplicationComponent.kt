@@ -10,9 +10,8 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [
-    ApplicationModule::class,
-    ViewModelModule::class
+    ApplicationModule::class
 ])
-interface ApplicationComponent : ContextProvider, ViewModelProvider {
+interface ApplicationComponent : ContextProvider {
     fun inject(application: Application)
 }

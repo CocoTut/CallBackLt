@@ -11,8 +11,7 @@ import ru.cherepanovk.core_db_api.di.CoreDbApi
 ],
     dependencies = [
         ContextProvider::class,
-        CoreDbApi::class,
-        ViewModelProvider::class
+        CoreDbApi::class
     ])
 interface EventsComponent {
     fun inject(eventsFragment: EventsFragment)
