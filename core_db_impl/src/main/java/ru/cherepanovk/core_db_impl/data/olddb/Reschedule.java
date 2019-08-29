@@ -1,4 +1,4 @@
-package com.cherepanovky.callbackit.core.storage.olddb;
+package ru.cherepanovk.core_db_impl.data.olddb;
 
 /**
  * Created by CocoNut on 23.10.2017.

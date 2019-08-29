@@ -2,8 +2,8 @@ package com.cherepanovky.callbackit.features.settings
 
 import android.os.Bundle
 import com.cherepanovky.callbackit.R
-import com.cherepanovky.callbackit.core.di.ComponentManager
 import com.cherepanovky.callbackit.core.platform.BaseFragment
+import ru.cherepanovk.core.di.ComponentManager
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 

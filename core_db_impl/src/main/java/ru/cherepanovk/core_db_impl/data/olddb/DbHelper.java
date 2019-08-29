@@ -1,4 +1,4 @@
-package com.cherepanovky.callbackit.core.storage.olddb;
+package ru.cherepanovk.core_db_impl.data.olddb;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

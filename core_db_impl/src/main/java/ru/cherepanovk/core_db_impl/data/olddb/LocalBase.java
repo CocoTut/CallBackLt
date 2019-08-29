@@ -1,9 +1,13 @@
-package com.cherepanovky.callbackit.core.storage.olddb;
+package ru.cherepanovk.core_db_impl.data.olddb;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -13,11 +17,14 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import ru.cherepanovk.core_db_api.data.OldDbClientApi;
+import ru.cherepanovk.core_db_api.data.Reminder;
+
 /**
  * Created by CocoNut on 18.05.2018.
  */
 @Singleton
-public class LocalBase {
+public class LocalBase implements OldDbClientApi {
 
     private static final String ACCOUNT_ID = "accountID";
     private static final String ID_LASTPHONENUMBER = "phoneNumber";
@@ -65,9 +72,15 @@ public class LocalBase {
         }
     }
 
-    public List<Event> getAllEvents(){
+    @Override
+    @NotNull
+    public List<Reminder> getAllEvents(){
          setEventDAO();
-        return eventDAO.queryForAll();
+        ArrayList<Reminder> reminders = new ArrayList<>();
+        List<Event> events = eventDAO.queryForAll();
+        if (events != null)
+            reminders.addAll(events);
+        return reminders;
     }
 
 //    public void createLocalEventsFromGoogleEvents(com.google.api.services.calendar.model.Event googleEvent){

@@ -1,4 +1,4 @@
-package com.cherepanovky.callbackit.core.storage.olddb;
+package ru.cherepanovk.core_db_impl.data.olddb;
 
 import com.j256.ormlite.field.DatabaseField;
 

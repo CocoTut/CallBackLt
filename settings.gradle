@@ -2,7 +2,7 @@ include ':app'
 include ':core_network_api'
 include ':core_db_api'
 include ':core_db_impl'
-include ':core_utils'
+include ':core'
 
 
 

@@ -46,6 +46,10 @@ object Versions {
         const val ORM_LITE = "5.1"
     }
 
+    object Utils {
+        const val TIMBER = "4.7.1"
+    }
+
     object Test {
         const val JUNIT = "4.12"
         const val ANDROIDX_ESPRESSO = "3.2.0"
@@ -120,6 +124,10 @@ object Libs {
     object DataBase {
         const val ORM_LITE_CORE = "com.j256.ormlite:ormlite-core:${Versions.DataBase.ORM_LITE}"
         const val ORM_LITE_ANDROID = "com.j256.ormlite:ormlite-android:${Versions.DataBase.ORM_LITE}"
+    }
+
+    object Utils {
+        const val TIMBER = "com.jakewharton.timber:timber:${Versions.Utils.TIMBER}"
     }
 
     object Test {

@@ -30,4 +30,9 @@ dependencies {
     testImplementation Libs.Test.TEST_LIB_JUNIT
     androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
     androidTestImplementation Libs.Test.TEST_ANDROIDX_ESPRESSO_CORE
+
+    //ormlite
+    implementation Libs.DataBase.ORM_LITE_CORE
+    implementation Libs.DataBase.ORM_LITE_ANDROID
+
 }

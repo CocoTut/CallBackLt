@@ -1,23 +1,19 @@
-package com.cherepanovky.callbackit.core.storage.olddb;
+package ru.cherepanovk.core_db_impl.data.olddb;
 
 import com.j256.ormlite.field.DatabaseField;
 
 import java.util.Date;
 
+import ru.cherepanovk.core_db_api.data.Reminder;
 
-public class Event {
+
+public class Event implements Reminder {
 
     @DatabaseField(id = true)
     public String id;
 
     @DatabaseField()
     public String description;
-
-//    @DatabaseField()
-//    public String datetimeStart;
-//
-//    @DatabaseField()
-//    public String datetimeEnd;
 
     @DatabaseField()
     public String phonenumber;
@@ -27,9 +23,6 @@ public class Event {
 
     @DatabaseField()
     public Date dateTimeEvent;
-
-//    @DatabaseField()
-//    public String accountName;
 
     public Event(){}
 
@@ -52,22 +45,24 @@ public class Event {
         this.id = id;
     }
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
-
-    public String getPhonenumber() {
+    @Override
+    public String getPhoneNumber() {
         return phonenumber;
     }
-
+    @Override
     public String getContactName() {
         return contactName;
     }
-
+    @Override
     public Date getDateTimeEvent() {
         return dateTimeEvent;
     }
