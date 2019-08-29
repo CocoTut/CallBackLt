@@ -17,14 +17,13 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import ru.cherepanovk.core_db_api.data.OldDbClientApi;
 import ru.cherepanovk.core_db_api.data.Reminder;
 
 /**
  * Created by CocoNut on 18.05.2018.
  */
 @Singleton
-public class LocalBase implements OldDbClientApi {
+public class LocalBase {
 
     private static final String ACCOUNT_ID = "accountID";
     private static final String ID_LASTPHONENUMBER = "phoneNumber";
@@ -72,7 +71,6 @@ public class LocalBase implements OldDbClientApi {
         }
     }
 
-    @Override
     @NotNull
     public List<Reminder> getAllEvents(){
          setEventDAO();

@@ -46,24 +46,24 @@ public class Event implements Reminder {
     }
 
     @Override
-    public String getId() {
+    public String id() {
         return id;
     }
 
     @Override
-    public String getDescription() {
+    public String description() {
         return description;
     }
     @Override
-    public String getPhoneNumber() {
+    public String phoneNumber() {
         return phonenumber;
     }
     @Override
-    public String getContactName() {
+    public String contactName() {
         return contactName;
     }
     @Override
-    public Date getDateTimeEvent() {
+    public Date dateTimeEvent() {
         return dateTimeEvent;
     }
 }

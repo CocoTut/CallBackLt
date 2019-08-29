@@ -4,13 +4,13 @@ import java.util.*
 
 interface Reminder {
 
-    fun getId(): String
+    fun id(): String
 
-    fun getDescription(): String
+    fun description(): String
 
-    fun getPhoneNumber(): String
+    fun phoneNumber(): String
 
-    fun getContactName(): String
+    fun contactName(): String
 
-    fun getDateTimeEvent(): Date
+    fun dateTimeEvent(): Date
 }
