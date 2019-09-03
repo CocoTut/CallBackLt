@@ -1,6 +1,5 @@
 package com.cherepanovky.callbackit.features.events.di
 
-import com.cherepanovky.callbackit.core.di.viewmodel.ViewModelProvider
 import com.cherepanovky.callbackit.features.events.EventsFragment
 import dagger.Component
 import ru.cherepanovk.core.di.dependencies.ContextProvider

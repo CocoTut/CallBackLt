@@ -1,10 +1,9 @@
 package com.cherepanovky.callbackit.features.events
-
-import com.cherepanovky.callbackit.core.interactor.UseCase
-import com.cherepanovky.callbackit.core.platform.BaseViewModel
 import com.cherepanovky.callbackit.features.events.interactor.GetAllEventsFromOldDb
 import com.cherepanovky.callbackit.features.events.interactor.GetRemindersFromDb
 import com.cherepanovky.callbackit.features.events.interactor.SaveRemindersToDb
+import ru.cherepanovk.core.interactor.UseCase
+import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core_db_api.data.Reminder
 import javax.inject.Inject
 
@@ -16,7 +15,7 @@ class EventsViewModel @Inject constructor(
 
     init {
         launchLoading {
-            getAllEventsFromOldDb(UseCase.None()){it.handleSuccess {reminders ->
+            getAllEventsFromOldDb(UseCase.None()){it.handleSuccess { reminders ->
               saveRemindersFromOldBase(reminders)
             }}
         }

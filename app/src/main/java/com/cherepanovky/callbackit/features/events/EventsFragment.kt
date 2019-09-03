@@ -2,15 +2,14 @@ package com.cherepanovky.callbackit.features.events
 
 import android.os.Bundle
 import android.widget.PopupMenu
-import androidx.lifecycle.ViewModelProvider
 import com.cherepanovky.callbackit.R
-import com.cherepanovky.callbackit.core.exception.ErrorHandler
-import com.cherepanovky.callbackit.core.extention.viewModel
-import com.cherepanovky.callbackit.core.platform.BaseFragment
 import com.cherepanovky.callbackit.features.events.di.DaggerEventsComponent
 import kotlinx.android.synthetic.main.toolbar_burger_months.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.exception.ErrorHandler
+import ru.cherepanovk.core.platform.BaseFragment
+import ru.cherepanovk.core.utils.extentions.viewModel
 import ru.cherepanovk.core_db_impl.di.DaggerCoreDbComponent
 import javax.inject.Inject
 

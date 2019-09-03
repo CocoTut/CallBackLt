@@ -33,6 +33,10 @@ dependencies {
     implementation Libs.Core.KOTLIN_STDLIB
     implementation Libs.AndroidX.ANDROIDX_APPCOMPAT
     implementation Libs.AndroidX.ANDROIDX_CORE_KTX
+    implementation Libs.Ui.MATERIAL
+
+    implementation Libs.AndroidX.ANDROIDX_LIFECYCLE_EXTENSIONS
+    implementation Libs.AndroidX.ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX
 
     testImplementation Libs.Test.TEST_LIB_JUNIT
     androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
@@ -44,4 +48,15 @@ dependencies {
 
     //timber for logging
     api Libs.Utils.TIMBER
+
+    //gson
+    implementation Libs.Network.GSON
+
+    //retrofit
+    implementation Libs.Network.RETROFIT
+
+    //kotlin coroutines
+    implementation Libs.Core.COROUTINES_CORE
+    implementation Libs.Core.COROUTINES_ANDROID
+
 }

@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.cherepanovky.callbackit.R
-import com.cherepanovky.callbackit.core.platform.BaseActivity
 import kotlinx.android.synthetic.main.activity_call_back_it_main.*
 import ru.cherepanovk.core.di.ComponentManager
+import ru.cherepanovk.core.platform.BaseActivity
 
 class CallBackItMainActivity : BaseActivity() {
 

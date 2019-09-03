@@ -1,8 +1,8 @@
 package com.cherepanovky.callbackit
 
 import android.app.Application
-import com.cherepanovky.callbackit.core.di.ApplicationModule
-import com.cherepanovky.callbackit.core.di.DaggerApplicationComponent
+import com.cherepanovky.callbackit.di.ApplicationModule
+import com.cherepanovky.callbackit.di.DaggerApplicationComponent
 import ru.cherepanovk.core.di.ComponentManager
 
 

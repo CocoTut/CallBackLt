@@ -40,6 +40,7 @@ object Versions {
 
     object Ui {
         const val GROUPIE = "2.5.0"
+        const val MATERIAL = "1.0.0"
     }
 
     object DataBase {
@@ -120,6 +121,7 @@ object Libs {
         const val GROUPIE = "com.xwray:groupie:${Versions.Ui.GROUPIE}"
         const val GROUPIE_KOTLIN_EXTENSIONS =
             "com.xwray:groupie-kotlin-android-extensions:${Versions.Ui.GROUPIE}"
+        const val MATERIAL = "com.google.android.material:material:${Versions.Ui.MATERIAL}"
     }
 
     object DataBase {
