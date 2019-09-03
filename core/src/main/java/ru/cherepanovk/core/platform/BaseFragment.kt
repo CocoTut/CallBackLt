@@ -29,11 +29,21 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(layout, container, false)
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        bindViewModel()
+        bindListeners()
+    }
+
     protected fun firstTimeCreated(savedInstanceState: Bundle?) = savedInstanceState == null
 
     protected fun showLoading(isLoading: Boolean) {
 //        progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
+
+    protected abstract fun bindListeners()
+
+    protected abstract fun bindViewModel()
 
 
 }

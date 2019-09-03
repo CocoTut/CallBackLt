@@ -2,6 +2,7 @@ package com.cherepanovky.callbackit.features.events
 
 import android.os.Bundle
 import android.widget.PopupMenu
+import androidx.core.view.children
 import com.cherepanovky.callbackit.R
 import com.cherepanovky.callbackit.features.events.di.DaggerEventsComponent
 import kotlinx.android.synthetic.main.toolbar_burger_months.*
@@ -9,18 +10,17 @@ import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.exception.ErrorHandler
 import ru.cherepanovk.core.platform.BaseFragment
+import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.viewModel
 import ru.cherepanovk.core_db_impl.di.DaggerCoreDbComponent
 import javax.inject.Inject
 
 class EventsFragment : BaseFragment(R.layout.fragment_events) {
 
-    lateinit var model: EventsViewModel
+    private lateinit var model: EventsViewModel
 
     @Inject
     lateinit var errorHandler: ErrorHandler
-
-
 
     private lateinit var popupMenu: PopupMenu
 
@@ -44,14 +44,33 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+
         popupMenu = PopupMenu(context, tvToolbarMonths)
         popupMenu.inflate(R.menu.menu_months)
-        tvToolbarMonths.setOnClickListener { showMonthsMenu() }
+
+        super.onActivityCreated(savedInstanceState)
     }
 
-    private fun showMonthsMenu() {
-        popupMenu.show()
+    override fun bindViewModel() {
+       with(model){
+           observe(currentMonth, ::setCurrentMonth)
+       }
+    }
+
+    override fun bindListeners() {
+        tvToolbarMonths.setOnClickListener {  popupMenu.show() }
+
+        popupMenu.setOnMenuItemClickListener { item ->
+            model.onMonthClick(popupMenu.menu.children.indexOf(item))
+            return@setOnMenuItemClickListener true
+        }
+    }
+
+    private fun setCurrentMonth(month: Int){
+        popupMenu.menu.getItem(month).apply {
+            isChecked = true
+            tvToolbarMonths.text = title
+        }
     }
 
 

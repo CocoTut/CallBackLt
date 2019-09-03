@@ -21,5 +21,13 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
     }
 
+    override fun bindListeners() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun bindViewModel() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 
 }
