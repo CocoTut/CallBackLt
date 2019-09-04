@@ -4,10 +4,8 @@
             android:id="@+id/nav_graph" app:startDestination="@id/eventsFragment"
             xmlns:tools="http://schemas.android.com/tools">
 
-    <fragment android:id="@+id/eventsFragment" android:name="com.cherepanovky.callbackit.features.events.EventsFragment"
+    <fragment android:id="@+id/eventsFragment" android:name="ru.cherepanovk.feature_events_impl.EventsFragment"
               android:label="EventsFragment" tools:layout ="@layout/fragment_events"
     />
-    <fragment android:id="@+id/settingsFragment"
-              android:name="com.cherepanovky.callbackit.features.settings.SettingsFragment"
-              android:label="SettingsFragment" tools:layout ="@layout/fragment_settings"/>
+
 </navigation>
