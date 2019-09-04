@@ -30,6 +30,7 @@ dependencies {
     implementation project(':core_db_impl')
     implementation project(':core')
     implementation project(':feature_events_impl')
+    implementation project(':feature_events_api')
 
     implementation Libs.Core.KOTLIN_STDLIB
     implementation Libs.AndroidX.ANDROIDX_APPCOMPAT

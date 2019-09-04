@@ -1,8 +1,10 @@
-package ru.cherepanovk.feature_events_impl
+package ru.cherepanovk.feature_events_impl.events
 
 import android.os.Bundle
 import android.widget.PopupMenu
 import androidx.core.view.children
+import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.toolbar_burger_months.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
@@ -10,8 +12,8 @@ import ru.cherepanovk.core.exception.ErrorHandler
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.viewModel
-import ru.cherepanovk.core_db_impl.di.DaggerCoreDbComponent
-import ru.cherepanovk.feature_events_impl.di.DaggerEventsComponent
+import ru.cherepanovk.feature_events_impl.R
+import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
 import javax.inject.Inject
 
 class EventsFragment : BaseFragment(R.layout.fragment_events) {
@@ -24,15 +26,8 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     private lateinit var popupMenu: PopupMenu
 
     override fun inject(componentManager: ComponentManager) {
-            DaggerEventsComponent.builder()
-                .contextProvider(componentManager.getOrThrow())
-                .coreDbApi(
-                    DaggerCoreDbComponent.builder()
-                        .contextProvider(componentManager.getOrThrow())
-                        .build()
-                )
-                .build()
-                .inject(this)
+           componentManager.getOrThrow<EventsComponent>()
+               .inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +54,12 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     override fun bindListeners() {
         tvToolbarMonths.setOnClickListener {  popupMenu.show() }
 
+        btnAddEvent.setOnClickListener {
+            findNavController().navigate(R.id.action_eventsFragment_to_eventFragment)
+        }
+
         popupMenu.setOnMenuItemClickListener { item ->
+
             model.onMonthClick(popupMenu.menu.children.indexOf(item))
             return@setOnMenuItemClickListener true
         }

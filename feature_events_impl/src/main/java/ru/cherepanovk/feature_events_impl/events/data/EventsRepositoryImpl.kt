@@ -1,4 +1,4 @@
-package ru.cherepanovk.feature_events_impl.repository
+package ru.cherepanovk.feature_events_impl.events.data
 
 import ru.cherepanovk.core_db_api.data.DbApi
 import ru.cherepanovk.core_db_api.data.Reminder

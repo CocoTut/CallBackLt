@@ -10,7 +10,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name="ru.cherepanovk.feature_events_impl.EventsActivity">
+        <activity
+            android:name=".CallBackItMainActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

@@ -1,12 +1,11 @@
-package ru.cherepanovk.feature_events_impl
+package ru.cherepanovk.feature_events_impl.events
 import androidx.lifecycle.MutableLiveData
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core_db_api.data.Reminder
-import ru.cherepanovk.feature_events_impl.interactor.GetAllEventsFromOldDb
-import ru.cherepanovk.feature_events_impl.interactor.GetRemindersFromDb
-import ru.cherepanovk.feature_events_impl.interactor.SaveRemindersToDb
-import java.time.Month
+import ru.cherepanovk.feature_events_impl.events.domain.GetAllEventsFromOldDb
+import ru.cherepanovk.feature_events_impl.events.domain.GetRemindersFromDb
+import ru.cherepanovk.feature_events_impl.events.domain.SaveRemindersToDb
 import java.util.*
 import javax.inject.Inject
 
