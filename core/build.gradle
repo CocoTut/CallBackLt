@@ -53,7 +53,7 @@ dependencies {
     implementation Libs.Network.GSON
 
     //retrofit
-    implementation Libs.Network.RETROFIT
+    api Libs.Network.RETROFIT
 
     //kotlin coroutines
     implementation Libs.Core.COROUTINES_CORE

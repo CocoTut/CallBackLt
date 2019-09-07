@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ru.cherepanovk.feature_events_impl">
+
+    <application>
+    <activity android:name=".EventsActivity"></activity>
+    </application>
+
+</manifest>

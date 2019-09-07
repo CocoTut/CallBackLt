@@ -29,10 +29,17 @@ dependencies {
     implementation project(':core_db_api')
     implementation project(':core_db_impl')
     implementation project(':core')
+    implementation project(':feature_events_impl')
+    implementation project(':feature_events_api')
+    implementation project(':feature_settings_impl')
 
     implementation Libs.Core.KOTLIN_STDLIB
     implementation Libs.AndroidX.ANDROIDX_APPCOMPAT
     implementation Libs.AndroidX.ANDROIDX_CORE_KTX
+
+    testImplementation Libs.Test.TEST_LIB_JUNIT
+    androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
+    androidTestImplementation Libs.Test.TEST_ANDROIDX_ESPRESSO_CORE
 
     implementation Libs.AndroidX.ANDROIDX_CONSTRAINT_LAYOUT
     implementation Libs.AndroidX.ANDROIDX_CARD_VIEW
@@ -68,7 +75,5 @@ dependencies {
     implementation Libs.DataBase.ORM_LITE_ANDROID
 
 
-    testImplementation Libs.Test.TEST_LIB_JUNIT
-    androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
-    androidTestImplementation Libs.Test.TEST_ANDROIDX_ESPRESSO_CORE
+
 }

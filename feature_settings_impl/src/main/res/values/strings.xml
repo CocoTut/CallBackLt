@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">feature_settings_impl</string>
+
+
+    <string name="tvAccount">"Google account"</string>
+    <string name="tvSetGoogleAccount">"Add account"</string>
+    <string name="btnLogOut">"Logout"</string>
+    <string name="incomingCalls">All incoming</string>
+    <string name="outgoingingCalls">All outgoing</string>
+    <string name="outgoingingCallsMissed">Unanswered outgoing</string>
+    <string name="incomingCallsMissed">Missed incoming</string>
+    <string name="text_tv_ringtone">Sound</string>
+    <string name="notifications_settings">Notifications</string>
+    <string name="tracingParameters">Tracing parameters</string>
+
+</resources>
