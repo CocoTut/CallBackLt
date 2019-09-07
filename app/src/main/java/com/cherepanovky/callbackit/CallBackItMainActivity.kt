@@ -2,6 +2,7 @@ package com.cherepanovky.callbackit
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -42,7 +43,7 @@ class CallBackItMainActivity : BaseActivity() {
         }
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
-            openFeatureFromMenu(menuItem.order)
+            openFeatureFromMenu(menuItem.itemId)
             false
         }
 
@@ -56,7 +57,8 @@ class CallBackItMainActivity : BaseActivity() {
 
     private fun openFeatureFromMenu(feature: Int) {
         when (feature) {
-            0 -> openSettingsFeature()
+            R.id.settings -> openSettingsFeature()
+            else -> Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -70,7 +72,9 @@ class CallBackItMainActivity : BaseActivity() {
     }
 
     private fun openSettingsFeature() {
-        val settingsGraph = SettingsFeatureStarterImpl.getNavGraph(navController.navInflater)
+        val settingsGraph = FeatureProxyInjector.getSettingsFeature()
+            .settingsFeatureStarter()
+            .getNavGraph(navController.navInflater)
         navigateToFeature(settingsGraph)
     }
 

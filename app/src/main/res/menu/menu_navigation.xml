@@ -3,7 +3,7 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/settingsFragment"
+            android:id="@+id/settings"
             android:title="@string/menuDrawlerSettings"
             android:icon="@drawable/baseline_settings_white_24"/>
 

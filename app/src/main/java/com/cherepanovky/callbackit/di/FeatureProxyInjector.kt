@@ -5,6 +5,8 @@ import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core_db_impl.di.DaggerCoreDbComponent
 import ru.cherepanovk.feature_events_api.EventsFeatureApi
 import ru.cherepanovk.feature_events_impl.events.di.DaggerEventsComponent
+import ru.cherepanovk.feature_settings_api.SettingsFeatureApi
+import ru.cherepanovk.feature_settings_impl.di.DaggerSettingsComponent
 
 
 class FeatureProxyInjector {
@@ -17,6 +19,12 @@ class FeatureProxyInjector {
                         .contextProvider(ComponentManager.getOrThrow())
                         .build()
                 )
+                .build()
+                .also { ComponentManager.put(it) }
+        }
+
+        fun getSettingsFeature(): SettingsFeatureApi {
+            return DaggerSettingsComponent.builder()
                 .build()
                 .also { ComponentManager.put(it) }
         }

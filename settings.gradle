@@ -6,6 +6,7 @@ include ':core'
 include ':feature_events_impl'
 include ':feature_events_api'
 include ':feature_settings_impl'
+include ':feature_settings_api'
 
 
 
