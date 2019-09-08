@@ -13,6 +13,6 @@
     </fragment>
 
     <fragment android:id="@+id/eventFragment" android:name="ru.cherepanovk.feature_events_impl.event.EventFragment"
-        android:label="EventFragment" tools:layout ="@layout/item_event"
+        android:label="EventFragment" tools:layout ="@layout/item_reminder"
         />
 </navigation>

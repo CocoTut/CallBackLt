@@ -10,7 +10,7 @@
         android:clickable="true"
         android:focusable="true">
     <TextView
-            android:id="@+id/tvTimeRv"
+            android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
@@ -22,11 +22,11 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDateRv"
+            app:layout_constraintTop_toBottomOf="@+id/tvDate"
             tools:text="Time" />
 
     <TextView
-            android:id="@+id/tvDateRv"
+            android:id="@+id/tvDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -39,7 +39,7 @@
             tools:text="Date" />
 
     <TextView
-            android:id="@+id/tvPhoneNumberRv"
+            android:id="@+id/tvPhoneNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -49,11 +49,11 @@
             android:paddingBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDescriptionRv"
+            app:layout_constraintTop_toBottomOf="@+id/tvDescription"
             tools:text="PhoneNumber" />
 
     <TextView
-            android:id="@+id/tvDescriptionRv"
+            android:id="@+id/tvDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -63,7 +63,7 @@
             android:paddingBottom="0dp"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/tvDateRv"
+            app:layout_constraintEnd_toStartOf="@+id/tvDate"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Description" />

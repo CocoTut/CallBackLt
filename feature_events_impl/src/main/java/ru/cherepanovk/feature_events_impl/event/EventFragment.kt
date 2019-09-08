@@ -4,7 +4,7 @@ import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.feature_events_impl.R
 
-class EventFragment : BaseFragment(R.layout.item_event) {
+class EventFragment : BaseFragment(R.layout.item_reminder) {
     override fun inject(componentManager: ComponentManager) {
     }
 

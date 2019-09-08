@@ -5,9 +5,13 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import ru.cherepanovk.core.di.viewmodel.ViewModelKey
+import ru.cherepanovk.core.utils.Mapper
+import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.feature_events_api.EventsFeatureStarter
 import ru.cherepanovk.feature_events_impl.EventsFeatureStarterImpl
 import ru.cherepanovk.feature_events_impl.events.EventsViewModel
+import ru.cherepanovk.feature_events_impl.events.ItemReminder
+import ru.cherepanovk.feature_events_impl.events.ItemReminderMapper
 import ru.cherepanovk.feature_events_impl.events.data.EventsRepository
 import ru.cherepanovk.feature_events_impl.events.data.EventsRepositoryImpl
 
@@ -24,4 +28,7 @@ abstract class EventsModule {
 
     @Binds
     abstract fun bindLoginStarter(eventsFeatureStarterImpl: EventsFeatureStarterImpl): EventsFeatureStarter
+
+//    @Binds
+//    abstract fun bindItemMapper(itemReminderMapper: ItemReminderMapper): Mapper<Reminder, ItemReminder>
 }

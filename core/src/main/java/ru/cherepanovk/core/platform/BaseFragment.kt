@@ -31,8 +31,7 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        bindViewModel()
-        bindListeners()
+
     }
 
     protected fun firstTimeCreated(savedInstanceState: Bundle?) = savedInstanceState == null

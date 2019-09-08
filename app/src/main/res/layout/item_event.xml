@@ -22,7 +22,7 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDateRv"
+            app:layout_constraintTop_toBottomOf="@+id/tvDate"
             tools:text="Time" />
 
     <TextView
@@ -49,7 +49,7 @@
             android:paddingBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDescriptionRv"
+            app:layout_constraintTop_toBottomOf="@+id/tvDescription"
             tools:text="PhoneNumber" />
 
     <TextView
@@ -63,7 +63,7 @@
             android:paddingBottom="0dp"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/tvDateRv"
+            app:layout_constraintEnd_toStartOf="@+id/tvDate"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Description" />
