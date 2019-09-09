@@ -93,7 +93,8 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     }
 
     private fun setEmptyListVisibility(visible: Boolean){
-        clEmptyList.visibility = if (visible) View.VISIBLE else View.GONE
+        emptyList.visibility = if (visible) View.VISIBLE else View.GONE
+
     }
 
     private fun setCurrentMonth(month: Int){

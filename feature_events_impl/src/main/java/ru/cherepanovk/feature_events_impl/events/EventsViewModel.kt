@@ -49,7 +49,7 @@ class EventsViewModel @Inject constructor(
     private fun saveRemindersFromOldBase(reminders: List<Reminder>) {
         val  itemReminderMapper = ItemReminderMapper()
         launchLoading {
-            saveRemindersToDb(listOf(NewReminder()))
+//            saveRemindersToDb(listOf(NewReminder()))
             getRemindersFromDb(UseCase.None()) {
                 it.handleSuccess { reminders ->
                     itemsReminder.postValue(reminders.map { reminder ->
