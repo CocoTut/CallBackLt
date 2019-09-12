@@ -1,5 +1,7 @@
 package ru.cherepanovk.core_db_api.data
 
+import java.util.*
+
 interface DbApi {
 
     fun getRemindersFromOldDb(): List<Reminder>
@@ -7,4 +9,6 @@ interface DbApi {
     suspend fun getAllReminders(): List<Reminder>
 
     suspend fun saveReminders(reminders: List<Reminder>)
+
+    suspend fun getRemindersBetweenDates(startDate: Date, endDate: Date): List<Reminder>
 }

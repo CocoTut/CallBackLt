@@ -5,6 +5,7 @@ import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.core_db_impl.data.olddb.LocalBase
 import ru.cherepanovk.core_db_impl.data.room.CallBackLtDb
 import ru.cherepanovk.core_db_impl.data.room.entities.ReminderEntity
+import java.util.*
 import javax.inject.Inject
 
 class DbApiImpl @Inject constructor(
@@ -29,5 +30,9 @@ class DbApiImpl @Inject constructor(
 
     override suspend fun getAllReminders(): List<Reminder> {
         return callBackLtDb.getReminderDao().getAllReminders()
+    }
+
+    override suspend fun getRemindersBetweenDates(startDate: Date, endDate: Date): List<Reminder> {
+        return callBackLtDb.getReminderDao().getRemindersBetweenDates(startDate.time, endDate.time)
     }
 }

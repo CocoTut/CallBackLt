@@ -12,6 +12,9 @@ interface ReminderDao {
     @Query("SELECT * FROM ReminderEntity")
     suspend fun getAllReminders(): List<ReminderEntity>
 
+    @Query("SELECT * FROM ReminderEntity WHERE dateTimeEvent BETWEEN :startDate AND :endDate ")
+    suspend fun getRemindersBetweenDates(startDate: Long, endDate: Long): List<ReminderEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertReminders(reminders:List<ReminderEntity>)
 

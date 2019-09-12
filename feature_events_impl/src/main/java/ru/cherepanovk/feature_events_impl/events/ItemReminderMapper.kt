@@ -1,5 +1,6 @@
 package ru.cherepanovk.feature_events_impl.events
 
+import android.content.Context
 import ru.cherepanovk.core.utils.Mapper
 import ru.cherepanovk.core_db_api.data.Reminder
 import java.text.SimpleDateFormat
@@ -9,7 +10,7 @@ import javax.inject.Inject
 private const val PATTERN_DATE = "EEE, dd MMM yyyy"
 private const val PATTERN_TIME = "HH:mm"
 
-class ItemReminderMapper : Mapper<Reminder, ItemReminder> {
+class ItemReminderMapper @Inject constructor() : Mapper<Reminder, ItemReminder> {
     override fun map(from: Reminder): ItemReminder {
         return ItemReminder(
             id = from.id(),

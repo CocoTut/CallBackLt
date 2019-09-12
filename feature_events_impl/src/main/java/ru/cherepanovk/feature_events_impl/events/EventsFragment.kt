@@ -86,6 +86,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             model.onMonthClick(popupMenu.menu.children.indexOf(item))
             return@setOnMenuItemClickListener true
         }
+
     }
 
     private fun setItems(items: List<ItemReminder>){

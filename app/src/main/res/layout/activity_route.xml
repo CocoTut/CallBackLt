@@ -9,9 +9,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
-
         <fragment
             android:id="@+id/nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -29,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:padding="10dp"
+            android:background="?attr/selectableItemBackground"
             android:src="@drawable/outline_menu_white_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

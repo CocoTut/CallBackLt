@@ -9,18 +9,21 @@ import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.feature_events_impl.event.NewReminder
 import ru.cherepanovk.feature_events_impl.events.domain.GetAllEventsFromOldDb
 import ru.cherepanovk.feature_events_impl.events.domain.GetRemindersFromDb
+import ru.cherepanovk.feature_events_impl.events.domain.GetRemindersFromDbBetweenDates
 import ru.cherepanovk.feature_events_impl.events.domain.SaveRemindersToDb
 import java.util.*
 import javax.inject.Inject
 
 class EventsViewModel @Inject constructor(
     private val getAllEventsFromOldDb: GetAllEventsFromOldDb,
-    private val getRemindersFromDb: GetRemindersFromDb,
-    private val saveRemindersToDb: SaveRemindersToDb
+    private val saveRemindersToDb: SaveRemindersToDb,
+    private val getRemindersBetweenDates: GetRemindersFromDbBetweenDates,
+    private val itemReminderMapper: ItemReminderMapper
+
 ) : BaseViewModel() {
 
     val currentMonth = MutableLiveData<Int>()
-    val itemsReminder = MutableLiveData<List<ItemReminder>>()
+    val itemsReminder = MediatorLiveData<List<ItemReminder>>()
     val emptyListVisibility = MediatorLiveData<Boolean>()
 
     init {
@@ -31,26 +34,32 @@ class EventsViewModel @Inject constructor(
                 }
             }
         }
+
+
         currentMonth.postValue(getCurrentMonth())
 
         emptyListVisibility.addSource(itemsReminder){items ->
             emptyListVisibility.postValue(items.isEmpty())
         }
+
+        itemsReminder.addSource(currentMonth){month ->
+            loadReminders(month, getCurrentYear())
+        }
     }
 
-    private fun getCurrentMonth(): Int {
-        return Calendar.getInstance().get(Calendar.MONTH)
-    }
+
 
     fun onMonthClick(month: Int) {
         currentMonth.postValue(month)
     }
 
-    private fun saveRemindersFromOldBase(reminders: List<Reminder>) {
-        val  itemReminderMapper = ItemReminderMapper()
+    private fun loadReminders(month: Int, year: Int){
+        val dates = GetRemindersFromDbBetweenDates.Params(
+            getStartDate(month, year),
+            getEndDate(month, year)
+        )
         launchLoading {
-//            saveRemindersToDb(listOf(NewReminder()))
-            getRemindersFromDb(UseCase.None()) {
+            getRemindersBetweenDates(dates) {
                 it.handleSuccess { reminders ->
                     itemsReminder.postValue(reminders.map { reminder ->
                         itemReminderMapper.map(
@@ -59,6 +68,47 @@ class EventsViewModel @Inject constructor(
                     })
                 }
             }
+        }
+    }
+
+    private fun getCurrentMonth(): Int {
+        return Calendar.getInstance().get(Calendar.MONTH)
+    }
+
+    private fun getCurrentYear(): Int {
+        return Calendar.getInstance().get(Calendar.YEAR)
+    }
+
+    private fun getStartDate(month: Int, year: Int): Date{
+        val calendar = getCalendar(month, year)
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.clear(Calendar.MINUTE)
+        calendar.clear(Calendar.SECOND)
+        calendar.clear(Calendar.MILLISECOND)
+        return calendar.time
+    }
+
+    private fun getEndDate(month: Int, year: Int): Date{
+        val calendar = getCalendar(month, year)
+        calendar.set(Calendar.DAY_OF_MONTH,  calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
+        calendar.set(Calendar.MILLISECOND, 999)
+        return calendar.time
+    }
+
+    private fun getCalendar(month: Int, year: Int): Calendar{
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.YEAR, year)
+        return calendar
+    }
+
+    private fun saveRemindersFromOldBase(reminders: List<Reminder>) {
+        launchLoading {
+            saveRemindersToDb(reminders)
         }
     }
 }

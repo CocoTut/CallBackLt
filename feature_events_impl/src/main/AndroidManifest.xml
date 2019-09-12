@@ -2,7 +2,9 @@
     package="ru.cherepanovk.feature_events_impl">
 
     <application>
+
     <activity android:name=".EventsActivity"></activity>
+
     </application>
 
 </manifest>

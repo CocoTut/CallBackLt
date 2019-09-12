@@ -2,6 +2,7 @@ package ru.cherepanovk.feature_events_impl.events.data
 
 import ru.cherepanovk.core_db_api.data.DbApi
 import ru.cherepanovk.core_db_api.data.Reminder
+import java.util.*
 import javax.inject.Inject
 
 class EventsRepositoryImpl @Inject constructor(
@@ -17,5 +18,9 @@ class EventsRepositoryImpl @Inject constructor(
 
     override suspend fun saveRemindersToDb(reminders: List<Reminder>) {
         dataBase.saveReminders(reminders)
+    }
+
+    override suspend fun getRemindersBetweenDates(startDate: Date, endDate: Date): List<Reminder> {
+        return dataBase.getRemindersBetweenDates(startDate, endDate)
     }
 }
