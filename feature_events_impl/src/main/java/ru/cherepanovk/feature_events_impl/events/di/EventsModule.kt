@@ -3,6 +3,7 @@ package ru.cherepanovk.feature_events_impl.events.di
 import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.multibindings.IntoMap
 import ru.cherepanovk.core.di.viewmodel.ViewModelKey
 import ru.cherepanovk.core.utils.Mapper
@@ -31,4 +32,16 @@ abstract class EventsModule {
 
 //    @Binds
 //    abstract fun bindItemMapper(itemReminderMapper: ItemReminderMapper): Mapper<Reminder, ItemReminder>
+
+
 }
+
+//@Module
+//object MapperModule {
+//    @JvmStatic
+//    @Provides
+//    fun provideItemMapper(): Mapper<Reminder, ItemReminder> {
+//        return ItemReminderMapper()
+//    }
+//
+//}
