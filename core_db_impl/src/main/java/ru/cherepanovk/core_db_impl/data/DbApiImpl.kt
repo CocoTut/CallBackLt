@@ -35,4 +35,8 @@ class DbApiImpl @Inject constructor(
     override suspend fun getRemindersBetweenDates(startDate: Date, endDate: Date): List<Reminder> {
         return callBackLtDb.getReminderDao().getRemindersBetweenDates(startDate.time, endDate.time)
     }
+
+    override suspend fun getYears(): List<String> {
+        return callBackLtDb.getReminderDao().getYears()
+    }
 }

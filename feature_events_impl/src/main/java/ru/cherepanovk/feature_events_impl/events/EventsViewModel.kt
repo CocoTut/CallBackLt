@@ -7,10 +7,7 @@ import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core.utils.Mapper
 import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.feature_events_impl.event.NewReminder
-import ru.cherepanovk.feature_events_impl.events.domain.GetAllEventsFromOldDb
-import ru.cherepanovk.feature_events_impl.events.domain.GetRemindersFromDb
-import ru.cherepanovk.feature_events_impl.events.domain.GetRemindersFromDbBetweenDates
-import ru.cherepanovk.feature_events_impl.events.domain.SaveRemindersToDb
+import ru.cherepanovk.feature_events_impl.events.domain.*
 import java.util.*
 import javax.inject.Inject
 
@@ -18,19 +15,28 @@ class EventsViewModel @Inject constructor(
     private val getAllEventsFromOldDb: GetAllEventsFromOldDb,
     private val saveRemindersToDb: SaveRemindersToDb,
     private val getRemindersBetweenDates: GetRemindersFromDbBetweenDates,
-    private val itemReminderMapper: ItemReminderMapper
+    private val itemReminderMapper: ItemReminderMapper,
+    private val getYearsFromDb: GetYearsFromDb
 
 ) : BaseViewModel() {
 
     val currentMonth = MutableLiveData<Int>()
     val itemsReminder = MediatorLiveData<List<ItemReminder>>()
     val emptyListVisibility = MediatorLiveData<Boolean>()
+    val years = MutableLiveData<List<String>>()
 
     init {
         launchLoading {
             getAllEventsFromOldDb(UseCase.None()) {
                 it.handleSuccess { reminders ->
                     saveRemindersFromOldBase(reminders)
+                }
+            }
+            getYearsFromDb(UseCase.None()){
+                it.handleSuccess {list ->
+                    val lis1 = list.toMutableList()
+                    lis1.add("2018")
+                    years.postValue(lis1)
                 }
             }
         }

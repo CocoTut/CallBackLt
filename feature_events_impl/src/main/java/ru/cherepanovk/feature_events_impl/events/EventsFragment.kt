@@ -2,6 +2,7 @@ package ru.cherepanovk.feature_events_impl.events
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.PopupMenu
 import androidx.core.view.children
 import androidx.navigation.fragment.findNavController
@@ -30,6 +31,9 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     private val remindersAdapter = GroupAdapter<ViewHolder>()
 
     private lateinit var popupMenu: PopupMenu
+    private val yearsAdapter:ArrayAdapter<String> by lazy {
+        ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line)
+    }
 
     override fun inject(componentManager: ComponentManager) {
            componentManager.getOrThrow<EventsComponent>()
@@ -56,6 +60,10 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
         initList()
         bindListeners()
 
+        tvYears.setAdapter(yearsAdapter)
+        tvYears.setOnClickListener {
+            tvYears.showDropDown()
+        }
     }
 
     private fun initList() {
@@ -64,6 +72,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             adapter = remindersAdapter
             setHasFixedSize(true)
         }
+
     }
 
     override fun bindViewModel() {
@@ -71,7 +80,14 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
            observe(currentMonth, ::setCurrentMonth)
            observe(itemsReminder, ::setItems)
            observe(emptyListVisibility, ::setEmptyListVisibility)
+           observe(years, ::setYears)
        }
+    }
+
+    private fun setYears(years: List<String>) {
+        yearsAdapter.addAll(years)
+        yearsAdapter.notifyDataSetChanged()
+        tvYears.setSelection(0)
     }
 
     override fun bindListeners() {
