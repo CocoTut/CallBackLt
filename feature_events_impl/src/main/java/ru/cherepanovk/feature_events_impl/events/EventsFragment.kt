@@ -11,6 +11,9 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.toolbar_burger_months.*
+import kotlinx.android.synthetic.main.toolbar_burger_months.tvToolbarMonths
+import kotlinx.android.synthetic.main.toolbar_burger_months.tvYears
+import kotlinx.android.synthetic.main.toolbar_months.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.exception.ErrorHandler
@@ -59,10 +62,22 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
         popupMenu.inflate(R.menu.menu_months)
         initList()
         bindListeners()
+        initYears()
 
+
+
+    }
+
+    private fun initYears() {
+        tvYears.background = null
         tvYears.setAdapter(yearsAdapter)
+        tvYears.isFocusable = false
+        tvYears.isClickable = true
         tvYears.setOnClickListener {
             tvYears.showDropDown()
+        }
+        tvYears.setOnItemClickListener { _, _, position, _ ->
+            model.yearSelected(yearsAdapter.getItem(position)?.toInt())
         }
     }
 
@@ -81,13 +96,13 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
            observe(itemsReminder, ::setItems)
            observe(emptyListVisibility, ::setEmptyListVisibility)
            observe(years, ::setYears)
+           observe(currentYear, ::setCurrentYear)
        }
     }
 
     private fun setYears(years: List<String>) {
         yearsAdapter.addAll(years)
         yearsAdapter.notifyDataSetChanged()
-        tvYears.setSelection(0)
     }
 
     override fun bindListeners() {
@@ -119,6 +134,10 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             isChecked = true
             tvToolbarMonths.text = title
         }
+    }
+
+    private fun setCurrentYear(year: Int){
+        tvYears.setText(year.toString(), false)
     }
 
 

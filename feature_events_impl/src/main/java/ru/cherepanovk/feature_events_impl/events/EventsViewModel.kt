@@ -21,6 +21,7 @@ class EventsViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val currentMonth = MutableLiveData<Int>()
+    val currentYear = MutableLiveData<Int>()
     val itemsReminder = MediatorLiveData<List<ItemReminder>>()
     val emptyListVisibility = MediatorLiveData<Boolean>()
     val years = MutableLiveData<List<String>>()
@@ -32,34 +33,38 @@ class EventsViewModel @Inject constructor(
                     saveRemindersFromOldBase(reminders)
                 }
             }
-            getYearsFromDb(UseCase.None()){
-                it.handleSuccess {list ->
-                    val lis1 = list.toMutableList()
-                    lis1.add("2018")
-                    years.postValue(lis1)
+            getYearsFromDb(UseCase.None()) {
+                it.handleSuccess { list ->
+                    years.postValue(list)
                 }
             }
         }
 
+        currentYear.postValue(getCurrentYear())
 
         currentMonth.postValue(getCurrentMonth())
 
-        emptyListVisibility.addSource(itemsReminder){items ->
+        emptyListVisibility.addSource(itemsReminder) { items ->
             emptyListVisibility.postValue(items.isEmpty())
         }
 
-        itemsReminder.addSource(currentMonth){month ->
-            loadReminders(month, getCurrentYear())
+        itemsReminder.addSource(currentMonth) { month ->
+            loadReminders(month, currentYear.value ?: getCurrentYear())
         }
-    }
 
+    }
 
 
     fun onMonthClick(month: Int) {
         currentMonth.postValue(month)
     }
 
-    private fun loadReminders(month: Int, year: Int){
+    fun yearSelected(year: Int?) {
+        currentYear.value = year ?: getCurrentYear()
+        loadReminders(currentMonth.value ?: getCurrentMonth(), currentYear.value!!)
+    }
+
+    private fun loadReminders(month: Int, year: Int) {
         val dates = GetRemindersFromDbBetweenDates.Params(
             getStartDate(month, year),
             getEndDate(month, year)
@@ -85,7 +90,7 @@ class EventsViewModel @Inject constructor(
         return Calendar.getInstance().get(Calendar.YEAR)
     }
 
-    private fun getStartDate(month: Int, year: Int): Date{
+    private fun getStartDate(month: Int, year: Int): Date {
         val calendar = getCalendar(month, year)
         calendar.set(Calendar.DAY_OF_MONTH, 1)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
@@ -95,9 +100,9 @@ class EventsViewModel @Inject constructor(
         return calendar.time
     }
 
-    private fun getEndDate(month: Int, year: Int): Date{
+    private fun getEndDate(month: Int, year: Int): Date {
         val calendar = getCalendar(month, year)
-        calendar.set(Calendar.DAY_OF_MONTH,  calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
         calendar.set(Calendar.HOUR_OF_DAY, 23)
         calendar.set(Calendar.MINUTE, 59)
         calendar.set(Calendar.SECOND, 59)
@@ -105,7 +110,7 @@ class EventsViewModel @Inject constructor(
         return calendar.time
     }
 
-    private fun getCalendar(month: Int, year: Int): Calendar{
+    private fun getCalendar(month: Int, year: Int): Calendar {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.MONTH, month)
         calendar.set(Calendar.YEAR, year)

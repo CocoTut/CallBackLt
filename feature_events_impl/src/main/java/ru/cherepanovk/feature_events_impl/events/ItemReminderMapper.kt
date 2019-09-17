@@ -1,6 +1,5 @@
 package ru.cherepanovk.feature_events_impl.events
 
-import android.content.Context
 import ru.cherepanovk.core.utils.Mapper
 import ru.cherepanovk.core_db_api.data.Reminder
 import java.text.SimpleDateFormat
