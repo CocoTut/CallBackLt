@@ -114,6 +114,9 @@
     <string name="error_date">Date is less than current</string>
     <string name="error_time">Time is less than current</string>
     <string name="notification_new_call">a new call!</string>
+    <string name="mute_notification_channel_name">Mute channel</string>
+    <string name="title_toolbar_new_reminder">A new reminder</string>
+    <string name="title_toolbar_edit_reminder">Editing</string>
 
     <string-array name="units_array">
         <item>minutes</item>

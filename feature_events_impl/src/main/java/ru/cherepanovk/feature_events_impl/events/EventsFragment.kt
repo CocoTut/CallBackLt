@@ -10,9 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_events.*
-import kotlinx.android.synthetic.main.toolbar_burger_months.*
-import kotlinx.android.synthetic.main.toolbar_burger_months.tvToolbarMonths
-import kotlinx.android.synthetic.main.toolbar_burger_months.tvYears
 import kotlinx.android.synthetic.main.toolbar_months.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
@@ -20,6 +17,7 @@ import ru.cherepanovk.core.exception.ErrorHandler
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.viewModel
+import ru.cherepanovk.feature_events_impl.ARG_EVENT_ID
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
 import javax.inject.Inject
@@ -31,16 +29,23 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     @Inject
     lateinit var errorHandler: ErrorHandler
 
-    private val remindersAdapter = GroupAdapter<ViewHolder>()
+    private val remindersAdapter = GroupAdapter<ViewHolder>().apply {
+        setOnItemClickListener { item, _ ->
+            val arguments = Bundle().apply {
+                putString(ARG_EVENT_ID, (item as ItemReminder).id)
+            }
+            findNavController().navigate(R.id.action_eventsFragment_to_eventFragment, arguments)
+        }
+    }
 
     private lateinit var popupMenu: PopupMenu
-    private val yearsAdapter:ArrayAdapter<String> by lazy {
+    private val yearsAdapter: ArrayAdapter<String> by lazy {
         ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line)
     }
 
     override fun inject(componentManager: ComponentManager) {
-           componentManager.getOrThrow<EventsComponent>()
-               .inject(this)
+        componentManager.getOrThrow<EventsComponent>()
+            .inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,26 +56,15 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        bindViewModel()
-
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         popupMenu = PopupMenu(context, tvToolbarMonths)
         popupMenu.inflate(R.menu.menu_months)
         initList()
-        bindListeners()
         initYears()
-
-
-
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun initYears() {
         tvYears.background = null
-        tvYears.setAdapter(yearsAdapter)
         tvYears.isFocusable = false
         tvYears.isClickable = true
         tvYears.setOnClickListener {
@@ -91,22 +85,23 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     }
 
     override fun bindViewModel() {
-       with(model){
-           observe(currentMonth, ::setCurrentMonth)
-           observe(itemsReminder, ::setItems)
-           observe(emptyListVisibility, ::setEmptyListVisibility)
-           observe(years, ::setYears)
-           observe(currentYear, ::setCurrentYear)
-       }
+        with(model) {
+            observe(currentMonth, ::setCurrentMonth)
+            observe(itemsReminder, ::setItems)
+            observe(emptyListVisibility, ::setEmptyListVisibility)
+            observe(years, ::setYears)
+            observe(currentYear, ::setCurrentYear)
+        }
     }
 
     private fun setYears(years: List<String>) {
+        yearsAdapter.clear()
         yearsAdapter.addAll(years)
-        yearsAdapter.notifyDataSetChanged()
+        tvYears.setAdapter(yearsAdapter)
     }
 
     override fun bindListeners() {
-        tvToolbarMonths.setOnClickListener {  popupMenu.show() }
+        tvToolbarMonths.setOnClickListener { popupMenu.show() }
 
         btnAddEvent.setOnClickListener {
             findNavController().navigate(R.id.action_eventsFragment_to_eventFragment)
@@ -120,23 +115,23 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
 
     }
 
-    private fun setItems(items: List<ItemReminder>){
+    private fun setItems(items: List<ItemReminder>) {
         remindersAdapter.update(items)
     }
 
-    private fun setEmptyListVisibility(visible: Boolean){
+    private fun setEmptyListVisibility(visible: Boolean) {
         emptyList.visibility = if (visible) View.VISIBLE else View.GONE
 
     }
 
-    private fun setCurrentMonth(month: Int){
+    private fun setCurrentMonth(month: Int) {
         popupMenu.menu.getItem(month).apply {
             isChecked = true
             tvToolbarMonths.text = title
         }
     }
 
-    private fun setCurrentYear(year: Int){
+    private fun setCurrentYear(year: Int) {
         tvYears.setText(year.toString(), false)
     }
 

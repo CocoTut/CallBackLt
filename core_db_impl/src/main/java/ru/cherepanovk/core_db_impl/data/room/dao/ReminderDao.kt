@@ -19,6 +19,9 @@ interface ReminderDao {
     @Query("SELECT strftime('%Y', dateTimeEvent / 1000, 'unixepoch') as year FROM ReminderEntity GROUP BY year")
     suspend fun getYears(): List<String>
 
+    @Query("SELECT * FROM ReminderEntity WHERE id =:id")
+    suspend fun getReminderById(id: String): ReminderEntity
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertReminders(reminders:List<ReminderEntity>)
 

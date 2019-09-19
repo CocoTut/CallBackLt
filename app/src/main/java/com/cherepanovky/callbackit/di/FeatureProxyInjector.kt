@@ -18,6 +18,7 @@ class FeatureProxyInjector {
                     DaggerCoreDbComponent.builder()
                         .contextProvider(ComponentManager.getOrThrow())
                         .build()
+                        .also { ComponentManager.put(it) }
                 )
                 .build()
                 .also { ComponentManager.put(it) }

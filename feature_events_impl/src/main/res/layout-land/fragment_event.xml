@@ -1,56 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout2"
+    android:id="@+id/rootEventLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_back_title"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilPhoneNumber"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
 
-
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
         android:paddingBottom="@dimen/padding_top"
         app:layout_constraintEnd_toStartOf="@+id/btnOpenContacts"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <EditText
             android:id="@+id/etPhoneNumberEvent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:gravity="left"
+            android:gravity="start"
             android:hint="@string/hintPhoneNumber"
             android:inputType="phone"
-            android:paddingLeft="@dimen/padding_left" />
-    </android.support.design.widget.TextInputLayout>
+            android:paddingStart="@dimen/padding_left"
+            android:paddingEnd="0dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
         android:id="@+id/btnOpenContacts"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/baseline_people_black_48"
         app:layout_constraintBottom_toBottomOf="@+id/tilPhoneNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tilPhoneNumber" />
 
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilContactName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout6"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
+        app:layout_constraintTop_toBottomOf="@+id/tilPhoneNumber">
 
         <EditText
             android:id="@+id/etContactNameEvent"
@@ -61,128 +69,70 @@
             android:hint="@string/hintContactName"
             android:inputType="textPersonName"
             android:paddingLeft="@dimen/padding_left" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout6"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout4"
+        app:layout_constraintStart_toStartOf="@+id/tilPhoneNumber"
         app:layout_constraintTop_toBottomOf="@+id/tilContactName">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etDescriptionEvent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:gravity="left|center"
+            android:gravity="start|top"
             android:hint="@string/hintDescription"
             android:inputType="textCapSentences|textMultiLine"
-            android:paddingLeft="@dimen/padding_left" />
+            android:maxLines="3"
+            android:minHeight="56dp"
+            android:lineSpacingExtra="2sp"
+            android:paddingStart="@dimen/padding_left"
+            android:paddingEnd="10dp" />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/llDate"
+    <TextView
+        android:id="@+id/tvDate"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginStart="12dp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:drawableEnd="@drawable/ic_calendar_month"
+        android:drawablePadding="8dp"
+        android:padding="8dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:text="Sun, 01 Jan 2017"
+        app:layout_constraintEnd_toStartOf="@id/centerGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6"
+        tools:text="Sun, 01 Jan 2017" />
 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tilDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_gravity="center"
-                android:paddingEnd="5dp"
-                android:text="Sun, 01 Jan 2017"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="normal" />
-        </android.support.design.widget.TextInputLayout>
-
-
-        <ImageView
-            android:id="@+id/ivArrowDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|end"
-
-            android:layout_marginStart="8dp"
-            android:src="@drawable/baseline_arrow_drop_down_black_24"
-            app:layout_constraintStart_toEndOf="@+id/tilDate"
-            app:layout_constraintTop_toTopOf="@+id/tilDate" />
-
-
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/llTime"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
-        android:background="?attr/selectableItemBackground"
+        android:drawableEnd="@drawable/ic_timer"
+        android:drawablePadding="8dp"
+        android:padding="8dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:text="00:00"
+        app:layout_constraintStart_toEndOf="@id/centerGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6"
+        tools:text="00:00" />
 
-        android:clickable="true"
-        android:orientation="horizontal"
-
-        app:layout_constraintStart_toEndOf="@id/llDate"
-        app:layout_constraintTop_toTopOf="@id/llDate">
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tilTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tvTime"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingEnd="5dp"
-                android:text="00:00"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="normal" />
-        </android.support.design.widget.TextInputLayout>
-
-
-        <ImageView
-            android:id="@+id/ivArrowTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|end"
-            android:layout_marginStart="58dp"
-            android:src="@drawable/baseline_arrow_drop_down_black_24"
-            app:layout_constraintStart_toStartOf="@+id/tilTime"
-            app:layout_constraintTop_toTopOf="@+id/tilTime" />
-
-
-    </android.support.constraint.ConstraintLayout>
 
     <ImageButton
         android:id="@+id/btnDeleteEvent"
@@ -195,7 +145,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnSaveEvent"
-        app:layout_constraintTop_toTopOf="@+id/btnSaveEvent" />
+        app:layout_constraintTop_toTopOf="@+id/btnSaveEvent"
+
+        />
 
     <ImageButton
         android:id="@+id/btnCall"
@@ -203,7 +155,7 @@
         android:layout_height="55dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/btn_background_selector"
         android:src="@drawable/baseline_call_white_24"
         android:text="@string/btnCallEvent"
@@ -211,7 +163,9 @@
         app:layout_constraintEnd_toStartOf="@+id/btnSaveEvent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+
+        />
 
     <ImageButton
         android:id="@+id/btnSaveEvent"
@@ -219,29 +173,38 @@
         android:layout_height="55dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/btn_background_selector"
-        android:gravity="center"
+
         android:src="@drawable/baseline_done_white_24"
         android:text="@string/btnCreateEvent"
+        android:transitionName="@string/btn_transition_name"
         app:layout_constraintEnd_toStartOf="@+id/btnDeleteEvent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnCall"
-        app:layout_constraintTop_toTopOf="@+id/btnCall"
-        android:transitionName="@string/btn_transition_name"/>
+        app:layout_constraintTop_toTopOf="@+id/btnCall" />
+
 
     <ProgressBar
         android:id="@+id/pbEvent"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
+        style="@style/ProgressBar"
+        android:layout_width="51dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,4 +13,6 @@ interface DbApi {
     suspend fun getRemindersBetweenDates(startDate: Date, endDate: Date): List<Reminder>
 
     suspend fun getYears(): List<String>
+
+    suspend fun getReminderById(id: String): Reminder
 }

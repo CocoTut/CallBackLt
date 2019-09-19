@@ -29,9 +29,10 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(layout, container, false)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bindListeners()
+        bindViewModel()
     }
 
     protected fun firstTimeCreated(savedInstanceState: Bundle?) = savedInstanceState == null

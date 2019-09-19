@@ -39,4 +39,8 @@ class DbApiImpl @Inject constructor(
     override suspend fun getYears(): List<String> {
         return callBackLtDb.getReminderDao().getYears()
     }
+
+    override suspend fun getReminderById(id: String): Reminder {
+        return callBackLtDb.getReminderDao().getReminderById(id)
+    }
 }
