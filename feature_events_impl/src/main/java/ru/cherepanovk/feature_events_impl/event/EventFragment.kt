@@ -34,11 +34,13 @@ class EventFragment : BaseFragment(R.layout.fragment_event) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        inject(componentManager)
+
         model = viewModel(viewModelFactory) {
 
         }
         model.loadReminder(arguments?.getString(ARG_EVENT_ID))
+
+        bindViewModel()
 
     }
 
@@ -56,7 +58,6 @@ class EventFragment : BaseFragment(R.layout.fragment_event) {
     }
 
     private fun setReminder(reminder: ReminderView) {
-
         etPhoneNumberEvent.setText(reminder.phoneNumber)
         etContactNameEvent.setText(reminder.contactName)
         etDescriptionEvent.setText(reminder.description)

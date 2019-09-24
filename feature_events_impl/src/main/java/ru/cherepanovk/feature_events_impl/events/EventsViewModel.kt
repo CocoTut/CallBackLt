@@ -27,18 +27,10 @@ class EventsViewModel @Inject constructor(
     val years = MutableLiveData<List<String>>()
 
     init {
-        launchLoading {
-            getAllEventsFromOldDb(UseCase.None()) {
-                it.handleSuccess { reminders ->
-                    saveRemindersFromOldBase(reminders)
-                }
-            }
-            getYearsFromDb(UseCase.None()) {
-                it.handleSuccess { list ->
-                    years.postValue(list)
-                }
-            }
-        }
+
+        loadRemindersFromOldDb()
+
+        loadYears()
 
         currentYear.postValue(getCurrentYear())
 
@@ -47,21 +39,26 @@ class EventsViewModel @Inject constructor(
         emptyListVisibility.addSource(itemsReminder) { items ->
             emptyListVisibility.postValue(items.isEmpty())
         }
-
-        itemsReminder.addSource(currentMonth) { month ->
-            loadReminders(month, currentYear.value ?: getCurrentYear())
-        }
-
     }
 
 
     fun onMonthClick(month: Int) {
         currentMonth.postValue(month)
+        loadReminders(month, currentYear.value ?: getCurrentYear())
     }
 
     fun yearSelected(year: Int?) {
         currentYear.value = year ?: getCurrentYear()
         loadReminders(currentMonth.value ?: getCurrentMonth(), currentYear.value!!)
+    }
+
+    fun loadData() {
+        loadReminders(
+            currentMonth.value ?: getCurrentMonth(),
+            currentYear.value ?: getCurrentYear()
+        )
+        
+        loadYears()
     }
 
     private fun loadReminders(month: Int, year: Int) {
@@ -72,15 +69,34 @@ class EventsViewModel @Inject constructor(
         launchLoading {
             getRemindersBetweenDates(dates) {
                 it.handleSuccess { reminders ->
-                    itemsReminder.postValue(reminders.map { reminder ->
-                        itemReminderMapper.map(
-                            reminder
-                        )
-                    })
+                    val items = reminders.map { reminder -> itemReminderMapper.map(reminder) }
+                    itemsReminder.postValue(items)
                 }
             }
         }
     }
+
+    private fun loadYears() {
+        launchLoading {
+            getYearsFromDb(UseCase.None()) {
+                it.handleSuccess { list ->
+                    years.postValue(list)
+                }
+            }
+        }
+    }
+
+    private fun loadRemindersFromOldDb() {
+        launchLoading {
+            getAllEventsFromOldDb(UseCase.None()) {
+                it.handleSuccess { reminders ->
+                    saveRemindersFromOldBase(reminders)
+                }
+            }
+
+        }
+    }
+
 
     private fun getCurrentMonth(): Int {
         return Calendar.getInstance().get(Calendar.MONTH)

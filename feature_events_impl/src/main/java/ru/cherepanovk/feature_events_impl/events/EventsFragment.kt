@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.PopupMenu
 import androidx.core.view.children
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
@@ -50,17 +51,17 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        inject(componentManager)
-
         model = viewModel(viewModelFactory)
+        bindViewModel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         popupMenu = PopupMenu(context, tvToolbarMonths)
         popupMenu.inflate(R.menu.menu_months)
         initList()
         initYears()
-        super.onViewCreated(view, savedInstanceState)
+        model.loadData()
     }
 
     private fun initYears() {
@@ -87,11 +88,12 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     override fun bindViewModel() {
         with(model) {
             observe(currentMonth, ::setCurrentMonth)
-            observe(itemsReminder, ::setItems)
+
             observe(emptyListVisibility, ::setEmptyListVisibility)
             observe(years, ::setYears)
             observe(currentYear, ::setCurrentYear)
         }
+        model.itemsReminder.observe(this, Observer { setItems(it) })
     }
 
     private fun setYears(years: List<String>) {
@@ -116,7 +118,8 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     }
 
     private fun setItems(items: List<ItemReminder>) {
-        remindersAdapter.update(items)
+        remindersAdapter.clear()
+        remindersAdapter.addAll(items)
     }
 
     private fun setEmptyListVisibility(visible: Boolean) {

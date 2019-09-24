@@ -20,7 +20,7 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
     lateinit var viewModelFactory: ViewModelFactory
 
     override fun onAttach(context: Context?) {
-//        inject(ComponentManager)
+        inject(ComponentManager)
         super.onAttach(context)
     }
 
@@ -29,10 +29,10 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(layout, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         bindListeners()
-        bindViewModel()
+
     }
 
     protected fun firstTimeCreated(savedInstanceState: Bundle?) = savedInstanceState == null
