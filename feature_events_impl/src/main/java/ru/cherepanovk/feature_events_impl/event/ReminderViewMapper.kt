@@ -6,8 +6,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-private const val dateFormat = "EEE, dd MMM yyyy"
-private const val timeFormat = "HH:mm"
 
 class ReminderViewMapper @Inject constructor(): Mapper<Reminder, ReminderView> {
     override fun map(from: Reminder): ReminderView {
@@ -16,8 +14,8 @@ class ReminderViewMapper @Inject constructor(): Mapper<Reminder, ReminderView> {
            description = from.description(),
            phoneNumber = from.phoneNumber(),
            contactName = from.contactName(),
-           date = getDateTime(from.dateTimeEvent(), dateFormat),
-           time = getDateTime(from.dateTimeEvent(), timeFormat)
+           date = getDateTime(from.dateTimeEvent(), EVENT_DATE_FORMAT),
+           time = getDateTime(from.dateTimeEvent(), EVENT_TIME_FORMAT)
 
        )
     }

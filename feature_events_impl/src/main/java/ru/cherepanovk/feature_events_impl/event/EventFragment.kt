@@ -48,13 +48,33 @@ class EventFragment : BaseFragment(R.layout.fragment_event) {
         ivBack.setOnClickListener {
             findNavController().popBackStack()
         }
+
+        btnSaveEvent.setOnClickListener {
+            saveReminder()
+        }
+    }
+
+    private fun saveReminder() {
+        val reminderView = ReminderView(
+            phoneNumber = etPhoneNumberEvent.text.toString(),
+            description = etDescriptionEvent.text.toString(),
+            contactName = etContactNameEvent.text.toString(),
+            date = tvDate.text.toString(),
+            time = tvTime.text.toString()
+
+        )
+        model.saveReminder(reminderView)
     }
 
     override fun bindViewModel() {
         with(model) {
             observe(reminderView, ::setReminder)
             observe(toolbarTitleNewReminder, ::setTitleNewReminder)
+            observe(success, ::handleSuccess)
         }
+    }
+    private fun handleSuccess(success: Boolean) {
+        findNavController().popBackStack()
     }
 
     private fun setReminder(reminder: ReminderView) {

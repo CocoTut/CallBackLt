@@ -15,4 +15,6 @@ interface DbApi {
     suspend fun getYears(): List<String>
 
     suspend fun getReminderById(id: String): Reminder
+
+    suspend fun saveReminderTodb(reminder: Reminder)
 }

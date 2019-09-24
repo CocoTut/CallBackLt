@@ -57,7 +57,7 @@ class EventsViewModel @Inject constructor(
             currentMonth.value ?: getCurrentMonth(),
             currentYear.value ?: getCurrentYear()
         )
-        
+
         loadYears()
     }
 

@@ -2,6 +2,7 @@ package ru.cherepanovk.core_db_impl.data
 
 import ru.cherepanovk.core_db_api.data.DbApi
 import ru.cherepanovk.core_db_api.data.Reminder
+import ru.cherepanovk.core_db_impl.ReminderEntityMaper
 import ru.cherepanovk.core_db_impl.data.olddb.LocalBase
 import ru.cherepanovk.core_db_impl.data.room.CallBackLtDb
 import ru.cherepanovk.core_db_impl.data.room.entities.ReminderEntity
@@ -10,17 +11,12 @@ import javax.inject.Inject
 
 class DbApiImpl @Inject constructor(
     private val localBase: LocalBase,
-    private val callBackLtDb: CallBackLtDb
+    private val callBackLtDb: CallBackLtDb,
+    private val mapper: ReminderEntityMaper
 ) : DbApi {
 
     override suspend fun saveReminders(reminders: List<Reminder>) {
-        val entities = reminders.map { ReminderEntity(
-            id = it.id(),
-            phoneNumber = it.phoneNumber(),
-            description = it.description(),
-            contactName = it.contactName(),
-            dateTimeEvent = it.dateTimeEvent()
-        ) }
+        val entities = reminders.map { mapper.map(it)}
         callBackLtDb.getReminderDao().insertReminders(entities)
     }
 
@@ -42,5 +38,9 @@ class DbApiImpl @Inject constructor(
 
     override suspend fun getReminderById(id: String): Reminder {
         return callBackLtDb.getReminderDao().getReminderById(id)
+    }
+
+    override suspend fun saveReminderTodb(reminder: Reminder) {
+        callBackLtDb.getReminderDao().insertReminder(mapper.map(reminder))
     }
 }
