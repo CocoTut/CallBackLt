@@ -52,7 +52,6 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = viewModel(viewModelFactory)
-        bindViewModel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

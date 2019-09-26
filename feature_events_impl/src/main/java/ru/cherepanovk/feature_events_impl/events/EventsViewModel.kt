@@ -4,9 +4,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.platform.BaseViewModel
-import ru.cherepanovk.core.utils.Mapper
 import ru.cherepanovk.core_db_api.data.Reminder
-import ru.cherepanovk.feature_events_impl.event.NewReminder
 import ru.cherepanovk.feature_events_impl.events.domain.*
 import java.util.*
 import javax.inject.Inject
@@ -28,7 +26,7 @@ class EventsViewModel @Inject constructor(
 
     init {
 
-        loadRemindersFromOldDb()
+//        loadRemindersFromOldDb()
 
         loadYears()
 
@@ -93,7 +91,6 @@ class EventsViewModel @Inject constructor(
                     saveRemindersFromOldBase(reminders)
                 }
             }
-
         }
     }
 
