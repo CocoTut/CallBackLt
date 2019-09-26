@@ -5,7 +5,9 @@ import ru.cherepanovk.core.utils.Mapper
 import java.util.*
 import javax.inject.Inject
 
-class NewReminderMapper @Inject constructor(private val dateTimeHelper: DateTimeHelper) : Mapper<ReminderView, NewReminder> {
+class NewReminderMapper @Inject constructor(
+    private val dateTimeHelper: DateTimeHelper
+) : Mapper<ReminderView, NewReminder> {
     override fun map(from: ReminderView): NewReminder {
         return NewReminder(
             id = from.id ?: UUID.randomUUID().toString(),
