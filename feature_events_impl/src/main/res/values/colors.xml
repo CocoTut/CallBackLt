@@ -15,6 +15,7 @@
     <color name="black">#000000</color>
     <color name="red">#ff0000</color>
     <color name="dark_grey">#484547</color>
+    <color name="main_black">#414042</color>
 
     <color name="blue_start_color">#006FA3</color>
     <color name="app_background_color">#FAFAFA</color>
@@ -22,4 +23,6 @@
 
     <color name="item_selected_background_color">#C7C7CC</color>
     <color name="image_placeholder_background_color">#C7C7CC</color>
+
+    <color name="transparent_accent">#26f7961c</color>
 </resources>

@@ -12,6 +12,7 @@ import ru.cherepanovk.feature_events_impl.event.ReminderView
 import ru.cherepanovk.feature_events_impl.event.ReminderViewMapper
 import ru.cherepanovk.feature_events_impl.event.data.EventRepository
 import ru.cherepanovk.feature_events_impl.event.data.EventRepositoryImpl
+import ru.cherepanovk.feature_events_impl.event.dialog.DeleteReminderViewModel
 
 @Module
 abstract class EventModule {
@@ -21,8 +22,11 @@ abstract class EventModule {
     abstract fun bindViewModel(eventViewModel: EventViewModel): ViewModel
 
     @Binds
+    @IntoMap
+    @ViewModelKey(DeleteReminderViewModel::class)
+    abstract fun bindDialogViewModel(deleteReminderViewModel: DeleteReminderViewModel): ViewModel
+
+    @Binds
     abstract fun bindRepository(eventRepositoryImpl: EventRepositoryImpl): EventRepository
 
-//    @Binds
-//    abstract fun bindMapper(reminderViewMapper: ReminderViewMapper): Mapper<Reminder, ReminderView>
 }

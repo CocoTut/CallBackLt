@@ -16,7 +16,7 @@ class DbApiImpl @Inject constructor(
 ) : DbApi {
 
     override suspend fun saveReminders(reminders: List<Reminder>) {
-        val entities = reminders.map { mapper.map(it)}
+        val entities = reminders.map { mapper.map(it) }
         callBackLtDb.getReminderDao().insertReminders(entities)
     }
 
@@ -40,7 +40,11 @@ class DbApiImpl @Inject constructor(
         return callBackLtDb.getReminderDao().getReminderById(id)
     }
 
-    override suspend fun saveReminderTodb(reminder: Reminder) {
+    override suspend fun saveReminder(reminder: Reminder) {
         callBackLtDb.getReminderDao().insertReminder(mapper.map(reminder))
+    }
+
+    override suspend fun deleteReminderById(id: String) {
+        callBackLtDb.getReminderDao().deleteReminderById(id)
     }
 }

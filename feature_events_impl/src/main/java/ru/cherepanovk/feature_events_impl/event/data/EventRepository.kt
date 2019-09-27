@@ -6,4 +6,6 @@ interface EventRepository {
     suspend fun getReminderFromDb(id: String): Reminder
 
     suspend fun saveReminderToDb(reminder: Reminder)
+
+    suspend fun deleteReminderById(id: String)
 }

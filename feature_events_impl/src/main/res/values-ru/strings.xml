@@ -31,9 +31,9 @@
     <string name="isGoogleEventsDownloaded">"Напоминания загружены"</string>
     <string name="noNetwork">"Интернет-соединение не доступно"</string>
     <string name="messageProgressDialog">"Пожалуйста, подождите..."</string>
-    <string name="questionDeleteEvent">"Удалить напоминание?"</string>
-    <string name="answerYes">"Да"</string>
-    <string name="answerCancel">"Отмена"</string>
+    <string name="title_dialog_delete_reminder">"Удалить напоминание?"</string>
+    <string name="btn_dialog_yes">"Да"</string>
+    <string name="btn_dialog_cancel">"Отмена"</string>
 
     <string name="titleEvent">"Напоминание"</string>
 

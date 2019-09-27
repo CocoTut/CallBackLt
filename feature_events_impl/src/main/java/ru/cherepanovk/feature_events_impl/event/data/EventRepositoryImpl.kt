@@ -11,6 +11,10 @@ class EventRepositoryImpl @Inject constructor(private val dataBase: DbApi) : Eve
     }
 
     override suspend fun saveReminderToDb(reminder: Reminder) {
-        dataBase.saveReminderTodb(reminder)
+        dataBase.saveReminder(reminder)
+    }
+
+    override suspend fun deleteReminderById(id: String) {
+        dataBase.deleteReminderById(id)
     }
 }

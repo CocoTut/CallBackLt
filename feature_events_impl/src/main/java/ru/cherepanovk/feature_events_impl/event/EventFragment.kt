@@ -52,6 +52,12 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             saveReminder()
         }
 
+        btnDeleteEvent.setOnClickListener {
+            findNavController().navigate(R.id.action_eventFragment_to_dialogDeleteReminder,
+                Bundle().apply { putString(ARG_EVENT_ID, arguments?.getString(ARG_EVENT_ID))  }
+            )
+        }
+
         tvDate.setOnClickListener {
             model.onDateClick(tvDate.text.toString())
         }
@@ -59,6 +65,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         tvTime.setOnClickListener {
             model.onTimeClick(tvTime.text.toString())
         }
+
     }
 
     private fun saveReminder() {
@@ -68,7 +75,6 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             contactName = etContactNameEvent.text.toString(),
             date = tvDate.text.toString(),
             time = tvTime.text.toString()
-
         )
         model.saveReminder(reminderView)
     }

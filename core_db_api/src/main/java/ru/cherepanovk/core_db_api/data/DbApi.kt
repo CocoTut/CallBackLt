@@ -16,5 +16,7 @@ interface DbApi {
 
     suspend fun getReminderById(id: String): Reminder
 
-    suspend fun saveReminderTodb(reminder: Reminder)
+    suspend fun saveReminder(reminder: Reminder)
+
+    suspend fun deleteReminderById(id: String)
 }

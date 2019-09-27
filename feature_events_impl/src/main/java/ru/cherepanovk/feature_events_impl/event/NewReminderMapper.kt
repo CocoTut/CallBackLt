@@ -15,7 +15,6 @@ class NewReminderMapper @Inject constructor(
             description = from.description,
             contactName = from.contactName,
             dateTimeEvent = dateTimeHelper.getDateFromDateTimeString(from.date, from.time)
-
         )
     }
 }

@@ -30,9 +30,9 @@
     <string name="isGoogleEventsDownloaded">"Reminders were downloaded"</string>
     <string name="noNetwork">"No network connection available."</string>
     <string name="messageProgressDialog">"Please, waiting..."</string>
-    <string name="questionDeleteEvent">"Delete the reminder?"</string>
-    <string name="answerYes">"Yes"</string>
-    <string name="answerCancel">"Cancel"</string>
+    <string name="title_dialog_delete_reminder">"Delete the reminder?"</string>
+    <string name="btn_dialog_yes">"Yes"</string>
+    <string name="btn_dialog_cancel">"Cancel"</string>
 
     <string name="titleEvent">"Reminder"</string>
 
