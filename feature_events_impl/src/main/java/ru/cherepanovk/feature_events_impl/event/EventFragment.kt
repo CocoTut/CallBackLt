@@ -2,9 +2,14 @@ package ru.cherepanovk.feature_events_impl.event
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.TimePicker
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_event.*
 import kotlinx.android.synthetic.main.fragment_event.tvDate
@@ -18,6 +23,7 @@ import ru.cherepanovk.core.utils.extentions.viewModel
 import ru.cherepanovk.feature_events_impl.ARG_EVENT_ID
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.event.di.DaggerEventComponent
+import ru.cherepanovk.feature_events_impl.event.dialog.DialogDeleteReminderFragment
 import javax.inject.Inject
 
 class EventFragment : BaseFragment(R.layout.fragment_event),
@@ -53,9 +59,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         }
 
         btnDeleteEvent.setOnClickListener {
-            findNavController().navigate(R.id.action_eventFragment_to_dialogDeleteReminder,
-                Bundle().apply { putString(ARG_EVENT_ID, arguments?.getString(ARG_EVENT_ID))  }
-            )
+            arguments?.getString(ARG_EVENT_ID)?.let {  showDeleteDialog(it) }
         }
 
         tvDate.setOnClickListener {
@@ -67,6 +71,15 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         }
 
     }
+
+    private fun showDeleteDialog(id: String) {
+        val dialogFragment = DialogDeleteReminderFragment.newInstance(id)
+        val transaction = childFragmentManager
+            .beginTransaction()
+            .add(dialogFragment, dialogFragment::class.java.canonicalName)
+        transaction.commit()
+    }
+
 
     private fun saveReminder() {
         val reminderView = ReminderView(

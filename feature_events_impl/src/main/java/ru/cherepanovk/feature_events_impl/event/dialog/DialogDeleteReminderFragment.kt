@@ -1,5 +1,8 @@
 package ru.cherepanovk.feature_events_impl.event.dialog
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +21,8 @@ import ru.cherepanovk.feature_events_impl.ARG_EVENT_ID
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.event.di.DaggerEventComponent
 import javax.inject.Inject
+import android.view.Window
+
 
 class DialogDeleteReminderFragment : DialogFragment() {
 
@@ -41,6 +46,13 @@ class DialogDeleteReminderFragment : DialogFragment() {
                 .injectDialog(this)
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+        dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
+
+        return dialog
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,6 +66,13 @@ class DialogDeleteReminderFragment : DialogFragment() {
         bindViewModel()
     }
 
+    override fun onResume() {
+        super.onResume()
+        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    }
+
+
     private fun bindViewModel() {
         with(model) {
             observe(openMainScreen, ::openEventsScreen)
@@ -61,14 +80,6 @@ class DialogDeleteReminderFragment : DialogFragment() {
         }
     }
 
-    private fun openEventsScreen(open: Boolean?) {
-        findNavController().popBackStack(R.id.action_dialogDeleteReminder_to_eventsFragment, true)
-    }
-
-    private fun handleError(failure: Failure?) {
-        //TODO
-        dismiss()
-    }
 
     private fun bindListeners() {
         btnYes.setOnClickListener {
@@ -76,8 +87,26 @@ class DialogDeleteReminderFragment : DialogFragment() {
         }
 
         btnNo.setOnClickListener {
-            findNavController().popBackStack()
+           dismiss()
         }
 
+    }
+
+
+    private fun openEventsScreen(open: Boolean?) {
+        findNavController().popBackStack(R.id.eventsFragment, false)
+    }
+
+    private fun handleError(failure: Failure?) {
+        //TODO handle error
+        dismiss()
+    }
+
+    companion object {
+        fun newInstance(id: String) = DialogDeleteReminderFragment().apply {
+          arguments =  Bundle().apply {
+                putString(ARG_EVENT_ID, id)
+            }
+        }
     }
 }
