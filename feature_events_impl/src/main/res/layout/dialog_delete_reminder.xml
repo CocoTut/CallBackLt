@@ -59,4 +59,7 @@
         android:text="@string/btn_dialog_yes"
         app:layout_constraintBottom_toBottomOf="@id/dialogBackground"
         app:layout_constraintEnd_toEndOf="@id/dialogBackground" />
+
+
+    ed
 </androidx.constraintlayout.widget.ConstraintLayout>

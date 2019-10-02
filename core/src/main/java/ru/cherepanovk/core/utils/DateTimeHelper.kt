@@ -72,6 +72,11 @@ class DateTimeHelper @Inject constructor() {
         return getFieldFromDate(date, Calendar.MINUTE)
     }
 
+    fun getCurrentDate(): Date {
+        val calendar = Calendar.getInstance()
+        return calendar.time
+    }
+
     fun getCurrentDatePlusMinutes(minutes: Int): Date {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.MINUTE, minutes)

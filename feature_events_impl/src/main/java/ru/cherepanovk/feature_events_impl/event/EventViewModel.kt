@@ -7,6 +7,7 @@ import ru.cherepanovk.core.utils.DateTimeHelper
 import ru.cherepanovk.feature_events_impl.event.domain.DeleteReminderFromDb
 import ru.cherepanovk.feature_events_impl.event.domain.GetReminderFromDb
 import ru.cherepanovk.feature_events_impl.event.domain.SaveReminderToDb
+import java.util.*
 import javax.inject.Inject
 
 class EventViewModel @Inject constructor(
@@ -25,11 +26,15 @@ class EventViewModel @Inject constructor(
     val showTimePickerEvent = SingleLiveEvent<TimeForPicker>()
     val eventDate = MutableLiveData<String>()
     val eventTime = MutableLiveData<String>()
+    val buttonsVisibility = SingleLiveEvent<Boolean>()
+    val hintTimeIsLessThanCurrent = MutableLiveData<Boolean>()
+    val hintDateIsLessThanCurrent = MutableLiveData<Boolean>()
 
     private var id: String? = null
 
     fun loadReminder(id: String?) {
         toolbarTitleNewReminder.postValue(id == null)
+        buttonsVisibility.postValue(id != null)
         if (id == null) {
             setCurrentDate()
             return
@@ -66,8 +71,8 @@ class EventViewModel @Inject constructor(
         showDatePickerEvent.postValue(dateForPicker)
     }
 
-    fun onTimeClick(eventTime: String) {
-        val date = dateTimeHelper.getTimeFromString(eventTime)
+    fun onTimeClick(eventTime: String, eventDate: String) {
+        val date = dateTimeHelper.getDateFromDateTimeString(eventDate, eventTime)
         val timeForPicker = TimeForPicker(
             hours = dateTimeHelper.getHoursFromDate(date),
             minutes = dateTimeHelper.getMinutesFromDate(date)
@@ -82,6 +87,8 @@ class EventViewModel @Inject constructor(
             dateForPicker.day
         )
         eventDate.postValue(dateTimeHelper.getDateString(date))
+
+        hintDateIsLessThanCurrent.postValue(isDateLessThanCurrent(date))
     }
 
     fun onTimeSet(timeForPicker: TimeForPicker) {
@@ -90,6 +97,13 @@ class EventViewModel @Inject constructor(
             timeForPicker.minutes
         )
         eventTime.postValue(dateTimeHelper.getTimeString(date))
+
+        hintTimeIsLessThanCurrent.postValue(isDateLessThanCurrent(date))
+    }
+
+    private fun isDateLessThanCurrent(date: Date): Boolean {
+        val currentDate = dateTimeHelper.getCurrentDate()
+        return date.before(currentDate)
     }
 
     private fun setCurrentDate() {

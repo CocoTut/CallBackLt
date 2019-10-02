@@ -6,8 +6,10 @@ import android.widget.ArrayAdapter
 import android.widget.PopupMenu
 import androidx.core.view.children
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionInflater
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_events.*
@@ -32,10 +34,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
 
     private val remindersAdapter = GroupAdapter<ViewHolder>().apply {
         setOnItemClickListener { item, _ ->
-            val arguments = Bundle().apply {
-                putString(ARG_EVENT_ID, (item as ItemReminder).id)
-            }
-            findNavController().navigate(R.id.action_eventsFragment_to_eventFragment, arguments)
+            openEventScreen((item as ItemReminder).id)
         }
     }
 
@@ -105,7 +104,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
         tvToolbarMonths.setOnClickListener { popupMenu.show() }
 
         btnAddEvent.setOnClickListener {
-            findNavController().navigate(R.id.action_eventsFragment_to_eventFragment)
+          openEventScreen(null)
         }
 
         popupMenu.setOnMenuItemClickListener { item ->
@@ -114,6 +113,22 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             return@setOnMenuItemClickListener true
         }
 
+    }
+
+    private fun openEventScreen(id: String?) {
+        val arguments =  Bundle().apply {
+            putString(ARG_EVENT_ID, id)
+        }
+        val extras = FragmentNavigatorExtras(
+            btnAddEvent to getString(R.string.btn_transition_name)
+        )
+
+        findNavController().navigate(
+            R.id.action_eventsFragment_to_eventFragment,
+            arguments,
+            null,
+            extras
+        )
     }
 
     private fun setItems(items: List<ItemReminder>) {
