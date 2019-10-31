@@ -9,12 +9,12 @@ package dependencies
 object Versions {
 
     object Core {
-        const val GRADLE_ANDROID = "3.4.0"
-        const val KOTLIN = "1.3.41"
+        const val GRADLE_ANDROID = "3.5.1"
+        const val KOTLIN = "1.3.50"
         const val GRADLE_VERSIONS = "0.21.0"
         const val GOOGLE = "4.3.0"
         const val DAGGER = "2.24"
-        const val COROUTINES = "1.1.1"
+        const val COROUTINES = "1.3.2"
     }
 
     object AndroidX {
