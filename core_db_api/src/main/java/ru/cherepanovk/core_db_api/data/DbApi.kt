@@ -1,5 +1,6 @@
 package ru.cherepanovk.core_db_api.data
 
+import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 interface DbApi {
@@ -10,7 +11,9 @@ interface DbApi {
 
     suspend fun saveReminders(reminders: List<Reminder>)
 
-    suspend fun getRemindersBetweenDates(startDate: Date, endDate: Date): List<Reminder>
+//    suspend fun getRemindersBetweenDates(startDate: Date, endDate: Date): List<Reminder>
+
+    fun getRemindersBetweenDates(startDate: Date, endDate: Date): Flow<List<Reminder>>
 
     suspend fun getYears(): List<String>
 

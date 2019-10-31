@@ -1,5 +1,6 @@
 package ru.cherepanovk.core_db_impl.data
 
+import kotlinx.coroutines.flow.Flow
 import ru.cherepanovk.core_db_api.data.DbApi
 import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.core_db_impl.ReminderEntityMaper
@@ -28,7 +29,7 @@ class DbApiImpl @Inject constructor(
         return callBackLtDb.getReminderDao().getAllReminders()
     }
 
-    override suspend fun getRemindersBetweenDates(startDate: Date, endDate: Date): List<Reminder> {
+    override fun getRemindersBetweenDates(startDate: Date, endDate: Date): Flow<List<Reminder>> {
         return callBackLtDb.getReminderDao().getRemindersBetweenDates(startDate.time, endDate.time)
     }
 

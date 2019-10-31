@@ -59,7 +59,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
         popupMenu.inflate(R.menu.menu_months)
         initList()
         initYears()
-        model.loadData()
+//        model.loadData()
     }
 
     private fun initYears() {

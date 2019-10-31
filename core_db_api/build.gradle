@@ -35,4 +35,9 @@ dependencies {
     implementation Libs.DataBase.ORM_LITE_CORE
     implementation Libs.DataBase.ORM_LITE_ANDROID
 
+    //kotlin coroutines
+    implementation Libs.Core.COROUTINES_CORE
+    implementation Libs.Core.COROUTINES_ANDROID
+
+
 }

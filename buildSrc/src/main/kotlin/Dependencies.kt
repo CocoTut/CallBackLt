@@ -45,7 +45,7 @@ object Versions {
 
     object DataBase {
         const val ORM_LITE = "5.1"
-        const val ROOM = "2.1.0"
+        const val ROOM = "2.2.1"
     }
 
     object Utils {

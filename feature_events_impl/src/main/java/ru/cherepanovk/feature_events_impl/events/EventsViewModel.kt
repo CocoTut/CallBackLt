@@ -2,9 +2,14 @@ package ru.cherepanovk.feature_events_impl.events
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core_db_api.data.Reminder
+import ru.cherepanovk.feature_events_impl.events.data.EventsRepository
 import ru.cherepanovk.feature_events_impl.events.domain.*
 import java.util.*
 import javax.inject.Inject
@@ -14,7 +19,8 @@ class EventsViewModel @Inject constructor(
     private val saveRemindersToDb: SaveRemindersToDb,
     private val getRemindersBetweenDates: GetRemindersFromDbBetweenDates,
     private val itemReminderMapper: ItemReminderMapper,
-    private val getYearsFromDb: GetYearsFromDb
+    private val getYearsFromDb: GetYearsFromDb,
+    private val eventsRepository: EventsRepository
 
 ) : BaseViewModel() {
 
@@ -27,8 +33,8 @@ class EventsViewModel @Inject constructor(
     init {
 
 //        loadRemindersFromOldDb()
-
-        loadYears()
+        loadData()
+//        loadYears()
 
         currentYear.postValue(getCurrentYear())
 
@@ -67,9 +73,17 @@ class EventsViewModel @Inject constructor(
         launchLoading {
             getRemindersBetweenDates(dates) {
                 it.handleSuccess { reminders ->
-                    val items = reminders.map { reminder -> itemReminderMapper.map(reminder) }
-                    itemsReminder.postValue(items)
-                }
+                    createItems(reminders) }
+            }
+        }
+
+    }
+
+    private fun createItems(reminders: Flow<List<Reminder>>) {
+        launch {
+            reminders.collect {
+                val items = it.map { reminder -> itemReminderMapper.map(reminder) }
+                itemsReminder.postValue(items)
             }
         }
     }

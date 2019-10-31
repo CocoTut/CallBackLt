@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import ru.cherepanovk.core_db_impl.data.room.entities.ReminderEntity
-import java.util.*
 
 @Dao
 interface ReminderDao {
@@ -14,7 +14,7 @@ interface ReminderDao {
     suspend fun getAllReminders(): List<ReminderEntity>
 
     @Query("SELECT * FROM ReminderEntity WHERE dateTimeEvent BETWEEN :startDate AND :endDate ")
-    suspend fun getRemindersBetweenDates(startDate: Long, endDate: Long): List<ReminderEntity>
+    fun getRemindersBetweenDates(startDate: Long, endDate: Long): Flow<List<ReminderEntity>>
 
     @Query("SELECT strftime('%Y', dateTimeEvent / 1000, 'unixepoch') as year FROM ReminderEntity GROUP BY year")
     suspend fun getYears(): List<String>
