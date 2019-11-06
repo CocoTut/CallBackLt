@@ -16,8 +16,8 @@ import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.toolbar_months.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
-import ru.cherepanovk.core.exception.ErrorHandler
 import ru.cherepanovk.core.platform.BaseFragment
+import ru.cherepanovk.core.platform.ErrorHandler
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.viewModel
 import ru.cherepanovk.feature_events_impl.ARG_EVENT_ID
@@ -48,9 +48,11 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             .inject(this)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        model = viewModel(viewModelFactory)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        model = viewModel(viewModelFactory){
+            observe(failure, errorHandler::onHandleFailure)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,7 +61,6 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
         popupMenu.inflate(R.menu.menu_months)
         initList()
         initYears()
-//        model.loadData()
     }
 
     private fun initYears() {

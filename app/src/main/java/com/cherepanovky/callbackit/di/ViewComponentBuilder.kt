@@ -1,11 +1,11 @@
 package com.cherepanovky.callbackit.di
 
 import dagger.BindsInstance
-import ru.cherepanovk.core.platform.RootViewProvider
+import ru.cherepanovk.core.platform.RootView
 
 interface ViewComponentBuilder<Component> {
     @BindsInstance
-    fun rootViewProvider(rootViewProvider: RootViewProvider): ViewComponentBuilder<Component>
+    fun rootViewProvider(rootView: RootView): ViewComponentBuilder<Component>
 
     fun build(): Component
 }

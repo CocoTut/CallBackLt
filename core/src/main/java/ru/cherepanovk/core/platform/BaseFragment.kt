@@ -19,11 +19,6 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    override fun onAttach(context: Context?) {
-        inject(ComponentManager)
-        super.onAttach(context)
-    }
-
     protected abstract fun inject(componentManager: ComponentManager)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
@@ -31,9 +26,15 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        bindListeners()
-        bindViewModel()
+        inject(ComponentManager)
     }
+
+    override fun onStart() {
+        super.onStart()
+        bindViewModel()
+        bindListeners()
+    }
+
 
     protected fun firstTimeCreated(savedInstanceState: Bundle?) = savedInstanceState == null
 

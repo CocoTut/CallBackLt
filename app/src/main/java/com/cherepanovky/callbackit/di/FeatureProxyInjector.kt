@@ -14,6 +14,7 @@ class FeatureProxyInjector {
         fun getEventsFeature(): EventsFeatureApi{
             return DaggerEventsComponent.builder()
                 .contextProvider(ComponentManager.getOrThrow())
+                .rootViewProvider(ComponentManager.getOrThrow())
                 .coreDbApi(
                     DaggerCoreDbComponent.builder()
                         .contextProvider(ComponentManager.getOrThrow())

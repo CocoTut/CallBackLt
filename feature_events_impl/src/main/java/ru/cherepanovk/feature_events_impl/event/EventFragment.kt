@@ -50,11 +50,17 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        model = viewModel(viewModelFactory)
-        model.loadReminder(arguments?.getString(ARG_EVENT_ID))
+
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
             .apply { interpolator = AccelerateDecelerateInterpolator() }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        model = viewModel(viewModelFactory)
+        if (savedInstanceState == null)
+            model.loadReminder(arguments?.getString(ARG_EVENT_ID))
     }
 
     override fun onDestroyView() {

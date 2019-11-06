@@ -32,6 +32,13 @@ class EventViewModel @Inject constructor(
 
     private var id: String? = null
 
+    init {
+        loadReminder(id)
+    }
+    fun setReminderId(id: String?){
+        this.id = id
+    }
+
     fun loadReminder(id: String?) {
         toolbarTitleNewReminder.postValue(id == null)
         buttonsVisibility.postValue(id != null)

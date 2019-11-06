@@ -8,13 +8,17 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
+import com.cherepanovky.callbackit.di.DaggerMainActivityComponent
 import com.cherepanovky.callbackit.di.FeatureProxyInjector
+import com.cherepanovky.callbackit.di.MainActivityModule
 import kotlinx.android.synthetic.main.activity_route.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.platform.BaseActivity
-import ru.cherepanovk.feature_settings_impl.SettingsFeatureStarterImpl
+import ru.cherepanovk.core.platform.RootView
 
 class CallBackItMainActivity : BaseActivity() {
+
+    override fun fragmentContainer(): View  = fragmentContainer
 
     private val navController: NavController by lazy { findNavController(R.id.nav_host_fragment) }
     private var startDestination = -1
@@ -22,10 +26,19 @@ class CallBackItMainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_route)
-
+        inject(ComponentManager)
         setNavigation()
 
         bindListeners()
+
+    }
+
+    override fun inject(componentManager: ComponentManager) {
+        DaggerMainActivityComponent.builder()
+            .mainActivityModule(MainActivityModule(fragmentContainer()))
+            .build()
+            .also { componentManager.put(it) }
+            .inject(this)
 
     }
 
@@ -84,7 +97,5 @@ class CallBackItMainActivity : BaseActivity() {
         navController.navigate(featureNavGraph.id)
     }
 
-    override fun inject(componentManager: ComponentManager) {
 
-    }
 }

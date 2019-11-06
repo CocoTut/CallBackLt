@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core_db_api.data.Reminder
@@ -73,7 +74,8 @@ class EventsViewModel @Inject constructor(
         launchLoading {
             getRemindersBetweenDates(dates) {
                 it.handleSuccess { reminders ->
-                    createItems(reminders) }
+                    createItems(reminders)
+                }
             }
         }
 
