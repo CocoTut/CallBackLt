@@ -44,6 +44,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         DaggerEventComponent.builder()
             .contextProvider(componentManager.getOrThrow())
             .coreDbApi(componentManager.getOrThrow())
+            .coreDomainApi(componentManager.getOrThrow())
             .build()
             .inject(this)
     }

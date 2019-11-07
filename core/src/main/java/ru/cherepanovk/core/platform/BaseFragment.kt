@@ -16,8 +16,7 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
 
     protected val componentManager get() = ComponentManager
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    @Inject lateinit var viewModelFactory: ViewModelFactory
 
     protected abstract fun inject(componentManager: ComponentManager)
 

@@ -20,9 +20,7 @@ class EventsViewModel @Inject constructor(
     private val saveRemindersToDb: SaveRemindersToDb,
     private val getRemindersBetweenDates: GetRemindersFromDbBetweenDates,
     private val itemReminderMapper: ItemReminderMapper,
-    private val getYearsFromDb: GetYearsFromDb,
-    private val eventsRepository: EventsRepository
-
+    private val getYearsFromDb: GetYearsFromDb
 ) : BaseViewModel() {
 
     val currentMonth = MutableLiveData<Int>()

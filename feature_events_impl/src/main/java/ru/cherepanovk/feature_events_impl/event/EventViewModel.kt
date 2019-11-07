@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core.platform.SingleLiveEvent
 import ru.cherepanovk.core.utils.DateTimeHelper
+import ru.cherepanovk.feature_events_impl.event.domain.CreateReminderAlarm
 import ru.cherepanovk.feature_events_impl.event.domain.DeleteReminderFromDb
 import ru.cherepanovk.feature_events_impl.event.domain.GetReminderFromDb
 import ru.cherepanovk.feature_events_impl.event.domain.SaveReminderToDb
@@ -16,7 +17,8 @@ class EventViewModel @Inject constructor(
     private val newReminderMapper: NewReminderMapper,
     private val saveReminderToDb: SaveReminderToDb,
     private val dateTimeHelper: DateTimeHelper,
-    private  val deleteReminderFromDb: DeleteReminderFromDb
+    private  val deleteReminderFromDb: DeleteReminderFromDb,
+    private val createReminderAlarm: CreateReminderAlarm
 ) : BaseViewModel() {
 
     val reminderView = MutableLiveData<ReminderView>()
@@ -62,7 +64,20 @@ class EventViewModel @Inject constructor(
         launchLoading {
             saveReminderToDb(newReminderMapper.map(reminderView)) {
                 it.handleSuccess {
-                    success.postValue(true)
+                    createAlarm(reminderView)
+                }
+
+            }
+        }
+
+
+    }
+
+    private fun createAlarm(reminderView: ReminderView) {
+        launchLoading{
+            createReminderAlarm(reminderView){
+                it.handleSuccess {
+                   success.postValue(true)
                 }
             }
         }
