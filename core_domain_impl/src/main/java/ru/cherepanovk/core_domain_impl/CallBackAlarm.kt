@@ -11,6 +11,7 @@ import ru.cherepanovk.core_domain_impl.notifications.NotificationReceiver
 import ru.cherepanovk.core_domain_impl.notifications.NotificationService
 import javax.inject.Inject
 
+
 class CallBackAlarm @Inject constructor(
     private val alarmManager: AlarmManager,
     private val context: Context
@@ -27,13 +28,13 @@ class CallBackAlarm @Inject constructor(
 
 
         val intentAm = Intent(context, NotificationReceiver::class.java)
-        val data1 = Uri.parse(alarmReminder.dateTimeEvent().time.toString())
-        intentAm.data = data1
+        val data = Uri.parse(alarmReminder.dateTimeEvent().time.toString())
+        intentAm.data = data
         intentAm.action = context.resources.getString(R.string.intent_callback_notification_service)
-        intentAm.putExtra("description", alarmReminder.description())
-        intentAm.putExtra("phonenumber",  alarmReminder.phoneNumber())
-        intentAm.putExtra("id", alarmReminder.id())
-        intentAm.putExtra("contactName", alarmReminder.contactName())
+        intentAm.putExtra(DESCRIPTION, alarmReminder.description())
+        intentAm.putExtra(PHONE_NUMBER,  alarmReminder.phoneNumber())
+        intentAm.putExtra(REMINDER_ID, alarmReminder.id())
+        intentAm.putExtra(CONTACT_NAME, alarmReminder.contactName())
 
         return PendingIntent.getBroadcast(context, 0, intentAm, 0)
     }
