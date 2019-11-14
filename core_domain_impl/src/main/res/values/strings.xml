@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Core Domain Implementation</string>
+    <string name="intent_callback_notification_service">intent_callback_notification_service</string>
 </resources>
