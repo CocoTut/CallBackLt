@@ -17,7 +17,7 @@ class CreateReminderAlarm @Inject constructor(
     override suspend fun run(params: ReminderView) {
        val alarmReminder =
            AlarmModel(
-               id = "",
+               id = params.id ?: UUID.randomUUID().toString(),
                phoneNumber = params.phoneNumber,
                description = params.description,
                contactName = params.contactName,

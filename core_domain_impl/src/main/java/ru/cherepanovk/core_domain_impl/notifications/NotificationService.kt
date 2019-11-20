@@ -6,12 +6,17 @@ import androidx.core.app.JobIntentService
 
 
 private const val JOB_ID = 1001
-private const val CHANNEL_ID = "callbackChannel"
 private const val PICKED_RINGTONE = "picked_ringtone"
 
 class NotificationService : JobIntentService() {
+
     override fun onHandleWork(intent: Intent) {
-        val a = 1
+        val notificationCreator = NotificationCreator.Builder(this)
+            .addCallAction(intent)
+            .addOpenReminderAction(intent)
+            .setMessage(intent)
+            .build()
+        notificationCreator.createNotification()
     }
 
     companion object {
@@ -19,4 +24,6 @@ class NotificationService : JobIntentService() {
             enqueueWork(context, NotificationService::class.java, JOB_ID, intent)
         }
     }
+
+
 }

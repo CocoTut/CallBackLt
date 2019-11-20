@@ -4,3 +4,5 @@ const val PHONE_NUMBER = "phoneNumber"
 const val DESCRIPTION = "description"
 const val REMINDER_ID = "reminderId"
 const val CONTACT_NAME = "contactName"
+const val NOTIFICATION_ID = "notification_id"
+

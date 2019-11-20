@@ -26,16 +26,15 @@ class CallBackAlarm @Inject constructor(
         alarmReminder: AlarmReminder
     ): PendingIntent {
 
-
-        val intentAm = Intent(context, NotificationReceiver::class.java)
         val data = Uri.parse(alarmReminder.dateTimeEvent().time.toString())
-        intentAm.data = data
-        intentAm.action = context.resources.getString(R.string.intent_callback_notification_service)
-        intentAm.putExtra(DESCRIPTION, alarmReminder.description())
-        intentAm.putExtra(PHONE_NUMBER,  alarmReminder.phoneNumber())
-        intentAm.putExtra(REMINDER_ID, alarmReminder.id())
-        intentAm.putExtra(CONTACT_NAME, alarmReminder.contactName())
-
+        val intentAm = Intent(context, NotificationReceiver::class.java).apply {
+            this.data = data
+            action = context.resources.getString(R.string.intent_callback_notification_service)
+            putExtra(DESCRIPTION, alarmReminder.description())
+            putExtra(PHONE_NUMBER,  alarmReminder.phoneNumber())
+            putExtra(REMINDER_ID, alarmReminder.id())
+            putExtra(CONTACT_NAME, alarmReminder.contactName())
+        }
         return PendingIntent.getBroadcast(context, 0, intentAm, 0)
     }
 }
