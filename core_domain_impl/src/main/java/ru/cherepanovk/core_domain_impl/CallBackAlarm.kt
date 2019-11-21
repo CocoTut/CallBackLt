@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.core.app.AlarmManagerCompat
 import ru.cherepanovk.core_domain_api.data.AlarmApi
 import ru.cherepanovk.core_domain_api.data.AlarmReminder
 import ru.cherepanovk.core_domain_impl.notifications.NotificationReceiver
@@ -19,7 +20,12 @@ class CallBackAlarm @Inject constructor(
 
     override fun createAlarm(alarmReminder: AlarmReminder) {
         val dateTimeAlarm = alarmReminder.dateTimeEvent().time
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, dateTimeAlarm, getPendingIntentForAm(alarmReminder))
+        AlarmManagerCompat.setExactAndAllowWhileIdle(
+            alarmManager,
+            AlarmManager.RTC_WAKEUP,
+            dateTimeAlarm,
+            getPendingIntentForAm(alarmReminder)
+        )
     }
 
     private fun getPendingIntentForAm(

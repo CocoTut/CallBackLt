@@ -2,6 +2,7 @@ package com.cherepanovky.callbackit.di
 
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.platform.RootView
 import ru.cherepanovk.core_db_impl.di.DaggerCoreDbComponent
 import ru.cherepanovk.core_domain_impl.di.DaggerCoreDomainComponent
 import ru.cherepanovk.feature_events_api.EventsFeatureApi

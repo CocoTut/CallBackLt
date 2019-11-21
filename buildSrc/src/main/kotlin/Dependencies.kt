@@ -13,7 +13,7 @@ object Versions {
         const val KOTLIN = "1.3.50"
         const val GRADLE_VERSIONS = "0.21.0"
         const val GOOGLE = "4.3.0"
-        const val DAGGER = "2.24"
+        const val DAGGER = "2.25.2"
         const val COROUTINES = "1.3.2"
     }
 

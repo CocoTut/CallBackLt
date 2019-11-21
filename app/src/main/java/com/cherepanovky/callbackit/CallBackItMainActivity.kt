@@ -8,13 +8,17 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
+import com.cherepanovky.callbackit.di.DaggerApplicationComponent
 import com.cherepanovky.callbackit.di.DaggerMainActivityComponent
 import com.cherepanovky.callbackit.di.FeatureProxyInjector
 import com.cherepanovky.callbackit.di.MainActivityModule
 import kotlinx.android.synthetic.main.activity_route.*
 import ru.cherepanovk.core.di.ComponentManager
+import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.platform.BaseActivity
 import ru.cherepanovk.core.platform.RootView
+import ru.cherepanovk.core.utils.extentions.viewModel
+import ru.cherepanovk.core_domain_impl.di.DaggerCoreDomainComponent
 
 class CallBackItMainActivity : BaseActivity() {
 
@@ -22,6 +26,8 @@ class CallBackItMainActivity : BaseActivity() {
 
     private val navController: NavController by lazy { findNavController(R.id.nav_host_fragment) }
     private var startDestination = -1
+
+    private lateinit var model: CallBackItMainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,15 +37,23 @@ class CallBackItMainActivity : BaseActivity() {
 
         bindListeners()
 
+
+
     }
 
     override fun inject(componentManager: ComponentManager) {
         DaggerMainActivityComponent.builder()
             .mainActivityModule(MainActivityModule(fragmentContainer()))
+            .coreDomainApi(
+                DaggerCoreDomainComponent.builder()
+                .contextProvider(componentManager.getOrThrow())
+                    .build()
+            )
             .build()
             .also { componentManager.put(it) }
             .inject(this)
 
+        model = viewModel(viewModelFactory){}
     }
 
     private fun setNavigation() {

@@ -22,21 +22,10 @@ class NotificationCreator private constructor(
     fun createNotification() {
         val notification = getNotification()
         val notificationManager =  context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        createNotificationChannel(notificationManager)
-
         notificationManager.notify(builder.notificationId, notification)
     }
 
-    private fun createNotificationChannel(notificationManager: NotificationManager) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelDefault = NotificationChannel(context.getString(R.string.channel_id),
-                context.getString(R.string.channel_id),
-                NotificationManager.IMPORTANCE_DEFAULT)
-
-            notificationManager.createNotificationChannel(channelDefault)
-        }
-    }
 
     private fun getNotification(): Notification {
         val notificationBuilder = NotificationCompat.Builder(context, context.getString(R.string.channel_id))

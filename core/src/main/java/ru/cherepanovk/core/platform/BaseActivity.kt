@@ -9,8 +9,8 @@ import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), ActivityStarter {
 
-//    @Inject
-//    lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //inject(ComponentManager)

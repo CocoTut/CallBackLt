@@ -1,4 +1,4 @@
-package com.cherepanovky.callbackit.di
+package ru.cherepanovk.core.di.dependencies
 
 import dagger.BindsInstance
 import ru.cherepanovk.core.platform.RootView
