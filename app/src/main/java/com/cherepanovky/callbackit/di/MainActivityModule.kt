@@ -22,9 +22,6 @@ class MainActivityModule(private val rootView: View) {
     @Module
     abstract class Binding {
         @Binds
-        abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
-
-        @Binds
         @IntoMap
         @ViewModelKey(CallBackItMainViewModel::class)
         abstract fun bindViewModel(callBackItMainViewModel: CallBackItMainViewModel): ViewModel
