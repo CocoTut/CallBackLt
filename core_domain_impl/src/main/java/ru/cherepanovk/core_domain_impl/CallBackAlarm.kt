@@ -9,7 +9,7 @@ import androidx.core.app.AlarmManagerCompat
 import ru.cherepanovk.core_domain_api.data.AlarmApi
 import ru.cherepanovk.core_domain_api.data.AlarmReminder
 import ru.cherepanovk.core_domain_impl.notifications.NotificationReceiver
-import ru.cherepanovk.core_domain_impl.notifications.NotificationService
+import java.util.*
 import javax.inject.Inject
 
 
@@ -20,6 +20,10 @@ class CallBackAlarm @Inject constructor(
 
     override fun createAlarm(alarmReminder: AlarmReminder) {
         val dateTimeAlarm = alarmReminder.dateTimeEvent().time
+
+        if (alarmReminder.dateTimeEvent().time < Date().time && !BuildConfig.DEBUG)
+            return
+
         AlarmManagerCompat.setExactAndAllowWhileIdle(
             alarmManager,
             AlarmManager.RTC_WAKEUP,

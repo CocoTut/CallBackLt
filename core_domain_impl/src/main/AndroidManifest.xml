@@ -4,6 +4,15 @@
 
     <application>
         <receiver
+            android:name=".notifications.NotificationActionsReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="@string\action_call" />
+            </intent-filter>
+
+        </receiver>
+        <receiver
             android:name=".notifications.NotificationReceiver"
             android:enabled="true"
             android:exported="false">

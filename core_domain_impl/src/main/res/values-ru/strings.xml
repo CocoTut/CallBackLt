@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="btn_notification_call">Call</string>
+    <string name="btn_notification_call">Позвонить</string>
+    <string name="channel_id" >По умолчанию</string>
 </resources>
