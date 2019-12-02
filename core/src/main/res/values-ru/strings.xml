@@ -9,4 +9,5 @@
     <string name="error_server">Извините, произошла ошибка сервера</string>
     <string name="error_unregistered">Данный номер не найден в системе</string>
     <string name="error_common">Извините, произошла ошибка при выполнении запроса</string>
+    <string name="error_create_notification">Ошибка: напоминание не создано!</string>
 </resources>

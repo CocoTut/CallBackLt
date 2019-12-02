@@ -22,6 +22,7 @@ class ErrorHandler @Inject constructor(private val networkHandler: NetworkHandle
                 is HttpException -> Either.Left(getHttpFailure(exception))
                 is ConnectException -> Either.Left(Failure.NetworkConnection)
                 is SocketTimeoutException -> Either.Left(Failure.TimeOut)
+                is CallBackItException.CreateNotificationException -> Either.Left(Failure.CreateNotificationError)
                 else -> Either.Left(Failure.ServerError)
             }
     }

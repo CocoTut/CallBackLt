@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.core.app.NotificationCompat
 import ru.cherepanovk.core_domain_impl.*
+import ru.cherepanovk.core_domain_impl.notifications.NotificationParams.Companion.NOTIFICATION_ID_DEFAULT
 
 private const val CALL_REQUEST_CODE = 1
 private const val OPEN_REMINDER_CODE = 0
@@ -71,29 +72,29 @@ class NotificationCreator private constructor(
         var notificationId = 0
 
 
-        fun addCallAction(reminderIntent: Intent) = apply {
+        fun addCallAction(params: NotificationParams) = apply {
             val action = context.resources.getString(R.string.action_call)
             callPendingIntent = getPendingEventForAction(
-                getActionIntent(reminderIntent, action, false),
+                getActionIntent(params, action, false),
                 CALL_REQUEST_CODE
             )
         }
 
 
-        fun addOpenReminderAction(reminderIntent: Intent) = apply {
+        fun addOpenReminderAction(params: NotificationParams) = apply {
             val action = context.resources.getString(R.string.action_open_reminder)
             openReminderPendingIntent = getPendingEventForAction(
-                getActionIntent(reminderIntent, action, true),
+                getActionIntent(params, action, true),
                 OPEN_REMINDER_CODE
             )
         }
 
-        fun setMessage(reminderIntent: Intent) = apply {
-            val contactName = reminderIntent.getStringExtra(CONTACT_NAME)
-            val description = reminderIntent.getStringExtra(DESCRIPTION)
+        fun setMessage(params: NotificationParams) = apply {
+            val contactName = params.contactName
+            val description = params.description
             message = buildString {
                 append(contactName)
-                if (description.isNotBlank()) {
+                if (!description.isNullOrEmpty()) {
                     append(", ")
                     append(description)
                 }
@@ -107,13 +108,13 @@ class NotificationCreator private constructor(
 
 
         private fun getActionIntent(
-            reminderIntent: Intent,
+            params: NotificationParams,
             action: String,
             openActivity: Boolean
         ): Intent {
-            val reminderId = reminderIntent.getStringExtra(REMINDER_ID)
-            val phoneNumber = reminderIntent.getStringExtra(PHONE_NUMBER)
-            val notificationId = getNotificationId(reminderId)
+            val reminderId = params.reminderId
+            val phoneNumber = params.phoneNumber
+            val notificationId = reminderId?.let { getNotificationId(reminderId) } ?: NOTIFICATION_ID_DEFAULT
 
             val actionIntent = when (openActivity) {
                 true -> Intent(action)
@@ -121,10 +122,16 @@ class NotificationCreator private constructor(
             }
 
             actionIntent.apply {
-                putExtra(REMINDER_ID, reminderId)
-                putExtra(PHONE_NUMBER, phoneNumber)
-                putExtra(NOTIFICATION_ID, notificationId)
+                putExtra(NOTIFICATION_PARAMS, NotificationParams(
+                    phoneNumber,
+                    reminderId,
+                    notificationId,
+                    contactName = params.contactName,
+                    description = params.description
+                ).toBundle())
             }
+
+
 
             return actionIntent
 
@@ -137,14 +144,14 @@ class NotificationCreator private constructor(
             return when (actionRequestCode) {
                 CALL_REQUEST_CODE -> PendingIntent.getBroadcast(
                     context,
-                    actionRequestCode + actionIntent.getIntExtra(NOTIFICATION_ID, 0),
+                    actionRequestCode + notificationId,
                     actionIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT
                 )
                 else ->
                     PendingIntent.getActivity(
                         context,
-                        OPEN_REMINDER_CODE + actionIntent.getIntExtra(NOTIFICATION_ID, 0),
+                        OPEN_REMINDER_CODE + notificationId,
                         actionIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT
                     )

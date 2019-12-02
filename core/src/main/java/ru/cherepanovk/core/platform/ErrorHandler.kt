@@ -19,6 +19,8 @@ class ErrorHandler @Inject constructor(
                 failure.error?.let { notifyMessageShower.notify(it) } ?: notifyMessageShower.notify(R.string.error_api)
             is Failure.TimeOut ->
                 notifyMessageShower.notify(R.string.error_server_timeout)
+            is Failure.CreateNotificationError ->
+                notifyMessageShower.notify(R.string.error_create_notification)
         }
     }
 

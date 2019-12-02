@@ -8,6 +8,7 @@ import android.net.Uri
 import androidx.core.app.AlarmManagerCompat
 import ru.cherepanovk.core_domain_api.data.AlarmApi
 import ru.cherepanovk.core_domain_api.data.AlarmReminder
+import ru.cherepanovk.core_domain_impl.notifications.NotificationParams
 import ru.cherepanovk.core_domain_impl.notifications.NotificationReceiver
 import java.util.*
 import javax.inject.Inject
@@ -32,18 +33,19 @@ class CallBackAlarm @Inject constructor(
         )
     }
 
-    private fun getPendingIntentForAm(
-        alarmReminder: AlarmReminder
-    ): PendingIntent {
+    private fun getPendingIntentForAm(alarmReminder: AlarmReminder): PendingIntent {
 
         val data = Uri.parse(alarmReminder.dateTimeEvent().time.toString())
+        val params = NotificationParams(
+            phoneNumber = alarmReminder.phoneNumber(),
+            reminderId = alarmReminder.id(),
+            description = alarmReminder.description(),
+            contactName = alarmReminder.contactName()
+        )
         val intentAm = Intent(context, NotificationReceiver::class.java).apply {
             this.data = data
             action = context.resources.getString(R.string.intent_callback_notification_service)
-            putExtra(DESCRIPTION, alarmReminder.description())
-            putExtra(PHONE_NUMBER,  alarmReminder.phoneNumber())
-            putExtra(REMINDER_ID, alarmReminder.id())
-            putExtra(CONTACT_NAME, alarmReminder.contactName())
+            putExtras(params.toBundle())
         }
         return PendingIntent.getBroadcast(context, 0, intentAm, 0)
     }

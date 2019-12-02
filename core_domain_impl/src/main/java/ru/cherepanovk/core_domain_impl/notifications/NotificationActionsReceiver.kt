@@ -5,23 +5,24 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import ru.cherepanovk.core.utils.getDialIntent
-import ru.cherepanovk.core_domain_impl.NOTIFICATION_ID
-import ru.cherepanovk.core_domain_impl.PHONE_NUMBER
+import ru.cherepanovk.core_domain_impl.notifications.NotificationParams.Companion.NOTIFICATION_ID_DEFAULT
 
 class NotificationActionsReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        openDialActivity(context, intent)
-        cancelNotification(context, intent)
+        val notificationParams = NotificationParams.fromBundle(intent.extras)
+        openDialActivity(context, notificationParams)
+        cancelNotification(context, notificationParams)
     }
 
-    private fun cancelNotification(context: Context, intent: Intent) {
-        val notificationId = intent.getIntExtra(NOTIFICATION_ID, 0)
+    private fun cancelNotification(context: Context, params: NotificationParams?) {
+
+        val notificationId = params?.notificationId ?: NOTIFICATION_ID_DEFAULT
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.cancel(notificationId)
     }
 
-    private fun openDialActivity(context: Context, intent: Intent) {
-        val phoneNumber = intent.getStringExtra(PHONE_NUMBER)
+    private fun openDialActivity(context: Context, params: NotificationParams?) {
+        val phoneNumber = params?.phoneNumber
         context.startActivity(getDialIntent(phoneNumber))
     }
 }

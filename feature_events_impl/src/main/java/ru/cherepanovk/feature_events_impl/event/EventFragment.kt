@@ -31,6 +31,8 @@ import ru.cherepanovk.imgurtest.utils.extensions.afterTextChanged
 import ru.cherepanovk.imgurtest.utils.extensions.hideKeyboard
 import javax.inject.Inject
 
+const val ARG_EVENT_ID = "ARG_EVENT_ID"
+
 class EventFragment : BaseFragment(R.layout.fragment_event),
     DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
