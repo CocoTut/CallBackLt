@@ -5,10 +5,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
-import com.cherepanovky.callbackit.di.DaggerApplicationComponent
 import com.cherepanovky.callbackit.di.DaggerMainActivityComponent
 import com.cherepanovky.callbackit.di.FeatureProxyInjector
 import com.cherepanovky.callbackit.di.MainActivityModule
@@ -16,16 +16,20 @@ import kotlinx.android.synthetic.main.activity_route.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.platform.BaseActivity
-import ru.cherepanovk.core.platform.RootView
 import ru.cherepanovk.core.utils.extentions.viewModel
 import ru.cherepanovk.core_domain_impl.di.DaggerCoreDomainComponent
+import javax.inject.Inject
 
 class CallBackItMainActivity : BaseActivity() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    override var navHost = R.id.nav_host_fragment
+
+
     override fun fragmentContainer(): View  = fragmentContainer
 
-    private val navController: NavController by lazy { findNavController(R.id.nav_host_fragment) }
-    private var startDestination = -1
 
     private lateinit var model: CallBackItMainViewModel
 
@@ -58,7 +62,7 @@ class CallBackItMainActivity : BaseActivity() {
 
     private fun setNavigation() {
         val navGraph = FeatureProxyInjector.getEventsFeature().eventsFeatureStarter()
-            .getNavGraph(navController.navInflater)
+            .getEventsNavGraph(navController.navInflater)
         startDestination = navGraph.startDestination
         navController.graph = navGraph
     }

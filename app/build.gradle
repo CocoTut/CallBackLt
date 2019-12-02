@@ -56,27 +56,8 @@ dependencies {
     implementation Libs.Core.DAGGER
     kapt Libs.Core.DAGGER_COMPILER
 
-    //navigation component
-    implementation Libs.AndroidX.ANDROIDX_NAVIGATION_FRAGMENT
-    implementation Libs.AndroidX.ANDROIDX_NAVIGATION_UI
 
-    //kotlin coroutines
-    implementation Libs.Core.COROUTINES_CORE
-    implementation Libs.Core.COROUTINES_ANDROID
 
-    //gson
-    implementation Libs.Network.GSON
-
-    //retrofit
-    implementation Libs.Network.RETROFIT
-
-    //groupie fro RecyclerView
-    implementation Libs.Ui.GROUPIE
-    implementation Libs.Ui.GROUPIE_KOTLIN_EXTENSIONS
-
-    //ormlite
-    implementation Libs.DataBase.ORM_LITE_CORE
-    implementation Libs.DataBase.ORM_LITE_ANDROID
 
 
 

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.JobIntentService
 import ru.cherepanovk.core.exception.CallBackItException
-import ru.cherepanovk.core_domain_impl.NOTIFICATION_PARAMS
 
 
 private const val JOB_ID = 1001

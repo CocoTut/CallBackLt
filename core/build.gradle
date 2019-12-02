@@ -42,6 +42,11 @@ dependencies {
     androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
     androidTestImplementation Libs.Test.TEST_ANDROIDX_ESPRESSO_CORE
 
+    //navigation component
+    api Libs.AndroidX.ANDROIDX_NAVIGATION_FRAGMENT
+    api Libs.AndroidX.ANDROIDX_NAVIGATION_UI
+
+
     //dagger 2 for DI
     implementation Libs.Core.DAGGER
     kapt Libs.Core.DAGGER_COMPILER

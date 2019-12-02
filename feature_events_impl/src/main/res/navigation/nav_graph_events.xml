@@ -29,8 +29,5 @@
         android:label="DialogDeleteReminder"
         tools:layout ="@layout/dialog_delete_reminder"
         >
-        <action
-            android:id="@+id/action_dialogDeleteReminder_to_eventsFragment"
-            app:destination="@id/eventsFragment" />
     </fragment>
 </navigation>

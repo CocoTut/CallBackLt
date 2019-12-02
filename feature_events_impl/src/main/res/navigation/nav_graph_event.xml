@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_event"
+    app:startDestination="@id/eventFragment"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="ru.cherepanovk.feature_events_impl.event.EventFragment"
+        android:label="EventFragment"
+        tools:layout="@layout/fragment_event"
+        >
+
+    </fragment>
+</navigation>

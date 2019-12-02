@@ -33,9 +33,4 @@ dependencies {
     testImplementation Libs.Test.TEST_LIB_JUNIT
     androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
     androidTestImplementation Libs.Test.TEST_ANDROIDX_ESPRESSO_CORE
-
-    //dagger 2
-    implementation Libs.Core.DAGGER
-    kapt Libs.Core.DAGGER_COMPILER
-
 }

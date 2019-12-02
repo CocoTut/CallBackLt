@@ -31,13 +31,13 @@ import ru.cherepanovk.imgurtest.utils.extensions.afterTextChanged
 import ru.cherepanovk.imgurtest.utils.extensions.hideKeyboard
 import javax.inject.Inject
 
-const val ARG_EVENT_ID = "ARG_EVENT_ID"
-
 class EventFragment : BaseFragment(R.layout.fragment_event),
     DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
 
     private lateinit var model: EventViewModel
+    private val openParams
+        get() = arguments?.let { EventOpenParams.fromBundle(it) }
 
     @Inject
     lateinit var errorHandler: ErrorHandler
@@ -53,17 +53,12 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
             .apply { interpolator = AccelerateDecelerateInterpolator() }
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        model = viewModel(viewModelFactory)
-        if (savedInstanceState == null)
-            model.loadReminder(arguments?.getString(ARG_EVENT_ID))
+        if (firstTimeCreated(savedInstanceState))
+            model.loadReminder(openParams?.reminderId)
     }
 
     override fun onDestroyView() {
@@ -71,9 +66,27 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         super.onDestroyView()
     }
 
+
+    override fun bindViewModel() {
+        model = viewModel(viewModelFactory) {
+            observe(reminderView, ::setReminder)
+            observe(toolbarTitleNewReminder, ::setTitleNewReminder)
+            observe(success, ::handleSuccess)
+            observe(showDatePickerEvent, ::showDatePickerDialog)
+            observe(eventDate, ::setDate)
+            observe(eventTime, ::setTime)
+            observe(showTimePickerEvent, ::showTimePickerDialog)
+            observe(buttonsVisibility, ::setButtonsVisibility)
+            observe(hintTimeIsLessThanCurrent, ::showTimeHint)
+            observe(hintDateIsLessThanCurrent, ::showDateHint)
+
+        }
+    }
+
+
     override fun bindListeners() {
         ivBack.setOnClickListener {
-            findNavController().popBackStack()
+            requireActivity().onBackPressed()
         }
 
         btnSaveEvent.setOnClickListener {
@@ -103,22 +116,6 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
                 tilContactName.error = null
         }
 
-    }
-
-    override fun bindViewModel() {
-        with(model) {
-            observe(reminderView, ::setReminder)
-            observe(toolbarTitleNewReminder, ::setTitleNewReminder)
-            observe(success, ::handleSuccess)
-            observe(showDatePickerEvent, ::showDatePickerDialog)
-            observe(eventDate, ::setDate)
-            observe(eventTime, ::setTime)
-            observe(showTimePickerEvent, ::showTimePickerDialog)
-            observe(buttonsVisibility, ::setButtonsVisibility)
-            observe(hintTimeIsLessThanCurrent, ::showTimeHint)
-            observe(hintDateIsLessThanCurrent, ::showDateHint)
-
-        }
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
@@ -180,7 +177,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
     }
 
     private fun handleSuccess(success: Boolean) {
-        findNavController().popBackStack()
+        requireActivity().onBackPressed()
     }
 
     private fun setReminder(reminder: ReminderView) {

@@ -122,7 +122,7 @@ class NotificationCreator private constructor(
             }
 
             actionIntent.apply {
-                putExtra(NOTIFICATION_PARAMS, NotificationParams(
+                putExtras(NotificationParams(
                     phoneNumber,
                     reminderId,
                     notificationId,

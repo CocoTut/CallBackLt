@@ -22,6 +22,7 @@ import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.viewModel
 import ru.cherepanovk.feature_events_impl.ARG_EVENT_ID
 import ru.cherepanovk.feature_events_impl.R
+import ru.cherepanovk.feature_events_impl.event.EventOpenParams
 import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
 import javax.inject.Inject
 
@@ -46,13 +47,6 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     override fun inject(componentManager: ComponentManager) {
         componentManager.getOrThrow<EventsComponent>()
             .inject(this)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        model = viewModel(viewModelFactory){
-            observe(failure, errorHandler::onHandleFailure)
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,9 +79,9 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     }
 
     override fun bindViewModel() {
-        with(model) {
+        model = viewModel(viewModelFactory){
+            observe(failure, errorHandler::onHandleFailure)
             observe(currentMonth, ::setCurrentMonth)
-
             observe(emptyListVisibility, ::setEmptyListVisibility)
             observe(years, ::setYears)
             observe(currentYear, ::setCurrentYear)
@@ -117,9 +111,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     }
 
     private fun openEventScreen(id: String?) {
-        val arguments =  Bundle().apply {
-            putString(ARG_EVENT_ID, id)
-        }
+        val arguments =  EventOpenParams(reminderId = id).toBundle()
         val extras = FragmentNavigatorExtras(
             btnAddEvent to getString(R.string.btn_transition_name)
         )

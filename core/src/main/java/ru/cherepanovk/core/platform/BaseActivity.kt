@@ -4,16 +4,20 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import ru.cherepanovk.core.di.ComponentManager
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), ActivityStarter {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    protected abstract var navHost: Int
+
+    protected var startDestination = -1
+
+    protected val navController: NavController by lazy { findNavController(navHost) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //inject(ComponentManager)
         super.onCreate(savedInstanceState)
     }
 
