@@ -10,7 +10,7 @@ object Versions {
 
     object Core {
         const val GRADLE_ANDROID = "3.5.1"
-        const val KOTLIN = "1.3.50"
+        const val KOTLIN = "1.3.61"
         const val GRADLE_VERSIONS = "0.21.0"
         const val GOOGLE = "4.3.0"
         const val DAGGER = "2.25.2"

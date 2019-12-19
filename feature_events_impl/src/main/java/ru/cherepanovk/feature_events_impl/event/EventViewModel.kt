@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core.platform.SingleLiveEvent
 import ru.cherepanovk.core.utils.DateTimeHelper
+import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.feature_events_impl.event.domain.CreateReminderAlarm
 import ru.cherepanovk.feature_events_impl.event.domain.DeleteReminderFromDb
 import ru.cherepanovk.feature_events_impl.event.domain.GetReminderFromDb
@@ -17,7 +18,7 @@ class EventViewModel @Inject constructor(
     private val newReminderMapper: NewReminderMapper,
     private val saveReminderToDb: SaveReminderToDb,
     private val dateTimeHelper: DateTimeHelper,
-    private  val deleteReminderFromDb: DeleteReminderFromDb,
+    private val deleteReminderFromDb: DeleteReminderFromDb,
     private val createReminderAlarm: CreateReminderAlarm
 ) : BaseViewModel() {
 
@@ -37,7 +38,8 @@ class EventViewModel @Inject constructor(
     init {
         loadReminder(id)
     }
-    fun setReminderId(id: String?){
+
+    fun setReminderId(id: String?) {
         this.id = id
     }
 
@@ -51,21 +53,19 @@ class EventViewModel @Inject constructor(
         this.id = id
 
         launchLoading {
-            getReminderFromDb(id) {
-                it.handleSuccess { reminder ->
-                    reminderView.postValue(mapper.map(reminder))
-                }
-            }
+            getReminderFromDb(id) { it.handleSuccess { reminder ->  handleReminder(reminder) } }
         }
+    }
+
+    private fun handleReminder(reminder: Reminder) {
+        reminderView.postValue(mapper.map(reminder))
     }
 
     fun saveReminder(reminderView: ReminderView) {
         reminderView.id = id
         launchLoading {
             saveReminderToDb(newReminderMapper.map(reminderView)) {
-                it.handleSuccess {
-                    createAlarm(reminderView)
-                }
+                it.handleSuccess { reminder -> createAlarm(reminder) }
 
             }
         }
@@ -73,11 +73,11 @@ class EventViewModel @Inject constructor(
 
     }
 
-    private fun createAlarm(reminderView: ReminderView) {
-        launchLoading{
-            createReminderAlarm(reminderView){
+    private fun createAlarm(reminder: Reminder) {
+        launchLoading {
+            createReminderAlarm(reminder) {
                 it.handleSuccess {
-                   success.postValue(true)
+                    success.postValue(true)
                 }
             }
         }

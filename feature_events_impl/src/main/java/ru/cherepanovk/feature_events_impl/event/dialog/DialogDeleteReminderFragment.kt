@@ -22,6 +22,8 @@ import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.event.di.DaggerEventComponent
 import javax.inject.Inject
 import android.view.Window
+import ru.cherepanovk.feature_events_impl.event.dialog.di.DaggerDialogDeleteComponent
+import ru.cherepanovk.feature_events_impl.event.dialog.di.DialogDeleteComponent
 
 
 class DialogDeleteReminderFragment : DialogFragment() {
@@ -39,7 +41,7 @@ class DialogDeleteReminderFragment : DialogFragment() {
     }
 
     private fun inject(componentManager: ComponentManager) {
-            DaggerEventComponent.builder()
+            DaggerDialogDeleteComponent.builder()
                 .contextProvider(componentManager.getOrThrow())
                 .coreDbApi(componentManager.getOrThrow())
                 .build()

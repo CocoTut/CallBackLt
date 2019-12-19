@@ -97,7 +97,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         }
 
         btnDeleteEvent.setOnClickListener {
-            arguments?.getString(ARG_EVENT_ID)?.let { showDeleteDialog(it) }
+            openParams?.reminderId?.let { showDeleteDialog(it) }
         }
 
         tvDate.setOnClickListener {

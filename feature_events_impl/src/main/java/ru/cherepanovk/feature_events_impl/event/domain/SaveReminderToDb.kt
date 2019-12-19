@@ -9,9 +9,9 @@ import javax.inject.Inject
 class SaveReminderToDb @Inject constructor(
     private val eventRepository: EventRepository,
     errorHandler: ErrorHandler
-) : UseCase<Unit, Reminder>(errorHandler) {
+) : UseCase<Reminder, Reminder>(errorHandler) {
 
-    override suspend fun run(params:Reminder) {
+    override suspend fun run(params:Reminder): Reminder {
        return eventRepository.saveReminderToDb(params)
     }
 }

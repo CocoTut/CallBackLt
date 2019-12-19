@@ -12,15 +12,15 @@ import javax.inject.Inject
 class CreateReminderAlarm @Inject constructor(
     private val alarmApi: AlarmApi,
     errorHandler: ErrorHandler
-) : UseCase<Unit, ReminderView>(errorHandler) {
+) : UseCase<Unit, Reminder>(errorHandler) {
 
-    override suspend fun run(params: ReminderView) {
+    override suspend fun run(params: Reminder) {
        val alarmReminder =
            AlarmModel(
-               id = params.id ?: UUID.randomUUID().toString(),
-               phoneNumber = params.phoneNumber,
-               description = params.description,
-               contactName = params.contactName,
+               id = params.id(),
+               phoneNumber = params.phoneNumber(),
+               description = params.description(),
+               contactName = params.contactName(),
                dateTimeEvent = Date()
            )
        return alarmApi.createAlarm(alarmReminder)

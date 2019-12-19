@@ -33,7 +33,6 @@ class EventsViewModel @Inject constructor(
 
 //        loadRemindersFromOldDb()
         loadData()
-//        loadYears()
 
         currentYear.postValue(getCurrentYear())
 
@@ -55,7 +54,7 @@ class EventsViewModel @Inject constructor(
         loadReminders(currentMonth.value ?: getCurrentMonth(), currentYear.value!!)
     }
 
-    fun loadData() {
+    private fun loadData() {
         loadReminders(
             currentMonth.value ?: getCurrentMonth(),
             currentYear.value ?: getCurrentYear()

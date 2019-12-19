@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavArgument
 import androidx.navigation.NavType
-import androidx.navigation.get
 import com.cherepanovky.callbackit.CallBackItMainActivity
 import com.cherepanovky.callbackit.R
 import com.cherepanovky.callbackit.di.FeatureProxyInjector
