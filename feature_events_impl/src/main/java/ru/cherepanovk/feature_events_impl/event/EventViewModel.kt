@@ -1,5 +1,6 @@
 package ru.cherepanovk.feature_events_impl.event
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core.platform.SingleLiveEvent
@@ -18,20 +19,49 @@ class EventViewModel @Inject constructor(
     private val newReminderMapper: NewReminderMapper,
     private val saveReminderToDb: SaveReminderToDb,
     private val dateTimeHelper: DateTimeHelper,
-    private val deleteReminderFromDb: DeleteReminderFromDb,
     private val createReminderAlarm: CreateReminderAlarm
 ) : BaseViewModel() {
 
-    val reminderView = MutableLiveData<ReminderView>()
-    val toolbarTitleNewReminder = MutableLiveData<Boolean>()
-    val success = SingleLiveEvent<Boolean>()
-    val showDatePickerEvent = SingleLiveEvent<DateForPicker>()
-    val showTimePickerEvent = SingleLiveEvent<TimeForPicker>()
-    val eventDate = MutableLiveData<String>()
-    val eventTime = MutableLiveData<String>()
-    val buttonsVisibility = SingleLiveEvent<Boolean>()
-    val hintTimeIsLessThanCurrent = MutableLiveData<Boolean>()
-    val hintDateIsLessThanCurrent = MutableLiveData<Boolean>()
+    private val _reminderView = MutableLiveData<ReminderView>()
+    val reminderView: LiveData<ReminderView>
+        get() = _reminderView
+
+    private val _toolbarTitleNewReminder = MutableLiveData<Boolean>()
+    val toolbarTitleNewReminder: LiveData<Boolean>
+        get() = _toolbarTitleNewReminder
+
+
+    private val _success = SingleLiveEvent<Boolean>()
+    val success: LiveData<Boolean>
+        get() = _success
+
+    private val _showDatePickerEvent = SingleLiveEvent<DateForPicker>()
+    val showDatePickerEvent: LiveData<DateForPicker>
+        get() = _showDatePickerEvent
+
+    private val _showTimePickerEvent = SingleLiveEvent<TimeForPicker>()
+    val showTimePickerEvent: LiveData<TimeForPicker>
+        get() = _showTimePickerEvent
+
+    private val _eventDate = MutableLiveData<String>()
+    val eventDate: LiveData<String>
+        get() = _eventDate
+
+    private val _eventTime = MutableLiveData<String>()
+    val eventTime: LiveData<String>
+        get() = _eventTime
+
+    private val _buttonsVisibility = SingleLiveEvent<Boolean>()
+    val buttonsVisibility: LiveData<Boolean>
+        get() = _buttonsVisibility
+
+    private val _hintTimeIsLessThanCurrent = MutableLiveData<Boolean>()
+    val hintTimeIsLessThanCurrent: LiveData<Boolean>
+        get() = _hintTimeIsLessThanCurrent
+
+    private val _hintDateIsLessThanCurrent = MutableLiveData<Boolean>()
+    val hintDateIsLessThanCurrent: LiveData<Boolean>
+        get() = _hintDateIsLessThanCurrent
 
     private var id: String? = null
 
@@ -44,8 +74,8 @@ class EventViewModel @Inject constructor(
     }
 
     fun loadReminder(id: String?) {
-        toolbarTitleNewReminder.postValue(id == null)
-        buttonsVisibility.postValue(id != null)
+        _toolbarTitleNewReminder.postValue(id == null)
+        _buttonsVisibility.postValue(id != null)
         if (id == null) {
             setCurrentDate()
             return
@@ -53,12 +83,12 @@ class EventViewModel @Inject constructor(
         this.id = id
 
         launchLoading {
-            getReminderFromDb(id) { it.handleSuccess { reminder ->  handleReminder(reminder) } }
+            getReminderFromDb(id) { it.handleSuccess { reminder -> handleReminder(reminder) } }
         }
     }
 
     private fun handleReminder(reminder: Reminder) {
-        reminderView.postValue(mapper.map(reminder))
+        _reminderView.postValue(mapper.map(reminder))
     }
 
     fun saveReminder(reminderView: ReminderView) {
@@ -77,7 +107,7 @@ class EventViewModel @Inject constructor(
         launchLoading {
             createReminderAlarm(reminder) {
                 it.handleSuccess {
-                    success.postValue(true)
+                    _success.postValue(true)
                 }
             }
         }
@@ -90,7 +120,7 @@ class EventViewModel @Inject constructor(
             month = dateTimeHelper.getMonthFromDate(date),
             day = dateTimeHelper.getDayFromDate(date)
         )
-        showDatePickerEvent.postValue(dateForPicker)
+        _showDatePickerEvent.postValue(dateForPicker)
     }
 
     fun onTimeClick(eventTime: String, eventDate: String) {
@@ -99,7 +129,7 @@ class EventViewModel @Inject constructor(
             hours = dateTimeHelper.getHoursFromDate(date),
             minutes = dateTimeHelper.getMinutesFromDate(date)
         )
-        showTimePickerEvent.postValue(timeForPicker)
+        _showTimePickerEvent.postValue(timeForPicker)
     }
 
     fun onDateSet(dateForPicker: DateForPicker) {
@@ -108,9 +138,9 @@ class EventViewModel @Inject constructor(
             dateForPicker.month,
             dateForPicker.day
         )
-        eventDate.postValue(dateTimeHelper.getDateString(date))
+        _eventDate.postValue(dateTimeHelper.getDateString(date))
 
-        hintDateIsLessThanCurrent.postValue(isDateLessThanCurrent(date))
+        _hintDateIsLessThanCurrent.postValue(isDateLessThanCurrent(date))
     }
 
     fun onTimeSet(timeForPicker: TimeForPicker) {
@@ -118,9 +148,9 @@ class EventViewModel @Inject constructor(
             timeForPicker.hours,
             timeForPicker.minutes
         )
-        eventTime.postValue(dateTimeHelper.getTimeString(date))
+        _eventTime.postValue(dateTimeHelper.getTimeString(date))
 
-        hintTimeIsLessThanCurrent.postValue(isDateLessThanCurrent(date))
+        _hintTimeIsLessThanCurrent.postValue(isDateLessThanCurrent(date))
     }
 
     private fun isDateLessThanCurrent(date: Date): Boolean {
@@ -130,8 +160,8 @@ class EventViewModel @Inject constructor(
 
     private fun setCurrentDate() {
         val currentDate = dateTimeHelper.getCurrentDatePlusMinutes(1)
-        eventDate.postValue(dateTimeHelper.getDateString(currentDate))
-        eventTime.postValue(dateTimeHelper.getTimeString(currentDate))
+        _eventDate.postValue(dateTimeHelper.getDateString(currentDate))
+        _eventTime.postValue(dateTimeHelper.getTimeString(currentDate))
     }
 
 }

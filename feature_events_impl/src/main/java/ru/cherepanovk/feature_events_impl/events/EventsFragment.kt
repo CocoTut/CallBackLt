@@ -41,7 +41,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
 
     private lateinit var popupMenu: PopupMenu
     private val yearsAdapter: ArrayAdapter<String> by lazy {
-        ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line)
+        ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line)
     }
 
     override fun inject(componentManager: ComponentManager) {
@@ -85,8 +85,8 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             observe(emptyListVisibility, ::setEmptyListVisibility)
             observe(years, ::setYears)
             observe(currentYear, ::setCurrentYear)
+            observe(itemsReminder, ::setItems)
         }
-        model.itemsReminder.observe(this, Observer { setItems(it) })
     }
 
     private fun setYears(years: List<String>) {

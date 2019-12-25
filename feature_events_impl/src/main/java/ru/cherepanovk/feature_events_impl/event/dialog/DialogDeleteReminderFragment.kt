@@ -36,7 +36,6 @@ class DialogDeleteReminderFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         inject(ComponentManager)
-
         model = viewModel(viewModelFactory)
     }
 
@@ -63,9 +62,14 @@ class DialogDeleteReminderFragment : DialogFragment() {
         return inflater.inflate(R.layout.dialog_delete_reminder, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        bindViewModel()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         bindListeners()
-        bindViewModel()
+
     }
 
     override fun onResume() {

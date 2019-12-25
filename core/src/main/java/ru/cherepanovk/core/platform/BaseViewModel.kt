@@ -19,7 +19,9 @@ import kotlin.coroutines.CoroutineContext
  */
 abstract class BaseViewModel : ViewModel(), CoroutineScope {
 
-    val failure: SingleLiveEvent<Failure> = SingleLiveEvent()
+    private val _failure = SingleLiveEvent<Failure>()
+    val failure: LiveData<Failure>
+        get() = _failure
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean>
@@ -27,8 +29,8 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
 
 
     fun handleFailure(failure: Failure) {
-        this._isLoading.value = false
-        this.failure.value = failure
+        this._isLoading.postValue(false)
+        this._failure.postValue(failure)
     }
 
     override val coroutineContext: CoroutineContext

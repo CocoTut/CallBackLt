@@ -14,7 +14,8 @@ import javax.inject.Inject
 
 abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), ActivityStarter {
 
-    protected val componentManager get() = ComponentManager
+    private val componentManager: ComponentManager
+        get() = ComponentManager
 
     @Inject lateinit var viewModelFactory: ViewModelFactory
 
@@ -26,6 +27,11 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         inject(componentManager)
+
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         bindViewModel()
     }
 

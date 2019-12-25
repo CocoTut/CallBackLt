@@ -1,5 +1,6 @@
 package ru.cherepanovk.feature_events_impl.events
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.flow.Flow
@@ -23,34 +24,48 @@ class EventsViewModel @Inject constructor(
     private val getYearsFromDb: GetYearsFromDb
 ) : BaseViewModel() {
 
-    val currentMonth = MutableLiveData<Int>()
-    val currentYear = MutableLiveData<Int>()
-    val itemsReminder = MediatorLiveData<List<ItemReminder>>()
-    val emptyListVisibility = MediatorLiveData<Boolean>()
-    val years = MutableLiveData<List<String>>()
+    private val _currentMonth = MutableLiveData<Int>()
+    val currentMonth: LiveData<Int>
+        get() = _currentMonth
+
+    private val _currentYear = MutableLiveData<Int>()
+    val currentYear: LiveData<Int>
+        get() = _currentYear
+
+    private val _itemsReminder = MediatorLiveData<List<ItemReminder>>()
+    val itemsReminder: LiveData<List<ItemReminder>>
+        get() = _itemsReminder
+
+    private val _emptyListVisibility = MediatorLiveData<Boolean>()
+    val emptyListVisibility: LiveData<Boolean>
+        get() = _emptyListVisibility
+
+    private val _years = MutableLiveData<List<String>>()
+    val years: LiveData<List<String>>
+        get() = _years
 
     init {
 
 //        loadRemindersFromOldDb()
         loadData()
 
-        currentYear.postValue(getCurrentYear())
+        _currentYear.postValue(getCurrentYear())
 
-        currentMonth.postValue(getCurrentMonth())
+        _currentMonth.postValue(getCurrentMonth())
 
-        emptyListVisibility.addSource(itemsReminder) { items ->
-            emptyListVisibility.postValue(items.isEmpty())
+        _emptyListVisibility.addSource(itemsReminder) { items ->
+            _emptyListVisibility.postValue(items.isEmpty())
         }
     }
 
 
     fun onMonthClick(month: Int) {
-        currentMonth.postValue(month)
+        _currentMonth.postValue(month)
         loadReminders(month, currentYear.value ?: getCurrentYear())
     }
 
     fun yearSelected(year: Int?) {
-        currentYear.value = year ?: getCurrentYear()
+        _currentYear.value = year ?: getCurrentYear()
         loadReminders(currentMonth.value ?: getCurrentMonth(), currentYear.value!!)
     }
 
@@ -82,7 +97,7 @@ class EventsViewModel @Inject constructor(
         launch {
             reminders.collect {
                 val items = it.map { reminder -> itemReminderMapper.map(reminder) }
-                itemsReminder.postValue(items)
+                _itemsReminder.postValue(items)
             }
         }
     }
@@ -91,7 +106,7 @@ class EventsViewModel @Inject constructor(
         launchLoading {
             getYearsFromDb(UseCase.None()) {
                 it.handleSuccess { list ->
-                    years.postValue(list)
+                    _years.postValue(list)
                 }
             }
         }

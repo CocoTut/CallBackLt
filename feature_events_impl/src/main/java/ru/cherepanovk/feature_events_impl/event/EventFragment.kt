@@ -65,7 +65,10 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         sharedElementEnterTransition = TransitionInflater.from(context)
             .inflateTransition(android.R.transition.move)
             .apply { interpolator = AccelerateDecelerateInterpolator() }
+    }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         if (firstTimeCreated(savedInstanceState))
             model.loadReminder(openParams?.reminderId)
     }
@@ -179,10 +182,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
     private fun showDeleteDialog(id: String) {
         val dialogFragment = DialogDeleteReminderFragment.newInstance(id)
-        val transaction = childFragmentManager
-            .beginTransaction()
-            .add(dialogFragment, dialogFragment::class.java.canonicalName)
-        transaction.commit()
+        dialogFragment.show(childFragmentManager,  DialogDeleteReminderFragment::class.java.canonicalName)
     }
 
 

@@ -51,16 +51,16 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
 
-
-             <include
-                 android:id="@+id/emptyList"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 layout="@layout/empty_list"
-                 app:layout_constraintBottom_toBottomOf="parent"
-                 app:layout_constraintEnd_toEndOf="parent"
-                 app:layout_constraintStart_toStartOf="parent"
-                 app:layout_constraintTop_toTopOf="parent"/>
+            <include
+                android:id="@+id/emptyList"
+                layout="@layout/empty_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <ProgressBar
