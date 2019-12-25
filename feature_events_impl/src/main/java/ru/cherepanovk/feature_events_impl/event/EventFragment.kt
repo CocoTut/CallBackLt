@@ -1,29 +1,26 @@
 package ru.cherepanovk.feature_events_impl.event
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.DatePicker
 import android.widget.TimePicker
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import kotlinx.android.synthetic.main.fragment_event.*
-import kotlinx.android.synthetic.main.fragment_event.tvDate
 import kotlinx.android.synthetic.main.toolbar_back_title.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.exception.ErrorHandler
+import ru.cherepanovk.core.platform.ActivityStarter
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.utils.extentions.observe
+import ru.cherepanovk.core.utils.extentions.pickContacts
 import ru.cherepanovk.core.utils.extentions.viewModel
-import ru.cherepanovk.feature_events_impl.ARG_EVENT_ID
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.event.di.DaggerEventComponent
 import ru.cherepanovk.feature_events_impl.event.dialog.DialogDeleteReminderFragment
@@ -31,9 +28,14 @@ import ru.cherepanovk.imgurtest.utils.extensions.afterTextChanged
 import ru.cherepanovk.imgurtest.utils.extensions.hideKeyboard
 import javax.inject.Inject
 
+private const val REQUEST_CONTACT_PICKER = 1006
+private const val CURSOR_CONTACT_NAME = 0
+private const val CURSOR_PHONE_NUMBER = 1
+
 class EventFragment : BaseFragment(R.layout.fragment_event),
     DatePickerDialog.OnDateSetListener,
-    TimePickerDialog.OnTimeSetListener {
+    TimePickerDialog.OnTimeSetListener,
+    ActivityStarter {
 
     private lateinit var model: EventViewModel
     private val openParams
@@ -41,6 +43,13 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
     @Inject
     lateinit var errorHandler: ErrorHandler
+
+    private val contactsData: Array<String> by lazy {
+        arrayOf(
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY,
+            ContactsContract.CommonDataKinds.Phone.NUMBER
+        )
+    }
 
     override fun inject(componentManager: ComponentManager) {
         DaggerEventComponent.builder()
@@ -116,6 +125,10 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
                 tilContactName.error = null
         }
 
+        btnOpenContacts.setOnClickListener {
+            pickContacts(REQUEST_CONTACT_PICKER)
+        }
+
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
@@ -128,6 +141,32 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         model.onTimeSet(
             TimeForPicker(hourOfDay, minute)
         )
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK &&
+            requestCode == REQUEST_CONTACT_PICKER
+        ) {
+            settContactFromUri(data)
+        }
+    }
+
+    private fun settContactFromUri(data: Intent?) {
+        data?.data?.let { dataUri ->
+            val cursor = requireActivity().contentResolver.query(
+                dataUri, contactsData, null, null, null
+            )
+            cursor?.moveToNext()
+            cursor?.getString(CURSOR_CONTACT_NAME)?.let {
+                etContactNameEvent.setText(it)
+            }
+
+            cursor?.getString(CURSOR_PHONE_NUMBER)?.let {
+                etPhoneNumberEvent.setText(it)
+            }
+            cursor?.close()
+        }
     }
 
     private fun showTimeHint(visible: Boolean) {
