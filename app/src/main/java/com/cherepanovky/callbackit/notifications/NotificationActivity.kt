@@ -54,7 +54,6 @@ class NotificationActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-
         startActivity(Intent(this, CallBackItMainActivity::class.java))
         super.onBackPressed()
     }

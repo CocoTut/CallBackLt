@@ -100,7 +100,7 @@ class DialogDeleteReminderFragment : DialogFragment() {
 
 
     private fun openEventsScreen(open: Boolean?) {
-        findNavController().popBackStack(R.id.eventsFragment, false)
+        requireActivity().onBackPressed()
     }
 
     private fun handleError(failure: Failure?) {

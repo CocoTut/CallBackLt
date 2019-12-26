@@ -2,8 +2,10 @@ package com.cherepanovky.callbackit.di
 
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
-import ru.cherepanovk.core.platform.RootView
+import ru.cherepanovk.core_db_api.di.CoreDbApi
 import ru.cherepanovk.core_db_impl.di.DaggerCoreDbComponent
+import ru.cherepanovk.core_domain_api.di.CoreDomainApi
+
 import ru.cherepanovk.core_domain_impl.di.DaggerCoreDomainComponent
 import ru.cherepanovk.feature_events_api.EventsFeatureApi
 import ru.cherepanovk.feature_events_impl.events.di.DaggerEventsComponent
@@ -13,20 +15,27 @@ import ru.cherepanovk.feature_settings_impl.di.DaggerSettingsComponent
 
 class FeatureProxyInjector {
     companion object {
-        fun getEventsFeature(): EventsFeatureApi{
+        fun getEventsFeature(): EventsFeatureApi {
             return DaggerEventsComponent.builder()
                 .contextProvider(ComponentManager.getOrThrow())
                 .rootViewProvider(ComponentManager.getOrThrow())
                 .coreDbApi(
-                    DaggerCoreDbComponent.builder()
-                        .contextProvider(ComponentManager.getOrThrow())
-                        .build()
-                        .also { ComponentManager.put(it) }
+                    if (ComponentManager.has(CoreDbApi::class))
+                        ComponentManager.getOrThrow()
+                    else
+                        DaggerCoreDbComponent.builder()
+                            .contextProvider(ComponentManager.getOrThrow())
+                            .build()
+                            .also { ComponentManager.put(it) }
                 )
-                .coreDomainApi(DaggerCoreDomainComponent.builder()
-                    .contextProvider(ComponentManager.getOrThrow())
-                    .build()
-                    .also { ComponentManager.put(it) }
+                .coreDomainApi(
+                    if (ComponentManager.has(CoreDomainApi::class))
+                        ComponentManager.getOrThrow()
+                    else
+                        DaggerCoreDomainComponent.builder()
+                            .contextProvider(ComponentManager.getOrThrow())
+                            .build()
+                            .also { ComponentManager.put(it) }
                 )
                 .build()
                 .also { ComponentManager.put(it) }

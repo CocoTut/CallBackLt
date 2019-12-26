@@ -9,6 +9,8 @@ import ru.cherepanovk.core_db_impl.data.room.CallBackLtDb
 import ru.cherepanovk.core_db_impl.data.room.entities.ReminderEntity
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Singleton
+
 
 class DbApiImpl @Inject constructor(
     private val localBase: LocalBase,
