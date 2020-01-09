@@ -5,4 +5,6 @@ import android.net.Uri
 interface AlarmApi {
 
     fun createAlarm(alarmReminder: AlarmReminder)
+
+    fun cancelAlarm(alarmReminder: AlarmReminder)
 }

@@ -21,23 +21,10 @@ class CreateReminderAlarm @Inject constructor(
                phoneNumber = params.phoneNumber(),
                description = params.description(),
                contactName = params.contactName(),
-               dateTimeEvent = Date()
+               dateTimeEvent = params.dateTimeEvent()
            )
        return alarmApi.createAlarm(alarmReminder)
     }
 
 
-    private class AlarmModel (
-        private val id: String,
-        private val phoneNumber: String = "",
-        private val description: String = "",
-        private val contactName: String,
-        private val dateTimeEvent: Date
-    ): AlarmReminder{
-        override fun id() = id
-        override fun description() = description
-        override fun phoneNumber() = phoneNumber
-        override fun contactName() = contactName
-        override fun dateTimeEvent() = dateTimeEvent
-    }
 }

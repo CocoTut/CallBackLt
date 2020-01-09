@@ -43,6 +43,7 @@ class DialogDeleteReminderFragment : DialogFragment() {
             DaggerDialogDeleteComponent.builder()
                 .contextProvider(componentManager.getOrThrow())
                 .coreDbApi(componentManager.getOrThrow())
+                .coreDomainApi(componentManager.getOrThrow())
                 .build()
                 .injectDialog(this)
     }

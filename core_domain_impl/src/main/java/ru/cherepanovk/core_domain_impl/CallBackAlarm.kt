@@ -33,6 +33,10 @@ class CallBackAlarm @Inject constructor(
         )
     }
 
+    override fun cancelAlarm(alarmReminder: AlarmReminder) {
+       alarmManager.cancel(getPendingIntentForAm(alarmReminder))
+    }
+
     private fun getPendingIntentForAm(alarmReminder: AlarmReminder): PendingIntent {
 
         val data = Uri.parse(alarmReminder.dateTimeEvent().time.toString())
