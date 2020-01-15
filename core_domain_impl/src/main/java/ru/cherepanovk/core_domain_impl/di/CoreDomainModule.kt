@@ -6,8 +6,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import ru.cherepanovk.core_domain_api.data.AlarmApi
+import ru.cherepanovk.core_domain_api.data.CallListenerHadler
 import ru.cherepanovk.core_domain_api.data.NotificationChannelCreator
 import ru.cherepanovk.core_domain_impl.CallBackAlarm
+import ru.cherepanovk.core_domain_impl.callservices.CallListenerHadlerImpl
 import ru.cherepanovk.core_domain_impl.notifications.NotificationChannelCreatorImpl
 
 @Module
@@ -18,6 +20,10 @@ abstract class  CoreDomainModule {
     @Binds
     abstract fun bindNotificationChannelCreator(notificationChannelCreatorImpl: NotificationChannelCreatorImpl)
             : NotificationChannelCreator
+
+    @Binds
+    abstract fun bindCallListenerHandler(callListenerHadlerImpl: CallListenerHadlerImpl): CallListenerHadler
+
 
     @Module
     companion object{

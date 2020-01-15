@@ -5,4 +5,6 @@
     <string name="action_open_reminder" translatable="false">com.cherepanovky.action.open_reminder</string>
     <string name="channel_id" >Default channel</string>
     <string name="btn_notification_cal">Call</string>
+    <string name="mute_channel_id">Mute channel</string>
+    <string name="stop_foreground">STOP</string>
 </resources>
