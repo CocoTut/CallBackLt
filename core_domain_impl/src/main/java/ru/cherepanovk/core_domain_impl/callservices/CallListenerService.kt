@@ -7,18 +7,20 @@ import android.content.Intent
 import android.os.IBinder
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
+import kotlinx.coroutines.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core_domain_impl.callservices.di.DaggerCallServicesComponent
 import ru.cherepanovk.core_domain_impl.notifications.CallListenerNotificationCreator
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 
-class CallListenerService : Service() {
+class CallListenerService : Service(), CoroutineScope by CoroutineScope(Dispatchers.IO) {
 
-    private val telephonyManager: TelephonyManager by lazy {
-        getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-    }
+    private val listener = CallPhoneStateListener()
+    val telephonyManager: TelephonyManager by lazy {  getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager }
+
     @Inject
     lateinit var callListenerNotificationCreator: CallListenerNotificationCreator
 
@@ -39,7 +41,9 @@ class CallListenerService : Service() {
         when (intent?.action) {
             START_FOREGROUND_ACTION -> {
                 startForegroundAction()
-                startCallListen()
+                launch {
+                    startCallListen()
+                }
             }
             STOP_FOREGROUND_ACTION -> stopForegroundAction()
         }
@@ -48,6 +52,8 @@ class CallListenerService : Service() {
 
 
     private fun stopForegroundAction() {
+        telephonyManager.listen(listener, PhoneStateListener.LISTEN_NONE)
+        cancel()
         stopForeground(true)
     }
 
@@ -68,12 +74,17 @@ class CallListenerService : Service() {
             NOTIFICATION_ID,
             callListenerNotificationCreator.getNotification(stopPending)
         )
+
+
     }
 
-    private fun startCallListen() {
+    private suspend fun startCallListen() {
 
-        val listener = CallPhoneStateListener(this)
         telephonyManager.listen(listener, PhoneStateListener.LISTEN_CALL_STATE)
+        while (true) {
+            delay(1000)
+            println("${Thread.currentThread()} coroutines2")
+        }
     }
 
 
@@ -84,4 +95,5 @@ class CallListenerService : Service() {
         private const val STOP_REQUEST_CODE = 321987
 
     }
+
 }

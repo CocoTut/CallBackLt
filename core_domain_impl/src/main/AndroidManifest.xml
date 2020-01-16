@@ -1,8 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.cherepanovk.core_domain_impl">
+
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+
     <application>
+        <receiver
+            android:name=".BootCompleteReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+
+        <receiver
+            android:name=".callservices.CallStateReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.READ_PHONE_STATE">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="com.cherepanovky.callbackit.phoneState" />
+            </intent-filter>
+        </receiver>
         <receiver
             android:name=".notifications.NotificationActionsReceiver"
             android:enabled="true"
@@ -10,7 +37,6 @@
             <intent-filter>
                 <action android:name="@string\action_call" />
             </intent-filter>
-
         </receiver>
         <receiver
             android:name=".notifications.NotificationReceiver"
@@ -25,12 +51,10 @@
             android:name=".notifications.NotificationService"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
         <service
             android:name=".callservices.CallListenerService"
             android:enabled="true"
-            android:exported="false"/>
-
+            android:exported="false" />
     </application>
 
 </manifest>

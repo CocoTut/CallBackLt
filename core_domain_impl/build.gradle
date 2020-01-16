@@ -25,8 +25,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':core_domain_api')
     implementation project(':core')
+    implementation project(':core_db_api')
+    implementation project(':core_domain_api')
 
     implementation Libs.Core.KOTLIN_STDLIB
     implementation Libs.AndroidX.ANDROIDX_APPCOMPAT
@@ -39,5 +40,9 @@ dependencies {
     //dagger 2
     implementation Libs.Core.DAGGER
     kapt Libs.Core.DAGGER_COMPILER
+
+    //kotlin coroutines
+    implementation Libs.Core.COROUTINES_CORE
+    implementation Libs.Core.COROUTINES_ANDROID
 
 }
