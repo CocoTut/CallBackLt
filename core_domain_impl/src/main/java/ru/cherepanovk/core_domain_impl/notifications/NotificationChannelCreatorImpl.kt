@@ -86,8 +86,8 @@ class NotificationChannelCreatorImpl @Inject constructor(
     }
 
     private fun isChannelCreated(channelId: String): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            return notificationManager.getNotificationChannel(channelId) != null
-        else throw UnknownServiceException("SDK version is earlier than Build.VERSION_CODES.O")
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            notificationManager.getNotificationChannel(channelId) != null
+        else true
     }
 }

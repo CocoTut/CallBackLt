@@ -1,5 +1,6 @@
 package com.cherepanovky.callbackit
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -12,6 +13,7 @@ import androidx.navigation.findNavController
 import com.cherepanovky.callbackit.di.DaggerMainActivityComponent
 import com.cherepanovky.callbackit.di.FeatureProxyInjector
 import com.cherepanovky.callbackit.di.MainActivityModule
+import com.cherepanovky.callbackit.notifications.ServiceActivity
 import kotlinx.android.synthetic.main.activity_route.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
@@ -40,9 +42,6 @@ class CallBackItMainActivity : BaseActivity() {
         setNavigation()
 
         bindListeners()
-
-
-
     }
 
     override fun inject(componentManager: ComponentManager) {

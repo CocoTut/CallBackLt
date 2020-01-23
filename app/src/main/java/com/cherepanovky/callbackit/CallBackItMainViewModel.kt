@@ -13,6 +13,6 @@ class CallBackItMainViewModel @Inject constructor(
     init {
         notificationChannelCreator.createDefaultNotificationChannel(ringtoneUri = null)
         notificationChannelCreator.createMuteNotificationChannel()
-        callListenerHandler.startCallLister()
+//        callListenerHandler.startCallLister()
     }
 }

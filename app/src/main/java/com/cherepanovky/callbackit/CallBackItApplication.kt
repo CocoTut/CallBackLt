@@ -9,6 +9,7 @@ import ru.cherepanovk.core.di.ComponentManager
 class CallBackItApplication: Application() {
     override fun onCreate() {
         super.onCreate()
+        println("CallBackItApplication")
         initComponentManager()
     }
 

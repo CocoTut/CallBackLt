@@ -1,16 +1,27 @@
 package ru.cherepanovk.core_domain_impl
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.util.Log
-import android.widget.Toast
-import timber.log.Timber
+import android.content.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import ru.cherepanovk.core.di.ComponentManager
+import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core_domain_impl.callservices.CallListenerHandlerImpl
+import ru.cherepanovk.core_domain_impl.callservices.CallStateStarterJob
+import ru.cherepanovk.core_domain_impl.callservices.di.DaggerCallServicesComponent
+import javax.inject.Inject
 
-class BootCompleteReceiver : BroadcastReceiver() {
+class BootCompleteReceiver : BroadcastReceiver(), CoroutineScope by CoroutineScope(Dispatchers.IO) {
+
+    @Inject
+    lateinit var callListenerHandler: CallListenerHandlerImpl
 
     override fun onReceive(context: Context, intent: Intent) {
-//        Toast.makeText(context, "Boot is completed1!", Toast.LENGTH_SHORT).show()
-        println("RECEIVE_BOOT_COMPLETED111")
+        DaggerCallServicesComponent.builder()
+            .contextProvider(ComponentManager.getOrThrow())
+            .build()
+            .injectBootCompleteReceiver(this)
+
+//        callListenerHandler.startCallLister()
+//        CallStateStarterJob.enqueueWork(context, intent)
     }
 }

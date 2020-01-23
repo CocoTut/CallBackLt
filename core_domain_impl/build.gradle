@@ -27,6 +27,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':core')
     implementation project(':core_db_api')
+    implementation project(':core_db_impl')
     implementation project(':core_domain_api')
 
     implementation Libs.Core.KOTLIN_STDLIB

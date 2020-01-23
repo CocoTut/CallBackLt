@@ -3,12 +3,12 @@ package ru.cherepanovk.core_domain_impl.notifications
 import android.os.Bundle
 import ru.cherepanovk.core.utils.OpenParams
 
-class NotificationParams (
-    val phoneNumber: String?,
-    val reminderId: String?,
+class NotificationParams(
+    val phoneNumber: String? = null,
+    val reminderId: String? = null,
     val notificationId: Int? = null,
-    val description: String?,
-    val contactName: String?
+    val description: String? = null,
+    val contactName: String? = null
 ) : OpenParams {
 
     override fun toBundle(bundle: Bundle?): Bundle {
@@ -28,7 +28,7 @@ class NotificationParams (
                 reminderId = bundle?.getString(REMINDER_ID),
                 notificationId = bundle?.getInt(NOTIFICATION_ID) ?: NOTIFICATION_ID_DEFAULT,
                 description = bundle?.getString(DESCRIPTION),
-                contactName =  bundle?.getString(CONTACT_NAME)
+                contactName = bundle?.getString(CONTACT_NAME)
             )
         }
 

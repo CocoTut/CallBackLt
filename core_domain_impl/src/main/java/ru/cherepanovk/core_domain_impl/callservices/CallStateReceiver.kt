@@ -1,20 +1,54 @@
 package ru.cherepanovk.core_domain_impl.callservices
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
+import android.content.*
+import android.os.Handler
+import android.os.IBinder
+import android.telephony.TelephonyManager
 import android.util.Log
 import android.widget.Toast
+import kotlinx.coroutines.*
+import ru.cherepanovk.core_db_api.data.DbApi
+import ru.cherepanovk.core_domain_impl.callservices.di.DaggerCallServicesComponent
+import ru.cherepanovk.core_domain_impl.notifications.NotificationCreator
+import ru.cherepanovk.core_domain_impl.notifications.NotificationParams
+import timber.log.Timber
+import javax.inject.Inject
 
-class CallStateReceiver : BroadcastReceiver() {
+class CallStateReceiver : BroadcastReceiver(), CoroutineScope by CoroutineScope(Dispatchers.IO) {
+
+    private lateinit var context: Context
+
+//    @Inject
+//    lateinit var dbApi: DbApi
 
     override fun onReceive(context: Context, intent: Intent) {
-        val serviceIntent = Intent(context, CallNotificationService::class.java).apply {
-            action = CallListenerService.START_FOREGROUND_ACTION
-            putExtra("extras", intent.extras)
-        }
-        context.startService(serviceIntent)
-        Toast.makeText(context, "Call!", Toast.LENGTH_SHORT).show()
+        this.context = context
 
+        launch {
+            val extras = intent.extras
+            extras?.getString(TelephonyManager.EXTRA_STATE)?.let {state ->
+                if (state != TelephonyManager.EXTRA_STATE_IDLE)
+                    extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER)?.let {phoneNumer ->
+                        showNotification(phoneNumer)
+                    }
+            }
+
+
+
+        }
     }
+
+    private fun showNotification(phoneNumber: String) {
+        val params = NotificationParams(contactName = phoneNumber)
+
+        val notificationCreator = NotificationCreator.Builder(context)
+            .addCallAction(params)
+            .addOpenReminderAction(params)
+            .setMessage(params)
+            .build()
+        notificationCreator.createNotification()
+        cancel()
+    }
+
+
 }

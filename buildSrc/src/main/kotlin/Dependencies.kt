@@ -25,8 +25,9 @@ object Versions {
         const val ANDROIDX_CONSTRAINT_LAYOUT = "1.1.3"
         const val ANDROIDX_CARD_VIEW = "1.0.0"
         const val ANDROIDX_LEGACY_SUPPORT = "1.0.0"
-        const val ANDROIDX_LIFECYCLE_EXTENSIONS = "2.0.0"
+        const val ANDROIDX_LIFECYCLE_EXTENSIONS = "2.1.0-rc01"
         const val ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX = "2.2.0-alpha03"
+        const val ANDROIDX_FRAGMENT_KTX = "1.1.0-rc01"
     }
 
     object FireBase {
@@ -105,6 +106,7 @@ object Libs {
         const val ANDROIDX_LEGACY_SUPPORT = "androidx.legacy:legacy-support-v4:${Versions.AndroidX.ANDROIDX_LEGACY_SUPPORT}"
         const val ANDROIDX_LIFECYCLE_EXTENSIONS = "androidx.lifecycle:lifecycle-extensions:${Versions.AndroidX.ANDROIDX_LIFECYCLE_EXTENSIONS}"
         const val ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX}"
+        const val ANDROIDX_FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Versions.AndroidX.ANDROIDX_FRAGMENT_KTX}"
 
     }
 

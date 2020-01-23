@@ -1,4 +1,4 @@
-package ru.cherepanovk.core.utils
+package ru.cherepanovk.core.utils.extentions
 
 /**
  * Removes [key] iff value associated with it is equals to value

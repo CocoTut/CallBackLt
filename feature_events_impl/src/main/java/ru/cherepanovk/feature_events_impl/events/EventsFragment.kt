@@ -1,11 +1,13 @@
 package ru.cherepanovk.feature_events_impl.events
 
+import android.Manifest
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.PopupMenu
 import androidx.core.view.children
 import androidx.lifecycle.Observer
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +20,7 @@ import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.platform.ErrorHandler
+import ru.cherepanovk.core.utils.extentions.beforeRequestPermissions
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.viewModel
 import ru.cherepanovk.feature_events_impl.ARG_EVENT_ID
@@ -26,9 +29,11 @@ import ru.cherepanovk.feature_events_impl.event.EventOpenParams
 import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
 import javax.inject.Inject
 
+const val PERMISSIONS_REQUEST_CODE = 302
+
 class EventsFragment : BaseFragment(R.layout.fragment_events) {
 
-    private lateinit var model: EventsViewModel
+    private val model by viewModels<EventsViewModel> { viewModelFactory }
 
     @Inject
     lateinit var errorHandler: ErrorHandler
@@ -39,9 +44,20 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
         }
     }
 
+
     private lateinit var popupMenu: PopupMenu
     private val yearsAdapter: ArrayAdapter<String> by lazy {
         ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        beforeRequestPermissions(
+            PERMISSIONS_REQUEST_CODE,
+            true,
+            Manifest.permission.READ_CONTACTS,
+            Manifest.permission.READ_CALL_LOG,
+            Manifest.permission.READ_PHONE_STATE)
     }
 
     override fun inject(componentManager: ComponentManager) {
@@ -79,7 +95,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     }
 
     override fun bindViewModel() {
-        model = viewModel(viewModelFactory){
+        with(model) {
             observe(failure, errorHandler::onHandleFailure)
             observe(currentMonth, ::setCurrentMonth)
             observe(emptyListVisibility, ::setEmptyListVisibility)
@@ -99,7 +115,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
         tvToolbarMonths.setOnClickListener { popupMenu.show() }
 
         btnAddEvent.setOnClickListener {
-          openEventScreen(null)
+            openEventScreen(null)
         }
 
         popupMenu.setOnMenuItemClickListener { item ->
@@ -111,7 +127,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     }
 
     private fun openEventScreen(id: String?) {
-        val arguments =  EventOpenParams(reminderId = id).toBundle()
+        val arguments = EventOpenParams(reminderId = id).toBundle()
         val extras = FragmentNavigatorExtras(
             btnAddEvent to getString(R.string.btn_transition_name)
         )

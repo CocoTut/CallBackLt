@@ -8,7 +8,7 @@ import android.telephony.TelephonyManager
 class CallPhoneStateListener : PhoneStateListener() {
     override fun onCallStateChanged(state: Int, incomingNumber: String?) {
         super.onCallStateChanged(state, incomingNumber)
-
+        println("Boot is completed1! CallPhoneStateListener")
 //        when(state){
 //            TelephonyManager.CALL_STATE_RINGING ->  startNotificationJobService(incomingNumber, state.toString())
 //            TelephonyManager.CALL_STATE_OFFHOOK -> startNotificationJobService(incomingNumber, state.toString())

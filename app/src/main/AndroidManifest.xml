@@ -16,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".notifications.ServiceActivity">
+            <intent-filter>
+                <action android:name="com.cherepanovky.action.start_service" />
+            </intent-filter>
+
+        </activity>
         <activity android:name=".notifications.NotificationActivity">
             <intent-filter>
                 <action android:name="com.cherepanovky.action.open_reminder" />
