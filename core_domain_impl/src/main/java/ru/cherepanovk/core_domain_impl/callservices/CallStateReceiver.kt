@@ -14,27 +14,18 @@ import ru.cherepanovk.core_domain_impl.notifications.NotificationParams
 import timber.log.Timber
 import javax.inject.Inject
 
-class CallStateReceiver : BroadcastReceiver(), CoroutineScope by CoroutineScope(Dispatchers.IO) {
+class CallStateReceiver : BroadcastReceiver() {
 
     private lateinit var context: Context
 
-//    @Inject
-//    lateinit var dbApi: DbApi
-
     override fun onReceive(context: Context, intent: Intent) {
         this.context = context
-
-        launch {
-            val extras = intent.extras
-            extras?.getString(TelephonyManager.EXTRA_STATE)?.let {state ->
-                if (state != TelephonyManager.EXTRA_STATE_IDLE)
-                    extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER)?.let {phoneNumer ->
-                        showNotification(phoneNumer)
-                    }
-            }
-
-
-
+        val extras = intent.extras
+        extras?.getString(TelephonyManager.EXTRA_STATE)?.let {state ->
+            if (state != TelephonyManager.EXTRA_STATE_IDLE)
+                extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER)?.let {phoneNumer ->
+                    showNotification(phoneNumer)
+                }
         }
     }
 
@@ -47,7 +38,7 @@ class CallStateReceiver : BroadcastReceiver(), CoroutineScope by CoroutineScope(
             .setMessage(params)
             .build()
         notificationCreator.createNotification()
-        cancel()
+
     }
 
 

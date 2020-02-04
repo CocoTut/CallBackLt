@@ -5,7 +5,6 @@ import ru.cherepanovk.core.di.dependencies.ContextProvider
 import ru.cherepanovk.core_domain_impl.BootCompleteReceiver
 import ru.cherepanovk.core_domain_impl.callservices.CallListenerService
 import ru.cherepanovk.core_domain_impl.callservices.CallStateReceiver
-import ru.cherepanovk.core_domain_impl.callservices.CallStateStarterJob
 
 @Component(
     dependencies = [
@@ -17,7 +16,6 @@ interface CallServicesComponent {
 
     fun injectCallStateReceiver(callStateReceiver: CallStateReceiver)
 
-    fun injectCallStateStarterJob(callStateStarterJob: CallStateStarterJob)
 
     fun injectBootCompleteReceiver(bootCompleteReceiver: BootCompleteReceiver)
 }

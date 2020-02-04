@@ -19,7 +19,7 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 
-class CallListenerService : Service(), CoroutineScope by CoroutineScope(Dispatchers.IO), ContextProvider {
+class CallListenerService : Service() {
 
     private val listener = CallPhoneStateListener()
     private val telephonyManager: TelephonyManager by lazy {  getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager }
@@ -30,16 +30,10 @@ class CallListenerService : Service(), CoroutineScope by CoroutineScope(Dispatch
     override fun onCreate() {
 
         super.onCreate()
-        println("Boot is completed1! CallListenerService is created")
-        println("bindonServiceDisconnected")
         DaggerCallServicesComponent.builder()
-            .contextProvider(this)
+            .contextProvider(ComponentManager.getOrThrow())
             .build()
             .injectCallListenerJobService(this)
-
-        launch {
-            startCallListen()
-        }
     }
 
 
@@ -49,13 +43,10 @@ class CallListenerService : Service(), CoroutineScope by CoroutineScope(Dispatch
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        println("Boot is completed1! CallListenerService is onStartCommand")
         when (intent?.action) {
             START_FOREGROUND_ACTION -> {
                 startForegroundAction()
-                launch {
-                    startCallListen()
-                }
+                startCallListen()
             }
             STOP_FOREGROUND_ACTION -> stopForegroundAction()
         }
@@ -65,7 +56,7 @@ class CallListenerService : Service(), CoroutineScope by CoroutineScope(Dispatch
 
     private fun stopForegroundAction() {
         telephonyManager.listen(listener, PhoneStateListener.LISTEN_NONE)
-        cancel()
+
         stopForeground(true)
     }
 
@@ -90,13 +81,9 @@ class CallListenerService : Service(), CoroutineScope by CoroutineScope(Dispatch
 
     }
 
-    private suspend fun startCallListen() {
+    private fun startCallListen() {
 
         telephonyManager.listen(listener, PhoneStateListener.LISTEN_CALL_STATE)
-//        while (true) {
-//            delay(1000)
-//            println("${Thread.currentThread()} coroutines2")
-//        }
     }
 
 
@@ -107,9 +94,4 @@ class CallListenerService : Service(), CoroutineScope by CoroutineScope(Dispatch
         private const val STOP_REQUEST_CODE = 321987
 
     }
-
-    override fun getContext(): Context {
-        return this
-    }
-
 }
