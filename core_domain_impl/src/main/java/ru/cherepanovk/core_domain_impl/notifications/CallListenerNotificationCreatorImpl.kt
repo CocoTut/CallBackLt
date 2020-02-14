@@ -13,12 +13,20 @@ class CallListenerNotificationCreatorImpl @Inject constructor(
     private val notificationChannelCreator: NotificationChannelCreator
 ) : CallListenerNotificationCreator {
 
-    override fun getNotification(stopPendingIntent: PendingIntent): Notification {
+    override fun getNotificationWithStop(stopPendingIntent: PendingIntent): Notification {
         val notificationBuilder =
             NotificationCompat.Builder(context, notificationChannelCreator.getMuteChannelId())
                 .setSmallIcon(R.drawable.baseline_done)
                 .setContentTitle(null)
                 .addAction(R.drawable.ic_call, context.getString(R.string.stop_foreground), stopPendingIntent)
+        return notificationBuilder.build()
+    }
+
+    override fun getForegroundNotification(): Notification {
+        val notificationBuilder =
+            NotificationCompat.Builder(context, notificationChannelCreator.getMuteChannelId())
+                .setSmallIcon(R.drawable.baseline_done)
+                .setContentTitle(null)
         return notificationBuilder.build()
     }
 

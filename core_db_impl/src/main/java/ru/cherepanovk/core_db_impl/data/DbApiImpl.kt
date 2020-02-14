@@ -50,4 +50,8 @@ class DbApiImpl @Inject constructor(
     override suspend fun deleteReminderById(id: String) {
         callBackLtDb.getReminderDao().deleteReminderById(id)
     }
+
+    override suspend fun getReminderByPhoneNumber(phoneNumber: String): Reminder? {
+        return callBackLtDb.getReminderDao().getReminderByPhoneNumber(phoneNumber)
+    }
 }

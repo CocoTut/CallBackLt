@@ -18,7 +18,7 @@ class CallListenerHandlerImpl @Inject constructor(
             } ?: Timber.e(NoSuchElementException("No phone number extras"))
 
         }
-
+//        context.startService(intent)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(intent)
         } else {

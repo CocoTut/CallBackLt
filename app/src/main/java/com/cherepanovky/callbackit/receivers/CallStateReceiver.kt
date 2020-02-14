@@ -5,6 +5,7 @@ import android.telephony.TelephonyManager
 import com.cherepanovky.callbackit.receivers.di.DaggerCallStateComponent
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core_db_impl.di.DaggerCoreDbComponent
 import ru.cherepanovk.core_domain_api.data.CallListenerHandler
 import ru.cherepanovk.core_domain_impl.callservices.di.DaggerCallServicesComponent
 import ru.cherepanovk.core_domain_impl.di.DaggerCoreDomainComponent
@@ -20,8 +21,11 @@ class CallStateReceiver : BroadcastReceiver() {
             DaggerCallStateComponent.builder()
                 .coreDomainApi(
                     DaggerCoreDomainComponent.builder()
-                        .contextProvider(ComponentManager.getOrThrow()).build()
-                ).build()
+                        .contextProvider(ComponentManager.getOrThrow())
+                        .build()
+                )
+                .build()
+
                 .injectCallStateReceiver(this)
 
             callListenerHandler.startCallLister(intent)

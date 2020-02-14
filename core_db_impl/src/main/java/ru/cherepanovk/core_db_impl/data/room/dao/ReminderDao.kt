@@ -25,6 +25,9 @@ interface ReminderDao {
     @Query("DELETE FROM ReminderEntity WHERE id = :id ")
     suspend fun deleteReminderById(id: String)
 
+    @Query("SELECT * FROM ReminderEntity WHERE phoneNumber LIKE :phoneNumber ORDER BY dateTimeEvent DESC LIMIT 1 ")
+    suspend fun getReminderByPhoneNumber(phoneNumber: String): ReminderEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertReminders(reminders:List<ReminderEntity>)
 

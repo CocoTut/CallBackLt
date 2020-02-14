@@ -2,21 +2,16 @@ package ru.cherepanovk.core_domain_impl.callservices
 
 import android.app.PendingIntent
 import android.app.Service
-import android.content.ContentProvider
 import android.content.Context
 import android.content.Intent
-import android.os.Binder
 import android.os.IBinder
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
-import kotlinx.coroutines.*
 import ru.cherepanovk.core.di.ComponentManager
-import ru.cherepanovk.core.di.dependencies.ContextProvider
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core_domain_impl.callservices.di.DaggerCallServicesComponent
 import ru.cherepanovk.core_domain_impl.notifications.CallListenerNotificationCreator
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 
 class CallListenerService : Service() {
@@ -75,7 +70,7 @@ class CallListenerService : Service() {
 
         startForeground(
             NOTIFICATION_ID,
-            callListenerNotificationCreator.getNotification(stopPending)
+            callListenerNotificationCreator.getNotificationWithStop(stopPending)
         )
 
 
