@@ -20,16 +20,7 @@
         </receiver>
 
 
-        <receiver
-            android:name=".callservices.CallStateReceiver"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.READ_PHONE_STATE">
-            <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE" />
-                <action android:name="com.cherepanovky.callbackit.phoneState" />
-            </intent-filter>
-        </receiver>
+
         <receiver
             android:name=".notifications.NotificationActionsReceiver"
             android:enabled="true"
@@ -53,6 +44,11 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
             android:name=".callservices.CallListenerService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name=".callservices.CallNotificationService"
             android:enabled="true"
             android:exported="false" />
 

@@ -29,8 +29,6 @@ import ru.cherepanovk.imgurtest.utils.extensions.hideKeyboard
 import javax.inject.Inject
 
 private const val REQUEST_CONTACT_PICKER = 1006
-private const val CURSOR_CONTACT_NAME = 0
-private const val CURSOR_PHONE_NUMBER = 1
 
 class EventFragment : BaseFragment(R.layout.fragment_event),
     DatePickerDialog.OnDateSetListener,
@@ -44,12 +42,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
     @Inject
     lateinit var errorHandler: ErrorHandler
 
-    private val contactsData: Array<String> by lazy {
-        arrayOf(
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY,
-            ContactsContract.CommonDataKinds.Phone.NUMBER
-        )
-    }
+
 
     override fun inject(componentManager: ComponentManager) {
         DaggerEventComponent.builder()
@@ -91,10 +84,11 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             observe(buttonsVisibility, ::setButtonsVisibility)
             observe(hintTimeIsLessThanCurrent, ::showTimeHint)
             observe(hintDateIsLessThanCurrent, ::showDateHint)
+            observe(contactName, ::setContactName)
+            observe(phoneNumber, ::setPhoneNumber)
 
         }
     }
-
 
     override fun bindListeners() {
         ivBack.setOnClickListener {
@@ -151,25 +145,16 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         if (resultCode == Activity.RESULT_OK &&
             requestCode == REQUEST_CONTACT_PICKER
         ) {
-            settContactFromUri(data)
+            model.setContact(data)
         }
     }
 
-    private fun settContactFromUri(data: Intent?) {
-        data?.data?.let { dataUri ->
-            val cursor = requireActivity().contentResolver.query(
-                dataUri, contactsData, null, null, null
-            )
-            cursor?.moveToNext()
-            cursor?.getString(CURSOR_CONTACT_NAME)?.let {
-                etContactNameEvent.setText(it)
-            }
+    private fun setPhoneNumber(phoneNumber: String) {
+        etPhoneNumberEvent.setText(phoneNumber)
+    }
 
-            cursor?.getString(CURSOR_PHONE_NUMBER)?.let {
-                etPhoneNumberEvent.setText(it)
-            }
-            cursor?.close()
-        }
+    private fun setContactName(contactName: String) {
+        etContactNameEvent.setText(contactName)
     }
 
     private fun showTimeHint(visible: Boolean) {

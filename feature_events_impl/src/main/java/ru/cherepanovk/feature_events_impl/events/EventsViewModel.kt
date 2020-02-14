@@ -1,5 +1,6 @@
 package ru.cherepanovk.feature_events_impl.events
 
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +11,7 @@ import kotlinx.coroutines.withContext
 import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.platform.BaseViewModel
+import ru.cherepanovk.core.platform.ContactPicker
 import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.feature_events_impl.events.data.EventsRepository
 import ru.cherepanovk.feature_events_impl.events.domain.*
@@ -68,6 +70,7 @@ class EventsViewModel @Inject constructor(
         _currentYear.value = year ?: getCurrentYear()
         loadReminders(currentMonth.value ?: getCurrentMonth(), currentYear.value!!)
     }
+
 
     private fun loadData() {
         loadReminders(

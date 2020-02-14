@@ -10,7 +10,7 @@
     <application
         android:name=".CallBackItApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon_main"
         android:label="@string/app_name"
         android:roundIcon="@drawable/icon_main"
         android:supportsRtl="true"
@@ -39,6 +39,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".receivers.CallStateReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.READ_PHONE_STATE">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="com.cherepanovky.callbackit.phoneState" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

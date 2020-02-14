@@ -1,13 +1,14 @@
 package ru.cherepanovk.feature_events_impl.event
 
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.cherepanovk.core.platform.BaseViewModel
+import ru.cherepanovk.core.platform.ContactPicker
 import ru.cherepanovk.core.platform.SingleLiveEvent
 import ru.cherepanovk.core.utils.DateTimeHelper
 import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.feature_events_impl.event.domain.CreateReminderAlarm
-import ru.cherepanovk.feature_events_impl.event.domain.DeleteReminderFromDb
 import ru.cherepanovk.feature_events_impl.event.domain.GetReminderFromDb
 import ru.cherepanovk.feature_events_impl.event.domain.SaveReminderToDb
 import java.util.*
@@ -19,7 +20,8 @@ class EventViewModel @Inject constructor(
     private val newReminderMapper: NewReminderMapper,
     private val saveReminderToDb: SaveReminderToDb,
     private val dateTimeHelper: DateTimeHelper,
-    private val createReminderAlarm: CreateReminderAlarm
+    private val createReminderAlarm: CreateReminderAlarm,
+    private val contactPicker: ContactPicker
 ) : BaseViewModel() {
 
     private val _reminderView = MutableLiveData<ReminderView>()
@@ -63,6 +65,14 @@ class EventViewModel @Inject constructor(
     val hintDateIsLessThanCurrent: LiveData<Boolean>
         get() = _hintDateIsLessThanCurrent
 
+    private val _contactName = MutableLiveData<String>()
+    val contactName: LiveData<String>
+        get() = _contactName
+
+    private val _phoneNumber = MutableLiveData<String>()
+    val phoneNumber: LiveData<String>
+        get() = _phoneNumber
+
     private var id: String? = null
 
     init {
@@ -87,8 +97,10 @@ class EventViewModel @Inject constructor(
         }
     }
 
-    private fun handleReminder(reminder: Reminder) {
-        _reminderView.postValue(mapper.map(reminder))
+    fun setContact(contactIntent: Intent?) {
+        _phoneNumber.postValue(contactPicker.getPhoneNumber(contactIntent))
+        _contactName.postValue(contactPicker.getContactName(contactIntent))
+
     }
 
     fun saveReminder(reminderView: ReminderView) {
@@ -99,9 +111,13 @@ class EventViewModel @Inject constructor(
 
             }
         }
-
-
     }
+
+
+    private fun handleReminder(reminder: Reminder) {
+        _reminderView.postValue(mapper.map(reminder))
+    }
+
 
     private fun createAlarm(reminder: Reminder) {
         launchLoading {

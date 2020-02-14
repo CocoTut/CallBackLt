@@ -3,16 +3,20 @@ package ru.cherepanovk.core_domain_impl.callservices
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import ru.cherepanovk.core_domain_api.data.CallListenerHadler
+import ru.cherepanovk.core_domain_api.data.CallListenerHandler
+import timber.log.Timber
 import javax.inject.Inject
 
 
 class CallListenerHandlerImpl @Inject constructor(
     private val context: Context
-) : CallListenerHadler {
-    override fun startCallLister() {
-        val intent = Intent(context.applicationContext, CallListenerService::class.java).apply {
-            action = CallListenerService.START_FOREGROUND_ACTION
+) : CallListenerHandler {
+    override fun startCallLister(phoneStateIntent: Intent) {
+        val intent = Intent(context.applicationContext, CallNotificationService::class.java).apply {
+            phoneStateIntent.extras?.let {
+                putExtras(it)
+            } ?: Timber.e(NoSuchElementException("No phone number extras"))
+
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -21,4 +25,5 @@ class CallListenerHandlerImpl @Inject constructor(
             context.startService(intent)
         }
     }
+
 }
