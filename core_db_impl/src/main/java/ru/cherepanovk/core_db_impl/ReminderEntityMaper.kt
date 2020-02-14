@@ -2,6 +2,7 @@ package ru.cherepanovk.core_db_impl
 
 import ru.cherepanovk.core.utils.Mapper
 import ru.cherepanovk.core_db_api.data.Reminder
+import ru.cherepanovk.core_db_impl.data.room.entities.PHONE_REGEX_PATTERN
 import ru.cherepanovk.core_db_impl.data.room.entities.ReminderEntity
 import javax.inject.Inject
 
@@ -12,7 +13,8 @@ class ReminderEntityMaper @Inject constructor() : Mapper<Reminder, ReminderEntit
             phoneNumber = from.phoneNumber(),
             description = from.description(),
             contactName = from.contactName(),
-            dateTimeEvent = from.dateTimeEvent()
+            dateTimeEvent = from.dateTimeEvent(),
+            phoneNumberSearch = Regex(PHONE_REGEX_PATTERN).replace(from.phoneNumber(),"")
         )
     }
 }

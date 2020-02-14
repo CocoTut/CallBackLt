@@ -6,6 +6,7 @@ import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.core_db_impl.ReminderEntityMaper
 import ru.cherepanovk.core_db_impl.data.olddb.LocalBase
 import ru.cherepanovk.core_db_impl.data.room.CallBackLtDb
+import ru.cherepanovk.core_db_impl.data.room.entities.PHONE_REGEX_PATTERN
 import ru.cherepanovk.core_db_impl.data.room.entities.ReminderEntity
 import java.util.*
 import javax.inject.Inject
@@ -52,6 +53,7 @@ class DbApiImpl @Inject constructor(
     }
 
     override suspend fun getReminderByPhoneNumber(phoneNumber: String): Reminder? {
-        return callBackLtDb.getReminderDao().getReminderByPhoneNumber(phoneNumber)
+        return callBackLtDb.getReminderDao().getReminderByPhoneNumber(
+            Regex(PHONE_REGEX_PATTERN).replace(phoneNumber,""))
     }
 }

@@ -87,13 +87,8 @@ class CallNotificationService : Service(), CoroutineScope by CoroutineScope(Disp
                 ?: getNotificationParamsFromContacts(phoneNumber)
 
             createNotification(params)
-            delay(5000)
             stopSelf()
         }
-
-
-
-
 
     }
 
