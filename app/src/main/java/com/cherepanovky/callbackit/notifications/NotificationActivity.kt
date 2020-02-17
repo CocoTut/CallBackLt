@@ -47,7 +47,15 @@ class NotificationActivity : BaseActivity() {
             EventOpenParams.REMINDER_ID,
             NavArgument.Builder()
                 .setType(NavType.StringType)
-                .setDefaultValue(params?.reminderId)
+                .setDefaultValue(params?.reminderId ?: "")
+                .build()
+        )
+
+        navGraph.addArgument(
+            EventOpenParams.PHONE_NUMBER,
+            NavArgument.Builder()
+                .setType(NavType.StringType)
+                .setDefaultValue(params?.phoneNumber ?: "")
                 .build()
         )
         navController.graph = navGraph

@@ -51,6 +51,6 @@ class CallBackAlarm @Inject constructor(
             action = context.resources.getString(R.string.intent_callback_notification_service)
             putExtras(params.toBundle())
         }
-        return PendingIntent.getBroadcast(context, 0, intentAm, 0)
+        return PendingIntent.getBroadcast(context, 0, intentAm, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 }

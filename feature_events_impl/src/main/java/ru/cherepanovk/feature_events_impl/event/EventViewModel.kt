@@ -86,7 +86,7 @@ class EventViewModel @Inject constructor(
     fun loadReminder(id: String?) {
         _toolbarTitleNewReminder.postValue(id == null)
         _buttonsVisibility.postValue(id != null)
-        if (id == null) {
+        if (id == null || id.isEmpty()) {
             setCurrentDate()
             return
         }
@@ -95,6 +95,12 @@ class EventViewModel @Inject constructor(
         launchLoading {
             getReminderFromDb(id) { it.handleSuccess { reminder -> handleReminder(reminder) } }
         }
+    }
+
+    fun trySetPhoneNumber(phoneNumber: String?) {
+        if (phoneNumber == null || phoneNumber.isEmpty()) return
+        _phoneNumber.postValue(phoneNumber)
+        _contactName.postValue(contactPicker.getContactNameByPhoneNumber(phoneNumber))
     }
 
     fun setContact(contactIntent: Intent?) {

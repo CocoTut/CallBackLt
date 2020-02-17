@@ -6,6 +6,7 @@ import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.core_domain_api.data.AlarmApi
 import ru.cherepanovk.core_domain_api.data.AlarmReminder
 import ru.cherepanovk.feature_events_impl.event.ReminderView
+import ru.cherepanovk.feature_events_impl.event.data.EventRepository
 import java.util.*
 import javax.inject.Inject
 

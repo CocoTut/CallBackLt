@@ -62,8 +62,10 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (firstTimeCreated(savedInstanceState))
+        if (firstTimeCreated(savedInstanceState)) {
             model.loadReminder(openParams?.reminderId)
+            model.trySetPhoneNumber(openParams?.phoneNumber)
+        }
     }
 
     override fun onDestroyView() {

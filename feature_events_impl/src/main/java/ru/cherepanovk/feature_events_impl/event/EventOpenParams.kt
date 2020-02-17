@@ -23,7 +23,7 @@ class EventOpenParams (
             )
         }
 
-        private const val PHONE_NUMBER = "phoneNumber"
+        const val PHONE_NUMBER = "phoneNumber"
         const val REMINDER_ID = "reminderId"
     }
 }
