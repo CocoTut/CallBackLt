@@ -39,10 +39,6 @@
         </receiver>
 
         <service
-            android:name=".notifications.NotificationService"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service
             android:name=".callservices.CallListenerService"
             android:enabled="true"
             android:exported="false" />
