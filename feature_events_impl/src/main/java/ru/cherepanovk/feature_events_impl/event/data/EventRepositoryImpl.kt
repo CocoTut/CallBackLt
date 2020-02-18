@@ -6,16 +6,19 @@ import javax.inject.Inject
 
 class EventRepositoryImpl @Inject constructor(private val dataBase: DbApi) : EventRepository {
 
-    override suspend fun getReminderFromDb(id: String): Reminder {
+    override suspend fun getReminderFromDb(id: String): Reminder? {
         return dataBase.getReminderById(id)
     }
 
-    override suspend fun saveReminderToDb(reminder: Reminder): Reminder {
+    override suspend fun saveReminderToDb(reminder: Reminder) {
         dataBase.saveReminder(reminder)
-        return getReminderFromDb(reminder.id())
     }
 
     override suspend fun deleteReminderById(id: String) {
         dataBase.deleteReminderById(id)
+    }
+
+    override suspend fun updateReminder(reminder: Reminder) {
+
     }
 }

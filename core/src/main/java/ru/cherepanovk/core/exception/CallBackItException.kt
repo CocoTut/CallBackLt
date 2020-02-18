@@ -4,4 +4,5 @@ import java.lang.Exception
 
 sealed class CallBackItException : Throwable() {
     object CreateNotificationException : CallBackItException()
+    object NoSuchReminder : CallBackItException()
 }

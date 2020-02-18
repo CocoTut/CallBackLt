@@ -1,5 +1,6 @@
 package ru.cherepanovk.feature_events_impl.event.domain
 
+import ru.cherepanovk.core.exception.CallBackItException
 import ru.cherepanovk.core.exception.ErrorHandler
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core_db_api.data.Reminder
@@ -13,6 +14,6 @@ class GetReminderFromDb @Inject constructor(
 ) : UseCase<Reminder, String>(errorHandler) {
 
     override suspend fun run(params: String): Reminder {
-       return eventRepository.getReminderFromDb(params)
+       return eventRepository.getReminderFromDb(params) ?:  throw CallBackItException.NoSuchReminder
     }
 }

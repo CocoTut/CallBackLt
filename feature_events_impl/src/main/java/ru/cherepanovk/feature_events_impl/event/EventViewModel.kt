@@ -100,7 +100,10 @@ class EventViewModel @Inject constructor(
     fun trySetPhoneNumber(phoneNumber: String?) {
         if (phoneNumber == null || phoneNumber.isEmpty()) return
         _phoneNumber.postValue(phoneNumber)
-        _contactName.postValue(contactPicker.getContactNameByPhoneNumber(phoneNumber))
+        contactPicker.getContactNameByPhoneNumber(phoneNumber)?.let {
+            _contactName.postValue(it)
+        }
+
     }
 
     fun setContact(contactIntent: Intent?) {
@@ -113,7 +116,7 @@ class EventViewModel @Inject constructor(
         reminderView.id = id
         launchLoading {
             saveReminderToDb(newReminderMapper.map(reminderView)) {
-                it.handleSuccess { reminder -> createAlarm(reminder) }
+                it.handleSuccess { reminder -> _success.postValue(true) }
 
             }
         }

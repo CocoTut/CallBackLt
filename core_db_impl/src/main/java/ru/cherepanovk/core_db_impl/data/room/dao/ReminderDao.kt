@@ -1,9 +1,6 @@
 package ru.cherepanovk.core_db_impl.data.room.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import ru.cherepanovk.core_db_impl.data.room.entities.ReminderEntity
 
@@ -20,7 +17,7 @@ interface ReminderDao {
     suspend fun getYears(): List<String>
 
     @Query("SELECT * FROM ReminderEntity WHERE id =:id")
-    suspend fun getReminderById(id: String): ReminderEntity
+    suspend fun getReminderById(id: String): ReminderEntity?
 
     @Query("DELETE FROM ReminderEntity WHERE id = :id ")
     suspend fun deleteReminderById(id: String)
@@ -33,5 +30,8 @@ interface ReminderDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertReminder(reminder: ReminderEntity)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateReminder(reminder: ReminderEntity)
 
 }

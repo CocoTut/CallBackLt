@@ -10,26 +10,28 @@ import javax.inject.Inject
 class SaveReminderToDb @Inject constructor(
     private val eventRepository: EventRepository,
     private val alarmApi: AlarmApi,
+    private val alarmModelMapper: AlarmModelMapper,
     errorHandler: ErrorHandler
-) : UseCase<Reminder, Reminder>(errorHandler) {
+) : UseCase<Unit, Reminder>(errorHandler) {
 
-    override suspend fun run(params: Reminder): Reminder {
+    override suspend fun run(params: Reminder) {
+
         cancelCurrentReminder(params.id())
-
-        return eventRepository.saveReminderToDb(params)
+        eventRepository.saveReminderToDb(params)
+        createAlarm(params.id())
     }
 
     private suspend fun cancelCurrentReminder(reminderId: String) {
-        val currentReminder = eventRepository.getReminderFromDb(reminderId)
-        val alarmReminder =
-            AlarmModel(
-                id = currentReminder.id(),
-                phoneNumber = currentReminder.phoneNumber(),
-                description = currentReminder.description(),
-                contactName = currentReminder.contactName(),
-                dateTimeEvent = currentReminder.dateTimeEvent()
-            )
-        alarmApi.cancelAlarm(alarmReminder)
+        eventRepository.getReminderFromDb(reminderId)?.let { currentReminder ->
+            alarmApi.cancelAlarm(alarmModelMapper.map(currentReminder))
+        }
+
+    }
+
+    private suspend fun createAlarm(reminderId: String) {
+        eventRepository.getReminderFromDb(reminderId)?.let { reminder ->
+            alarmApi.createAlarm(alarmModelMapper.map(reminder))
+        }
     }
 
 }

@@ -17,9 +17,11 @@ interface DbApi {
 
     suspend fun getYears(): List<String>
 
-    suspend fun getReminderById(id: String): Reminder
+    suspend fun getReminderById(id: String): Reminder?
 
     suspend fun saveReminder(reminder: Reminder)
+
+    suspend fun updateReminder(reminder: Reminder)
 
     suspend fun deleteReminderById(id: String)
 

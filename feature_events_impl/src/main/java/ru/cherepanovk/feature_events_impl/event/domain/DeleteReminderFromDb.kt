@@ -11,21 +11,20 @@ import javax.inject.Inject
 class DeleteReminderFromDb @Inject constructor(
     private val eventRepository: EventRepository,
     private val alarmApi: AlarmApi,
+    private val alarmModelMapper: AlarmModelMapper,
     errorHandler: ErrorHandler
 ) : UseCase<Unit, String>(errorHandler) {
 
     override suspend fun run(params: String) {
-        val reminder = eventRepository.getReminderFromDb(params)
-
         eventRepository.deleteReminderById(params)
+        cancelAlarm(params)
 
-        val alarmModel = AlarmModel(
-            id = reminder.id(),
-            phoneNumber = reminder.phoneNumber(),
-            description = reminder.description(),
-            contactName = reminder.contactName(),
-            dateTimeEvent = reminder.dateTimeEvent()
-        )
-        alarmApi.cancelAlarm(alarmModel)
+    }
+
+    private suspend fun cancelAlarm(reminderId: String) {
+        eventRepository.getReminderFromDb(reminderId)?.let { currentReminder ->
+            alarmApi.cancelAlarm(alarmModelMapper.map(currentReminder))
+        }
+
     }
 }
