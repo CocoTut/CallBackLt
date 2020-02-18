@@ -119,7 +119,11 @@ class NotificationCreator private constructor(
             this.reminderId = params.reminderId
             val reminderId = params.reminderId
             val phoneNumber = params.phoneNumber
-            val notificationId = reminderId?.let { getNotificationId(reminderId) } ?: NOTIFICATION_ID_DEFAULT
+            val notificationId = when {
+                reminderId != null -> getNotificationId(reminderId)
+                phoneNumber != null -> getNotificationId(phoneNumber )
+                else -> NOTIFICATION_ID_DEFAULT
+            }
 
             val actionIntent = when (openActivity) {
                 true -> Intent(action)
