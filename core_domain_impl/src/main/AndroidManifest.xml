@@ -39,11 +39,6 @@
         </receiver>
 
         <service
-            android:name=".callservices.CallListenerService"
-            android:enabled="true"
-            android:exported="false" />
-
-        <service
             android:name=".callservices.CallNotificationService"
             android:enabled="true"
             android:exported="false" />
