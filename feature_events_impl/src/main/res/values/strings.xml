@@ -117,6 +117,7 @@
     <string name="mute_notification_channel_name">Mute channel</string>
     <string name="title_toolbar_new_reminder">A new reminder</string>
     <string name="title_toolbar_edit_reminder">Editing</string>
+    <string name="error_empry_phone_number">Phone number is empty</string>
 
     <string-array name="units_array">
         <item>minutes</item>

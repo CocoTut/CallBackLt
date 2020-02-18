@@ -4,12 +4,14 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.DatePicker
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.transition.TransitionInflater
 import kotlinx.android.synthetic.main.fragment_event.*
 import kotlinx.android.synthetic.main.toolbar_back_title.*
@@ -27,6 +29,7 @@ import ru.cherepanovk.feature_events_impl.event.dialog.DialogDeleteReminderFragm
 import ru.cherepanovk.imgurtest.utils.extensions.afterTextChanged
 import ru.cherepanovk.imgurtest.utils.extensions.hideKeyboard
 import javax.inject.Inject
+
 
 private const val REQUEST_CONTACT_PICKER = 1006
 
@@ -124,10 +127,58 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
                 tilContactName.error = null
         }
 
+        etPhoneNumberEvent.afterTextChanged {
+            if (isPhoneNumberNameNotEmpty())
+                tilPhoneNumber.error = null
+        }
+
         btnOpenContacts.setOnClickListener {
             pickContacts(REQUEST_CONTACT_PICKER)
         }
 
+        btnSendToWhatsApp.setOnClickListener {
+            sendToWhatsApp()
+        }
+    }
+
+    private fun sendToWhatsApp() {
+        when {
+            !isPhoneNumberNameNotEmpty() -> tilPhoneNumber.error = getString(R.string.error_empry_phone_number)
+            iswhatsappInstalled("com.whatsapp") -> openWhatsApp()
+            !iswhatsappInstalled("com.whatsapp") -> showWhatsAppError()
+        }
+
+
+    }
+
+    private fun showWhatsAppError() {
+        Toast.makeText(
+            requireContext(), "WhatsApp not Installed",
+            Toast.LENGTH_SHORT
+        ).show()
+        val uri = Uri.parse("market://details?id=com.whatsapp")
+        val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(goToMarket)
+    }
+
+    private fun openWhatsApp() {
+        val number = etPhoneNumberEvent.text.toString()
+        val uri = Uri.parse("smsto:$number")
+        val i = Intent(Intent.ACTION_SENDTO, uri)
+        i.setPackage("com.whatsapp")
+        startActivity(Intent.createChooser(i, ""))
+    }
+
+    private fun iswhatsappInstalled(uri: String): Boolean {
+        val pm: PackageManager = requireActivity().packageManager
+        var app_installed = false
+        app_installed = try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
+        }
+        return app_installed
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
@@ -186,6 +237,10 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
     private fun isContactNameNotEmpty(): Boolean {
         return etContactNameEvent.text.isNotBlank()
+    }
+
+    private fun isPhoneNumberNameNotEmpty(): Boolean {
+        return etPhoneNumberEvent.text.isNotBlank()
     }
 
     private fun setDate(eventDate: String) {
