@@ -27,9 +27,10 @@ class NotificationCreator private constructor(
 
 
     private fun getNotification(): Notification {
+        val icon =  if (builder.reminderId == null) R.drawable.ic_alarm_add else R.drawable.ic_ring_volume
         val notificationBuilder =
             NotificationCompat.Builder(context, context.getString(R.string.channel_id))
-                .setSmallIcon(R.drawable.ic_ring_volume)
+                .setSmallIcon(icon)
                 .setAutoCancel(true)
 
         builder.message?.let {
@@ -69,6 +70,9 @@ class NotificationCreator private constructor(
             private set
         var message: String? = null
             private set
+        var reminderId: String? = null
+            private set
+
         var notificationId = 0
 
 
@@ -112,6 +116,7 @@ class NotificationCreator private constructor(
             action: String,
             openActivity: Boolean
         ): Intent {
+            this.reminderId = params.reminderId
             val reminderId = params.reminderId
             val phoneNumber = params.phoneNumber
             val notificationId = reminderId?.let { getNotificationId(reminderId) } ?: NOTIFICATION_ID_DEFAULT
