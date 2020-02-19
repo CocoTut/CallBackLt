@@ -23,6 +23,7 @@ import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.pickContacts
 import ru.cherepanovk.core.utils.extentions.viewModel
+import ru.cherepanovk.core.utils.getDialIntent
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.event.di.DaggerEventComponent
 import ru.cherepanovk.feature_events_impl.event.dialog.DialogDeleteReminderFragment
@@ -111,6 +112,18 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             openParams?.reminderId?.let { showDeleteDialog(it) }
         }
 
+        btnOpenContacts.setOnClickListener {
+            pickContacts(REQUEST_CONTACT_PICKER)
+        }
+
+        btnSendToWhatsApp.setOnClickListener {
+            sendToWhatsApp()
+        }
+
+        btnCall.setOnClickListener {
+            startActivity(getDialIntent(etPhoneNumberEvent.text.toString()))
+        }
+
         tvDate.setOnClickListener {
             model.onDateClick(tvDate.text.toString())
         }
@@ -132,13 +145,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
                 tilPhoneNumber.error = null
         }
 
-        btnOpenContacts.setOnClickListener {
-            pickContacts(REQUEST_CONTACT_PICKER)
-        }
 
-        btnSendToWhatsApp.setOnClickListener {
-            sendToWhatsApp()
-        }
     }
 
     private fun sendToWhatsApp() {
