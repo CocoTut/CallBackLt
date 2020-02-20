@@ -9,10 +9,25 @@
     >
         <action
             android:id="@+id/action_eventsFragment_to_eventFragment"
-            app:destination="@id/eventFragment" />
+            app:destination="@id/eventFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment android:id="@+id/eventFragment" android:name="ru.cherepanovk.feature_events_impl.event.EventFragment"
-        android:label="EventFragment" tools:layout ="@layout/item_event"
-        />
+        android:label="EventFragment" tools:layout ="@layout/fragment_event"
+        >
+        <action
+            android:id="@+id/action_eventFragment_to_dialogDeleteReminder"
+            app:destination="@id/dialogDeleteReminder" />
+    </fragment>
+    <fragment
+        android:id="@+id/dialogDeleteReminder"
+        android:name="ru.cherepanovk.feature_events_impl.event.dialog.DialogDeleteReminderFragment"
+        android:label="DialogDeleteReminder"
+        tools:layout ="@layout/dialog_delete_reminder"
+        >
+    </fragment>
 </navigation>

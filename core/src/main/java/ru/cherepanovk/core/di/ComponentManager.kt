@@ -1,7 +1,7 @@
 package ru.cherepanovk.core.di
 
 
-import ru.cherepanovk.core.utils.removeIfEquals
+import ru.cherepanovk.core.utils.extentions.removeIfEquals
 import timber.log.Timber
 import kotlin.reflect.KClass
 

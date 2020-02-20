@@ -10,7 +10,11 @@ import javax.inject.Inject
 class EventsFeatureStarterImpl
 @Inject constructor(private val context: Context): EventsFeatureStarter {
 
-    override fun getNavGraph(navInflater: NavInflater): NavGraph {
+    override fun getEventNavGraph(navInflater: NavInflater): NavGraph {
+        return navInflater.inflate(R.navigation.nav_graph_event)
+    }
+
+    override fun getEventsNavGraph(navInflater: NavInflater): NavGraph {
         return navInflater.inflate(R.navigation.nav_graph_events)
     }
 

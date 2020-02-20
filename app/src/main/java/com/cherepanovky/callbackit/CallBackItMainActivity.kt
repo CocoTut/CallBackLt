@@ -1,37 +1,67 @@
 package com.cherepanovky.callbackit
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
+import com.cherepanovky.callbackit.di.DaggerMainActivityComponent
 import com.cherepanovky.callbackit.di.FeatureProxyInjector
+import com.cherepanovky.callbackit.di.MainActivityModule
+import com.cherepanovky.callbackit.notifications.ServiceActivity
 import kotlinx.android.synthetic.main.activity_route.*
 import ru.cherepanovk.core.di.ComponentManager
+import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.platform.BaseActivity
-import ru.cherepanovk.feature_settings_impl.SettingsFeatureStarterImpl
+import ru.cherepanovk.core.utils.extentions.viewModel
+import ru.cherepanovk.core_domain_impl.di.DaggerCoreDomainComponent
+import javax.inject.Inject
 
 class CallBackItMainActivity : BaseActivity() {
 
-    private val navController: NavController by lazy { findNavController(R.id.nav_host_fragment) }
-    private var startDestination = -1
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    override var navHost = R.id.nav_host_fragment
+
+
+    override fun fragmentContainer(): View  = fragmentContainer
+
+
+    private lateinit var model: CallBackItMainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_route)
-
+        inject(ComponentManager)
         setNavigation()
 
         bindListeners()
+    }
 
+    override fun inject(componentManager: ComponentManager) {
+        DaggerMainActivityComponent.builder()
+            .mainActivityModule(MainActivityModule(fragmentContainer()))
+            .coreDomainApi(
+                DaggerCoreDomainComponent.builder()
+                .contextProvider(componentManager.getOrThrow())
+                    .build()
+            )
+            .build()
+            .also { componentManager.put(it) }
+            .inject(this)
+
+        model = viewModel(viewModelFactory){}
     }
 
     private fun setNavigation() {
         val navGraph = FeatureProxyInjector.getEventsFeature().eventsFeatureStarter()
-            .getNavGraph(navController.navInflater)
+            .getEventsNavGraph(navController.navInflater)
         startDestination = navGraph.startDestination
         navController.graph = navGraph
     }
@@ -84,7 +114,5 @@ class CallBackItMainActivity : BaseActivity() {
         navController.navigate(featureNavGraph.id)
     }
 
-    override fun inject(componentManager: ComponentManager) {
 
-    }
 }

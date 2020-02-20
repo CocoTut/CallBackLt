@@ -1,6 +1,7 @@
 package ru.cherepanovk.core.platform
 
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,12 +19,18 @@ import kotlin.coroutines.CoroutineContext
  */
 abstract class BaseViewModel : ViewModel(), CoroutineScope {
 
-    val failure: SingleLiveEvent<Failure> = SingleLiveEvent()
-    val isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    private val _failure = SingleLiveEvent<Failure>()
+    val failure: LiveData<Failure>
+        get() = _failure
 
-    protected open fun handleFailure(failure: Failure) {
-        this.isLoading.value = false
-        this.failure.value = failure
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+
+
+    fun handleFailure(failure: Failure) {
+        this._isLoading.postValue(false)
+        this._failure.postValue(failure)
     }
 
     override val coroutineContext: CoroutineContext
@@ -33,14 +40,14 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
      * Use [handleFailure] method as [Failure] handler
      * */
     protected inline fun <T> Either<Failure, T>.handleSuccess(crossinline block: (T) -> Unit) {
-        this.either(::handleFailure) { block(it) }
+        this.either({ fn -> handleFailure(fn) }) { block(it) }
     }
 
     protected fun CoroutineScope.launchLoading(block: suspend () -> Unit) {
         launch {
-            isLoading.value = true
+            _isLoading.value = true
             block()
-            isLoading.value = false
+            _isLoading.value = false
         }
     }
 }

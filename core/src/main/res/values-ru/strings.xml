@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">core</string>
+    <string name="error_no_connection">Проверьте соединение с интернетом</string>
+    <string name="error_token_expired">Сессия на устройстве истекла. Необходимо пройти авторизацию заново</string>
+    <string name="error_api">Извините, произошла ошибка сервера</string>
+    <string name="error_api_with_description">Извините, произошла ошибка сервера: %s</string>
+    <string name="error_server_timeout">Система на данный момент недоступна. Попробуйте войти позднее</string>
+    <string name="error_server">Извините, произошла ошибка сервера</string>
+    <string name="error_unregistered">Данный номер не найден в системе</string>
+    <string name="error_common">Извините, произошла ошибка при выполнении запроса</string>
+    <string name="error_create_notification">Ошибка: напоминание не создано!</string>
+</resources>

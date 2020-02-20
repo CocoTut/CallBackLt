@@ -14,26 +14,33 @@ import javax.inject.Inject
 
 abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), ActivityStarter {
 
-    protected val componentManager get() = ComponentManager
+    private val componentManager: ComponentManager
+        get() = ComponentManager
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    override fun onAttach(context: Context?) {
-//        inject(ComponentManager)
-        super.onAttach(context)
-    }
+    @Inject lateinit var viewModelFactory: ViewModelFactory
 
     protected abstract fun inject(componentManager: ComponentManager)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(layout, container, false)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        inject(componentManager)
+
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         bindViewModel()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         bindListeners()
     }
+
 
     protected fun firstTimeCreated(savedInstanceState: Bundle?) = savedInstanceState == null
 

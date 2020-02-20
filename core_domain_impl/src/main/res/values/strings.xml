@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Core Domain Implementation</string>
+    <string name="intent_callback_notification_service" translatable="false">intent_callback_notification_service</string>
+    <string name="action_call" translatable="false">com.cherepanovky.action.call</string>
+    <string name="action_open_reminder" translatable="false">com.cherepanovky.action.open_reminder</string>
+    <string name="channel_id" >Default channel</string>
+    <string name="btn_notification_cal">Call</string>
+    <string name="mute_channel_id">Mute channel</string>
+    <string name="stop_foreground">STOP</string>
+</resources>

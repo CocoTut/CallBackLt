@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_notification_call">Позвонить</string>
+    <string name="channel_id" >По умолчанию</string>
+    <string name="mute_channel_id">CallbackitMuteChannel</string>
+    <string name="stop_foreground">STOP</string>
+</resources>

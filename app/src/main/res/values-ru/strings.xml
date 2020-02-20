@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">feature_settings_impl</string>
+    <string name="app_name">CallBackIt</string>
 
+    <string name="privacyURL">"http://cherepanovk.ru/privacy_policy"</string>
+    <string name="rateURL">"market://details?id=com.cherepanovky.callbackit"</string>
+    <string name="url_error">Ссылка не доступна</string>
 
-    <string name="tvAccount">"Google Account"</string>
-    <string name="tvSetGoogleAccount">"Добавить аккаунт"</string>
-    <string name="btnLogOut">"Выйти"</string>
-    <string name="tracingParameters">Параметры отслеживания</string>
-    <string name="incomingCalls">Все входящие</string>
-    <string name="outgoingingCalls">Все исходящие</string>
-    <string name="outgoingingCallsMissed">Пропущенные исходящие</string>
-    <string name="incomingCallsMissed">Пропущенные входящие</string>
-    <string name="notifications_settings">Уведомления</string>
-    <string name="text_tv_ringtone">Звук</string>
+    <string name="request_permissions">"Этому приложению необходим доступ к телефону. В противном случае оно не сможет отслеживать звонки. Нажмите ОК и выберете действие."</string>
+    <string name="request_permissions_contacts">"Этому приложению необходим доступ к Контактам для определения имени контакта и работы с Google Account. Нажмите ОК и выберите действие."</string>
+    <string name="no_contacts_permissions">\"Вам необходим включить разрешение на доступ к Контактам для данного приложения в настройках Вашего телефона"</string>
+
 
 </resources>

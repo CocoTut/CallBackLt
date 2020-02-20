@@ -49,5 +49,9 @@ dependencies {
     implementation Libs.DataBase.ROOM_KTX
     kapt Libs.DataBase.ROOM_COMPILER
 
+    //kotlin coroutines
+    implementation Libs.Core.COROUTINES_CORE
+    implementation Libs.Core.COROUTINES_ANDROID
+
 
 }

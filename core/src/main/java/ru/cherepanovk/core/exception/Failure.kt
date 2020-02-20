@@ -15,6 +15,8 @@ sealed class Failure {
     object Unregistered: Failure()
     object TokenEmpty: Failure()
     object TimeOut: Failure()
+    object DataBaseError: Failure()
+    object CreateNotificationError: Failure()
 
     /** * Extend this class for feature specific failures.*/
     abstract class FeatureFailure: Failure()

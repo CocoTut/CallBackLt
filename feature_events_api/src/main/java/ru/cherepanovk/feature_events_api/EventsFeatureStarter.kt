@@ -6,5 +6,7 @@ import androidx.navigation.NavInflater
 interface EventsFeatureStarter {
     fun start()
 
-    fun getNavGraph(navInflater: NavInflater): NavGraph
+    fun getEventsNavGraph(navInflater: NavInflater): NavGraph
+
+    fun getEventNavGraph(navInflater: NavInflater): NavGraph
 }

@@ -24,4 +24,5 @@ abstract class EventsModule {
 
     @Binds
     abstract fun bindLoginStarter(eventsFeatureStarterImpl: EventsFeatureStarterImpl): EventsFeatureStarter
+
 }

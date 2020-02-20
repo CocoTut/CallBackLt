@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey
 import ru.cherepanovk.core_db_api.data.Reminder
 import java.util.*
 
+const val PHONE_REGEX_PATTERN = "[^A-Za-z0-9]"
+
 @Entity
 class ReminderEntity(
     @PrimaryKey(autoGenerate = false)
@@ -13,7 +15,8 @@ class ReminderEntity(
      val phoneNumber: String = "",
      val description: String = "",
      val contactName: String,
-     val dateTimeEvent: Date
+     val dateTimeEvent: Date,
+     val phoneNumberSearch: String = ""
 ) : Reminder {
     @Ignore
     override fun id(): String = id

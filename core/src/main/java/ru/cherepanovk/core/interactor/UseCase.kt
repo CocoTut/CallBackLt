@@ -5,7 +5,7 @@ import ru.cherepanovk.core.exception.ErrorHandler
 import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.functional.Either
 
-abstract class UseCase<out Type : Any, in Params>(private val errorHandler: ErrorHandler) {
+abstract class UseCase<out Type : Any?, in Params>(private val errorHandler: ErrorHandler) {
 
     abstract suspend fun run(params: Params): Type
 

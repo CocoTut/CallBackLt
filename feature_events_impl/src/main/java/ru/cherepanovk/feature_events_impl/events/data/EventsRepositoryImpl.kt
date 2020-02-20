@@ -1,7 +1,9 @@
 package ru.cherepanovk.feature_events_impl.events.data
 
+import kotlinx.coroutines.flow.Flow
 import ru.cherepanovk.core_db_api.data.DbApi
 import ru.cherepanovk.core_db_api.data.Reminder
+import java.util.*
 import javax.inject.Inject
 
 class EventsRepositoryImpl @Inject constructor(
@@ -17,5 +19,13 @@ class EventsRepositoryImpl @Inject constructor(
 
     override suspend fun saveRemindersToDb(reminders: List<Reminder>) {
         dataBase.saveReminders(reminders)
+    }
+
+    override fun getRemindersBetweenDates(startDate: Date, endDate: Date): Flow<List<Reminder>> {
+        return dataBase.getRemindersBetweenDates(startDate, endDate)
+    }
+
+    override suspend fun getYears(): List<String> {
+        return  dataBase.getYears()
     }
 }

@@ -30,9 +30,9 @@
     <string name="isGoogleEventsDownloaded">"Reminders were downloaded"</string>
     <string name="noNetwork">"No network connection available."</string>
     <string name="messageProgressDialog">"Please, waiting..."</string>
-    <string name="questionDeleteEvent">"Delete the reminder?"</string>
-    <string name="answerYes">"Yes"</string>
-    <string name="answerCancel">"Cancel"</string>
+    <string name="title_dialog_delete_reminder">"Delete the reminder?"</string>
+    <string name="btn_dialog_yes">"Yes"</string>
+    <string name="btn_dialog_cancel">"Cancel"</string>
 
     <string name="titleEvent">"Reminder"</string>
 
@@ -114,6 +114,10 @@
     <string name="error_date">Date is less than current</string>
     <string name="error_time">Time is less than current</string>
     <string name="notification_new_call">a new call!</string>
+    <string name="mute_notification_channel_name">Mute channel</string>
+    <string name="title_toolbar_new_reminder">A new reminder</string>
+    <string name="title_toolbar_edit_reminder">Editing</string>
+    <string name="error_empry_phone_number">Phone number is empty</string>
 
     <string-array name="units_array">
         <item>minutes</item>
