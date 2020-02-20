@@ -30,8 +30,8 @@ dependencies {
     implementation project(':core')
     implementation project(':core_db_api')
     implementation project(':core_db_impl')
-    implementation project(':core_domain_api')
-    implementation project(':core_domain_impl')
+    implementation project(':feature_alarm_api')
+    implementation project(':feature_alarm_impl')
 
     implementation project(':feature_events_impl')
     implementation project(':feature_events_api')

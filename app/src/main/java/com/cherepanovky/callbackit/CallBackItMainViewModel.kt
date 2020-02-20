@@ -1,8 +1,7 @@
 package com.cherepanovky.callbackit
 
 import ru.cherepanovk.core.platform.BaseViewModel
-import ru.cherepanovk.core_domain_api.data.CallListenerHandler
-import ru.cherepanovk.core_domain_api.data.NotificationChannelCreator
+import ru.cherepanovk.feature_alarm_api.data.NotificationChannelCreator
 import javax.inject.Inject
 
 class CallBackItMainViewModel @Inject constructor(

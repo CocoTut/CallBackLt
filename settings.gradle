@@ -7,8 +7,8 @@ include ':feature_events_impl'
 include ':feature_events_api'
 include ':feature_settings_impl'
 include ':feature_settings_api'
-include ':core_domain_api'
-include ':core_domain_impl'
+include ':feature_alarm_api'
+include ':feature_alarm_impl'
 
 
 

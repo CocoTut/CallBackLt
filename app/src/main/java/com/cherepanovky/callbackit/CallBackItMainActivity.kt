@@ -1,25 +1,21 @@
 package com.cherepanovky.callbackit
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import androidx.navigation.NavGraph
-import androidx.navigation.findNavController
 import com.cherepanovky.callbackit.di.DaggerMainActivityComponent
 import com.cherepanovky.callbackit.di.FeatureProxyInjector
 import com.cherepanovky.callbackit.di.MainActivityModule
-import com.cherepanovky.callbackit.notifications.ServiceActivity
 import kotlinx.android.synthetic.main.activity_route.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.platform.BaseActivity
 import ru.cherepanovk.core.utils.extentions.viewModel
-import ru.cherepanovk.core_domain_impl.di.DaggerCoreDomainComponent
+import ru.cherepanovk.feature_alarm_impl.di.DaggerCoreDomainComponent
 import javax.inject.Inject
 
 class CallBackItMainActivity : BaseActivity() {

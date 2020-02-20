@@ -4,9 +4,9 @@ import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core_db_api.di.CoreDbApi
 import ru.cherepanovk.core_db_impl.di.DaggerCoreDbComponent
-import ru.cherepanovk.core_domain_api.di.CoreDomainApi
+import ru.cherepanovk.feature_alarm_api.di.CoreDomainApi
 
-import ru.cherepanovk.core_domain_impl.di.DaggerCoreDomainComponent
+import ru.cherepanovk.feature_alarm_impl.di.DaggerCoreDomainComponent
 import ru.cherepanovk.feature_events_api.EventsFeatureApi
 import ru.cherepanovk.feature_events_impl.events.di.DaggerEventsComponent
 import ru.cherepanovk.feature_settings_api.SettingsFeatureApi
