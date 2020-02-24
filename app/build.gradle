@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'com.google.gms.google-services'
+
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
@@ -21,6 +23,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
+
 }
 
 dependencies {
@@ -30,6 +38,9 @@ dependencies {
     implementation project(':core')
     implementation project(':core_db_api')
     implementation project(':core_db_impl')
+    implementation project(':core_network_api')
+    implementation project(':core_network_impl')
+
     implementation project(':feature_alarm_api')
     implementation project(':feature_alarm_impl')
 
@@ -37,6 +48,8 @@ dependencies {
     implementation project(':feature_events_api')
     implementation project(':feature_settings_api')
     implementation project(':feature_settings_impl')
+
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     implementation Libs.Core.KOTLIN_STDLIB
     implementation Libs.AndroidX.ANDROIDX_APPCOMPAT

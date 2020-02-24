@@ -1,2 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.cherepanovk.feature_alarm_api" />
+    package="ru.cherepanovk.feature_alarm_api">
+    <uses-permission android:name="android.permission.INTERNET" />
+
+</manifest>

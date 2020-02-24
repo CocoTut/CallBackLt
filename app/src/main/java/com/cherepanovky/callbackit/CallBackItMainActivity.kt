@@ -15,6 +15,7 @@ import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.platform.BaseActivity
 import ru.cherepanovk.core.utils.extentions.viewModel
+import ru.cherepanovk.core_network_impl.di.DaggerNetworkApiComponent
 import ru.cherepanovk.feature_alarm_impl.di.DaggerCoreDomainComponent
 import javax.inject.Inject
 
@@ -46,6 +47,10 @@ class CallBackItMainActivity : BaseActivity() {
             .coreDomainApi(
                 DaggerCoreDomainComponent.builder()
                 .contextProvider(componentManager.getOrThrow())
+                    .build()
+            )
+            .coreNetworkApi(
+                DaggerNetworkApiComponent.builder()
                     .build()
             )
             .build()
