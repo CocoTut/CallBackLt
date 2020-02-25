@@ -38,6 +38,8 @@ object Versions {
         const val GSON = "2.8.5"
         const val RETROFIT = "2.7.1"
         const val OKHTTP = "4.4.0"
+        const val GOOGLE_API_CLIENT = "1.23.0"
+        const val GOOGLE_SERVICES_CALENDAR = "v3-rev305-1.23.0"
     }
 
     object Ui {
@@ -120,6 +122,8 @@ object Libs {
         const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.Network.RETROFIT}"
         const val OKHTTP = "com.squareup.okhttp3:okhttp:${Versions.Network.OKHTTP}"
         const val OKHTTP_LOGGING = "com.squareup.okhttp3:logging-interceptor:${Versions.Network.OKHTTP}"
+        const val GOOGLE_API_CLIENT = "com.google.api-client:google-api-client:${Versions.Network.GOOGLE_API_CLIENT}"
+        const val GOOGLE_SERVICES_CALENDAR = "com.google.apis:google-api-services-calendar:${Versions.Network.GOOGLE_SERVICES_CALENDAR}"
     }
 
     object Ui {

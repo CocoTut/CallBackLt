@@ -54,5 +54,12 @@ dependencies {
     implementation Libs.Network.OKHTTP
     implementation Libs.Network.OKHTTP_LOGGING
 
+    //google calendar
+    implementation('com.google.api-client:google-api-client-android:1.23.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation('com.google.apis:google-api-services-calendar:v3-rev305-1.23.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
 
 }
