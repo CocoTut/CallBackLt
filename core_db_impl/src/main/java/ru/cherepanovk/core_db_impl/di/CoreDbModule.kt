@@ -9,6 +9,7 @@ import ru.cherepanovk.core_db_api.data.DbApi
 import ru.cherepanovk.core_db_impl.data.DbApiImpl
 import ru.cherepanovk.core_db_impl.data.olddb.DbHelper
 import ru.cherepanovk.core_db_impl.data.room.CallBackLtDb
+import ru.cherepanovk.core_db_impl.data.room.Migrations
 import javax.inject.Singleton
 
 @Module(includes = [DbHelperModule::class])
@@ -31,5 +32,9 @@ object DbHelperModule {
     @Provides
     @Singleton
     fun provideDb(context: Context): CallBackLtDb =
-        Room.databaseBuilder(context, CallBackLtDb::class.java, "CallBackLtDb").build()
+        Room.databaseBuilder(context, CallBackLtDb::class.java, "CallBackLtDb")
+            .addMigrations(
+                Migrations.MIGRATION_1_2
+            )
+            .build()
 }

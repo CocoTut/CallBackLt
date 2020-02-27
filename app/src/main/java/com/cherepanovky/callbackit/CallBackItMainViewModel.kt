@@ -9,17 +9,11 @@ import ru.cherepanovk.feature_alarm_api.data.NotificationChannelCreator
 import javax.inject.Inject
 
 class CallBackItMainViewModel @Inject constructor(
-    notificationChannelCreator: NotificationChannelCreator,
-    api: GoogleCalendarApi
+    notificationChannelCreator: NotificationChannelCreator
 ) : BaseViewModel() {
-
-    private val _googleCalendarAccount = SingleLiveEvent<Intent>()
-    val googleCalendarAccount: LiveData<Intent>
-        get() = _googleCalendarAccount
 
     init {
         notificationChannelCreator.createDefaultNotificationChannel(ringtoneUri = null)
         notificationChannelCreator.createMuteNotificationChannel()
-        _googleCalendarAccount.postValue(api.getChooseAccountIntent())
     }
 }

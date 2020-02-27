@@ -26,4 +26,6 @@ interface DbApi {
     suspend fun deleteReminderById(id: String)
 
     suspend fun getReminderByPhoneNumber(phoneNumber: String): Reminder?
+
+    suspend fun isFirstStart(): Boolean
 }

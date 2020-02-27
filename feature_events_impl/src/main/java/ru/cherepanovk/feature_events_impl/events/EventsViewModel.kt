@@ -12,6 +12,7 @@ import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core.platform.ContactPicker
+import ru.cherepanovk.core.platform.SingleLiveEvent
 import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.feature_events_impl.events.data.EventsRepository
 import ru.cherepanovk.feature_events_impl.events.domain.*
@@ -23,7 +24,9 @@ class EventsViewModel @Inject constructor(
     private val saveRemindersToDb: SaveRemindersToDb,
     private val getRemindersBetweenDates: GetRemindersFromDbBetweenDates,
     private val itemReminderMapper: ItemReminderMapper,
-    private val getYearsFromDb: GetYearsFromDb
+    private val getYearsFromDb: GetYearsFromDb,
+    private val askGoogleAccount: AskGoogleAccount,
+    private val dateHelper: DateHelper
 ) : BaseViewModel() {
 
     private val _currentMonth = MutableLiveData<Int>()
@@ -46,14 +49,18 @@ class EventsViewModel @Inject constructor(
     val years: LiveData<List<String>>
         get() = _years
 
+    private val _googleCalendarAccount = SingleLiveEvent<Intent>()
+    val googleCalendarAccount: LiveData<Intent>
+        get() = _googleCalendarAccount
+
     init {
 
 //        loadRemindersFromOldDb()
         loadData()
 
-        _currentYear.postValue(getCurrentYear())
+        _currentYear.postValue(dateHelper.getCurrentYear())
 
-        _currentMonth.postValue(getCurrentMonth())
+        _currentMonth.postValue(dateHelper.getCurrentMonth())
 
         _emptyListVisibility.addSource(itemsReminder) { items ->
             _emptyListVisibility.postValue(items.isEmpty())
@@ -63,19 +70,26 @@ class EventsViewModel @Inject constructor(
 
     fun onMonthClick(month: Int) {
         _currentMonth.postValue(month)
-        loadReminders(month, currentYear.value ?: getCurrentYear())
+        loadReminders(month, currentYear.value ?: dateHelper.getCurrentYear())
     }
 
     fun yearSelected(year: Int?) {
-        _currentYear.value = year ?: getCurrentYear()
-        loadReminders(currentMonth.value ?: getCurrentMonth(), currentYear.value!!)
+        _currentYear.value = year ?: dateHelper.getCurrentYear()
+        loadReminders(currentMonth.value ?: dateHelper.getCurrentMonth(), currentYear.value!!)
     }
 
+    fun checkGoogleAccount() {
+        launchLoading { askGoogleAccount(UseCase.None()){
+            it.handleSuccess { accountIntent ->
+                accountIntent?.let { _googleCalendarAccount.postValue(accountIntent) }
+            }
+        } }
+    }
 
     private fun loadData() {
         loadReminders(
-            currentMonth.value ?: getCurrentMonth(),
-            currentYear.value ?: getCurrentYear()
+            currentMonth.value ?: dateHelper.getCurrentMonth(),
+            currentYear.value ?: dateHelper.getCurrentYear()
         )
 
         loadYears()
@@ -83,8 +97,8 @@ class EventsViewModel @Inject constructor(
 
     private fun loadReminders(month: Int, year: Int) {
         val dates = GetRemindersFromDbBetweenDates.Params(
-            getStartDate(month, year),
-            getEndDate(month, year)
+            dateHelper.getStartDate(month, year),
+            dateHelper.getEndDate(month, year)
         )
         launchLoading {
             getRemindersBetweenDates(dates) {
@@ -126,40 +140,7 @@ class EventsViewModel @Inject constructor(
     }
 
 
-    private fun getCurrentMonth(): Int {
-        return Calendar.getInstance().get(Calendar.MONTH)
-    }
 
-    private fun getCurrentYear(): Int {
-        return Calendar.getInstance().get(Calendar.YEAR)
-    }
-
-    private fun getStartDate(month: Int, year: Int): Date {
-        val calendar = getCalendar(month, year)
-        calendar.set(Calendar.DAY_OF_MONTH, 1)
-        calendar.set(Calendar.HOUR_OF_DAY, 0)
-        calendar.clear(Calendar.MINUTE)
-        calendar.clear(Calendar.SECOND)
-        calendar.clear(Calendar.MILLISECOND)
-        return calendar.time
-    }
-
-    private fun getEndDate(month: Int, year: Int): Date {
-        val calendar = getCalendar(month, year)
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
-        calendar.set(Calendar.HOUR_OF_DAY, 23)
-        calendar.set(Calendar.MINUTE, 59)
-        calendar.set(Calendar.SECOND, 59)
-        calendar.set(Calendar.MILLISECOND, 999)
-        return calendar.time
-    }
-
-    private fun getCalendar(month: Int, year: Int): Calendar {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.MONTH, month)
-        calendar.set(Calendar.YEAR, year)
-        return calendar
-    }
 
     private fun saveRemindersFromOldBase(reminders: List<Reminder>) {
         launchLoading {

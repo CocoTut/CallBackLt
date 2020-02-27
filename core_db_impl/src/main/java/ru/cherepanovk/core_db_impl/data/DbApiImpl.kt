@@ -75,4 +75,6 @@ class DbApiImpl @Inject constructor(
                 Regex(PHONE_REGEX_PATTERN).replace(phoneNumber, "")
             )?.let { entityReminderMapper.map(it) }
     }
+
+    override suspend fun isFirstStart() = callBackLtDb.getPreferencesDao().isFirstStar() ?: true
 }

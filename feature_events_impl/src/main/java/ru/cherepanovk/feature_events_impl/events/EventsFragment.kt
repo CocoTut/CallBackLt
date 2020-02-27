@@ -1,10 +1,13 @@
 package ru.cherepanovk.feature_events_impl.events
 
 import android.Manifest
+import android.accounts.AccountManager
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.PopupMenu
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.fragment.app.viewModels
@@ -20,6 +23,7 @@ import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.platform.ErrorHandler
+import ru.cherepanovk.core.utils.extentions.afterRequestPermissions
 import ru.cherepanovk.core.utils.extentions.beforeRequestPermissions
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.viewModel
@@ -30,6 +34,7 @@ import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
 import javax.inject.Inject
 
 const val PERMISSIONS_REQUEST_CODE = 302
+private const val REQUEST_ACCOUNT_PICKER = 18940
 
 class EventsFragment : BaseFragment(R.layout.fragment_events) {
 
@@ -57,7 +62,9 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             true,
             Manifest.permission.READ_CONTACTS,
             Manifest.permission.READ_CALL_LOG,
-            Manifest.permission.READ_PHONE_STATE)
+            Manifest.permission.READ_PHONE_STATE
+        )
+        model.checkGoogleAccount()
     }
 
     override fun inject(componentManager: ComponentManager) {
@@ -102,7 +109,15 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             observe(years, ::setYears)
             observe(currentYear, ::setCurrentYear)
             observe(itemsReminder, ::setItems)
+            observe(googleCalendarAccount, ::getGoogleCalendarAccount)
         }
+    }
+
+    private fun getGoogleCalendarAccount(calendarIntent: Intent) {
+        startActivityForResult(
+            calendarIntent,
+            REQUEST_ACCOUNT_PICKER
+        )
     }
 
     private fun setYears(years: List<String>) {
@@ -124,6 +139,17 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             return@setOnMenuItemClickListener true
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_ACCOUNT_PICKER
+            && resultCode == AppCompatActivity.RESULT_OK
+        ) {
+            val accountName = data?.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)
+
+        }
     }
 
     private fun openEventScreen(id: String?) {

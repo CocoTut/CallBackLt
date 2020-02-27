@@ -9,6 +9,7 @@ import ru.cherepanovk.feature_alarm_api.di.CoreDomainApi
 import ru.cherepanovk.feature_alarm_impl.di.DaggerCoreDomainComponent
 import ru.cherepanovk.feature_events_api.EventsFeatureApi
 import ru.cherepanovk.feature_events_impl.events.di.DaggerEventsComponent
+import ru.cherepanovk.feature_google_calendar_impl.di.DaggerGoogleCalendarApiComponent
 import ru.cherepanovk.feature_settings_api.SettingsFeatureApi
 import ru.cherepanovk.feature_settings_impl.di.DaggerSettingsComponent
 
@@ -36,6 +37,11 @@ class FeatureProxyInjector {
                             .contextProvider(ComponentManager.getOrThrow())
                             .build()
                             .also { ComponentManager.put(it) }
+                )
+                .coreGoogleCalendarApi(
+                    DaggerGoogleCalendarApiComponent.builder()
+                        .contextProvider(ComponentManager.getOrThrow())
+                        .build()
                 )
                 .build()
                 .also { ComponentManager.put(it) }
