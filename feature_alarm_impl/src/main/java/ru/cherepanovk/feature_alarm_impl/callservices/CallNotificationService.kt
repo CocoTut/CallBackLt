@@ -94,10 +94,10 @@ class CallNotificationService : Service(), CoroutineScope by CoroutineScope(Disp
     private suspend fun getNotificationsParamsFromDb(phoneNumber: String): NotificationParams? {
         return dbApi.getReminderByPhoneNumber(phoneNumber)?.let {
             NotificationParams(
-                contactName = it.contactName(),
-                phoneNumber = it.phoneNumber(),
-                reminderId = it.id(),
-                description = it.description()
+                contactName = it.contactName,
+                phoneNumber = it.phoneNumber,
+                reminderId = it.id,
+                description = it.description
             )
         }
     }

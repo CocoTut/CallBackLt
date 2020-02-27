@@ -8,11 +8,11 @@ import javax.inject.Inject
 class ItemReminderMapper @Inject constructor(private val dateTimeHelper: DateTimeHelper) : Mapper<Reminder, ItemReminder> {
     override fun map(from: Reminder): ItemReminder {
         return ItemReminder(
-            id = from.id(),
-            description = from.description(),
-            phoneNumber = from.phoneNumber(),
-            date = dateTimeHelper.getDateString(from.dateTimeEvent()),
-            time = dateTimeHelper.getTimeString(from.dateTimeEvent())
+            id = from.id,
+            description = from.description,
+            phoneNumber = from.phoneNumber,
+            date = dateTimeHelper.getDateString(from.dateTimeEvent),
+            time = dateTimeHelper.getTimeString(from.dateTimeEvent)
         )
     }
 }

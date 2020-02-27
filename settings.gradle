@@ -1,5 +1,5 @@
-include ':app', ':core_network_impl'
-include ':core_network_api'
+include ':app', ':feature_google_calendar_impl'
+include ':feature_google_calendar_api'
 include ':core_db_api'
 include ':core_db_impl'
 include ':core'

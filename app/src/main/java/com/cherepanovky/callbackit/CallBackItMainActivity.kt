@@ -18,7 +18,7 @@ import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.platform.BaseActivity
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.viewModel
-import ru.cherepanovk.core_network_impl.di.DaggerNetworkApiComponent
+import ru.cherepanovk.feature_google_calendar_impl.di.DaggerNetworkApiComponent
 import ru.cherepanovk.feature_alarm_impl.di.DaggerCoreDomainComponent
 import javax.inject.Inject
 

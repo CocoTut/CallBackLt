@@ -16,9 +16,9 @@ class SaveReminderToDb @Inject constructor(
 
     override suspend fun run(params: Reminder) {
 
-        cancelCurrentReminder(params.id())
+        cancelCurrentReminder(params.id)
         eventRepository.saveReminderToDb(params)
-        createAlarm(params.id())
+        createAlarm(params.id)
     }
 
     private suspend fun cancelCurrentReminder(reminderId: String) {

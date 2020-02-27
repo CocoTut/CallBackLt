@@ -14,11 +14,11 @@ class CreateReminderAlarm @Inject constructor(
     override suspend fun run(params: Reminder) {
        val alarmReminder =
            AlarmModel(
-               id = params.id(),
-               phoneNumber = params.phoneNumber(),
-               description = params.description(),
-               contactName = params.contactName(),
-               dateTimeEvent = params.dateTimeEvent()
+               id = params.id,
+               phoneNumber = params.phoneNumber,
+               description = params.description,
+               contactName = params.contactName,
+               dateTimeEvent = params.dateTimeEvent
            )
        return alarmApi.createAlarm(alarmReminder)
     }

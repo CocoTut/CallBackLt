@@ -1,15 +1,15 @@
 package ru.cherepanovk.feature_events_impl.event
 
 import ru.cherepanovk.core.utils.DateTimeHelper
-import ru.cherepanovk.core.utils.Mapper
+import ru.cherepanovk.core_db_api.data.Reminder
 import java.util.*
 import javax.inject.Inject
 
 class NewReminderMapper @Inject constructor(
     private val dateTimeHelper: DateTimeHelper
 ) {
-    fun map(from: ReminderView): NewReminder {
-        return NewReminder(
+    fun map(from: ReminderView): Reminder {
+        return Reminder(
             id = from.id ?: UUID.randomUUID().toString(),
             phoneNumber = from.phoneNumber,
             description = from.description,

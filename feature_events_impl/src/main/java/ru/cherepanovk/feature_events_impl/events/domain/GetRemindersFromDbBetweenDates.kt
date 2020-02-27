@@ -16,7 +16,7 @@ class GetRemindersFromDbBetweenDates @Inject constructor(
 
     override suspend fun run(params: Params): Flow<List<Reminder>> {
        return eventsRepository.getRemindersBetweenDates(params.startDate, params.endDate)
-           .map {reminders-> reminders.sortedByDescending { it.dateTimeEvent() } }
+           .map {reminders-> reminders.sortedByDescending { it.dateTimeEvent } }
     }
 
     class Params(
