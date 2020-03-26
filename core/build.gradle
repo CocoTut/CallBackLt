@@ -41,10 +41,19 @@ dependencies {
     testImplementation Libs.Test.TEST_LIB_JUNIT
     androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
     androidTestImplementation Libs.Test.TEST_ANDROIDX_ESPRESSO_CORE
+    testImplementation Libs.Test.TEST_ANDROIDX_ARCH_CORE
+    testImplementation Libs.Test.TEST_MOCKITO_CORE
+    testImplementation Libs.Test.TEST_MOCKITO_INLINE
+    testImplementation Libs.Test.TEST_KOTLINX_COROUTINES
+    testImplementation Libs.Core.COROUTINES_ANDROID
 
     //navigation component
     api Libs.AndroidX.ANDROIDX_NAVIGATION_FRAGMENT
     api Libs.AndroidX.ANDROIDX_NAVIGATION_UI
+
+    //kotlin coroutines
+    implementation Libs.Core.COROUTINES_CORE
+    implementation Libs.Core.COROUTINES_ANDROID
 
 
     //dagger 2 for DI

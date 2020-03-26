@@ -1,4 +1,4 @@
-include ':app', ':feature_google_calendar_impl'
+include ':app'
 include ':feature_google_calendar_api'
 include ':core_db_api'
 include ':core_db_impl'
@@ -9,6 +9,6 @@ include ':feature_settings_impl'
 include ':feature_settings_api'
 include ':feature_alarm_api'
 include ':feature_alarm_impl'
-
-
+include ':feature_google_calendar_impl'
+include ':core_tests'
 

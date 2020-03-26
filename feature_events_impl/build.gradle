@@ -30,6 +30,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':core')
+    implementation project(':core_tests')
     implementation project(':core_db_api')
     implementation project(':feature_events_api')
     implementation project(':feature_alarm_api')
@@ -39,9 +40,7 @@ dependencies {
     implementation Libs.AndroidX.ANDROIDX_APPCOMPAT
     implementation Libs.AndroidX.ANDROIDX_CORE_KTX
 
-    testImplementation Libs.Test.TEST_LIB_JUNIT
-    androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
-    androidTestImplementation Libs.Test.TEST_ANDROIDX_ESPRESSO_CORE
+
 
     implementation Libs.AndroidX.ANDROIDX_CONSTRAINT_LAYOUT
     implementation Libs.AndroidX.ANDROIDX_CARD_VIEW
@@ -51,6 +50,7 @@ dependencies {
     implementation Libs.AndroidX.ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX
     implementation Libs.AndroidX.ANDROIDX_FRAGMENT_KTX
 
+
     //dagger 2
     implementation Libs.Core.DAGGER
     kapt Libs.Core.DAGGER_COMPILER
@@ -59,9 +59,7 @@ dependencies {
     implementation Libs.AndroidX.ANDROIDX_NAVIGATION_FRAGMENT
     implementation Libs.AndroidX.ANDROIDX_NAVIGATION_UI
 
-    //kotlin coroutines
-    implementation Libs.Core.COROUTINES_CORE
-    implementation Libs.Core.COROUTINES_ANDROID
+
 
     //groupie fro RecyclerView
     implementation Libs.Ui.GROUPIE

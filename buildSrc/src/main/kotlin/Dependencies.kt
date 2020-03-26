@@ -60,6 +60,9 @@ object Versions {
         const val JUNIT = "4.12"
         const val ANDROIDX_ESPRESSO = "3.2.0"
         const val ANDROIDX_TESTING = "1.2.0"
+        const val ANDROIDX_ARCH_CORE_TESTING = "2.1.0"
+        const val MOCKITO = "3.1.0"
+        const val KOTLIN_MOCKITO = "2.2.0"
     }
 }
 
@@ -150,9 +153,14 @@ object Libs {
         const val TEST_LIB_JUNIT = "junit:junit:${Versions.Test.JUNIT}"
         const val TEST_ANDROIDX_RULES = "androidx.test:rules:${Versions.Test.ANDROIDX_TESTING}"
         const val TEST_ANDROIDX_RUNNER = "androidx.test:runner:${Versions.Test.ANDROIDX_TESTING}"
-        const val TEST_ANDROIDX_RUNNER_EXT = "'androidx.test.ext:junit:1.1.1'"
+        const val TEST_ANDROIDX_RUNNER_EXT = "androidx.test.ext:junit:1.1.1"
         const val TEST_ANDROIDX_ESPRESSO_CORE =
             "androidx.test.espresso:espresso-core:${Versions.Test.ANDROIDX_ESPRESSO}"
+        const val TEST_ANDROIDX_ARCH_CORE = "androidx.arch.core:core-testing:${Versions.Test.ANDROIDX_ARCH_CORE_TESTING}"
+        const val TEST_MOCKITO_CORE = "org.mockito:mockito-core:${Versions.Test.MOCKITO}"
+        const val TEST_MOCKITO_INLINE = "org.mockito:mockito-inline:${Versions.Test.MOCKITO}"
+        const val TEST_KOTLINX_COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.Core.COROUTINES}"
+        const val TEST_KOTLIN_MOCKITO = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.Test.KOTLIN_MOCKITO}"
     }
 
 }

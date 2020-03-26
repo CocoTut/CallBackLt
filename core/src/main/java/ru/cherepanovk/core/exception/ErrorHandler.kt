@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken
 import retrofit2.HttpException
 import ru.cherepanovk.core.functional.Either
 import ru.cherepanovk.core.platform.NetworkHandler
+import java.io.IOException
 import java.lang.reflect.Type
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -23,6 +24,7 @@ class ErrorHandler @Inject constructor(private val networkHandler: NetworkHandle
                 is ConnectException -> Either.Left(Failure.NetworkConnection)
                 is SocketTimeoutException -> Either.Left(Failure.TimeOut)
                 is CallBackItException.CreateNotificationException -> Either.Left(Failure.CreateNotificationError)
+                is IOException ->  Either.Left(Failure.DataBaseError)
                 else -> Either.Left(Failure.ServerError)
             }
     }
