@@ -76,5 +76,4 @@ class DbApiImpl @Inject constructor(
             )?.let { entityReminderMapper.map(it) }
     }
 
-    override suspend fun isFirstStart() = callBackLtDb.getPreferencesDao().isFirstStar() ?: true
 }

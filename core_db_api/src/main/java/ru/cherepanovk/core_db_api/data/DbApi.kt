@@ -11,8 +11,6 @@ interface DbApi {
 
     suspend fun saveReminders(reminders: List<Reminder>)
 
-//    suspend fun getRemindersBetweenDates(startDate: Date, endDate: Date): List<Reminder>
-
     fun getRemindersBetweenDates(startDate: Date, endDate: Date): Flow<List<Reminder>>
 
     suspend fun getYears(): List<String>
@@ -26,6 +24,4 @@ interface DbApi {
     suspend fun deleteReminderById(id: String)
 
     suspend fun getReminderByPhoneNumber(phoneNumber: String): Reminder?
-
-    suspend fun isFirstStart(): Boolean
 }

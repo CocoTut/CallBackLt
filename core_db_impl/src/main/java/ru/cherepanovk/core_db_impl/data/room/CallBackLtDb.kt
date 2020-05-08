@@ -9,11 +9,9 @@ import ru.cherepanovk.core_db_impl.data.room.dao.ReminderDao
 import ru.cherepanovk.core_db_impl.data.room.entities.Preferences
 import ru.cherepanovk.core_db_impl.data.room.entities.ReminderEntity
 
-@Database(entities = [ReminderEntity::class, Preferences::class], version = 2)
+@Database(entities = [ReminderEntity::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class CallBackLtDb : RoomDatabase() {
 
     abstract fun getReminderDao(): ReminderDao
-
-    abstract fun getPreferencesDao(): PreferencesDao
 }

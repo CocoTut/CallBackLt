@@ -1,6 +1,7 @@
 package ru.cherepanovk.feature_google_calendar_impl.di
 
 import com.google.api.client.extensions.android.http.AndroidHttp
+import com.google.api.client.http.HttpTransport
 import com.google.api.client.json.JsonFactory
 import com.google.api.client.json.jackson2.JacksonFactory
 import dagger.Binds
@@ -11,24 +12,21 @@ import ru.cherepanovk.feature_google_calendar_impl.data.GoogleCalendarApiImpl
 import javax.inject.Singleton
 
 
-@Module(includes = [GoogleClientModule::class])
+@Module
 abstract class CoreNetworkApiModule {
     @Binds
     abstract fun bindGoogleCalendarApi(googleCalendarApiImpl: GoogleCalendarApiImpl): GoogleCalendarApi
-}
 
-@Module
-object GoogleClientModule {
-    @Provides
-    @JvmStatic
-    @Singleton
-    fun provideHttpTransport() = AndroidHttp.newCompatibleTransport()
+    companion object {
+        @Provides
+        @Singleton
+        fun provideHttpTransport(): HttpTransport = AndroidHttp.newCompatibleTransport()
 
-    @Provides
-    @JvmStatic
-    @Singleton
-    fun provideJsonFactory(): JsonFactory =
-        JacksonFactory.getDefaultInstance()
+        @Provides
+        @Singleton
+        fun provideJsonFactory(): JsonFactory =
+            JacksonFactory.getDefaultInstance()
+    }
 }
 
 

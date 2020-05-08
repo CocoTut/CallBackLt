@@ -25,17 +25,20 @@ android {
         }
     }
 
+    viewBinding {
+        enabled = true
+    }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':core')
     implementation project(':core_db_api')
+    implementation project(':core_preferences_api')
     implementation project(':feature_settings_api')
+    implementation project(':feature_google_calendar_api')
 
-    implementation Libs.Core.KOTLIN_STDLIB
-    implementation Libs.AndroidX.ANDROIDX_APPCOMPAT
-    implementation Libs.AndroidX.ANDROIDX_CORE_KTX
 
     testImplementation Libs.Test.TEST_LIB_JUNIT
     androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
@@ -43,10 +46,7 @@ dependencies {
 
     implementation Libs.AndroidX.ANDROIDX_CONSTRAINT_LAYOUT
     implementation Libs.AndroidX.ANDROIDX_CARD_VIEW
-
-    implementation Libs.AndroidX.ANDROIDX_LEGACY_SUPPORT
-    implementation Libs.AndroidX.ANDROIDX_LIFECYCLE_EXTENSIONS
-    implementation Libs.AndroidX.ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX
+    implementation Libs.AndroidX.ANDROIDX_FRAGMENT_KTX
 
     //dagger 2
     implementation Libs.Core.DAGGER

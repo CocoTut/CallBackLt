@@ -12,29 +12,22 @@ import ru.cherepanovk.core_db_impl.data.room.CallBackLtDb
 import ru.cherepanovk.core_db_impl.data.room.Migrations
 import javax.inject.Singleton
 
-@Module(includes = [DbHelperModule::class])
+@Module
 abstract class CoreDbModule {
     @Singleton
     @Binds
     abstract fun bindOldDb(dbApiImpl: DbApiImpl): DbApi
 
+    companion object {
+        @Provides
+        @Singleton
+        fun provideDbHelper(context: Context) = DbHelper(context)
 
+        @Provides
+        @Singleton
+        fun provideDb(context: Context): CallBackLtDb =
+            Room.databaseBuilder(context, CallBackLtDb::class.java, "CallBackLtDb")
+                .build()
+    }
 }
 
-@Module
-object DbHelperModule {
-    @JvmStatic
-    @Provides
-    @Singleton
-    fun provideDbHelper(context: Context) = DbHelper(context)
-
-    @JvmStatic
-    @Provides
-    @Singleton
-    fun provideDb(context: Context): CallBackLtDb =
-        Room.databaseBuilder(context, CallBackLtDb::class.java, "CallBackLtDb")
-            .addMigrations(
-                Migrations.MIGRATION_1_2
-            )
-            .build()
-}

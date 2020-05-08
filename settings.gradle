@@ -11,4 +11,5 @@ include ':feature_alarm_api'
 include ':feature_alarm_impl'
 include ':feature_google_calendar_impl'
 include ':core_tests'
-
+include ':core_preferences_api'
+include ':core_preferences_impl'

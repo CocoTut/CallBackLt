@@ -22,6 +22,7 @@ import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.event.di.DaggerEventComponent
 import javax.inject.Inject
 import android.view.Window
+import androidx.fragment.app.viewModels
 import ru.cherepanovk.feature_events_impl.event.dialog.di.DaggerDialogDeleteComponent
 import ru.cherepanovk.feature_events_impl.event.dialog.di.DialogDeleteComponent
 
@@ -31,12 +32,11 @@ class DialogDeleteReminderFragment : DialogFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var model: DeleteReminderViewModel
+    private val model: DeleteReminderViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         inject(ComponentManager)
-        model = viewModel(viewModelFactory)
     }
 
     private fun inject(componentManager: ComponentManager) {

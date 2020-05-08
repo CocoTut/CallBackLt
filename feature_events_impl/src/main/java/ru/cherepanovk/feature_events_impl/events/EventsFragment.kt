@@ -31,6 +31,7 @@ import ru.cherepanovk.feature_events_impl.ARG_EVENT_ID
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.event.EventOpenParams
 import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
+import ru.cherepanovk.feature_google_calendar_api.data.GoogleCalendarApi
 import javax.inject.Inject
 
 const val PERMISSIONS_REQUEST_CODE = 302
@@ -42,6 +43,9 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
 
     @Inject
     lateinit var errorHandler: ErrorHandler
+
+    @Inject
+    lateinit var googleCalendarApi: GoogleCalendarApi
 
     private val remindersAdapter = GroupAdapter<ViewHolder>().apply {
         setOnItemClickListener { item, _ ->
@@ -113,11 +117,9 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
         }
     }
 
-    private fun getGoogleCalendarAccount(calendarIntent: Intent) {
-        startActivityForResult(
-            calendarIntent,
-            REQUEST_ACCOUNT_PICKER
-        )
+    private fun getGoogleCalendarAccount(needAskAboutCalendar: Boolean) {
+        if (needAskAboutCalendar)
+            googleCalendarApi.chooseAccountViaFragment(this)
     }
 
     private fun setYears(years: List<String>) {
@@ -143,13 +145,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == REQUEST_ACCOUNT_PICKER
-            && resultCode == AppCompatActivity.RESULT_OK
-        ) {
-            val accountName = data?.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)
-
-        }
+        val name = googleCalendarApi.getChosenAccountName(requestCode, resultCode, data)
     }
 
     private fun openEventScreen(id: String?) {

@@ -40,7 +40,7 @@ subprojects {
 
             android {
                 compileSdkVersion AndroidBuildConfig.COMPILE_SDK
-
+                buildToolsVersion AndroidBuildConfig.BUILD_TOOLS_VERSION
                 defaultConfig {
                     minSdkVersion AndroidBuildConfig.MIN_SDK
                     targetSdkVersion AndroidBuildConfig.TARGET_SDK
@@ -50,6 +50,10 @@ subprojects {
                 compileOptions {
                     sourceCompatibility AndroidBuildConfig.javaVersion
                     targetCompatibility AndroidBuildConfig.javaVersion
+                }
+
+                kotlinOptions {
+                    jvmTarget = '1.8'
                 }
 
 

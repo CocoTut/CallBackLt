@@ -4,6 +4,7 @@ import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core_db_api.di.CoreDbApi
 import ru.cherepanovk.core_db_impl.di.DaggerCoreDbComponent
+import ru.cherepanovk.core_preferences_impl.di.DaggerCorePreferencesComponent
 import ru.cherepanovk.feature_alarm_api.di.CoreDomainApi
 
 import ru.cherepanovk.feature_alarm_impl.di.DaggerCoreDomainComponent
@@ -43,12 +44,29 @@ class FeatureProxyInjector {
                         .contextProvider(ComponentManager.getOrThrow())
                         .build()
                 )
+                .corePreferencesApi(
+                    DaggerCorePreferencesComponent.builder()
+                        .contextProvider(ComponentManager.getOrThrow())
+                        .build()
+                )
                 .build()
                 .also { ComponentManager.put(it) }
         }
 
         fun getSettingsFeature(): SettingsFeatureApi {
             return DaggerSettingsComponent.builder()
+                .corePreferencesApi(
+                    DaggerCorePreferencesComponent.builder()
+                        .contextProvider(ComponentManager.getOrThrow())
+                        .build()
+                )
+                .contextProvider(ComponentManager.getOrThrow())
+                .rootViewProvider(ComponentManager.getOrThrow())
+                .coreGoogleCalendarApi(
+                    DaggerGoogleCalendarApiComponent.builder()
+                    .contextProvider(ComponentManager.getOrThrow())
+                    .build()
+                )
                 .build()
                 .also { ComponentManager.put(it) }
         }

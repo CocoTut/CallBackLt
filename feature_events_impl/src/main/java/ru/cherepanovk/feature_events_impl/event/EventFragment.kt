@@ -12,6 +12,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.transition.TransitionInflater
 import kotlinx.android.synthetic.main.fragment_event.*
 import kotlinx.android.synthetic.main.toolbar_back_title.*
@@ -39,7 +40,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
     TimePickerDialog.OnTimeSetListener,
     ActivityStarter {
 
-    private lateinit var model: EventViewModel
+    private val model: EventViewModel by viewModels { viewModelFactory }
     private val openParams
         get() = arguments?.let { EventOpenParams.fromBundle(it) }
 
@@ -79,7 +80,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
 
     override fun bindViewModel() {
-        model = viewModel(viewModelFactory) {
+        with(model) {
             observe(reminderView, ::setReminder)
             observe(toolbarTitleNewReminder, ::setTitleNewReminder)
             observe(success, ::handleSuccess)

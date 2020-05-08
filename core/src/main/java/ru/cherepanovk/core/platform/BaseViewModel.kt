@@ -50,4 +50,5 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
             _isLoading.value = false
         }
     }
+
 }

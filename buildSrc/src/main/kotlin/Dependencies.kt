@@ -9,11 +9,11 @@ package dependencies
 object Versions {
 
     object Core {
-        const val GRADLE_ANDROID = "3.5.1"
-        const val KOTLIN = "1.3.61"
+        const val GRADLE_ANDROID = "3.6.2"
+        const val KOTLIN = "1.3.71"
         const val GRADLE_VERSIONS = "0.21.0"
         const val GOOGLE = "4.3.0"
-        const val DAGGER = "2.25.2"
+        const val DAGGER = "2.27"
         const val COROUTINES = "1.3.2"
     }
 
@@ -25,9 +25,8 @@ object Versions {
         const val ANDROIDX_CONSTRAINT_LAYOUT = "1.1.3"
         const val ANDROIDX_CARD_VIEW = "1.0.0"
         const val ANDROIDX_LEGACY_SUPPORT = "1.0.0"
-        const val ANDROIDX_LIFECYCLE_EXTENSIONS = "2.1.0-rc01"
-        const val ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX = "2.2.0-alpha03"
-        const val ANDROIDX_FRAGMENT_KTX = "1.1.0-rc01"
+        const val ANDROIDX_LIFECYCLE = "2.2.0"
+        const val ANDROIDX_FRAGMENT_KTX = "1.2.4"
     }
 
     object FireBase {
@@ -110,8 +109,11 @@ object Libs {
             "androidx.cardview:cardview:${Versions.AndroidX.ANDROIDX_CARD_VIEW}"
 
         const val ANDROIDX_LEGACY_SUPPORT = "androidx.legacy:legacy-support-v4:${Versions.AndroidX.ANDROIDX_LEGACY_SUPPORT}"
-        const val ANDROIDX_LIFECYCLE_EXTENSIONS = "androidx.lifecycle:lifecycle-extensions:${Versions.AndroidX.ANDROIDX_LIFECYCLE_EXTENSIONS}"
-        const val ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX}"
+        const val ANDROIDX_LIFECYCLE_EXTENSIONS = "androidx.lifecycle:lifecycle-extensions:${Versions.AndroidX.ANDROIDX_LIFECYCLE}"
+        const val ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.ANDROIDX_LIFECYCLE}"
+        const val ANDROIDX_LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.AndroidX.ANDROIDX_LIFECYCLE}"
+        const val ANDROIDX_LIFECYCLE_RUNTIME = "androidx.lifecycle:lifecycle-runtime:${Versions.AndroidX.ANDROIDX_LIFECYCLE}"
+        const val ANDROIDX_LIFECYCLE_COMMON_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.AndroidX.ANDROIDX_LIFECYCLE}"
         const val ANDROIDX_FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Versions.AndroidX.ANDROIDX_FRAGMENT_KTX}"
 
     }

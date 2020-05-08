@@ -5,6 +5,7 @@ import ru.cherepanovk.core.di.dependencies.ContextProvider
 import ru.cherepanovk.core.di.dependencies.RootViewProvider
 import ru.cherepanovk.core.di.viewmodel.ViewModelModule
 import ru.cherepanovk.core_db_api.di.CoreDbApi
+import ru.cherepanovk.core_preferences_api.di.CorePreferencesApi
 import ru.cherepanovk.feature_alarm_api.di.CoreDomainApi
 import ru.cherepanovk.feature_events_api.EventsFeatureApi
 import ru.cherepanovk.feature_events_impl.events.EventsFragment
@@ -20,7 +21,8 @@ import ru.cherepanovk.feature_google_calendar_api.di.CoreGoogleCalendarApi
         CoreDbApi::class,
         CoreDomainApi::class,
         RootViewProvider::class,
-        CoreGoogleCalendarApi::class
+        CoreGoogleCalendarApi::class,
+        CorePreferencesApi::class
     ]
     )
 interface EventsComponent : EventsFeatureApi {

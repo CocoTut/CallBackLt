@@ -49,8 +49,8 @@ class EventsViewModel @Inject constructor(
     val years: LiveData<List<String>>
         get() = _years
 
-    private val _googleCalendarAccount = SingleLiveEvent<Intent>()
-    val googleCalendarAccount: LiveData<Intent>
+    private val _googleCalendarAccount = SingleLiveEvent<Boolean>()
+    val googleCalendarAccount: LiveData<Boolean>
         get() = _googleCalendarAccount
 
     init {
