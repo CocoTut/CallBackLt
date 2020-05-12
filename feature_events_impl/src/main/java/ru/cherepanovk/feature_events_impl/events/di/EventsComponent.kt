@@ -22,7 +22,8 @@ import ru.cherepanovk.feature_google_calendar_api.di.CoreGoogleCalendarApi
         CoreDomainApi::class,
         RootViewProvider::class,
         CoreGoogleCalendarApi::class,
-        CorePreferencesApi::class
+        CorePreferencesApi::class,
+        CoreGoogleCalendarApi::class
     ]
     )
 interface EventsComponent : EventsFeatureApi {

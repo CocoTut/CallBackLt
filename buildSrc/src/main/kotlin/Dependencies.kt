@@ -12,16 +12,16 @@ object Versions {
         const val GRADLE_ANDROID = "3.6.2"
         const val KOTLIN = "1.3.71"
         const val GRADLE_VERSIONS = "0.21.0"
-        const val GOOGLE = "4.3.0"
+        const val GOOGLE = "4.3.3"
         const val DAGGER = "2.27"
-        const val COROUTINES = "1.3.2"
+        const val COROUTINES = "1.3.6"
     }
 
     object AndroidX {
         const val ANDROIDX_CORE = "1.0.2"
         const val ANDROIDX_APPCOMPAT = "1.0.2"
         const val ANDROIDX_RECYCLER_VIEW = "1.0.0"
-        const val ANDROIDX_NAVIGATION = "2.0.0"
+        const val ANDROIDX_NAVIGATION = "2.1.0"
         const val ANDROIDX_CONSTRAINT_LAYOUT = "1.1.3"
         const val ANDROIDX_CARD_VIEW = "1.0.0"
         const val ANDROIDX_LEGACY_SUPPORT = "1.0.0"
@@ -127,7 +127,7 @@ object Libs {
         const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.Network.RETROFIT}"
         const val OKHTTP = "com.squareup.okhttp3:okhttp:${Versions.Network.OKHTTP}"
         const val OKHTTP_LOGGING = "com.squareup.okhttp3:logging-interceptor:${Versions.Network.OKHTTP}"
-        const val GOOGLE_API_CLIENT = "com.google.api-client:google-api-client:${Versions.Network.GOOGLE_API_CLIENT}"
+        const val GOOGLE_API_CLIENT = "com.google.api-client:google-api-client-android:${Versions.Network.GOOGLE_API_CLIENT}"
         const val GOOGLE_SERVICES_CALENDAR = "com.google.apis:google-api-services-calendar:${Versions.Network.GOOGLE_SERVICES_CALENDAR}"
     }
 

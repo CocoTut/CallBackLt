@@ -9,11 +9,14 @@ import ru.cherepanovk.core_preferences_api.di.CorePreferencesApi
 import ru.cherepanovk.feature_google_calendar_api.data.GoogleCalendarApi
 import javax.inject.Inject
 
-class AskGoogleAccount@Inject constructor(
+class AskGoogleAccount @Inject constructor(
     errorHandler: ErrorHandler,
     private val preferencesApi: PreferencesApi
 ) : UseCase<Boolean, UseCase.None>(errorHandler) {
     override suspend fun run(params: None): Boolean {
-       return preferencesApi.isFirstStart()
+        preferencesApi.isFirstStart().run {
+            preferencesApi.setFirstStart()
+            return this
+        }
     }
 }

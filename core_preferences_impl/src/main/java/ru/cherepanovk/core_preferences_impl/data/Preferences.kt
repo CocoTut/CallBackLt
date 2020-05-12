@@ -12,7 +12,7 @@ class Preferences @Inject constructor(
     }
 
     override fun setFirstStart() {
-        sharedPreferences.edit().putBoolean(FIRST_START, true).apply()
+        sharedPreferences.edit().putBoolean(FIRST_START, false).apply()
     }
 
     override fun setGoogleAccount(account: String?) {

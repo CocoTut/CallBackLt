@@ -1,22 +1,16 @@
 package ru.cherepanovk.feature_events_impl.events
 
-import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.platform.BaseViewModel
-import ru.cherepanovk.core.platform.ContactPicker
 import ru.cherepanovk.core.platform.SingleLiveEvent
 import ru.cherepanovk.core_db_api.data.Reminder
-import ru.cherepanovk.feature_events_impl.events.data.EventsRepository
 import ru.cherepanovk.feature_events_impl.events.domain.*
-import java.util.*
 import javax.inject.Inject
 
 class EventsViewModel @Inject constructor(
@@ -49,9 +43,9 @@ class EventsViewModel @Inject constructor(
     val years: LiveData<List<String>>
         get() = _years
 
-    private val _googleCalendarAccount = SingleLiveEvent<Boolean>()
-    val googleCalendarAccount: LiveData<Boolean>
-        get() = _googleCalendarAccount
+    private val _askGoogleCalendarAccount = SingleLiveEvent<Boolean>()
+    val askGoogleCalendarAccount: LiveData<Boolean>
+        get() = _askGoogleCalendarAccount
 
     init {
 
@@ -79,11 +73,14 @@ class EventsViewModel @Inject constructor(
     }
 
     fun checkGoogleAccount() {
-        launchLoading { askGoogleAccount(UseCase.None()){
-            it.handleSuccess { accountIntent ->
-                accountIntent?.let { _googleCalendarAccount.postValue(accountIntent) }
+        launchLoading {
+            askGoogleAccount(UseCase.None()) {
+                it.handleSuccess { needAsk ->
+                    if (needAsk)
+                        _askGoogleCalendarAccount.postValue(needAsk)
+                }
             }
-        } }
+        }
     }
 
     private fun loadData() {
@@ -138,8 +135,6 @@ class EventsViewModel @Inject constructor(
             }
         }
     }
-
-
 
 
     private fun saveRemindersFromOldBase(reminders: List<Reminder>) {

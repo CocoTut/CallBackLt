@@ -4,6 +4,7 @@ import ru.cherepanovk.core.exception.ErrorHandler
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.feature_alarm_api.data.AlarmApi
 import ru.cherepanovk.feature_events_impl.event.data.EventRepository
+import timber.log.Timber
 import javax.inject.Inject
 
 class DeleteReminderFromDb @Inject constructor(
@@ -14,9 +15,8 @@ class DeleteReminderFromDb @Inject constructor(
 ) : UseCase<Unit, String>(errorHandler) {
 
     override suspend fun run(params: String) {
-        eventRepository.deleteReminderById(params)
         cancelAlarm(params)
-
+        eventRepository.deleteReminderById(params)
     }
 
     private suspend fun cancelAlarm(reminderId: String) {

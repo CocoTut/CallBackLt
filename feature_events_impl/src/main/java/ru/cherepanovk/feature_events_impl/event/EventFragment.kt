@@ -13,6 +13,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import kotlinx.android.synthetic.main.fragment_event.*
 import kotlinx.android.synthetic.main.toolbar_back_title.*
@@ -27,6 +28,7 @@ import ru.cherepanovk.core.utils.extentions.viewModel
 import ru.cherepanovk.core.utils.getDialIntent
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.event.di.DaggerEventComponent
+import ru.cherepanovk.feature_events_impl.event.dialog.DialogDeleteParams
 import ru.cherepanovk.feature_events_impl.event.dialog.DialogDeleteReminderFragment
 import ru.cherepanovk.imgurtest.utils.extensions.afterTextChanged
 import ru.cherepanovk.imgurtest.utils.extensions.hideKeyboard
@@ -227,8 +229,11 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
     }
 
     private fun showDeleteDialog(id: String) {
-        val dialogFragment = DialogDeleteReminderFragment.newInstance(id)
-        dialogFragment.show(childFragmentManager,  DialogDeleteReminderFragment::class.java.canonicalName)
+        findNavController().navigate(R.id.action_eventFragment_to_dialogDeleteReminder,
+            DialogDeleteParams(id).toBundle()
+        )
+//        val dialogFragment = DialogDeleteReminderFragment.newInstance(id)
+//        dialogFragment.show(childFragmentManager,  DialogDeleteReminderFragment::class.java.canonicalName)
     }
 
 
@@ -285,7 +290,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
     private fun showDatePickerDialog(dateForPicker: DateForPicker) {
         DatePickerDialog(
-            context!!,
+            requireContext(),
             this,
             dateForPicker.year,
             dateForPicker.month,
@@ -296,7 +301,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
     private fun showTimePickerDialog(timeForPicker: TimeForPicker) {
         TimePickerDialog(
-            context!!,
+            requireContext(),
             this,
             timeForPicker.hours,
             timeForPicker.minutes,

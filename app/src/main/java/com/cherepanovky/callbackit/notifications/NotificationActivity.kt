@@ -59,6 +59,11 @@ class NotificationActivity : BaseActivity() {
                 .build()
         )
         navController.graph = navGraph
+
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            if (arguments == null)
+                onBackPressed()
+        }
     }
 
     override fun onBackPressed() {

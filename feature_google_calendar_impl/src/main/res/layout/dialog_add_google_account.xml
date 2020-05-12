@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent_accent"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    >
+
+    <View
+        android:id="@+id/dialogBackground"
+        android:layout_width="0dp"
+        android:layout_height="134dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/background_rounded_dialog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+    </View>
+
+    <TextView
+        android:id="@+id/tvTitleDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/messageUseGoogleAccountDialog"
+        android:textSize="16sp"
+        android:textColor="@color/main_black"
+        android:layout_marginTop="28dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintStart_toStartOf="@id/dialogBackground"
+        app:layout_constraintTop_toTopOf="@id/dialogBackground"
+        app:layout_constraintEnd_toEndOf="@id/dialogBackground"
+        />
+
+    <Button
+        android:id="@+id/btnNo"
+        style="@style/Button.DialogBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/btnNegativeGoogleAccountDialog"
+        app:layout_constraintBottom_toBottomOf="@id/dialogBackground"
+        app:layout_constraintEnd_toStartOf="@id/btnYes" />
+
+    <Button
+        android:id="@+id/btnYes"
+        style="@style/Button.DialogBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/btn_dialog_yes"
+        app:layout_constraintBottom_toBottomOf="@id/dialogBackground"
+        app:layout_constraintEnd_toEndOf="@id/dialogBackground" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,37 +1,30 @@
 package ru.cherepanovk.feature_events_impl.events
 
 import android.Manifest
-import android.accounts.AccountManager
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.PopupMenu
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import androidx.lifecycle.Observer
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.TransitionInflater
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_events.*
 import kotlinx.android.synthetic.main.toolbar_months.*
 import ru.cherepanovk.core.di.ComponentManager
+import ru.cherepanovk.core.di.dependencies.FeatureNavigator
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.platform.ErrorHandler
-import ru.cherepanovk.core.utils.extentions.afterRequestPermissions
 import ru.cherepanovk.core.utils.extentions.beforeRequestPermissions
 import ru.cherepanovk.core.utils.extentions.observe
-import ru.cherepanovk.core.utils.extentions.viewModel
-import ru.cherepanovk.feature_events_impl.ARG_EVENT_ID
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.event.EventOpenParams
 import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
-import ru.cherepanovk.feature_google_calendar_api.data.GoogleCalendarApi
+import ru.cherepanovk.feature_google_calendar_api.data.GoogleAccountFeatureStarter
 import javax.inject.Inject
 
 const val PERMISSIONS_REQUEST_CODE = 302
@@ -45,7 +38,11 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     lateinit var errorHandler: ErrorHandler
 
     @Inject
-    lateinit var googleCalendarApi: GoogleCalendarApi
+    lateinit var googleAccountFeatureStarter: GoogleAccountFeatureStarter
+
+    @Inject
+    lateinit var featureNavigator: FeatureNavigator
+
 
     private val remindersAdapter = GroupAdapter<ViewHolder>().apply {
         setOnItemClickListener { item, _ ->
@@ -113,14 +110,19 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             observe(years, ::setYears)
             observe(currentYear, ::setCurrentYear)
             observe(itemsReminder, ::setItems)
-            observe(googleCalendarAccount, ::getGoogleCalendarAccount)
+            observe(askGoogleCalendarAccount, ::showAddGoogleAccountDialog)
         }
     }
 
-    private fun getGoogleCalendarAccount(needAskAboutCalendar: Boolean) {
-        if (needAskAboutCalendar)
-            googleCalendarApi.chooseAccountViaFragment(this)
+    private fun showAddGoogleAccountDialog(showDialog: Boolean) {
+        if (showDialog)
+            featureNavigator.navigateToFeature(
+                navController = findNavController(),
+                featureNavGraph =
+                googleAccountFeatureStarter.getAddGoogleAccountGraph(findNavController().navInflater)
+            )
     }
+
 
     private fun setYears(years: List<String>) {
         yearsAdapter.clear()
@@ -141,11 +143,6 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             return@setOnMenuItemClickListener true
         }
 
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val name = googleCalendarApi.getChosenAccountName(requestCode, resultCode, data)
     }
 
     private fun openEventScreen(id: String?) {

@@ -25,6 +25,10 @@ android {
         }
     }
 
+    viewBinding {
+        enabled = true
+    }
+
 }
 
 dependencies {
@@ -66,9 +70,5 @@ dependencies {
     //groupie fro RecyclerView
     implementation Libs.Ui.GROUPIE
     implementation Libs.Ui.GROUPIE_KOTLIN_EXTENSIONS
-
-    //navigation component
-    implementation Libs.AndroidX.ANDROIDX_NAVIGATION_FRAGMENT
-    implementation Libs.AndroidX.ANDROIDX_NAVIGATION_UI
 
 }

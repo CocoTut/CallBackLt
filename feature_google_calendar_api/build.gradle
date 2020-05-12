@@ -29,6 +29,19 @@ dependencies {
     implementation Libs.AndroidX.ANDROIDX_APPCOMPAT
     implementation Libs.AndroidX.ANDROIDX_CORE_KTX
 
+    //google calendar
+    implementation (Libs.Network.GOOGLE_SERVICES_CALENDAR){
+        exclude group: 'org.apache.httpcomponents'
+    }
+
+    //navigation component
+    implementation Libs.AndroidX.ANDROIDX_NAVIGATION_FRAGMENT
+    implementation Libs.AndroidX.ANDROIDX_NAVIGATION_UI
+
+    //kotlin coroutines
+    implementation Libs.Core.COROUTINES_CORE
+    implementation Libs.Core.COROUTINES_ANDROID
+
     testImplementation Libs.Test.TEST_LIB_JUNIT
     androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
     androidTestImplementation Libs.Test.TEST_ANDROIDX_ESPRESSO_CORE

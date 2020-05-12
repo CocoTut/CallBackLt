@@ -2,13 +2,17 @@ package ru.cherepanovk.feature_settings_impl
 
 import android.content.Intent
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavGraph
+import androidx.navigation.fragment.findNavController
 import ru.cherepanovk.core.di.ComponentManager
+import ru.cherepanovk.core.di.dependencies.FeatureNavigator
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.platform.ErrorHandler
 import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.observeFailure
+import ru.cherepanovk.feature_google_calendar_api.data.GoogleAccountFeatureStarter
 import ru.cherepanovk.feature_google_calendar_api.data.GoogleCalendarApi
 import ru.cherepanovk.feature_settings_impl.databinding.FragmentSettingsBinding
 import ru.cherepanovk.feature_settings_impl.di.SettingsComponent
@@ -21,8 +25,15 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
     @Inject
     lateinit var errorHandler: ErrorHandler
+
     @Inject
     lateinit var googleCalendarApi: GoogleCalendarApi
+
+    @Inject
+    lateinit var googleAccountFeatureStarter: GoogleAccountFeatureStarter
+
+    @Inject
+    lateinit var featureNavigator: FeatureNavigator
 
     override fun inject(componentManager: ComponentManager) {
         componentManager.getOrThrow<SettingsComponent>()
@@ -31,7 +42,12 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
     override fun bindListeners() {
         binding.tvSetGoogleAccount.setOnClickListener {
-            googleCalendarApi.chooseAccountViaFragment(this)
+            model.onAddAccountClick()
+            featureNavigator.navigateToFeature(
+                navController = findNavController(),
+                featureNavGraph =
+                googleAccountFeatureStarter.getAddGoogleAccountGraph(findNavController().navInflater)
+            )
         }
     }
 
@@ -39,13 +55,13 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         with(model) {
             observe(googleAccount, ::setGoogleAccount)
             observe(logoutVisible, ::setLogoutVisibility)
+            observe(requestPermissionsForAccountEvent, ::requestPermissionsForAccount)
             observeFailure(failure, errorHandler::onHandleFailure)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        model.setAccount(googleCalendarApi.getChosenAccountName(requestCode, resultCode, data))
+    private fun requestPermissionsForAccount(authIntent: Intent) {
+        googleCalendarApi.requestPermissionsForAccountViaFragment(this, authIntent)
     }
 
     private fun setLogoutVisibility(visible: Boolean) {
