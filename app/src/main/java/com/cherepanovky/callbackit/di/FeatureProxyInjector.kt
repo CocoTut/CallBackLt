@@ -46,11 +46,7 @@ class FeatureProxyInjector {
                         .also { ComponentManager.put(it) }
                 )
                 .coreGoogleCalendarApi(
-                    DaggerGoogleCalendarApiComponent.builder()
-                        .contextProvider(ComponentManager.getOrThrow())
-                        .corePreferencesApi(ComponentManager.getOrThrow())
-                        .build()
-                        .also { ComponentManager.put(it) }
+                    getGoogleCalendarApi()
                 )
                 .build()
                 .also { ComponentManager.put(it) }
@@ -71,5 +67,15 @@ class FeatureProxyInjector {
                 .build()
                 .also { ComponentManager.put(it) }
         }
+
+        private fun getGoogleCalendarApi() =
+            DaggerGoogleCalendarApiComponent.builder()
+                .contextProvider(ComponentManager.getOrThrow())
+                .corePreferencesApi(ComponentManager.getOrThrow())
+                .rootViewProvider(ComponentManager.getOrThrow())
+                .coreDbApi(ComponentManager.getOrThrow())
+                .coreDomainApi(ComponentManager.getOrThrow())
+                .build()
+                .also { ComponentManager.put(it) }
     }
 }

@@ -28,7 +28,7 @@
         android:id="@+id/tvTitleDialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/messageUseGoogleAccountDialog"
+        android:text="@string/message_load_events_dialog"
         android:textSize="16sp"
         android:textColor="@color/main_black"
         android:layout_marginTop="28dp"
@@ -61,7 +61,7 @@
         app:layout_constraintEnd_toEndOf="@id/dialogBackground" />
 
     <ProgressBar
-        android:id="@+id/pbAccountDialog"
+        android:id="@+id/pbDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"

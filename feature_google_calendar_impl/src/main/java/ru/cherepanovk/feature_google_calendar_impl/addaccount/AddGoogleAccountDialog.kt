@@ -1,33 +1,33 @@
-package ru.cherepanovk.feature_google_calendar_impl.dialog
+package ru.cherepanovk.feature_google_calendar_impl.addaccount
 
 import android.content.Intent
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseDialogFragment
 import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.observeFailure
-import ru.cherepanovk.feature_google_calendar_api.data.GoogleCalendarApi
 import ru.cherepanovk.feature_google_calendar_impl.R
+import ru.cherepanovk.feature_google_calendar_impl.addaccount.di.AddGoogleAccountDialogComponent
 import ru.cherepanovk.feature_google_calendar_impl.databinding.DialogAddGoogleAccountBinding
-import ru.cherepanovk.feature_google_calendar_impl.dialog.di.DaggerAddGoogleAccountDialogComponent
+import ru.cherepanovk.feature_google_calendar_impl.data.AccountPermissionManager
+import ru.cherepanovk.feature_google_calendar_impl.di.GoogleCalendarApiComponent
+import ru.cherepanovk.imgurtest.utils.extensions.showOrHide
 import javax.inject.Inject
 
 class AddGoogleAccountDialog : BaseDialogFragment(R.layout.dialog_add_google_account) {
     @Inject
-    lateinit var googleCalendarApi: GoogleCalendarApi
+    lateinit var accountPermissionManager: AccountPermissionManager
 
     private val model: AddGoogleAccountViewModel by viewModels { viewModelFactory }
     private val binding: DialogAddGoogleAccountBinding by viewBinding(DialogAddGoogleAccountBinding::bind)
 
     override fun inject(componentManager: ComponentManager) {
-        DaggerAddGoogleAccountDialogComponent.builder()
-            .contextProvider(componentManager.getOrThrow())
-            .coreGoogleCalendarApi(componentManager.getOrThrow())
-            .corePreferencesApi(componentManager.getOrThrow())
-            .rootViewProvider(componentManager.getOrThrow())
-            .build()
+       componentManager.getOrThrow<GoogleCalendarApiComponent>()
+           .getAddGoogleAccountDialogComponent()
             .inject(this)
     }
 
@@ -37,6 +37,7 @@ class AddGoogleAccountDialog : BaseDialogFragment(R.layout.dialog_add_google_acc
         }
         binding.btnYes.setOnClickListener {
             getGoogleCalendarAccount()
+
         }
     }
 
@@ -45,8 +46,18 @@ class AddGoogleAccountDialog : BaseDialogFragment(R.layout.dialog_add_google_acc
             observe(requestPermissionsForAccountEvent, ::requestPermissionsForAccount)
             observe(googleCalendarAccountAddedEvent, ::accountAdded)
             observe(hasAccountAlready, ::setMessage)
-            observeFailure(failure, errorHandler::onHandleFailure)
+            observe(isLoading, ::loading)
+            observeFailure(failure, ::showFailure)
         }
+    }
+
+    private fun showFailure(failure: Failure?) {
+        errorHandler.onHandleFailure(failure)
+        this.dismiss()
+    }
+
+    private fun loading(loading: Boolean) {
+        binding.pbAccountDialog.showOrHide(loading)
     }
 
     private fun setMessage(hasAccountAlready: Boolean) {
@@ -60,29 +71,32 @@ class AddGoogleAccountDialog : BaseDialogFragment(R.layout.dialog_add_google_acc
     }
 
     private fun accountAdded(added: Boolean) {
-        if (added)
-            dismiss()
+        if (added) {
+            this.dismiss()
+            findNavController().navigate(R.id.action_addGoogleAccountDialog_to_DialogLoadEvents)
+        }
     }
 
     private fun getGoogleCalendarAccount() {
-        googleCalendarApi.chooseAccountViaFragment(this)
+        accountPermissionManager.chooseAccountViaFragment(this)
     }
 
     private fun requestPermissionsForAccount(authIntent: Intent) {
-        googleCalendarApi.requestPermissionsForAccountViaFragment(this, authIntent)
+        accountPermissionManager.requestPermissionsForAccountViaFragment(this, authIntent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        model.setAccount(googleCalendarApi.getChosenAccountName(requestCode, resultCode, data))
+        model.setAccount(accountPermissionManager.getChosenAccountName(requestCode, resultCode, data))
         model.accountGranted(
-            googleCalendarApi.isPermissionsForAccountGranted(
+            accountPermissionManager.isPermissionsForAccountGranted(
                 requestCode,
                 resultCode,
                 data
             )
         )
     }
+
 
 
 }

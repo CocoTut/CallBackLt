@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.cherepanovk.core.exception.Failure
@@ -45,9 +46,17 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
 
     protected fun CoroutineScope.launchLoading(block: suspend () -> Unit) {
         launch {
-            _isLoading.value = true
+            _isLoading.postValue(true)
             block()
-            _isLoading.value = false
+            _isLoading.postValue(false)
+        }
+    }
+
+    protected fun CoroutineScope.launchLoading(dispatcher: CoroutineDispatcher, block: suspend () -> Unit) {
+        launch(dispatcher) {
+            _isLoading.postValue(true)
+            block()
+            _isLoading.postValue(false)
         }
     }
 

@@ -30,6 +30,14 @@ class GoogleAccountManager @Inject constructor(
             .build()
     }
 
+    fun getGoogleCalendar(account: String): Calendar {
+        return Calendar.Builder(
+            transport, jsonFactory, getGoogleAccountCredential().setSelectedAccountName(account)
+        )
+            .setApplicationName(APP_NAME)
+            .build()
+    }
+
     companion object {
         private const val APP_NAME = "Callback it"
     }

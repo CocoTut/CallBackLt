@@ -27,9 +27,6 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     lateinit var errorHandler: ErrorHandler
 
     @Inject
-    lateinit var googleCalendarApi: GoogleCalendarApi
-
-    @Inject
     lateinit var googleAccountFeatureStarter: GoogleAccountFeatureStarter
 
     @Inject
@@ -55,13 +52,8 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         with(model) {
             observe(googleAccount, ::setGoogleAccount)
             observe(logoutVisible, ::setLogoutVisibility)
-            observe(requestPermissionsForAccountEvent, ::requestPermissionsForAccount)
             observeFailure(failure, errorHandler::onHandleFailure)
         }
-    }
-
-    private fun requestPermissionsForAccount(authIntent: Intent) {
-        googleCalendarApi.requestPermissionsForAccountViaFragment(this, authIntent)
     }
 
     private fun setLogoutVisibility(visible: Boolean) {

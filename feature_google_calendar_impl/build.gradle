@@ -32,6 +32,8 @@ dependencies {
     implementation project(':feature_google_calendar_api')
     implementation project(':core')
     implementation project(':core_preferences_api')
+    implementation project(':core_db_api')
+    implementation project(':feature_alarm_api')
 
     implementation Libs.Core.KOTLIN_STDLIB
     implementation Libs.AndroidX.ANDROIDX_APPCOMPAT

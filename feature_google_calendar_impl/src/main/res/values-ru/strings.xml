@@ -6,5 +6,7 @@
     <string name="btnPositiveGoogleAccountDialog">"Да"</string>
     <string name="messageNegativeAnswerGoogleCalendar">"Вы сможете включить использование Google Calendar в настройках"</string>
     <string name="btn_dialog_yes">Да</string>
-    <string name="message_change_account">Do you want to change current account?</string>
+    <string name="message_change_account">Хотите изменить текущий аккаунт?</string>
+    <string name="message_load_events_dialog">Загрузить напоминания из Google Calendar?</string>
+
 </resources>

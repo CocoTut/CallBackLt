@@ -1,15 +1,12 @@
 package ru.cherepanovk.feature_settings_impl
 
-import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.platform.BaseViewModel
-import ru.cherepanovk.core.platform.SingleLiveEvent
 import ru.cherepanovk.feature_google_calendar_api.data.GoogleCalendarApi
 import javax.inject.Inject
 
@@ -24,20 +21,17 @@ class SettingViewModel @Inject constructor(
 
     val logoutVisible = Transformations.map(googleAccount) { it.isNotEmpty() }
 
-    private val _requestPermissionsForAccountEvent = SingleLiveEvent<Intent>()
-    val requestPermissionsForAccountEvent: LiveData<Intent>
-        get() = _requestPermissionsForAccountEvent
 
     init {
         loadAccount()
+        observeAccountState()
     }
 
     fun onAddAccountClick() {
-        observeAccountState()
     }
     private fun observeAccountState() {
         launch {
-            googleCalendarApi.accountSaved().collect {
+            googleCalendarApi.savingAccount().collect {
                 if (it)
                     loadAccount()
             }

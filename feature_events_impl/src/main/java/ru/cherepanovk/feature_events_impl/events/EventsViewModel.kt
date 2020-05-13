@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core.platform.SingleLiveEvent
+import ru.cherepanovk.core.utils.DateTimeHelper
 import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.feature_events_impl.events.domain.*
 import javax.inject.Inject
@@ -20,7 +21,7 @@ class EventsViewModel @Inject constructor(
     private val itemReminderMapper: ItemReminderMapper,
     private val getYearsFromDb: GetYearsFromDb,
     private val askGoogleAccount: AskGoogleAccount,
-    private val dateHelper: DateHelper
+    private val dateHelper: DateTimeHelper
 ) : BaseViewModel() {
 
     private val _currentMonth = MutableLiveData<Int>()

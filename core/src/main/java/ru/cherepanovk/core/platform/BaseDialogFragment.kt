@@ -27,6 +27,7 @@ abstract class BaseDialogFragment(@LayoutRes private val layout: Int) : DialogFr
 
     protected abstract fun inject(componentManager: ComponentManager)
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         inflater.inflate(layout, container, false)
 

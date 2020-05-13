@@ -15,9 +15,8 @@ import javax.inject.Singleton
 
 
 @Module
-abstract class CoreNetworkApiModule {
+abstract class GoogleCalendarApiModule {
     @Binds
-    @Singleton
     abstract fun bindGoogleCalendarApi(googleCalendarApiImpl: GoogleCalendarApiImpl): GoogleCalendarApi
 
     @Binds
@@ -25,11 +24,9 @@ abstract class CoreNetworkApiModule {
 
     companion object {
         @Provides
-        @Singleton
         fun provideHttpTransport(): HttpTransport = AndroidHttp.newCompatibleTransport()
 
         @Provides
-        @Singleton
         fun provideJsonFactory(): JsonFactory =
             JacksonFactory.getDefaultInstance()
     }
