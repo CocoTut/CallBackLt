@@ -71,4 +71,7 @@ dependencies {
     implementation Libs.Ui.GROUPIE
     implementation Libs.Ui.GROUPIE_KOTLIN_EXTENSIONS
 
+    //permissions
+    implementation Libs.Utils.EASY_PERMISSIONS
+
 }

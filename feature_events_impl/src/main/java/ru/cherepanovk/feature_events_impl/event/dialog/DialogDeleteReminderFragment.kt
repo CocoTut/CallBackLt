@@ -15,7 +15,6 @@ import ru.cherepanovk.core.di.viewmodel.ViewModelFactory
 import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.observeFailure
-import ru.cherepanovk.feature_events_impl.ARG_EVENT_ID
 import ru.cherepanovk.feature_events_impl.R
 import javax.inject.Inject
 import android.view.Window
@@ -116,6 +115,7 @@ class DialogDeleteReminderFragment : DialogFragment() {
     }
 
     companion object {
+        private const val ARG_EVENT_ID = "ARG_EVENT_ID"
         fun newInstance(id: String) = DialogDeleteReminderFragment().apply {
             arguments = Bundle().apply {
                 putString(ARG_EVENT_ID, id)

@@ -1,7 +1,6 @@
 package ru.cherepanovk.core.utils
 
 import java.text.SimpleDateFormat
-import java.time.Year
 import java.util.*
 import javax.inject.Inject
 
@@ -127,5 +126,12 @@ class DateTimeHelper @Inject constructor() {
     private fun getStringFromDate(date: Date, pattern: String): String {
         val formatter = SimpleDateFormat(pattern, Locale.getDefault())
         return formatter.format(date)
+    }
+
+    fun addTimeToDate(date: Date, minutes: Int): Date {
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.time = date
+        calendar.add(Calendar.MINUTE, minutes)
+        return calendar.time
     }
 }

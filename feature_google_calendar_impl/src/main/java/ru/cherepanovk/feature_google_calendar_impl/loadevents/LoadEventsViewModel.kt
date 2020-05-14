@@ -4,12 +4,14 @@ import com.google.api.client.util.DateTime
 import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core.utils.DateTimeHelper
 import ru.cherepanovk.feature_google_calendar_impl.loadevents.domain.LoadEventsOfCalendar
+import java.util.*
 import javax.inject.Inject
 
 class LoadEventsViewModel @Inject constructor(
     private val loadEventsOfCalendar: LoadEventsOfCalendar,
     private val dateTimeHelper: DateTimeHelper
 ) : BaseViewModel() {
+
 
 
     fun loadEvents() {
@@ -23,10 +25,11 @@ class LoadEventsViewModel @Inject constructor(
         }
     }
 
-    private fun getDate(month: Int): DateTime = DateTime(
+    private fun getDate(month: Int): Date =
         dateTimeHelper.getStartDate(
             month = month,
             year = dateTimeHelper.getCurrentYear()
         )
-    )
+
+
 }

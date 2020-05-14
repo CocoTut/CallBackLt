@@ -10,4 +10,6 @@
     <string name="error_unregistered">Данный номер не найден в системе</string>
     <string name="error_common">Извините, произошла ошибка при выполнении запроса</string>
     <string name="error_create_notification">Ошибка: напоминание не создано!</string>
+    <string name="error_io">Ошибка ввода-вывода</string>
+    <string name="error_no_account">Нет Google аккаунта для загрузки</string>
 </resources>

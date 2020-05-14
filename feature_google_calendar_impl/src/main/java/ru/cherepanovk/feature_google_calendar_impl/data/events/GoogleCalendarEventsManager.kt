@@ -2,15 +2,17 @@ package ru.cherepanovk.feature_google_calendar_impl.data.events
 
 import com.google.api.client.util.DateTime
 import com.google.api.services.calendar.model.Event
+import com.google.api.services.calendar.model.EventAttendee
+import com.google.api.services.calendar.model.EventDateTime
+import com.google.api.services.calendar.model.EventReminder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.cherepanovk.core.utils.DateTimeHelper
+import ru.cherepanovk.core.exception.CallBackItException
 import ru.cherepanovk.core_db_api.data.DbApi
 import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.feature_alarm_api.data.AlarmApi
-import ru.cherepanovk.feature_alarm_api.data.AlarmReminder
 import ru.cherepanovk.feature_alarm_api.data.AlarmReminderModel
-import ru.cherepanovk.feature_alarm_api.di.CoreDomainApi
+import ru.cherepanovk.feature_google_calendar_api.data.GoogleCalendarEvent
 import ru.cherepanovk.feature_google_calendar_impl.data.GoogleAccountManager
 import java.util.*
 import javax.inject.Inject
@@ -20,16 +22,59 @@ class GoogleCalendarEventsManager @Inject constructor(
     private val dbApi: DbApi,
     private val alarmApi: AlarmApi
 ) {
-    suspend fun loadEvents(account: String, startDate: DateTime, endDate: DateTime) {
+
+    suspend fun loadEvents(account: String, startDate: Date, endDate: Date) {
+        if (account.isEmpty()) throw CallBackItException.HasNoAccount
         return withContext(Dispatchers.IO) {
             val events = googleAccountManager.getGoogleCalendar(account)
                 .events()
                 .list(account)
-                .setTimeMin(startDate)
-                .setTimeMax(endDate).execute().items
+                .setTimeMin(DateTime(startDate))
+                .setTimeMax(DateTime(endDate)).execute().items
             saveEventsToDb(events)
         }
 
+    }
+
+    suspend fun saveEvent(account: String, calendarEvent: GoogleCalendarEvent) {
+        withContext(Dispatchers.IO) {
+          val event =   Event().apply {
+                id = calendarEvent.id
+                attendees = listOf(
+                    EventAttendee().setEmail(ATTENDEE_NAME).setComment(calendarEvent.phoneNumber)
+                        .setDisplayName(calendarEvent.contactName)
+                )
+                reminders = getCalendarReminders()
+                summary =
+                    if (calendarEvent.description.isEmpty()) calendarEvent.contactName
+                    else calendarEvent.contactName + ", " + calendarEvent.description
+                description = calendarEvent.description
+                start = EventDateTime().apply {
+                    dateTime = DateTime(calendarEvent.startTime)
+                    timeZone = TimeZone.getDefault().id
+                }
+                end = EventDateTime().apply {
+                    dateTime = DateTime(calendarEvent.endTime)
+                    timeZone = TimeZone.getDefault().id
+                }
+            }
+            googleAccountManager.getGoogleCalendar(account)
+                .events()
+                .insert(account, event)
+                .execute()
+
+        }
+    }
+
+
+    private fun getCalendarReminders(): Event.Reminders {
+        return Event.Reminders().apply {
+            useDefault = false
+            overrides = listOf(EventReminder().apply {
+                method = "popup"
+                minutes = 1
+            })
+        }
     }
 
     private suspend fun saveEventsToDb(events: List<Event>) {
@@ -60,6 +105,13 @@ class GoogleCalendarEventsManager @Inject constructor(
                     description = it.description
                 )
             )
+        }
+    }
+
+    suspend fun deleteEvent(account: String, event: GoogleCalendarEvent) {
+        withContext(Dispatchers.IO) {
+            googleAccountManager.getGoogleCalendar(account)
+                .events().delete(account, event.id)
         }
     }
 

@@ -14,9 +14,6 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_eventsFragment_to_addGoogleAccountDialog"
-            app:destination="@id/addGoogleAccountDialog" />
     </fragment>
 
     <fragment android:id="@+id/eventFragment" android:name="ru.cherepanovk.feature_events_impl.event.EventFragment"
@@ -37,14 +34,6 @@
             app:popUpTo="@id/eventsFragment"
             app:popUpToInclusive="true"
             app:destination="@id/eventsFragment" />
-    </dialog>
-
-    <dialog
-        android:id="@+id/addGoogleAccountDialog"
-        android:name="ru.cherepanovk.feature_events_impl.events.addaccountdialog.AddGoogleAccountDialog"
-        android:label="AddGoogleAccountDialog"
-        tools:layout ="@layout/dialog_add_google_account"
-        >
     </dialog>
 
 

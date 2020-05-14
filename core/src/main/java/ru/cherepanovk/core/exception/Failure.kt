@@ -17,6 +17,7 @@ sealed class Failure {
     object TimeOut: Failure()
     object DataBaseError: Failure()
     object CreateNotificationError: Failure()
+    object NoGoogleAccount: Failure()
 
     /** * Extend this class for feature specific failures.*/
     abstract class FeatureFailure: Failure()
@@ -27,5 +28,6 @@ sealed class Failure {
         const val RESULT_CODE_BAD_REQUEST = 400
         const val RESULT_CODE_BAD_API_VERSION = 406
         const val RESULT_CODE_SERVICE_UNAVAILABLE = 503
+        const val RESULT_CODE_ROUTE_NOT_FOUND = 404
     }
 }

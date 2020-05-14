@@ -40,6 +40,8 @@ class DialogLoadEvents : BaseDialogFragment(R.layout.dialog_load_events) {
     }
 
     private fun loading(loading: Boolean) {
+        if (!loading)
+            dismiss()
         binding.pbDialog.showOrHide(loading)
     }
 }

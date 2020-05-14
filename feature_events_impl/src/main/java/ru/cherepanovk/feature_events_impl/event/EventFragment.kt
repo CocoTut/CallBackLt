@@ -17,19 +17,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import kotlinx.android.synthetic.main.fragment_event.*
 import kotlinx.android.synthetic.main.toolbar_back_title.*
+import pub.devrel.easypermissions.EasyPermissions
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.exception.ErrorHandler
 import ru.cherepanovk.core.platform.ActivityStarter
 import ru.cherepanovk.core.platform.BaseFragment
-import ru.cherepanovk.core.utils.extentions.observe
-import ru.cherepanovk.core.utils.extentions.pickContacts
-import ru.cherepanovk.core.utils.extentions.viewModel
+import ru.cherepanovk.core.utils.extentions.*
 import ru.cherepanovk.core.utils.getDialIntent
+import ru.cherepanovk.feature_events_impl.ContactsPermissionChecker
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.event.di.DaggerEventComponent
 import ru.cherepanovk.feature_events_impl.event.dialog.DialogDeleteParams
-import ru.cherepanovk.feature_events_impl.event.dialog.DialogDeleteReminderFragment
 import ru.cherepanovk.imgurtest.utils.extensions.afterTextChanged
 import ru.cherepanovk.imgurtest.utils.extensions.hideKeyboard
 import javax.inject.Inject
@@ -47,8 +46,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         get() = arguments?.let { EventOpenParams.fromBundle(it) }
 
     @Inject
-    lateinit var errorHandler: ErrorHandler
-
+    lateinit var contactsPermissionChecker: ContactsPermissionChecker
 
 
     override fun inject(componentManager: ComponentManager) {
@@ -56,6 +54,9 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             .contextProvider(componentManager.getOrThrow())
             .coreDbApi(componentManager.getOrThrow())
             .coreDomainApi(componentManager.getOrThrow())
+            .corePreferencesApi(componentManager.getOrThrow())
+            .coreGoogleCalendarApi(componentManager.getOrThrow())
+            .rootViewProvider(componentManager.getOrThrow())
             .build()
             .inject(this)
     }
@@ -95,6 +96,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             observe(hintDateIsLessThanCurrent, ::showDateHint)
             observe(contactName, ::setContactName)
             observe(phoneNumber, ::setPhoneNumber)
+            observeFailure(failure, errorHandler::onHandleFailure)
 
         }
     }
@@ -116,7 +118,13 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         }
 
         btnOpenContacts.setOnClickListener {
-            pickContacts(REQUEST_CONTACT_PICKER)
+            contactsPermissionChecker.checkContactPermission(this) {
+                pickContacts(
+                    REQUEST_CONTACT_PICKER
+                )
+            }
+
+
         }
 
         btnSendToWhatsApp.setOnClickListener {
@@ -151,11 +159,21 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
     private fun sendToWhatsApp() {
         when {
-            !isPhoneNumberNameNotEmpty() -> tilPhoneNumber.error = getString(R.string.error_empry_phone_number)
-            iswhatsappInstalled("com.whatsapp") -> openWhatsApp()
-            !iswhatsappInstalled("com.whatsapp") -> showWhatsAppError()
+            !isPhoneNumberNameNotEmpty() -> tilPhoneNumber.error =
+                getString(R.string.error_empry_phone_number)
+            isWhatsappInstalled("com.whatsapp") -> openWhatsApp()
+            !isWhatsappInstalled("com.whatsapp") -> showWhatsAppError()
         }
 
 
@@ -179,7 +197,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         startActivity(Intent.createChooser(i, ""))
     }
 
-    private fun iswhatsappInstalled(uri: String): Boolean {
+    private fun isWhatsappInstalled(uri: String): Boolean {
         val pm: PackageManager = requireActivity().packageManager
         var app_installed = false
         app_installed = try {
@@ -229,11 +247,10 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
     }
 
     private fun showDeleteDialog(id: String) {
-        findNavController().navigate(R.id.action_eventFragment_to_dialogDeleteReminder,
+        findNavController().navigate(
+            R.id.action_eventFragment_to_dialogDeleteReminder,
             DialogDeleteParams(id).toBundle()
         )
-//        val dialogFragment = DialogDeleteReminderFragment.newInstance(id)
-//        dialogFragment.show(childFragmentManager,  DialogDeleteReminderFragment::class.java.canonicalName)
     }
 
 
@@ -308,4 +325,8 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             true
         ).apply { show() }
     }
+
+
 }
+
+

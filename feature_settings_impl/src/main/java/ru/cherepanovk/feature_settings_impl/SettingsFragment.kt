@@ -24,9 +24,6 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     private val binding: FragmentSettingsBinding by viewBinding(FragmentSettingsBinding::bind)
 
     @Inject
-    lateinit var errorHandler: ErrorHandler
-
-    @Inject
     lateinit var googleAccountFeatureStarter: GoogleAccountFeatureStarter
 
     @Inject
@@ -45,6 +42,10 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
                 featureNavGraph =
                 googleAccountFeatureStarter.getAddGoogleAccountGraph(findNavController().navInflater)
             )
+        }
+
+        binding.btnLogOut.setOnClickListener {
+            model.logout()
         }
     }
 

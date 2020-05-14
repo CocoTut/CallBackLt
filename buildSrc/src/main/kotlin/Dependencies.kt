@@ -53,6 +53,7 @@ object Versions {
 
     object Utils {
         const val TIMBER = "4.7.1"
+        const val EASY_PERMISSIONS = "3.0.0"
     }
 
     object Test {
@@ -149,6 +150,7 @@ object Libs {
 
     object Utils {
         const val TIMBER = "com.jakewharton.timber:timber:${Versions.Utils.TIMBER}"
+        const val EASY_PERMISSIONS = "pub.devrel:easypermissions:${Versions.Utils.EASY_PERMISSIONS}"
     }
 
     object Test {

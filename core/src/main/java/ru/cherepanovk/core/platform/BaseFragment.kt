@@ -18,6 +18,9 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
 
     @Inject lateinit var viewModelFactory: ViewModelFactory
 
+    @Inject
+    lateinit var errorHandler: ErrorHandler
+
     protected abstract fun inject(componentManager: ComponentManager)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =

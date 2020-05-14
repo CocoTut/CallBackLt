@@ -12,6 +12,7 @@ import ru.cherepanovk.core.platform.SingleLiveEvent
 import ru.cherepanovk.core.utils.DateTimeHelper
 import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.feature_events_impl.events.domain.*
+import java.util.*
 import javax.inject.Inject
 
 class EventsViewModel @Inject constructor(
@@ -21,7 +22,8 @@ class EventsViewModel @Inject constructor(
     private val itemReminderMapper: ItemReminderMapper,
     private val getYearsFromDb: GetYearsFromDb,
     private val askGoogleAccount: AskGoogleAccount,
-    private val dateHelper: DateTimeHelper
+    private val dateHelper: DateTimeHelper,
+    private val loadEventsOfCalendar: LoadEventsOfCalendar
 ) : BaseViewModel() {
 
     private val _currentMonth = MutableLiveData<Int>()
@@ -84,6 +86,24 @@ class EventsViewModel @Inject constructor(
         }
     }
 
+
+    fun updateReminders() {
+        launchLoading {
+            loadEventsOfCalendar(
+                LoadEventsOfCalendar.Params(
+                    dateHelper.getStartDate(
+                        month = currentMonth.value ?: dateHelper.getCurrentMonth(),
+                        year = dateHelper.getCurrentYear()
+                    ),
+                    dateHelper.getEndDate(
+                        month = currentMonth.value ?: dateHelper.getCurrentMonth(),
+                        year = dateHelper.getCurrentYear()
+                    )
+                )
+            ) { it.handleOnlyFailure() }
+        }
+    }
+
     private fun loadData() {
         loadReminders(
             currentMonth.value ?: dateHelper.getCurrentMonth(),
@@ -143,4 +163,5 @@ class EventsViewModel @Inject constructor(
             saveRemindersToDb(reminders)
         }
     }
+
 }

@@ -1,11 +1,14 @@
 package ru.cherepanovk.feature_google_calendar_api.data
 
-import android.content.Intent
-import androidx.fragment.app.Fragment
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
+import java.util.*
 
 interface GoogleCalendarApi {
-    fun savingAccount(): StateFlow<Boolean>
+    fun savingAccount(): Flow<Boolean>
+
+    suspend fun loadEvents(account: String, startDate: Date, endDate: Date)
+
+    suspend fun saveEvent(account: String, event: GoogleCalendarEvent)
+
+    suspend fun deleteEvent(account: String, event: GoogleCalendarEvent)
 }

@@ -13,7 +13,7 @@ abstract class UseCase<out Type : Any?, in Params>(private val errorHandler: Err
         try {
             val result =  run(params)
             onResult(Either.Right(result))
-        } catch (e: Exception){
+        } catch (e: Throwable){
             onResult(errorHandler.handleExceptionToFailure(e))
         }
 

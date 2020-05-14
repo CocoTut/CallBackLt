@@ -7,13 +7,15 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.platform.BaseViewModel
+import ru.cherepanovk.core_preferences_api.data.PreferencesApi
 import ru.cherepanovk.feature_google_calendar_api.data.GoogleCalendarApi
 import javax.inject.Inject
 
 
 class SettingViewModel @Inject constructor(
     private val getGoogleAccount: GetGoogleAccount,
-    private val googleCalendarApi: GoogleCalendarApi
+    private val googleCalendarApi: GoogleCalendarApi,
+    private val preferencesApi: PreferencesApi
 ) : BaseViewModel() {
     private val _googleAccount = MutableLiveData<String>()
     val googleAccount: LiveData<String>
@@ -46,6 +48,11 @@ class SettingViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun logout() {
+        preferencesApi.setGoogleAccount(null)
+        loadAccount()
     }
 
 }
