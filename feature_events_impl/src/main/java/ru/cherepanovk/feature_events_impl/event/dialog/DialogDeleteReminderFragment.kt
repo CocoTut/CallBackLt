@@ -46,6 +46,8 @@ class DialogDeleteReminderFragment : DialogFragment() {
             .contextProvider(componentManager.getOrThrow())
             .coreDbApi(componentManager.getOrThrow())
             .coreDomainApi(componentManager.getOrThrow())
+            .coreGoogleCalendarApi(componentManager.getOrThrow())
+            .corePreferencesApi(componentManager.getOrThrow())
             .build()
             .injectDialog(this)
     }

@@ -44,7 +44,7 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
         this.either({ fn -> handleFailure(fn) }) { block(it) }
     }
 
-    protected inline fun <T> Either<Failure, T>.handleOnlyFailure() {
+    protected fun <T> Either<Failure, T>.handleOnlyFailure() {
         this.either({ fn -> handleFailure(fn) }) { }
     }
 

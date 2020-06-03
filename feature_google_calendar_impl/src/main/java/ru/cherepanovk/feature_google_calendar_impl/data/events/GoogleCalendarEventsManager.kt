@@ -5,7 +5,9 @@ import com.google.api.services.calendar.model.Event
 import com.google.api.services.calendar.model.EventAttendee
 import com.google.api.services.calendar.model.EventDateTime
 import com.google.api.services.calendar.model.EventReminder
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import ru.cherepanovk.core.exception.CallBackItException
 import ru.cherepanovk.core_db_api.data.DbApi
@@ -108,11 +110,14 @@ class GoogleCalendarEventsManager @Inject constructor(
         }
     }
 
-    suspend fun deleteEvent(account: String, event: GoogleCalendarEvent) {
+    suspend fun deleteEvent(account: String, eventId: String) {
+        if (account.isEmpty()) return
+
         withContext(Dispatchers.IO) {
             googleAccountManager.getGoogleCalendar(account)
-                .events().delete(account, event.id)
+                .events().delete(account, eventId).execute()
         }
+
     }
 
 

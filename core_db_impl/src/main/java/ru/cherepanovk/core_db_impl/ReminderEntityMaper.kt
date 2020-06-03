@@ -4,12 +4,13 @@ import ru.cherepanovk.core.utils.Mapper
 import ru.cherepanovk.core_db_api.data.Reminder
 import ru.cherepanovk.core_db_impl.data.room.entities.PHONE_REGEX_PATTERN
 import ru.cherepanovk.core_db_impl.data.room.entities.ReminderEntity
+import java.util.*
 import javax.inject.Inject
 
 class ReminderEntityMaper @Inject constructor() : Mapper<Reminder, ReminderEntity> {
     override fun map(from: Reminder): ReminderEntity {
         return ReminderEntity(
-            id = from.id,
+            id = if(from.id.isEmpty()) UUID.randomUUID().toString().replace("-","") else from.id,
             phoneNumber = from.phoneNumber,
             description = from.description,
             contactName = from.contactName,

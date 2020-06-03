@@ -10,7 +10,7 @@ class NewReminderMapper @Inject constructor(
 ) {
     fun map(from: ReminderView): Reminder {
         return Reminder(
-            id = from.id ?: UUID.randomUUID().toString(),
+            id = from.id ?: "",
             phoneNumber = from.phoneNumber,
             description = from.description,
             contactName = from.contactName,

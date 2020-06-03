@@ -10,5 +10,5 @@ interface GoogleCalendarApi {
 
     suspend fun saveEvent(account: String, event: GoogleCalendarEvent)
 
-    suspend fun deleteEvent(account: String, event: GoogleCalendarEvent)
+    suspend fun deleteEvent(account: String, eventId: String)
 }
