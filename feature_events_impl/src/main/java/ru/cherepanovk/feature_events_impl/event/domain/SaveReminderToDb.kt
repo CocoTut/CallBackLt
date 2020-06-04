@@ -23,31 +23,33 @@ class SaveReminderToDb @Inject constructor(
 
     override suspend fun run(params: Reminder) {
 
+        val newReminder = params.id.isEmpty()
 
         eventRepository.saveReminderToDb(params).run {
             cancelCurrentReminder(this.id)
             createAlarm(this.id)
-            saveReminderToGoogleCalendar(this)
+            saveReminderToGoogleCalendar(this, newReminder)
         }
 
 
     }
 
-    private suspend fun saveReminderToGoogleCalendar(params: Reminder) {
+    private suspend fun saveReminderToGoogleCalendar(params: Reminder, newReminder: Boolean) {
         preferencesApi.getGoogleAccount().run {
             if (this.isEmpty())
                 return
-            googleCalendarApi.saveEvent(
-                this,
-                GoogleCalendarEvent(
-                    id = params.id,
-                    description = params.description,
-                    contactName = params.contactName,
-                    phoneNumber = params.phoneNumber,
-                    startTime = params.dateTimeEvent,
-                    endTime = dateTimeHelper.addTimeToDate(params.dateTimeEvent, 1)
-                )
+            val calendarEvent = GoogleCalendarEvent(
+                id = params.id,
+                description = params.description,
+                contactName = params.contactName,
+                phoneNumber = params.phoneNumber,
+                startTime = params.dateTimeEvent,
+                endTime = dateTimeHelper.addTimeToDate(params.dateTimeEvent, 1)
             )
+            if (newReminder)
+                googleCalendarApi.saveEvent(this, calendarEvent)
+            else
+                googleCalendarApi.updateEvent(this, calendarEvent)
         }
     }
 

@@ -22,7 +22,8 @@ import javax.inject.Inject
 class GoogleCalendarEventsManager @Inject constructor(
     private val googleAccountManager: GoogleAccountManager,
     private val dbApi: DbApi,
-    private val alarmApi: AlarmApi
+    private val alarmApi: AlarmApi,
+    private val calendarEventMapper: CalendarEventMapper
 ) {
 
     suspend fun loadEvents(account: String, startDate: Date, endDate: Date) {
@@ -40,44 +41,14 @@ class GoogleCalendarEventsManager @Inject constructor(
 
     suspend fun saveEvent(account: String, calendarEvent: GoogleCalendarEvent) {
         withContext(Dispatchers.IO) {
-          val event =   Event().apply {
-                id = calendarEvent.id
-                attendees = listOf(
-                    EventAttendee().setEmail(ATTENDEE_NAME).setComment(calendarEvent.phoneNumber)
-                        .setDisplayName(calendarEvent.contactName)
-                )
-                reminders = getCalendarReminders()
-                summary =
-                    if (calendarEvent.description.isEmpty()) calendarEvent.contactName
-                    else calendarEvent.contactName + ", " + calendarEvent.description
-                description = calendarEvent.description
-                start = EventDateTime().apply {
-                    dateTime = DateTime(calendarEvent.startTime)
-                    timeZone = TimeZone.getDefault().id
-                }
-                end = EventDateTime().apply {
-                    dateTime = DateTime(calendarEvent.endTime)
-                    timeZone = TimeZone.getDefault().id
-                }
-            }
             googleAccountManager.getGoogleCalendar(account)
                 .events()
-                .insert(account, event)
+                .insert(account, calendarEventMapper.map(calendarEvent))
                 .execute()
 
         }
     }
 
-
-    private fun getCalendarReminders(): Event.Reminders {
-        return Event.Reminders().apply {
-            useDefault = false
-            overrides = listOf(EventReminder().apply {
-                method = "popup"
-                minutes = 1
-            })
-        }
-    }
 
     private suspend fun saveEventsToDb(events: List<Event>) {
         val filtered = events.filter { event ->
@@ -88,8 +59,8 @@ class GoogleCalendarEventsManager @Inject constructor(
                 Reminder(
                     id = event.id,
                     description = event.description,
-                    contactName = event.attendees.first().displayName,
-                    phoneNumber = event.attendees.first().comment,
+                    contactName = event.attendees.first()?.displayName ?: "",
+                    phoneNumber = event.attendees.first()?.comment ?: "",
                     dateTimeEvent = Date(event.start.dateTime.value)
                 )
 
@@ -120,8 +91,19 @@ class GoogleCalendarEventsManager @Inject constructor(
 
     }
 
+    suspend fun updateEvent(account: String, calendarEvent: GoogleCalendarEvent) {
+        if (account.isEmpty()) return
+
+        withContext(Dispatchers.IO) {
+            val event = calendarEventMapper.map(calendarEvent)
+            googleAccountManager.getGoogleCalendar(account)
+                .events().update(account, event.id, event).execute()
+        }
+
+    }
 
     companion object {
-        private const val ATTENDEE_NAME = "attendee@email.com"
+        internal const val ATTENDEE_NAME = "attendee@email.com"
     }
+
 }

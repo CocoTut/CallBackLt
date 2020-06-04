@@ -16,6 +16,7 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
     private val componentManager: ComponentManager
         get() = ComponentManager
 
+
     @Inject lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
@@ -45,10 +46,6 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
 
 
     protected fun firstTimeCreated(savedInstanceState: Bundle?) = savedInstanceState == null
-
-    protected fun showLoading(isLoading: Boolean) {
-//        progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
 
     protected abstract fun bindListeners()
 

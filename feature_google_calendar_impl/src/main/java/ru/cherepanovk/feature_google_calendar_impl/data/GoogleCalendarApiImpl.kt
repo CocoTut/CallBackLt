@@ -26,4 +26,8 @@ class GoogleCalendarApiImpl @Inject constructor(
         googleCalendarEventsManager.deleteEvent(account, eventId)
     }
 
+    override suspend fun updateEvent(account: String, event: GoogleCalendarEvent) {
+        googleCalendarEventsManager.updateEvent(account, event)
+    }
+
 }
