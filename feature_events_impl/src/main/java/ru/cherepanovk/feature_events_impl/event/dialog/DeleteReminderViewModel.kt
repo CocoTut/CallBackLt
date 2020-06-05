@@ -20,7 +20,7 @@ class DeleteReminderViewModel @Inject constructor(
             launchLoading {
                 deleteReminderFromDb(id) {
                     it.handleSuccess {
-                        _openMainScreen.call()
+                        _openMainScreen.postValue(true)
                     }
                 }
             }

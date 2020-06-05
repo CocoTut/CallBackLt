@@ -3,11 +3,7 @@ package ru.cherepanovk.feature_events_impl.event.domain
 import ru.cherepanovk.core.exception.ErrorHandler
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core_db_api.data.Reminder
-import ru.cherepanovk.core_domain_api.data.AlarmApi
-import ru.cherepanovk.core_domain_api.data.AlarmReminder
-import ru.cherepanovk.feature_events_impl.event.ReminderView
-import ru.cherepanovk.feature_events_impl.event.data.EventRepository
-import java.util.*
+import ru.cherepanovk.feature_alarm_api.data.AlarmApi
 import javax.inject.Inject
 
 class CreateReminderAlarm @Inject constructor(
@@ -18,11 +14,11 @@ class CreateReminderAlarm @Inject constructor(
     override suspend fun run(params: Reminder) {
        val alarmReminder =
            AlarmModel(
-               id = params.id(),
-               phoneNumber = params.phoneNumber(),
-               description = params.description(),
-               contactName = params.contactName(),
-               dateTimeEvent = params.dateTimeEvent()
+               id = params.id,
+               phoneNumber = params.phoneNumber,
+               description = params.description,
+               contactName = params.contactName,
+               dateTimeEvent = params.dateTimeEvent
            )
        return alarmApi.createAlarm(alarmReminder)
     }

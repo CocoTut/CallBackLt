@@ -5,7 +5,7 @@ import ru.cherepanovk.core_db_api.data.Reminder
 interface EventRepository {
     suspend fun getReminderFromDb(id: String): Reminder?
 
-    suspend fun saveReminderToDb(reminder: Reminder)
+    suspend fun saveReminderToDb(reminder: Reminder): Reminder
 
     suspend fun deleteReminderById(id: String)
 

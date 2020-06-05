@@ -22,6 +22,7 @@ import ru.cherepanovk.core_db_api.data.Reminder;
 /**
  * Created by CocoNut on 18.05.2018.
  */
+@Deprecated
 @Singleton
 public class LocalBase {
 
@@ -35,11 +36,11 @@ public class LocalBase {
     private RuntimeExceptionDao<LastPhoneNumber, String> lastPhoneNumberDAO = null;
 
     @Inject
-    public LocalBase(DbHelper dbHelper){
+    public LocalBase(DbHelper dbHelper) {
         this.dbHelper = dbHelper;
     }
 
-    private void setEventDAO(){
+    private void setEventDAO() {
         try {
             eventDAO = dbHelper.getEventDao();
         } catch (SQLException e) {
@@ -47,7 +48,7 @@ public class LocalBase {
         }
     }
 
-    private void setAccountDAO(){
+    private void setAccountDAO() {
         try {
             accountDAO = dbHelper.getAccountDao();
         } catch (SQLException e) {
@@ -55,7 +56,7 @@ public class LocalBase {
         }
     }
 
-    private void setRescheduleDAO(){
+    private void setRescheduleDAO() {
         try {
             rescheduleDAO = dbHelper.getRescheduleDao();
         } catch (SQLException e) {
@@ -63,7 +64,7 @@ public class LocalBase {
         }
     }
 
-    private void setLastPhoneNumberDAO(){
+    private void setLastPhoneNumberDAO() {
         try {
             lastPhoneNumberDAO = dbHelper.getLastPhoneNumberDao();
         } catch (SQLException e) {
@@ -72,75 +73,30 @@ public class LocalBase {
     }
 
     @NotNull
-    public List<Reminder> getAllEvents(){
-         setEventDAO();
+    public List<Reminder> getAllEvents() {
+        setEventDAO();
         ArrayList<Reminder> reminders = new ArrayList<>();
         List<Event> events = eventDAO.queryForAll();
         if (events != null)
-            reminders.addAll(events);
+            for (Event event : events) {
+                Reminder reminder = new Reminder(
+                        event.id,
+                        event.description,
+                        event.phonenumber,
+                        event.contactName,
+                        event.dateTimeEvent
+                );
+                reminders.add(reminder);
+            }
+
         return reminders;
     }
 
-//    public void createLocalEventsFromGoogleEvents(com.google.api.services.calendar.model.Event googleEvent){
-////        for (com.google.api.services.calendar.model.Event eventGoogle : googleEvents){
-//
-//            Calendar calendar = Calendar.getInstance();
-//            String phoneNumber = "";
-//            String contactName = "";
-//            String description = "";
-//
-//            Date date;
-//
-//            List<EventAttendee> attendees = googleEvent.getAttendees();
-//            if (attendees != null) {
-//                for (EventAttendee attendee : attendees) {
-//                    if (attendee.getComment() != null) {
-//                        phoneNumber = attendee.getComment();
-//                    }
-//                    if(attendee.getDisplayName() != null) {
-//                        contactName = attendee.getDisplayName();
-//                    }
-//                }
-//            }
-//
-//            long startDateTime;
-//
-//            if(googleEvent.getStart() != null
-//                    && googleEvent.getStart().getDateTime() != null){
-//                startDateTime = googleEvent.getStart().getDateTime().getValue();
-//            }else{
-//                return;
-//            }
-//
-//            calendar.setTimeInMillis(startDateTime);
-//            date = calendar.getTime();
-//
-//
-//            if (googleEvent.getDescription()!=null){
-//                description = googleEvent.getDescription();
-//            }
-//
-//            String id = googleEvent.getId();
-//            Event localEvent = getEventByID(id);
-//            if ( localEvent != null){
-//                localEvent.setPhonenumber(phoneNumber);
-//                localEvent.setContactName(contactName);
-//                localEvent.setDateTimeEvent(date);
-//                localEvent.setDescription(description);
-//                updateEvent(localEvent);
-//                return;
-//            }
-//
-//            saveLocalEvent(phoneNumber, contactName, description, date, id);
-//
-////        }
-//    }
-
     public String saveLocalEvent(String phoneNumber, String contactName, String description,
-                                 Date date, String id){
+                                 Date date, String id) {
         setEventDAO();
         Event event = new Event();
-        event.setPhonenumber(phoneNumber);
+        event.setPhoneNumber(phoneNumber);
         event.setContactName(contactName);
         event.setDescription(description);
         event.setDateTimeEvent(date);
@@ -154,10 +110,10 @@ public class LocalBase {
     }
 
     public void editLocalEvent(String phoneNumber, String contactName, String description, Date date,
-                               String eventID){
+                               String eventID) {
         setEventDAO();
         Event event = getEventByID(eventID);
-        event.setPhonenumber(phoneNumber);
+        event.setPhoneNumber(phoneNumber);
         event.setContactName(contactName);
         event.setDescription(description);
         event.setDateTimeEvent(date);
@@ -165,12 +121,12 @@ public class LocalBase {
 
     }
 
-    public void updateEvent(Event event){
+    public void updateEvent(Event event) {
         setEventDAO();
         eventDAO.update(event);
     }
 
-    public List<Event> getEventsForMonth(Date startEventsDate, Date endEventsDate){
+    public List<Event> getEventsForMonth(Date startEventsDate, Date endEventsDate) {
 
         setEventDAO();
 
@@ -179,7 +135,7 @@ public class LocalBase {
         QueryBuilder<Event, String> queryBuilder = eventDAO.queryBuilder();
         PreparedQuery<Event> preparedQuery = null;
         try {
-            queryBuilder.where().between("dateTimeEvent",startEventsDate, endEventsDate);
+            queryBuilder.where().between("dateTimeEvent", startEventsDate, endEventsDate);
             preparedQuery = queryBuilder.prepare();
             events = eventDAO.query(preparedQuery);
         } catch (SQLException e) {
@@ -199,7 +155,7 @@ public class LocalBase {
 
     }
 
-    public List<Event> getCurrentEvents(Date startEventsDate){
+    public List<Event> getCurrentEvents(Date startEventsDate) {
 
         setEventDAO();
 
@@ -208,7 +164,7 @@ public class LocalBase {
         QueryBuilder<Event, String> queryBuilder = eventDAO.queryBuilder();
         PreparedQuery<Event> preparedQuery = null;
         try {
-            queryBuilder.where().gt("dateTimeEvent",startEventsDate);
+            queryBuilder.where().gt("dateTimeEvent", startEventsDate);
             preparedQuery = queryBuilder.prepare();
             events = eventDAO.query(preparedQuery);
         } catch (SQLException e) {
@@ -228,18 +184,18 @@ public class LocalBase {
 
     }
 
-    public Event getEventByID(String eventID){
+    public Event getEventByID(String eventID) {
         setEventDAO();
         Event event = eventDAO.queryForId(eventID);
         return event;
     }
 
-    public String getEventIDByPhoneNumber(String phoneNumber){
+    public String getEventIDByPhoneNumber(String phoneNumber) {
 
         setEventDAO();
 
         String searchingPhoneNumber = phoneNumber.replaceAll("\\D+", "");
-        if (searchingPhoneNumber.isEmpty()){
+        if (searchingPhoneNumber.isEmpty()) {
             return null;
         }
         searchingPhoneNumber = searchingPhoneNumber.substring(1, searchingPhoneNumber.length() - 1);
@@ -249,34 +205,34 @@ public class LocalBase {
         List<Event> events = null;
         String eventID = null;
         try {
-            queryBuilder.where().like("phonenumber", "%"+searchingPhoneNumber+"%");
+            queryBuilder.where().like("phonenumber", "%" + searchingPhoneNumber + "%");
             preparedQuery = queryBuilder.prepare();
             events = eventDAO.query(preparedQuery);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        if ( events.size() > 0) {
+        if (events.size() > 0) {
             Collections.sort(events, new Comparator<Event>() {
                 public int compare(Event obj1, Event obj2) {
                     return obj1.dateTimeEvent.compareTo(obj2.dateTimeEvent);
                 }
             });
 
-           eventID = events.get(events.size()-1).id;
+            eventID = events.get(events.size() - 1).id;
         }
         return eventID;
 
     }
 
-    public void deleteEventById(String eventID){
+    public void deleteEventById(String eventID) {
         setEventDAO();
         eventDAO.deleteById(eventID);
 
     }
 
-    public void setAccount(String accountName){
-        if( getAccount()!= null){
+    public void setAccount(String accountName) {
+        if (getAccount() != null) {
             Account account = getAccount();
             account.setAccount(accountName);
             accountDAO.update(account);
@@ -289,37 +245,37 @@ public class LocalBase {
 
     }
 
-    public Account getAccount(){
+    public Account getAccount() {
         setAccountDAO();
         return accountDAO.queryForId(ACCOUNT_ID);
     }
 
-    public void deleteAccount(){
+    public void deleteAccount() {
         setAccountDAO();
         accountDAO.deleteById(ACCOUNT_ID);
     }
 
-    public List<Reschedule> getListReschedule(){
+    public List<Reschedule> getListReschedule() {
         setRescheduleDAO();
         return rescheduleDAO.queryForAll();
     }
 
-    public void createReschedule(Reschedule reschedule){
+    public void createReschedule(Reschedule reschedule) {
         setRescheduleDAO();
         rescheduleDAO.create(reschedule);
     }
 
-    public void deleteReschedule(int id){
+    public void deleteReschedule(int id) {
         setRescheduleDAO();
-        rescheduleDAO.delete(rescheduleDAO.queryForId(id+""));
+        rescheduleDAO.delete(rescheduleDAO.queryForId(id + ""));
 
 
     }
 
-    public void createLastPhoneNumber(String phoneNumber){
+    public void createLastPhoneNumber(String phoneNumber) {
         setLastPhoneNumberDAO();
         LastPhoneNumber lastPhoneNumber = lastPhoneNumberDAO.queryForId(ID_LASTPHONENUMBER);
-        if (lastPhoneNumber == null){
+        if (lastPhoneNumber == null) {
             lastPhoneNumber = new LastPhoneNumber();
             lastPhoneNumber.setId(ID_LASTPHONENUMBER);
             lastPhoneNumber.setPhoneNumber(phoneNumber);
@@ -330,16 +286,16 @@ public class LocalBase {
         lastPhoneNumberDAO.update(lastPhoneNumber);
     }
 
-    public String getLastPhoneNumber(){
+    public String getLastPhoneNumber() {
         setLastPhoneNumberDAO();
         LastPhoneNumber lastPhoneNumber = lastPhoneNumberDAO.queryForId(ID_LASTPHONENUMBER);
-        if(lastPhoneNumber != null){
+        if (lastPhoneNumber != null) {
             return lastPhoneNumber.phoneNumber;
         }
         return null;
     }
 
-    public void deleteLastPhoneNumber(){
+    public void deleteLastPhoneNumber() {
         setLastPhoneNumberDAO();
         lastPhoneNumberDAO.deleteById(ID_LASTPHONENUMBER);
     }

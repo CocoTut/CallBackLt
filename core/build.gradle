@@ -26,25 +26,44 @@ android {
         }
     }
 
+    viewBinding {
+        enabled = true
+    }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation Libs.Core.KOTLIN_STDLIB
-    implementation Libs.AndroidX.ANDROIDX_APPCOMPAT
-    implementation Libs.AndroidX.ANDROIDX_CORE_KTX
-    implementation Libs.Ui.MATERIAL
 
-    implementation Libs.AndroidX.ANDROIDX_LIFECYCLE_EXTENSIONS
-    implementation Libs.AndroidX.ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX
+    api Libs.Ui.MATERIAL
+
+    api Libs.Core.KOTLIN_STDLIB
+    api Libs.AndroidX.ANDROIDX_APPCOMPAT
+    api Libs.AndroidX.ANDROIDX_CORE_KTX
+
+    api Libs.AndroidX.ANDROIDX_LIFECYCLE_EXTENSIONS
+    api Libs.AndroidX.ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX
+    api Libs.AndroidX.ANDROIDX_LIFECYCLE_LIVEDATA_KTX
+    api Libs.AndroidX.ANDROIDX_LIFECYCLE_RUNTIME
+    api Libs.AndroidX.ANDROIDX_LIFECYCLE_COMMON_JAVA8
+
 
     testImplementation Libs.Test.TEST_LIB_JUNIT
     androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
     androidTestImplementation Libs.Test.TEST_ANDROIDX_ESPRESSO_CORE
+    testImplementation Libs.Test.TEST_ANDROIDX_ARCH_CORE
+    testImplementation Libs.Test.TEST_MOCKITO_CORE
+    testImplementation Libs.Test.TEST_MOCKITO_INLINE
+    testImplementation Libs.Test.TEST_KOTLINX_COROUTINES
+    testImplementation Libs.Core.COROUTINES_ANDROID
 
     //navigation component
     api Libs.AndroidX.ANDROIDX_NAVIGATION_FRAGMENT
     api Libs.AndroidX.ANDROIDX_NAVIGATION_UI
+
+    //kotlin coroutines
+    implementation Libs.Core.COROUTINES_CORE
+    implementation Libs.Core.COROUTINES_ANDROID
 
 
     //dagger 2 for DI

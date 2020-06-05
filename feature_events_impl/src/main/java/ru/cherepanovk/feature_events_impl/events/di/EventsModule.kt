@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import ru.cherepanovk.core.di.dependencies.FeatureNavigator
 import ru.cherepanovk.core.di.viewmodel.ViewModelKey
+import ru.cherepanovk.core.platform.FeatureNavigatorImpl
 import ru.cherepanovk.feature_events_api.EventsFeatureStarter
 import ru.cherepanovk.feature_events_impl.EventsFeatureStarterImpl
 import ru.cherepanovk.feature_events_impl.events.EventsViewModel
@@ -23,6 +25,8 @@ abstract class EventsModule {
     abstract fun bindRepository(eventsRepositoryImpl: EventsRepositoryImpl): EventsRepository
 
     @Binds
-    abstract fun bindLoginStarter(eventsFeatureStarterImpl: EventsFeatureStarterImpl): EventsFeatureStarter
+    abstract fun bindEventsStarter(eventsFeatureStarterImpl: EventsFeatureStarterImpl): EventsFeatureStarter
 
+    @Binds
+    abstract fun bindFeatureNavigator(featureNavigatorImpl: FeatureNavigatorImpl): FeatureNavigator
 }

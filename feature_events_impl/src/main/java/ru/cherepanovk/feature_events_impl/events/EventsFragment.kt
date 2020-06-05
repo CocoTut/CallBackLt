@@ -1,32 +1,33 @@
 package ru.cherepanovk.feature_events_impl.events
 
 import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager.PERMISSION_DENIED
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.PopupMenu
 import androidx.core.view.children
-import androidx.lifecycle.Observer
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.TransitionInflater
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
-import kotlinx.android.synthetic.main.fragment_events.*
-import kotlinx.android.synthetic.main.toolbar_months.*
 import ru.cherepanovk.core.di.ComponentManager
+import ru.cherepanovk.core.di.dependencies.FeatureNavigator
 import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.platform.ErrorHandler
-import ru.cherepanovk.core.utils.extentions.beforeRequestPermissions
-import ru.cherepanovk.core.utils.extentions.observe
-import ru.cherepanovk.core.utils.extentions.viewModel
-import ru.cherepanovk.feature_events_impl.ARG_EVENT_ID
+import ru.cherepanovk.core.platform.viewBinding
+import ru.cherepanovk.core.utils.extentions.*
 import ru.cherepanovk.feature_events_impl.R
+import ru.cherepanovk.feature_events_impl.databinding.FragmentEventsBinding
 import ru.cherepanovk.feature_events_impl.event.EventOpenParams
 import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
+import ru.cherepanovk.feature_google_calendar_api.data.GoogleAccountFeatureStarter
 import javax.inject.Inject
 
 const val PERMISSIONS_REQUEST_CODE = 302
@@ -34,9 +35,14 @@ const val PERMISSIONS_REQUEST_CODE = 302
 class EventsFragment : BaseFragment(R.layout.fragment_events) {
 
     private val model by viewModels<EventsViewModel> { viewModelFactory }
+    private val binding: FragmentEventsBinding by viewBinding(FragmentEventsBinding::bind)
 
     @Inject
-    lateinit var errorHandler: ErrorHandler
+    lateinit var googleAccountFeatureStarter: GoogleAccountFeatureStarter
+
+    @Inject
+    lateinit var featureNavigator: FeatureNavigator
+
 
     private val remindersAdapter = GroupAdapter<ViewHolder>().apply {
         setOnItemClickListener { item, _ ->
@@ -54,10 +60,21 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
         super.onCreate(savedInstanceState)
         beforeRequestPermissions(
             PERMISSIONS_REQUEST_CODE,
-            true,
+            false,
             Manifest.permission.READ_CONTACTS,
             Manifest.permission.READ_CALL_LOG,
-            Manifest.permission.READ_PHONE_STATE)
+            Manifest.permission.READ_PHONE_STATE
+        )
+
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        model.checkGoogleAccount()
     }
 
     override fun inject(componentManager: ComponentManager) {
@@ -67,26 +84,29 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        popupMenu = PopupMenu(context, tvToolbarMonths)
+        popupMenu = PopupMenu(context, binding.toolbarMonths.tvToolbarMonths)
         popupMenu.inflate(R.menu.menu_months)
         initList()
         initYears()
     }
 
     private fun initYears() {
-        tvYears.background = null
-        tvYears.isFocusable = false
-        tvYears.isClickable = true
-        tvYears.setOnClickListener {
-            tvYears.showDropDown()
+        binding.toolbarMonths.tvYears.apply {
+            background = null
+            isFocusable = false
+            isClickable = true
+            setOnClickListener {
+                this.showDropDown()
+            }
+            setOnItemClickListener { _, _, position, _ ->
+                model.yearSelected(yearsAdapter.getItem(position)?.toInt())
+            }
         }
-        tvYears.setOnItemClickListener { _, _, position, _ ->
-            model.yearSelected(yearsAdapter.getItem(position)?.toInt())
-        }
+
     }
 
     private fun initList() {
-        rvEventsFragment.apply {
+        binding.rvEventsFragment.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = remindersAdapter
             setHasFixedSize(true)
@@ -102,19 +122,36 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             observe(years, ::setYears)
             observe(currentYear, ::setCurrentYear)
             observe(itemsReminder, ::setItems)
+            observe(askGoogleCalendarAccount, ::showAddGoogleAccountDialog)
+            observe(isLoading, ::loading)
+            observeFailure(failure, errorHandler::onHandleFailure)
         }
     }
+
+    private fun loading(loading: Boolean) {
+        binding.srlEventList.isRefreshing = loading
+    }
+
+    private fun showAddGoogleAccountDialog(showDialog: Boolean) {
+        if (showDialog)
+            featureNavigator.navigateToFeature(
+                navController = findNavController(),
+                featureNavGraph =
+                googleAccountFeatureStarter.getAddGoogleAccountGraph(findNavController().navInflater)
+            )
+    }
+
 
     private fun setYears(years: List<String>) {
         yearsAdapter.clear()
         yearsAdapter.addAll(years)
-        tvYears.setAdapter(yearsAdapter)
+        binding.toolbarMonths.tvYears.setAdapter(yearsAdapter)
     }
 
     override fun bindListeners() {
-        tvToolbarMonths.setOnClickListener { popupMenu.show() }
+        binding.toolbarMonths.tvToolbarMonths.setOnClickListener { popupMenu.show() }
 
-        btnAddEvent.setOnClickListener {
+        binding.btnAddEvent.setOnClickListener {
             openEventScreen(null)
         }
 
@@ -124,12 +161,16 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             return@setOnMenuItemClickListener true
         }
 
+        binding.srlEventList.setOnRefreshListener {
+            model.updateReminders()
+        }
+
     }
 
     private fun openEventScreen(id: String?) {
         val arguments = EventOpenParams(reminderId = id).toBundle()
         val extras = FragmentNavigatorExtras(
-            btnAddEvent to getString(R.string.btn_transition_name)
+            binding.btnAddEvent to getString(R.string.btn_transition_name)
         )
 
         findNavController().navigate(
@@ -146,19 +187,19 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     }
 
     private fun setEmptyListVisibility(visible: Boolean) {
-        emptyList.visibility = if (visible) View.VISIBLE else View.GONE
+        binding.emptyList.root.visibility = if (visible) View.VISIBLE else View.GONE
 
     }
 
     private fun setCurrentMonth(month: Int) {
         popupMenu.menu.getItem(month).apply {
             isChecked = true
-            tvToolbarMonths.text = title
+            binding.toolbarMonths.tvToolbarMonths.text = title
         }
     }
 
     private fun setCurrentYear(year: Int) {
-        tvYears.setText(year.toString(), false)
+        binding.toolbarMonths.tvYears.setText(year.toString(), false)
     }
 
 

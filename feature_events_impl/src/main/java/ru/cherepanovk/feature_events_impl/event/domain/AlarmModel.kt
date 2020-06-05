@@ -1,6 +1,6 @@
 package ru.cherepanovk.feature_events_impl.event.domain
 
-import ru.cherepanovk.core_domain_api.data.AlarmReminder
+import ru.cherepanovk.feature_alarm_api.data.AlarmReminder
 import java.util.*
 
 class AlarmModel (

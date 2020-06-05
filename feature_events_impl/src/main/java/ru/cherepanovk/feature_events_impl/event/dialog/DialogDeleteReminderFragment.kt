@@ -9,21 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
-import kotlinx.android.synthetic.main.dialog_delete_reminder.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.di.viewmodel.ViewModelFactory
 import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.observeFailure
-import ru.cherepanovk.core.utils.extentions.viewModel
-import ru.cherepanovk.feature_events_impl.ARG_EVENT_ID
 import ru.cherepanovk.feature_events_impl.R
-import ru.cherepanovk.feature_events_impl.event.di.DaggerEventComponent
 import javax.inject.Inject
 import android.view.Window
+import androidx.fragment.app.viewModels
+import ru.cherepanovk.core.platform.viewBinding
+import ru.cherepanovk.feature_events_impl.databinding.DialogDeleteReminderBinding
 import ru.cherepanovk.feature_events_impl.event.dialog.di.DaggerDialogDeleteComponent
-import ru.cherepanovk.feature_events_impl.event.dialog.di.DialogDeleteComponent
 
 
 class DialogDeleteReminderFragment : DialogFragment() {
@@ -31,21 +29,27 @@ class DialogDeleteReminderFragment : DialogFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var model: DeleteReminderViewModel
+    private val reminderId: String?
+        get() = DialogDeleteParams.fromBundle(arguments)?.reminderId
+
+    private val binding: DialogDeleteReminderBinding by viewBinding(DialogDeleteReminderBinding::bind)
+
+    private val model: DeleteReminderViewModel by viewModels { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         inject(ComponentManager)
-        model = viewModel(viewModelFactory)
     }
 
     private fun inject(componentManager: ComponentManager) {
-            DaggerDialogDeleteComponent.builder()
-                .contextProvider(componentManager.getOrThrow())
-                .coreDbApi(componentManager.getOrThrow())
-                .coreDomainApi(componentManager.getOrThrow())
-                .build()
-                .injectDialog(this)
+        DaggerDialogDeleteComponent.builder()
+            .contextProvider(componentManager.getOrThrow())
+            .coreDbApi(componentManager.getOrThrow())
+            .coreDomainApi(componentManager.getOrThrow())
+            .coreGoogleCalendarApi(componentManager.getOrThrow())
+            .corePreferencesApi(componentManager.getOrThrow())
+            .build()
+            .injectDialog(this)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -75,7 +79,10 @@ class DialogDeleteReminderFragment : DialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        dialog?.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
@@ -89,29 +96,30 @@ class DialogDeleteReminderFragment : DialogFragment() {
 
 
     private fun bindListeners() {
-        btnYes.setOnClickListener {
-            model.deleteReminder(arguments?.getString(ARG_EVENT_ID))
+        binding.btnYes.setOnClickListener {
+            model.deleteReminder(reminderId)
         }
 
-        btnNo.setOnClickListener {
+        binding.btnNo.setOnClickListener {
            dismiss()
         }
 
     }
 
 
-    private fun openEventsScreen(open: Boolean?) {
-        requireActivity().onBackPressed()
+    private fun openEventsScreen(open: Boolean) {
+        dismiss()
+        findNavController().navigate(R.id.action_dialogDeleteReminder_to_eventsFragment)
     }
 
     private fun handleError(failure: Failure?) {
-        //TODO handle error
-        dismiss()
+
     }
 
     companion object {
+        private const val ARG_EVENT_ID = "ARG_EVENT_ID"
         fun newInstance(id: String) = DialogDeleteReminderFragment().apply {
-          arguments =  Bundle().apply {
+            arguments = Bundle().apply {
                 putString(ARG_EVENT_ID, id)
             }
         }

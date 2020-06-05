@@ -12,23 +12,26 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
-import kotlinx.android.synthetic.main.fragment_event.*
-import kotlinx.android.synthetic.main.toolbar_back_title.*
+import pub.devrel.easypermissions.EasyPermissions
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.exception.ErrorHandler
 import ru.cherepanovk.core.platform.ActivityStarter
 import ru.cherepanovk.core.platform.BaseFragment
-import ru.cherepanovk.core.utils.extentions.observe
-import ru.cherepanovk.core.utils.extentions.pickContacts
-import ru.cherepanovk.core.utils.extentions.viewModel
+import ru.cherepanovk.core.platform.viewBinding
+import ru.cherepanovk.core.utils.extentions.*
 import ru.cherepanovk.core.utils.getDialIntent
+import ru.cherepanovk.feature_events_impl.ContactsPermissionChecker
 import ru.cherepanovk.feature_events_impl.R
+import ru.cherepanovk.feature_events_impl.databinding.FragmentEventBinding
 import ru.cherepanovk.feature_events_impl.event.di.DaggerEventComponent
-import ru.cherepanovk.feature_events_impl.event.dialog.DialogDeleteReminderFragment
+import ru.cherepanovk.feature_events_impl.event.dialog.DialogDeleteParams
 import ru.cherepanovk.imgurtest.utils.extensions.afterTextChanged
 import ru.cherepanovk.imgurtest.utils.extensions.hideKeyboard
+import ru.cherepanovk.imgurtest.utils.extensions.showOrHide
 import javax.inject.Inject
 
 
@@ -39,13 +42,13 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
     TimePickerDialog.OnTimeSetListener,
     ActivityStarter {
 
-    private lateinit var model: EventViewModel
+    private val model: EventViewModel by viewModels { viewModelFactory }
+    private val binding: FragmentEventBinding by viewBinding(FragmentEventBinding::bind)
     private val openParams
         get() = arguments?.let { EventOpenParams.fromBundle(it) }
 
     @Inject
-    lateinit var errorHandler: ErrorHandler
-
+    lateinit var contactsPermissionChecker: ContactsPermissionChecker
 
 
     override fun inject(componentManager: ComponentManager) {
@@ -53,6 +56,9 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             .contextProvider(componentManager.getOrThrow())
             .coreDbApi(componentManager.getOrThrow())
             .coreDomainApi(componentManager.getOrThrow())
+            .corePreferencesApi(componentManager.getOrThrow())
+            .coreGoogleCalendarApi(componentManager.getOrThrow())
+            .rootViewProvider(componentManager.getOrThrow())
             .build()
             .inject(this)
     }
@@ -79,7 +85,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
 
     override fun bindViewModel() {
-        model = viewModel(viewModelFactory) {
+        with(model) {
             observe(reminderView, ::setReminder)
             observe(toolbarTitleNewReminder, ::setTitleNewReminder)
             observe(success, ::handleSuccess)
@@ -92,67 +98,89 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             observe(hintDateIsLessThanCurrent, ::showDateHint)
             observe(contactName, ::setContactName)
             observe(phoneNumber, ::setPhoneNumber)
+            observe(isLoading, ::showLoading)
+            observeFailure(failure, errorHandler::onHandleFailure)
 
         }
     }
 
+    private fun showLoading(loading: Boolean) {
+        binding.pbEvent.showOrHide(loading)
+    }
+
     override fun bindListeners() {
-        ivBack.setOnClickListener {
+        binding.toolbar.ivBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
 
-        btnSaveEvent.setOnClickListener {
+        binding.btnSaveEvent.setOnClickListener {
             if (isContactNameNotEmpty())
                 saveReminder()
             else
-                tilContactName.error = getString(R.string.ContactNameIsEmpty)
+                binding.tilContactName.error = getString(R.string.ContactNameIsEmpty)
         }
 
-        btnDeleteEvent.setOnClickListener {
+        binding.btnDeleteEvent.setOnClickListener {
             openParams?.reminderId?.let { showDeleteDialog(it) }
         }
 
-        btnOpenContacts.setOnClickListener {
-            pickContacts(REQUEST_CONTACT_PICKER)
+        binding.btnOpenContacts.setOnClickListener {
+            contactsPermissionChecker.checkContactPermission(this) {
+                pickContacts(
+                    REQUEST_CONTACT_PICKER
+                )
+            }
+
+
         }
 
-        btnSendToWhatsApp.setOnClickListener {
+        binding.btnSendToWhatsApp.setOnClickListener {
             sendToWhatsApp()
         }
 
-        btnCall.setOnClickListener {
-            startActivity(getDialIntent(etPhoneNumberEvent.text.toString()))
+        binding.btnCall.setOnClickListener {
+            startActivity(getDialIntent(binding.etPhoneNumberEvent.text.toString()))
         }
 
-        tvDate.setOnClickListener {
-            model.onDateClick(tvDate.text.toString())
+        binding.tvDate.setOnClickListener {
+            model.onDateClick(binding.tvDate.text.toString())
         }
 
-        tvTime.setOnClickListener {
+        binding.tvTime.setOnClickListener {
             model.onTimeClick(
-                tvTime.text.toString(),
-                tvDate.text.toString()
+                binding.tvTime.text.toString(),
+                binding.tvDate.text.toString()
             )
         }
 
-        etContactNameEvent.afterTextChanged {
+        binding.etContactNameEvent.afterTextChanged {
             if (isContactNameNotEmpty())
-                tilContactName.error = null
+                binding.tilContactName.error = null
         }
 
-        etPhoneNumberEvent.afterTextChanged {
+        binding.etPhoneNumberEvent.afterTextChanged {
             if (isPhoneNumberNameNotEmpty())
-                tilPhoneNumber.error = null
+                binding.tilPhoneNumber.error = null
         }
 
 
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     private fun sendToWhatsApp() {
         when {
-            !isPhoneNumberNameNotEmpty() -> tilPhoneNumber.error = getString(R.string.error_empry_phone_number)
-            iswhatsappInstalled("com.whatsapp") -> openWhatsApp()
-            !iswhatsappInstalled("com.whatsapp") -> showWhatsAppError()
+            !isPhoneNumberNameNotEmpty() -> binding.tilPhoneNumber.error =
+                getString(R.string.error_empry_phone_number)
+            isWhatsappInstalled("com.whatsapp") -> openWhatsApp()
+            !isWhatsappInstalled("com.whatsapp") -> showWhatsAppError()
         }
 
 
@@ -169,14 +197,14 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
     }
 
     private fun openWhatsApp() {
-        val number = etPhoneNumberEvent.text.toString()
+        val number = binding.etPhoneNumberEvent.text.toString()
         val uri = Uri.parse("smsto:$number")
         val i = Intent(Intent.ACTION_SENDTO, uri)
         i.setPackage("com.whatsapp")
         startActivity(Intent.createChooser(i, ""))
     }
 
-    private fun iswhatsappInstalled(uri: String): Boolean {
+    private fun isWhatsappInstalled(uri: String): Boolean {
         val pm: PackageManager = requireActivity().packageManager
         var app_installed = false
         app_installed = try {
@@ -210,58 +238,60 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
     }
 
     private fun setPhoneNumber(phoneNumber: String) {
-        etPhoneNumberEvent.setText(phoneNumber)
+        binding.etPhoneNumberEvent.setText(phoneNumber)
     }
 
     private fun setContactName(contactName: String) {
-        etContactNameEvent.setText(contactName)
+        binding.etContactNameEvent.setText(contactName)
     }
 
     private fun showTimeHint(visible: Boolean) {
-        tvTimeHint.visibility = if (visible) View.VISIBLE else View.GONE
+        binding.tvTimeHint.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     private fun showDateHint(visible: Boolean) {
-        tvDateHint.visibility = if (visible) View.VISIBLE else View.GONE
+        binding.tvDateHint.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     private fun showDeleteDialog(id: String) {
-        val dialogFragment = DialogDeleteReminderFragment.newInstance(id)
-        dialogFragment.show(childFragmentManager,  DialogDeleteReminderFragment::class.java.canonicalName)
+        findNavController().navigate(
+            R.id.action_eventFragment_to_dialogDeleteReminder,
+            DialogDeleteParams(id).toBundle()
+        )
     }
 
 
     private fun saveReminder() {
         val reminderView = ReminderView(
-            phoneNumber = etPhoneNumberEvent.text.toString(),
-            description = etDescriptionEvent.text.toString(),
-            contactName = etContactNameEvent.text.toString(),
-            date = tvDate.text.toString(),
-            time = tvTime.text.toString()
+            phoneNumber = binding.etPhoneNumberEvent.text.toString(),
+            description = binding.etDescriptionEvent.text.toString(),
+            contactName = binding.etContactNameEvent.text.toString(),
+            date = binding.tvDate.text.toString(),
+            time = binding.tvTime.text.toString()
         )
         model.saveReminder(reminderView)
     }
 
     private fun isContactNameNotEmpty(): Boolean {
-        return etContactNameEvent.text.isNotBlank()
+        return binding.etContactNameEvent.text.isNotBlank()
     }
 
     private fun isPhoneNumberNameNotEmpty(): Boolean {
-        return etPhoneNumberEvent.text.isNotBlank()
+        return binding.etPhoneNumberEvent.text.isNotBlank()
     }
 
     private fun setDate(eventDate: String) {
-        tvDate.text = eventDate
+        binding.tvDate.text = eventDate
     }
 
     private fun setTime(eventTime: String) {
-        tvTime.text = eventTime
+        binding.tvTime.text = eventTime
     }
 
     private fun setButtonsVisibility(visible: Boolean) {
         val visibility = if (visible) View.VISIBLE else View.INVISIBLE
-        btnCall.visibility = visibility
-        btnDeleteEvent.visibility = visibility
+        binding.btnCall.visibility = visibility
+        binding.btnDeleteEvent.visibility = visibility
     }
 
     private fun handleSuccess(success: Boolean) {
@@ -269,22 +299,22 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
     }
 
     private fun setReminder(reminder: ReminderView) {
-        etPhoneNumberEvent.setText(reminder.phoneNumber)
-        etContactNameEvent.setText(reminder.contactName)
-        etDescriptionEvent.setText(reminder.description)
-        tvDate.text = reminder.date
-        tvTime.text = reminder.time
+        binding.etPhoneNumberEvent.setText(reminder.phoneNumber)
+        binding.etContactNameEvent.setText(reminder.contactName)
+        binding.etDescriptionEvent.setText(reminder.description)
+        binding.tvDate.text = reminder.date
+        binding.tvTime.text = reminder.time
     }
 
     private fun setTitleNewReminder(newReminder: Boolean) {
-        tvToolbarTitle.setText(
+        binding.toolbar.tvToolbarTitle.setText(
             if (newReminder) R.string.title_toolbar_new_reminder else R.string.title_toolbar_edit_reminder
         )
     }
 
     private fun showDatePickerDialog(dateForPicker: DateForPicker) {
         DatePickerDialog(
-            context!!,
+            requireContext(),
             this,
             dateForPicker.year,
             dateForPicker.month,
@@ -295,11 +325,15 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
     private fun showTimePickerDialog(timeForPicker: TimeForPicker) {
         TimePickerDialog(
-            context!!,
+            requireContext(),
             this,
             timeForPicker.hours,
             timeForPicker.minutes,
             true
         ).apply { show() }
     }
+
+
 }
+
+

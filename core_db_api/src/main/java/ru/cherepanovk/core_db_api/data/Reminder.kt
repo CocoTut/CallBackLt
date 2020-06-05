@@ -2,15 +2,15 @@ package ru.cherepanovk.core_db_api.data
 
 import java.util.*
 
-interface Reminder {
+class Reminder(
 
-    fun id(): String
+    val id: String,
 
-    fun description(): String
+    val description: String,
 
-    fun phoneNumber(): String
+    val phoneNumber: String,
 
-    fun contactName(): String
+    val contactName: String,
 
-    fun dateTimeEvent(): Date
-}
+    val dateTimeEvent: Date
+)

@@ -1,19 +1,16 @@
 package ru.cherepanovk.feature_events_impl.events
 
-import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.platform.BaseViewModel
-import ru.cherepanovk.core.platform.ContactPicker
+import ru.cherepanovk.core.platform.SingleLiveEvent
+import ru.cherepanovk.core.utils.DateTimeHelper
 import ru.cherepanovk.core_db_api.data.Reminder
-import ru.cherepanovk.feature_events_impl.events.data.EventsRepository
 import ru.cherepanovk.feature_events_impl.events.domain.*
 import java.util.*
 import javax.inject.Inject
@@ -23,7 +20,10 @@ class EventsViewModel @Inject constructor(
     private val saveRemindersToDb: SaveRemindersToDb,
     private val getRemindersBetweenDates: GetRemindersFromDbBetweenDates,
     private val itemReminderMapper: ItemReminderMapper,
-    private val getYearsFromDb: GetYearsFromDb
+    private val getYearsFromDb: GetYearsFromDb,
+    private val askGoogleAccount: AskGoogleAccount,
+    private val dateHelper: DateTimeHelper,
+    private val loadEventsOfCalendar: LoadEventsOfCalendar
 ) : BaseViewModel() {
 
     private val _currentMonth = MutableLiveData<Int>()
@@ -46,14 +46,18 @@ class EventsViewModel @Inject constructor(
     val years: LiveData<List<String>>
         get() = _years
 
+    private val _askGoogleCalendarAccount = SingleLiveEvent<Boolean>()
+    val askGoogleCalendarAccount: LiveData<Boolean>
+        get() = _askGoogleCalendarAccount
+
     init {
 
 //        loadRemindersFromOldDb()
         loadData()
 
-        _currentYear.postValue(getCurrentYear())
+        _currentYear.postValue(dateHelper.getCurrentYear())
 
-        _currentMonth.postValue(getCurrentMonth())
+        _currentMonth.postValue(dateHelper.getCurrentMonth())
 
         _emptyListVisibility.addSource(itemsReminder) { items ->
             _emptyListVisibility.postValue(items.isEmpty())
@@ -63,19 +67,47 @@ class EventsViewModel @Inject constructor(
 
     fun onMonthClick(month: Int) {
         _currentMonth.postValue(month)
-        loadReminders(month, currentYear.value ?: getCurrentYear())
+        loadReminders(month, currentYear.value ?: dateHelper.getCurrentYear())
     }
 
     fun yearSelected(year: Int?) {
-        _currentYear.value = year ?: getCurrentYear()
-        loadReminders(currentMonth.value ?: getCurrentMonth(), currentYear.value!!)
+        _currentYear.value = year ?: dateHelper.getCurrentYear()
+        loadReminders(currentMonth.value ?: dateHelper.getCurrentMonth(), currentYear.value!!)
+    }
+
+    fun checkGoogleAccount() {
+        launchLoading {
+            askGoogleAccount(UseCase.None()) {
+                it.handleSuccess { needAsk ->
+                    if (needAsk)
+                        _askGoogleCalendarAccount.postValue(needAsk)
+                }
+            }
+        }
     }
 
 
+    fun updateReminders() {
+        launchLoading {
+            loadEventsOfCalendar(
+                LoadEventsOfCalendar.Params(
+                    dateHelper.getStartDate(
+                        month = currentMonth.value ?: dateHelper.getCurrentMonth(),
+                        year = dateHelper.getCurrentYear()
+                    ),
+                    dateHelper.getEndDate(
+                        month = currentMonth.value ?: dateHelper.getCurrentMonth(),
+                        year = dateHelper.getCurrentYear()
+                    )
+                )
+            ) { it.handleOnlyFailure() }
+        }
+    }
+
     private fun loadData() {
         loadReminders(
-            currentMonth.value ?: getCurrentMonth(),
-            currentYear.value ?: getCurrentYear()
+            currentMonth.value ?: dateHelper.getCurrentMonth(),
+            currentYear.value ?: dateHelper.getCurrentYear()
         )
 
         loadYears()
@@ -83,8 +115,8 @@ class EventsViewModel @Inject constructor(
 
     private fun loadReminders(month: Int, year: Int) {
         val dates = GetRemindersFromDbBetweenDates.Params(
-            getStartDate(month, year),
-            getEndDate(month, year)
+            dateHelper.getStartDate(month, year),
+            dateHelper.getEndDate(month, year)
         )
         launchLoading {
             getRemindersBetweenDates(dates) {
@@ -126,44 +158,10 @@ class EventsViewModel @Inject constructor(
     }
 
 
-    private fun getCurrentMonth(): Int {
-        return Calendar.getInstance().get(Calendar.MONTH)
-    }
-
-    private fun getCurrentYear(): Int {
-        return Calendar.getInstance().get(Calendar.YEAR)
-    }
-
-    private fun getStartDate(month: Int, year: Int): Date {
-        val calendar = getCalendar(month, year)
-        calendar.set(Calendar.DAY_OF_MONTH, 1)
-        calendar.set(Calendar.HOUR_OF_DAY, 0)
-        calendar.clear(Calendar.MINUTE)
-        calendar.clear(Calendar.SECOND)
-        calendar.clear(Calendar.MILLISECOND)
-        return calendar.time
-    }
-
-    private fun getEndDate(month: Int, year: Int): Date {
-        val calendar = getCalendar(month, year)
-        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
-        calendar.set(Calendar.HOUR_OF_DAY, 23)
-        calendar.set(Calendar.MINUTE, 59)
-        calendar.set(Calendar.SECOND, 59)
-        calendar.set(Calendar.MILLISECOND, 999)
-        return calendar.time
-    }
-
-    private fun getCalendar(month: Int, year: Int): Calendar {
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.MONTH, month)
-        calendar.set(Calendar.YEAR, year)
-        return calendar
-    }
-
     private fun saveRemindersFromOldBase(reminders: List<Reminder>) {
         launchLoading {
             saveRemindersToDb(reminders)
         }
     }
+
 }

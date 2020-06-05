@@ -2,6 +2,8 @@
 import dependencies.BuildPlugins
 
 buildscript {
+    ext.kotlin_version = '1.3.61'
+
 //    ext.kotlin_version = '1.3.50'
 
 
@@ -14,8 +16,11 @@ buildscript {
         classpath BuildPlugins.GRADLE_ANDROID
         classpath BuildPlugins.KOTLIN
         classpath BuildPlugins.GRADLE_VERSIONS
+        classpath BuildPlugins.GOOGLE_SERVICES
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 //        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -35,7 +40,7 @@ subprojects {
 
             android {
                 compileSdkVersion AndroidBuildConfig.COMPILE_SDK
-
+                buildToolsVersion AndroidBuildConfig.BUILD_TOOLS_VERSION
                 defaultConfig {
                     minSdkVersion AndroidBuildConfig.MIN_SDK
                     targetSdkVersion AndroidBuildConfig.TARGET_SDK
@@ -47,7 +52,14 @@ subprojects {
                     targetCompatibility AndroidBuildConfig.javaVersion
                 }
 
+                kotlinOptions {
+                    jvmTarget = '1.8'
+                }
 
+                packagingOptions {
+                    exclude 'META-INF/AL2.0'
+                    exclude 'META-INF/LGPL2.1'
+                }
             }
         }
     }

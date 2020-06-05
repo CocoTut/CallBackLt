@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'com.google.gms.google-services'
+
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
@@ -21,6 +23,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
 }
 
 dependencies {
@@ -30,13 +37,22 @@ dependencies {
     implementation project(':core')
     implementation project(':core_db_api')
     implementation project(':core_db_impl')
-    implementation project(':core_domain_api')
-    implementation project(':core_domain_impl')
+    implementation project(':feature_google_calendar_api')
+    implementation project(':feature_google_calendar_impl')
+
+    implementation project(':feature_alarm_api')
+    implementation project(':feature_alarm_impl')
 
     implementation project(':feature_events_impl')
     implementation project(':feature_events_api')
+
     implementation project(':feature_settings_api')
     implementation project(':feature_settings_impl')
+
+    implementation project(':core_preferences_api')
+    implementation project(':core_preferences_impl')
+
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
 
     implementation Libs.Core.KOTLIN_STDLIB
     implementation Libs.AndroidX.ANDROIDX_APPCOMPAT
@@ -56,10 +72,5 @@ dependencies {
     //dagger 2
     implementation Libs.Core.DAGGER
     kapt Libs.Core.DAGGER_COMPILER
-
-
-
-
-
 
 }

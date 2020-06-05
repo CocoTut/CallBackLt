@@ -6,10 +6,10 @@ import javax.inject.Inject
 class AlarmModelMapper @Inject constructor() {
     fun map(reminder: Reminder) =
         AlarmModel(
-            id = reminder.id(),
-            phoneNumber = reminder.phoneNumber(),
-            description = reminder.description(),
-            contactName = reminder.contactName(),
-            dateTimeEvent = reminder.dateTimeEvent()
+            id = reminder.id,
+            phoneNumber = reminder.phoneNumber,
+            description = reminder.description,
+            contactName = reminder.contactName,
+            dateTimeEvent = reminder.dateTimeEvent
         )
 }

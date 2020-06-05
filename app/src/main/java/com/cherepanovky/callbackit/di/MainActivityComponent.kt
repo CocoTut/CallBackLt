@@ -4,11 +4,13 @@ import com.cherepanovky.callbackit.CallBackItMainActivity
 import dagger.Component
 import ru.cherepanovk.core.di.dependencies.RootViewProvider
 import ru.cherepanovk.core.di.viewmodel.ViewModelModule
-import ru.cherepanovk.core_domain_api.di.CoreDomainApi
+import ru.cherepanovk.feature_alarm_api.di.CoreDomainApi
 
 @Component(
    modules = [MainActivityModule::class, ViewModelModule::class],
-    dependencies = [CoreDomainApi::class]
+    dependencies = [
+        CoreDomainApi::class
+    ]
 )
 interface MainActivityComponent : RootViewProvider {
     fun inject(mainActivity: CallBackItMainActivity)

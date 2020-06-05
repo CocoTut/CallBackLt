@@ -1,5 +1,5 @@
 include ':app'
-include ':core_network_api'
+include ':feature_google_calendar_api'
 include ':core_db_api'
 include ':core_db_impl'
 include ':core'
@@ -7,8 +7,9 @@ include ':feature_events_impl'
 include ':feature_events_api'
 include ':feature_settings_impl'
 include ':feature_settings_api'
-include ':core_domain_api'
-include ':core_domain_impl'
-
-
-
+include ':feature_alarm_api'
+include ':feature_alarm_impl'
+include ':feature_google_calendar_impl'
+include ':core_tests'
+include ':core_preferences_api'
+include ':core_preferences_impl'

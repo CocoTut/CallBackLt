@@ -13,7 +13,7 @@ import com.cherepanovky.callbackit.notifications.di.NotificationActivityModule
 import kotlinx.android.synthetic.main.activity_notification.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.platform.BaseActivity
-import ru.cherepanovk.core_domain_impl.notifications.NotificationParams
+import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams
 import ru.cherepanovk.feature_events_impl.event.EventOpenParams
 
 class NotificationActivity : BaseActivity() {
@@ -59,6 +59,11 @@ class NotificationActivity : BaseActivity() {
                 .build()
         )
         navController.graph = navGraph
+
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            if (arguments == null)
+                onBackPressed()
+        }
     }
 
     override fun onBackPressed() {

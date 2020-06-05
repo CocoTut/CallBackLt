@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">core_network_impl</string>
+    <string name="messageUseGoogleAccountDialog">"Использовать Google Calendar для хранения напоминаний?"</string>
+    <string name="btnNegativeGoogleAccountDialog">"Нет"</string>
+    <string name="btnPositiveGoogleAccountDialog">"Да"</string>
+    <string name="messageNegativeAnswerGoogleCalendar">"Вы сможете включить использование Google Calendar в настройках"</string>
+    <string name="btn_dialog_yes">Да</string>
+    <string name="message_change_account">Хотите изменить текущий аккаунт?</string>
+    <string name="message_load_events_dialog">Загрузить напоминания из Google Calendar?</string>
+
+</resources>

@@ -1,6 +1,5 @@
 package ru.cherepanovk.core.platform
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +16,11 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
     private val componentManager: ComponentManager
         get() = ComponentManager
 
+
     @Inject lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var errorHandler: ErrorHandler
 
     protected abstract fun inject(componentManager: ComponentManager)
 
@@ -30,8 +33,8 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
 
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         bindViewModel()
     }
 
@@ -43,10 +46,6 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
 
 
     protected fun firstTimeCreated(savedInstanceState: Bundle?) = savedInstanceState == null
-
-    protected fun showLoading(isLoading: Boolean) {
-//        progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
 
     protected abstract fun bindListeners()
 

@@ -3,15 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_event"
-    app:startDestination="@id/eventFragment"
+    app:startDestination="@id/eventFragmentFromNotification"
     tools:ignore="UnusedNavigation">
 
     <fragment
-        android:id="@+id/eventFragment"
+        android:id="@+id/eventFragmentFromNotification"
         android:name="ru.cherepanovk.feature_events_impl.event.EventFragment"
-        android:label="EventFragment"
+        android:label="EventFragmentFromNotification"
         tools:layout="@layout/fragment_event"
         >
-
+        <action
+            android:id="@+id/action_eventFragment_to_dialogDeleteReminder"
+            app:destination="@id/dialogDeleteReminderFromNotification"
+            />
     </fragment>
+
+    <dialog
+        android:id="@+id/dialogDeleteReminderFromNotification"
+        android:name="ru.cherepanovk.feature_events_impl.event.dialog.DialogDeleteReminderFragment"
+        android:label="DialogDeleteReminderFromNotification"
+        tools:layout ="@layout/dialog_delete_reminder"
+        >
+        <action
+            android:id="@+id/action_dialogDeleteReminder_to_eventsFragment"
+            app:popUpTo="@id/eventsFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/eventFragmentFromNotification"
+           />
+    </dialog>
 </navigation>

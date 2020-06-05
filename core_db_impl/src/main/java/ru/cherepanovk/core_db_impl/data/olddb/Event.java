@@ -6,8 +6,8 @@ import java.util.Date;
 
 import ru.cherepanovk.core_db_api.data.Reminder;
 
-
-public class Event implements Reminder {
+@Deprecated
+public class Event {
 
     @DatabaseField(id = true)
     public String id;
@@ -28,8 +28,8 @@ public class Event implements Reminder {
 
 
 
-    public void setPhonenumber (String phonenumber){
-        this.phonenumber = phonenumber;
+    public void setPhoneNumber(String phoneNumber){
+        this.phonenumber = phoneNumber;
     }
     public void setContactName (String contactName){
         this.contactName = contactName;
@@ -45,25 +45,5 @@ public class Event implements Reminder {
         this.id = id;
     }
 
-    @Override
-    public String id() {
-        return id;
-    }
 
-    @Override
-    public String description() {
-        return description;
-    }
-    @Override
-    public String phoneNumber() {
-        return phonenumber;
-    }
-    @Override
-    public String contactName() {
-        return contactName;
-    }
-    @Override
-    public Date dateTimeEvent() {
-        return dateTimeEvent;
-    }
 }

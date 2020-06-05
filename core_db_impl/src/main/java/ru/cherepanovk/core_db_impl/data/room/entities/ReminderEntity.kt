@@ -17,15 +17,4 @@ class ReminderEntity(
      val contactName: String,
      val dateTimeEvent: Date,
      val phoneNumberSearch: String = ""
-) : Reminder {
-    @Ignore
-    override fun id(): String = id
-    @Ignore
-    override fun description() = description
-    @Ignore
-    override fun phoneNumber() = phoneNumber
-    @Ignore
-    override fun contactName() = contactName
-    @Ignore
-    override fun dateTimeEvent() = dateTimeEvent
-}
+)

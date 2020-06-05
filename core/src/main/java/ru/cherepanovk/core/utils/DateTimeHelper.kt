@@ -1,7 +1,6 @@
 package ru.cherepanovk.core.utils
 
 import java.text.SimpleDateFormat
-import java.time.Year
 import java.util.*
 import javax.inject.Inject
 
@@ -83,6 +82,41 @@ class DateTimeHelper @Inject constructor() {
         return calendar.time
     }
 
+    fun getCurrentMonth(): Int {
+        return Calendar.getInstance().get(Calendar.MONTH)
+    }
+
+    fun getCurrentYear(): Int {
+        return Calendar.getInstance().get(Calendar.YEAR)
+    }
+
+    fun getStartDate(month: Int, year: Int): Date {
+        val calendar = getCalendarRequiredMonthYear(month, year)
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.clear(Calendar.MINUTE)
+        calendar.clear(Calendar.SECOND)
+        calendar.clear(Calendar.MILLISECOND)
+        return calendar.time
+    }
+
+    fun getEndDate(month: Int, year: Int): Date {
+        val calendar = getCalendarRequiredMonthYear(month, year)
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
+        calendar.set(Calendar.MILLISECOND, 999)
+        return calendar.time
+    }
+
+    private fun getCalendarRequiredMonthYear(month: Int, year: Int): Calendar {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.YEAR, year)
+        return calendar
+    }
+
     private fun getFieldFromDate(date: Date, field: Int): Int {
         val calendar = Calendar.getInstance()
         calendar.time = date
@@ -92,5 +126,12 @@ class DateTimeHelper @Inject constructor() {
     private fun getStringFromDate(date: Date, pattern: String): String {
         val formatter = SimpleDateFormat(pattern, Locale.getDefault())
         return formatter.format(date)
+    }
+
+    fun addTimeToDate(date: Date, minutes: Int): Date {
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.time = date
+        calendar.add(Calendar.MINUTE, minutes)
+        return calendar.time
     }
 }

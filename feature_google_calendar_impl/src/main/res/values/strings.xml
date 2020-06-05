@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">core_network_impl</string>
+    <string name="messageUseGoogleAccountDialog">"Do you want to use Google Calendar?"</string>
+    <string name="btnNegativeGoogleAccountDialog">"No"</string>
+    <string name="btnPositiveGoogleAccountDialog">"Yes"</string>
+    <string name="messageNegativeAnswerGoogleCalendar">"You can add Google Account in the settings"</string>
+    <string name="btn_dialog_yes">"Yes"</string>
+    <string name="message_change_account">Do you want to change the current account?</string>
+    <string name="message_load_events_dialog">Do you want to download reminders of the Google Calendar?</string>
+</resources>
