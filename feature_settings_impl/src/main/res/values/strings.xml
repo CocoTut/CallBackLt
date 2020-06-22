@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">feature_settings_impl</string>
-
-
     <string name="tvAccount">"Google account"</string>
     <string name="tvSetGoogleAccount">"Add account"</string>
     <string name="btnLogOut">"Logout"</string>
@@ -12,5 +10,7 @@
     <string name="text_tv_ringtone">Sound</string>
     <string name="notifications_settings">Notifications</string>
     <string name="tracingParameters">Tracing parameters</string>
+    <string name="title_select_ringtone">Choose sound:</string>
+    <string name="title_toolbar_settings">Settings</string>
 
 </resources>

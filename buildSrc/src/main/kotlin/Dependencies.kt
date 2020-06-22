@@ -9,12 +9,13 @@ package dependencies
 object Versions {
 
     object Core {
-        const val GRADLE_ANDROID = "3.6.2"
+        const val GRADLE_ANDROID = "4.0.1"
         const val KOTLIN = "1.3.71"
         const val GRADLE_VERSIONS = "0.21.0"
         const val GOOGLE = "4.3.3"
         const val DAGGER = "2.27"
         const val COROUTINES = "1.3.6"
+        const val PLAY_SERVICES = "18.1.0"
     }
 
     object AndroidX {
@@ -54,6 +55,8 @@ object Versions {
     object Utils {
         const val TIMBER = "4.7.1"
         const val EASY_PERMISSIONS = "3.0.0"
+        const val CRASHLYTICS = "17.2.1"
+        const val ANALYTICS = "17.5.0"
     }
 
     object Test {
@@ -64,6 +67,7 @@ object Versions {
         const val MOCKITO = "3.1.0"
         const val KOTLIN_MOCKITO = "2.2.0"
     }
+
 }
 
 object BuildPlugins {
@@ -86,6 +90,8 @@ object Libs {
 
         const val COROUTINES_ANDROID =
             "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Core.COROUTINES}"
+
+        const val PLAY_SERVICES = "com.google.android.gms:play-services-auth:${Versions.Core.PLAY_SERVICES}"
     }
 
     object AndroidX {
@@ -151,6 +157,8 @@ object Libs {
     object Utils {
         const val TIMBER = "com.jakewharton.timber:timber:${Versions.Utils.TIMBER}"
         const val EASY_PERMISSIONS = "pub.devrel:easypermissions:${Versions.Utils.EASY_PERMISSIONS}"
+        const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics:${Versions.Utils.CRASHLYTICS}"
+        const val ANALYTICS = "com.google.firebase:firebase-analytics:${Versions.Utils.ANALYTICS}"
     }
 
     object Test {

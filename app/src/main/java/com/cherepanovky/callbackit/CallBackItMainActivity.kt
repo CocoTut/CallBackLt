@@ -1,9 +1,8 @@
 package com.cherepanovky.callbackit
 
-import android.accounts.AccountManager
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,8 +15,10 @@ import kotlinx.android.synthetic.main.activity_route.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.platform.BaseActivity
+import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.viewModel
-import ru.cherepanovk.feature_alarm_impl.di.DaggerCoreDomainComponent
+import ru.cherepanovk.core_preferences_impl.di.DaggerCorePreferencesComponent
+import ru.cherepanovk.feature_alarm_impl.di.DaggerFeatureAlarmComponent
 import javax.inject.Inject
 
 
@@ -29,7 +30,7 @@ class CallBackItMainActivity : BaseActivity() {
     override var navHost = R.id.nav_host_fragment
 
 
-    override fun fragmentContainer(): View  = fragmentContainer
+    override fun fragmentContainer(): View = fragmentContainer
 
 
     private lateinit var model: CallBackItMainViewModel
@@ -46,16 +47,24 @@ class CallBackItMainActivity : BaseActivity() {
     override fun inject(componentManager: ComponentManager) {
         DaggerMainActivityComponent.builder()
             .mainActivityModule(MainActivityModule(fragmentContainer()))
-            .coreDomainApi(
-                DaggerCoreDomainComponent.builder()
-                .contextProvider(componentManager.getOrThrow())
+            .featureAlarmApi(
+                DaggerFeatureAlarmComponent.builder()
+                    .contextProvider(componentManager.getOrThrow())
                     .build()
             )
+            .corePreferencesApi(ComponentManager.getOrThrow())
             .build()
             .also { componentManager.put(it) }
             .inject(this)
 
-        model = viewModel(viewModelFactory){}
+        model = viewModel(viewModelFactory) {
+            observe(accountName, ::setAccountName)
+        }
+    }
+
+    private fun setAccountName(accountName: String) {
+        navigationView.getHeaderView(0)
+            .findViewById<TextView>(R.id.tvAccountEmail).text = accountName
     }
 
 
@@ -69,6 +78,7 @@ class CallBackItMainActivity : BaseActivity() {
     private fun bindListeners() {
 
         ivToolbarBurger.setOnClickListener {
+            model.initAccountName()
             fragmentContainer.openDrawer(GravityCompat.START, true)
         }
 

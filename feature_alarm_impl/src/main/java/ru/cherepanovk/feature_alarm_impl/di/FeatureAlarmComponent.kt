@@ -2,7 +2,7 @@ package ru.cherepanovk.feature_alarm_impl.di
 
 import dagger.Component
 import ru.cherepanovk.core.di.dependencies.ContextProvider
-import ru.cherepanovk.feature_alarm_api.di.CoreDomainApi
+import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
 
 @Component(
     dependencies = [
@@ -10,4 +10,4 @@ import ru.cherepanovk.feature_alarm_api.di.CoreDomainApi
     ],
     modules = [CoreDomainModule::class]
 )
-interface CoreDomainComponent : CoreDomainApi
+interface FeatureAlarmComponent : FeatureAlarmApi

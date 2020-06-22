@@ -46,7 +46,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
 
     private val remindersAdapter = GroupAdapter<ViewHolder>().apply {
         setOnItemClickListener { item, _ ->
-            openEventScreen((item as ItemReminder).id)
+            openEventScreen(id = (item as ItemReminder).id)
         }
     }
 
@@ -124,8 +124,13 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             observe(itemsReminder, ::setItems)
             observe(askGoogleCalendarAccount, ::showAddGoogleAccountDialog)
             observe(isLoading, ::loading)
+            observeEvent(createNewReminder, ::openEventScreenWithLastPhoneNumber)
             observeFailure(failure, errorHandler::onHandleFailure)
         }
+    }
+
+    private fun openEventScreenWithLastPhoneNumber(phoneNumber: String) {
+        openEventScreen(phoneNumber = if (phoneNumber.isEmpty()) null else phoneNumber)
     }
 
     private fun loading(loading: Boolean) {
@@ -152,7 +157,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
         binding.toolbarMonths.tvToolbarMonths.setOnClickListener { popupMenu.show() }
 
         binding.btnAddEvent.setOnClickListener {
-            openEventScreen(null)
+           model.onBtnAddNewReminderClick()
         }
 
         popupMenu.setOnMenuItemClickListener { item ->
@@ -167,8 +172,11 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
 
     }
 
-    private fun openEventScreen(id: String?) {
-        val arguments = EventOpenParams(reminderId = id).toBundle()
+    private fun openEventScreen(id: String? = null, phoneNumber: String? = null) {
+        val arguments = EventOpenParams(
+            reminderId = id,
+            phoneNumber = phoneNumber
+        ).toBundle()
         val extras = FragmentNavigatorExtras(
             binding.btnAddEvent to getString(R.string.btn_transition_name)
         )

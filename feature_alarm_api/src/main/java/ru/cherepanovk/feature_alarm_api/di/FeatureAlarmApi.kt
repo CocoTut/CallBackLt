@@ -4,7 +4,7 @@ import ru.cherepanovk.feature_alarm_api.data.AlarmApi
 import ru.cherepanovk.feature_alarm_api.data.CallListenerHandler
 import ru.cherepanovk.feature_alarm_api.data.NotificationChannelCreator
 
-interface CoreDomainApi {
+interface FeatureAlarmApi {
 
     fun alarmApi(): AlarmApi
 

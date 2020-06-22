@@ -8,6 +8,7 @@ import ru.cherepanovk.core.platform.ContactPicker
 import ru.cherepanovk.core.platform.SingleLiveEvent
 import ru.cherepanovk.core.utils.DateTimeHelper
 import ru.cherepanovk.core_db_api.data.Reminder
+import ru.cherepanovk.core_preferences_api.data.PreferencesApi
 import ru.cherepanovk.feature_events_impl.event.domain.CreateReminderAlarm
 import ru.cherepanovk.feature_events_impl.event.domain.GetReminderFromDb
 import ru.cherepanovk.feature_events_impl.event.domain.SaveReminderToDb
@@ -21,7 +22,8 @@ class EventViewModel @Inject constructor(
     private val saveReminderToDb: SaveReminderToDb,
     private val dateTimeHelper: DateTimeHelper,
     private val createReminderAlarm: CreateReminderAlarm,
-    private val contactPicker: ContactPicker
+    private val contactPicker: ContactPicker,
+    private val preferencesApi: PreferencesApi
 ) : BaseViewModel() {
 
     private val _reminderView = MutableLiveData<ReminderView>()
@@ -75,29 +77,23 @@ class EventViewModel @Inject constructor(
 
     private var id: String? = null
 
-    init {
-        loadReminder(id)
-    }
-
-    fun setReminderId(id: String?) {
-        this.id = id
-    }
 
     fun loadReminder(id: String?) {
-        _toolbarTitleNewReminder.postValue(id == null)
-        _buttonsVisibility.postValue(id != null)
-        if (id == null || id.isEmpty()) {
+        _toolbarTitleNewReminder.postValue(!hasId(id))
+        _buttonsVisibility.postValue(hasId(id))
+        if (!hasId(id)) {
             setCurrentDate()
             return
         }
         this.id = id
 
         launchLoading {
-            getReminderFromDb(id) { it.handleSuccess { reminder -> handleReminder(reminder) } }
+            getReminderFromDb(id!!) { it.handleSuccess { reminder -> handleReminder(reminder) } }
         }
     }
 
     fun trySetPhoneNumber(phoneNumber: String?) {
+        preferencesApi.setLastCalledPhoneNumber(null)
         if (phoneNumber == null || phoneNumber.isEmpty()) return
         _phoneNumber.postValue(phoneNumber)
         contactPicker.getContactNameByPhoneNumber(phoneNumber)?.let {
@@ -121,6 +117,9 @@ class EventViewModel @Inject constructor(
             }
         }
     }
+
+    private fun hasId(id: String?) =
+        id != null && id.isNotBlank()
 
 
     private fun handleReminder(reminder: Reminder) {

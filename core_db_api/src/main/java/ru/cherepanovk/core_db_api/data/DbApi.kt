@@ -7,6 +7,8 @@ interface DbApi {
 
     fun getRemindersFromOldDb(): List<Reminder>
 
+    fun getGoogleAccountFromOldDb(): String?
+
     suspend fun getAllReminders(): List<Reminder>
 
     suspend fun saveReminders(reminders: List<Reminder>)
@@ -24,4 +26,7 @@ interface DbApi {
     suspend fun deleteReminderById(id: String)
 
     suspend fun getReminderByPhoneNumber(phoneNumber: String): Reminder?
+
+    suspend fun getRemindersAfterDate(dateAfter: Date): List<Reminder>
+
 }

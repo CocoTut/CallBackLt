@@ -6,10 +6,9 @@ import ru.cherepanovk.core.di.dependencies.RootViewProvider
 import ru.cherepanovk.core.di.viewmodel.ViewModelModule
 import ru.cherepanovk.core_db_api.di.CoreDbApi
 import ru.cherepanovk.core_preferences_api.di.CorePreferencesApi
-import ru.cherepanovk.feature_alarm_api.di.CoreDomainApi
+import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
 import ru.cherepanovk.feature_events_api.EventsFeatureApi
 import ru.cherepanovk.feature_events_impl.events.EventsFragment
-import ru.cherepanovk.feature_google_calendar_api.data.GoogleCalendarApi
 import ru.cherepanovk.feature_google_calendar_api.di.CoreGoogleCalendarApi
 
 @Component(modules = [
@@ -19,7 +18,7 @@ import ru.cherepanovk.feature_google_calendar_api.di.CoreGoogleCalendarApi
     dependencies = [
         ContextProvider::class,
         CoreDbApi::class,
-        CoreDomainApi::class,
+        FeatureAlarmApi::class,
         RootViewProvider::class,
         CorePreferencesApi::class,
         CoreGoogleCalendarApi::class
