@@ -23,9 +23,61 @@ class Preferences @Inject constructor(
        return sharedPreferences.getString(GOOGLE_ACCOUNT, "") ?: ""
     }
 
+    override fun setTrackingAllIncomingCalls(tracking: Boolean) {
+        sharedPreferences.edit().putBoolean(INCOMING_ON, tracking).apply()
+    }
+
+    override fun getTrackingAllIncomingCalls(): Boolean {
+       return sharedPreferences.getBoolean(INCOMING_ON, true)
+    }
+
+    override fun setTrackingMissedIncomingCalls(tracking: Boolean) {
+        sharedPreferences.edit().putBoolean(INCOMING_MISSED_ON, tracking).apply()
+    }
+
+    override fun getTrackingMissedIncomingCalls(): Boolean {
+        return sharedPreferences.getBoolean(INCOMING_MISSED_ON, true)
+    }
+
+    override fun setTrackingAllOutgoingCalls(tracking: Boolean) {
+        sharedPreferences.edit().putBoolean(OUTGOING_ON, tracking).apply()
+    }
+
+    override fun getTrackingAllOutgoingCalls(): Boolean {
+        return sharedPreferences.getBoolean(OUTGOING_ON, true)
+    }
+
+    override fun setRingToneUri(uri: String) {
+        sharedPreferences.edit().putString(PICKED_RINGTONE, uri).apply()
+    }
+
+    override fun getRingToneUri(): String {
+        return sharedPreferences.getString(PICKED_RINGTONE, "") ?:""
+    }
+
+    override fun setOldBaseMigrated(migrated: Boolean) {
+        sharedPreferences.edit().putBoolean(OLD_BASE_MIGRATED, migrated).apply()
+    }
+
+    override fun isOldBaseMigrated() =
+        sharedPreferences.getBoolean(OLD_BASE_MIGRATED, false)
+
+    override fun setLastCalledPhoneNumber(phoneNumber: String?) {
+        sharedPreferences.edit().putString(LAST_CALLED_PHONE_NUMBER, phoneNumber).apply()
+    }
+
+    override fun getLastCalledPhoneNumber() =
+        sharedPreferences.getString(LAST_CALLED_PHONE_NUMBER, null)
+
+
     companion object {
         private const val FIRST_START = "FIRST_START"
         private const val PICKED_RINGTONE = "picked_ringtone"
         private const val GOOGLE_ACCOUNT = "google_account"
+        private const val OUTGOING_ON = "OUT_ON"
+        private const val INCOMING_ON = "IN_ON"
+        private const val INCOMING_MISSED_ON = "IN_MISSED_ON"
+        private const val OLD_BASE_MIGRATED = "OLD_BASE_MIGRATED"
+        private const val LAST_CALLED_PHONE_NUMBER = "LAST_CALLED_PHONE_NUMBER"
     }
 }

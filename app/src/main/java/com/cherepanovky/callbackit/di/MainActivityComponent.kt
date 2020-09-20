@@ -4,12 +4,14 @@ import com.cherepanovky.callbackit.CallBackItMainActivity
 import dagger.Component
 import ru.cherepanovk.core.di.dependencies.RootViewProvider
 import ru.cherepanovk.core.di.viewmodel.ViewModelModule
-import ru.cherepanovk.feature_alarm_api.di.CoreDomainApi
+import ru.cherepanovk.core_preferences_api.di.CorePreferencesApi
+import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
 
 @Component(
    modules = [MainActivityModule::class, ViewModelModule::class],
     dependencies = [
-        CoreDomainApi::class
+        FeatureAlarmApi::class,
+        CorePreferencesApi::class
     ]
 )
 interface MainActivityComponent : RootViewProvider {

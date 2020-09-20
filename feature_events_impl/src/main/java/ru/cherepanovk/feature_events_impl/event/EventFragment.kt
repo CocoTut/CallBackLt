@@ -18,7 +18,6 @@ import androidx.transition.TransitionInflater
 import pub.devrel.easypermissions.EasyPermissions
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
-import ru.cherepanovk.core.exception.ErrorHandler
 import ru.cherepanovk.core.platform.ActivityStarter
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.platform.viewBinding
@@ -55,7 +54,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         DaggerEventComponent.builder()
             .contextProvider(componentManager.getOrThrow())
             .coreDbApi(componentManager.getOrThrow())
-            .coreDomainApi(componentManager.getOrThrow())
+            .featureAlarmApi(componentManager.getOrThrow())
             .corePreferencesApi(componentManager.getOrThrow())
             .coreGoogleCalendarApi(componentManager.getOrThrow())
             .rootViewProvider(componentManager.getOrThrow())
@@ -78,6 +77,10 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         }
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
     override fun onDestroyView() {
         view?.hideKeyboard()
         super.onDestroyView()

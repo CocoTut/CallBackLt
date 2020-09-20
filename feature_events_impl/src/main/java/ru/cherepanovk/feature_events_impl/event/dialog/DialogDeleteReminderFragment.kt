@@ -19,15 +19,20 @@ import ru.cherepanovk.feature_events_impl.R
 import javax.inject.Inject
 import android.view.Window
 import androidx.fragment.app.viewModels
+import ru.cherepanovk.core.platform.ErrorHandler
 import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.feature_events_impl.databinding.DialogDeleteReminderBinding
 import ru.cherepanovk.feature_events_impl.event.dialog.di.DaggerDialogDeleteComponent
+import ru.cherepanovk.imgurtest.utils.extensions.showOrHide
 
 
 class DialogDeleteReminderFragment : DialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var errorHandler: ErrorHandler
 
     private val reminderId: String?
         get() = DialogDeleteParams.fromBundle(arguments)?.reminderId
@@ -45,9 +50,10 @@ class DialogDeleteReminderFragment : DialogFragment() {
         DaggerDialogDeleteComponent.builder()
             .contextProvider(componentManager.getOrThrow())
             .coreDbApi(componentManager.getOrThrow())
-            .coreDomainApi(componentManager.getOrThrow())
+            .featureAlarmApi(componentManager.getOrThrow())
             .coreGoogleCalendarApi(componentManager.getOrThrow())
             .corePreferencesApi(componentManager.getOrThrow())
+            .rootViewProvider(componentManager.getOrThrow())
             .build()
             .injectDialog(this)
     }
@@ -91,6 +97,7 @@ class DialogDeleteReminderFragment : DialogFragment() {
         with(model) {
             observe(openMainScreen, ::openEventsScreen)
             observeFailure(failure, ::handleError)
+            observe(isLoading, binding.pbDeleteEvent::showOrHide)
         }
     }
 
@@ -103,7 +110,6 @@ class DialogDeleteReminderFragment : DialogFragment() {
         binding.btnNo.setOnClickListener {
            dismiss()
         }
-
     }
 
 
@@ -113,7 +119,8 @@ class DialogDeleteReminderFragment : DialogFragment() {
     }
 
     private fun handleError(failure: Failure?) {
-
+        errorHandler.onHandleFailure(failure)
+        dismiss()
     }
 
     companion object {

@@ -9,7 +9,7 @@ class ItemReminderMapper @Inject constructor(private val dateTimeHelper: DateTim
     override fun map(from: Reminder): ItemReminder {
         return ItemReminder(
             id = from.id,
-            description = from.description,
+            description = if (from.description.isBlank()) from.contactName else from.description,
             phoneNumber = from.phoneNumber,
             date = dateTimeHelper.getDateString(from.dateTimeEvent),
             time = dateTimeHelper.getTimeString(from.dateTimeEvent)

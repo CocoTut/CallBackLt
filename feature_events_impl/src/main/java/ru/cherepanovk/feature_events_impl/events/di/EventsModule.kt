@@ -12,6 +12,8 @@ import ru.cherepanovk.feature_events_impl.EventsFeatureStarterImpl
 import ru.cherepanovk.feature_events_impl.events.EventsViewModel
 import ru.cherepanovk.feature_events_impl.events.data.EventsRepository
 import ru.cherepanovk.feature_events_impl.events.data.EventsRepositoryImpl
+import ru.cherepanovk.feature_events_impl.events.data.GoogleAccountRepository
+import ru.cherepanovk.feature_events_impl.events.data.GoogleAccountRepositoryImpl
 
 @Module
 abstract class EventsModule {
@@ -29,4 +31,7 @@ abstract class EventsModule {
 
     @Binds
     abstract fun bindFeatureNavigator(featureNavigatorImpl: FeatureNavigatorImpl): FeatureNavigator
+
+    @Binds
+    abstract fun bindGoogleAccountRepository(googleAccountRepository: GoogleAccountRepositoryImpl): GoogleAccountRepository
 }

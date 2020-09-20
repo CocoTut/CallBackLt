@@ -7,6 +7,7 @@ import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import androidx.annotation.RequiresApi
 import ru.cherepanovk.feature_alarm_api.data.NotificationChannelCreator
 import ru.cherepanovk.feature_alarm_impl.R
 import javax.inject.Inject
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class NotificationChannelCreatorImpl @Inject constructor(
     private val context: Context
 ) : NotificationChannelCreator {
+
     private val notificationManager: NotificationManager by lazy {
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
@@ -54,8 +56,6 @@ class NotificationChannelCreatorImpl @Inject constructor(
 
     override fun createMuteNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             if (isChannelCreated(channelMuteId))
                 return
             val channelMute = NotificationChannel(
@@ -83,9 +83,15 @@ class NotificationChannelCreatorImpl @Inject constructor(
         return channelMuteId
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun getDefaultChannel(): NotificationChannel? =
+        notificationManager.getNotificationChannel(channelDefaultId)
+
     private fun isChannelCreated(channelId: String): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             notificationManager.getNotificationChannel(channelId) != null
         else true
     }
+
+
 }

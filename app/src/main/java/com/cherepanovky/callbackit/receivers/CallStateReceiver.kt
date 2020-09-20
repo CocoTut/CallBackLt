@@ -6,7 +6,7 @@ import com.cherepanovky.callbackit.receivers.di.DaggerCallStateComponent
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.feature_alarm_api.data.CallListenerHandler
-import ru.cherepanovk.feature_alarm_impl.di.DaggerCoreDomainComponent
+import ru.cherepanovk.feature_alarm_impl.di.DaggerFeatureAlarmComponent
 import javax.inject.Inject
 
 class CallStateReceiver : BroadcastReceiver() {
@@ -17,15 +17,13 @@ class CallStateReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == TelephonyManager.ACTION_PHONE_STATE_CHANGED) {
             DaggerCallStateComponent.builder()
-                .coreDomainApi(
-                    DaggerCoreDomainComponent.builder()
+                .featureAlarmApi(
+                    DaggerFeatureAlarmComponent.builder()
                         .contextProvider(ComponentManager.getOrThrow())
                         .build()
                 )
                 .build()
-
                 .injectCallStateReceiver(this)
-
             callListenerHandler.startCallLister(intent)
         }
     }

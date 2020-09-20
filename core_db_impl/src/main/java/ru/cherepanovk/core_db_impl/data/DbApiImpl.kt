@@ -31,6 +31,10 @@ class DbApiImpl @Inject constructor(
         return localBase.allEvents
     }
 
+    override fun getGoogleAccountFromOldDb(): String? {
+        return localBase.account?.account
+    }
+
     override suspend fun getAllReminders(): List<Reminder> {
         return callBackLtDb.getReminderDao()
             .getAllReminders()
@@ -78,6 +82,13 @@ class DbApiImpl @Inject constructor(
             .getReminderByPhoneNumber(
                 Regex(PHONE_REGEX_PATTERN).replace(phoneNumber, "")
             )?.let { entityReminderMapper.map(it) }
+    }
+
+    override suspend fun getRemindersAfterDate(dateAfter: Date): List<Reminder> {
+        return callBackLtDb.getReminderDao()
+            .getRemindersAfterDate(dateAfter.time)
+            .map { entityReminderMapper.map(it) }
+
     }
 
 }

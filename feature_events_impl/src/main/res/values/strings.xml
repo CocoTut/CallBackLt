@@ -107,7 +107,6 @@
     <string name="title_toolbar_settings">Settings</string>
     <string name="title_toolbar_reminder">Reminder</string>
     <string name="error_optional_time_dialog">Amount is empty</string>
-    <string name="title_select_ringtone">Select ringtone for notifications:</string>
     <string name="notifications_settings">Notifications</string>
     <string name="text_tv_ringtone">Sound</string>
     <string name="btn_transition_name">btnSaveTransitionName</string>

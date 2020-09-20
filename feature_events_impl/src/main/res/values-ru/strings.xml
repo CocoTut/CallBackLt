@@ -110,7 +110,6 @@
     <string name="title_toolbar_settings">Настройки</string>
     <string name="title_toolbar_reminder">Напоминание</string>
     <string name="error_optional_time_dialog">Количество не заполнено</string>
-    <string name="title_select_ringtone">Выберите мелодию для уведомлений:</string>
     <string name="notifications_settings">Уведомления</string>
     <string name="text_tv_ringtone">Звук</string>
     <string name="error_date">Дата меньше текущей</string>

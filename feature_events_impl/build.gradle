@@ -25,8 +25,8 @@ android {
         }
     }
 
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding = true
     }
 
 }
@@ -37,6 +37,7 @@ dependencies {
     implementation project(':core_tests')
     implementation project(':core_db_api')
     implementation project(':core_preferences_api')
+    implementation project(':common')
     implementation project(':feature_events_api')
     implementation project(':feature_alarm_api')
     implementation project(':feature_google_calendar_api')

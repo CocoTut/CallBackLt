@@ -13,6 +13,9 @@ interface ReminderDao {
     @Query("SELECT * FROM ReminderEntity WHERE dateTimeEvent BETWEEN :startDate AND :endDate ")
     fun getRemindersBetweenDates(startDate: Long, endDate: Long): Flow<List<ReminderEntity>>
 
+    @Query("SELECT * FROM ReminderEntity WHERE dateTimeEvent >= :dateAfter ")
+    fun getRemindersAfterDate(dateAfter: Long): List<ReminderEntity>
+
     @Query("SELECT strftime('%Y', dateTimeEvent / 1000, 'unixepoch') as year FROM ReminderEntity GROUP BY year")
     suspend fun getYears(): List<String>
 
