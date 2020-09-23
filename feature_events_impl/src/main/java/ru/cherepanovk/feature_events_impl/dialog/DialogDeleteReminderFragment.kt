@@ -1,4 +1,4 @@
-package ru.cherepanovk.feature_events_impl.event.dialog
+package ru.cherepanovk.feature_events_impl.dialog
 
 import android.app.Dialog
 import android.graphics.Color
@@ -19,10 +19,12 @@ import ru.cherepanovk.feature_events_impl.R
 import javax.inject.Inject
 import android.view.Window
 import androidx.fragment.app.viewModels
+import ru.cherepanovk.core.acc.Event
 import ru.cherepanovk.core.platform.ErrorHandler
 import ru.cherepanovk.core.platform.viewBinding
+import ru.cherepanovk.core.utils.extentions.setNavigationResult
 import ru.cherepanovk.feature_events_impl.databinding.DialogDeleteReminderBinding
-import ru.cherepanovk.feature_events_impl.event.dialog.di.DaggerDialogDeleteComponent
+import ru.cherepanovk.feature_events_impl.dialog.di.DaggerDialogDeleteComponent
 import ru.cherepanovk.imgurtest.utils.extensions.showOrHide
 
 
@@ -108,7 +110,8 @@ class DialogDeleteReminderFragment : DialogFragment() {
         }
 
         binding.btnNo.setOnClickListener {
-           dismiss()
+            setNavigationResult(true)
+            dismiss()
         }
     }
 
@@ -125,10 +128,11 @@ class DialogDeleteReminderFragment : DialogFragment() {
 
     companion object {
         private const val ARG_EVENT_ID = "ARG_EVENT_ID"
-        fun newInstance(id: String) = DialogDeleteReminderFragment().apply {
-            arguments = Bundle().apply {
-                putString(ARG_EVENT_ID, id)
+        fun newInstance(id: String) =
+            DialogDeleteReminderFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_EVENT_ID, id)
+                }
             }
-        }
     }
 }

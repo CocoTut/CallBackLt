@@ -1,4 +1,4 @@
-package ru.cherepanovk.feature_events_impl.event.dialog
+package ru.cherepanovk.feature_events_impl.dialog
 
 import android.os.Bundle
 import ru.cherepanovk.core.utils.OpenParams

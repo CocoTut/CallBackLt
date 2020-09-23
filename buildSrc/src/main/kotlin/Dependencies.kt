@@ -22,7 +22,7 @@ object Versions {
         const val ANDROIDX_CORE = "1.0.2"
         const val ANDROIDX_APPCOMPAT = "1.0.2"
         const val ANDROIDX_RECYCLER_VIEW = "1.0.0"
-        const val ANDROIDX_NAVIGATION = "2.1.0"
+        const val ANDROIDX_NAVIGATION = "2.3.0"
         const val ANDROIDX_CONSTRAINT_LAYOUT = "1.1.3"
         const val ANDROIDX_CARD_VIEW = "1.0.0"
         const val ANDROIDX_LEGACY_SUPPORT = "1.0.0"

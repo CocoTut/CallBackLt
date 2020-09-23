@@ -1,4 +1,4 @@
-package ru.cherepanovk.feature_events_impl.event.dialog
+package ru.cherepanovk.feature_events_impl.dialog
 
 import androidx.lifecycle.LiveData
 import ru.cherepanovk.core.exception.Failure

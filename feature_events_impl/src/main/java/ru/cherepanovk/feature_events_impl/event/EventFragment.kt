@@ -27,7 +27,7 @@ import ru.cherepanovk.feature_events_impl.ContactsPermissionChecker
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.databinding.FragmentEventBinding
 import ru.cherepanovk.feature_events_impl.event.di.DaggerEventComponent
-import ru.cherepanovk.feature_events_impl.event.dialog.DialogDeleteParams
+import ru.cherepanovk.feature_events_impl.dialog.DialogDeleteParams
 import ru.cherepanovk.imgurtest.utils.extensions.afterTextChanged
 import ru.cherepanovk.imgurtest.utils.extensions.hideKeyboard
 import ru.cherepanovk.imgurtest.utils.extensions.showOrHide
@@ -77,10 +77,6 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         }
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
     override fun onDestroyView() {
         view?.hideKeyboard()
         super.onDestroyView()

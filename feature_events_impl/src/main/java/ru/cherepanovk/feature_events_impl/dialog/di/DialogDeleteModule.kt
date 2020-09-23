@@ -1,4 +1,4 @@
-package ru.cherepanovk.feature_events_impl.event.dialog.di
+package ru.cherepanovk.feature_events_impl.dialog.di
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds
@@ -7,7 +7,7 @@ import dagger.multibindings.IntoMap
 import ru.cherepanovk.core.di.viewmodel.ViewModelKey
 import ru.cherepanovk.feature_events_impl.event.data.EventRepository
 import ru.cherepanovk.feature_events_impl.event.data.EventRepositoryImpl
-import ru.cherepanovk.feature_events_impl.event.dialog.DeleteReminderViewModel
+import ru.cherepanovk.feature_events_impl.dialog.DeleteReminderViewModel
 
 @Module
 abstract class DialogDeleteModule {

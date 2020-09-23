@@ -20,7 +20,7 @@
 
     <dialog
         android:id="@+id/dialogDeleteReminderFromNotification"
-        android:name="ru.cherepanovk.feature_events_impl.event.dialog.DialogDeleteReminderFragment"
+        android:name="ru.cherepanovk.feature_events_impl.dialog.DialogDeleteReminderFragment"
         android:label="DialogDeleteReminderFromNotification"
         tools:layout ="@layout/dialog_delete_reminder"
         >

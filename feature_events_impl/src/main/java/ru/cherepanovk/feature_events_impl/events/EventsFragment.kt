@@ -1,9 +1,8 @@
 package ru.cherepanovk.feature_events_impl.events
 
 import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager.PERMISSION_DENIED
-import android.content.pm.PackageManager.PERMISSION_GRANTED
+import com.xwray.groupie.kotlinandroidextensions.ViewHolder
+
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -12,19 +11,19 @@ import androidx.core.view.children
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.dependencies.FeatureNavigator
 import ru.cherepanovk.core.di.getOrThrow
-import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseFragment
-import ru.cherepanovk.core.platform.ErrorHandler
 import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.*
+import ru.cherepanovk.core.utils.getDialIntent
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.databinding.FragmentEventsBinding
+import ru.cherepanovk.feature_events_impl.dialog.DialogDeleteParams
 import ru.cherepanovk.feature_events_impl.event.EventOpenParams
 import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
 import ru.cherepanovk.feature_google_calendar_api.data.GoogleAccountFeatureStarter
@@ -32,7 +31,7 @@ import javax.inject.Inject
 
 const val PERMISSIONS_REQUEST_CODE = 302
 
-class EventsFragment : BaseFragment(R.layout.fragment_events) {
+class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeController.SwipeListener{
 
     private val model by viewModels<EventsViewModel> { viewModelFactory }
     private val binding: FragmentEventsBinding by viewBinding(FragmentEventsBinding::bind)
@@ -42,6 +41,10 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
 
     @Inject
     lateinit var featureNavigator: FeatureNavigator
+
+    private val eventsSwipeController = EventsSwipeController(this)
+
+    private var swipedPosition = 0
 
 
     private val remindersAdapter = GroupAdapter<ViewHolder>().apply {
@@ -66,6 +69,11 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             Manifest.permission.READ_PHONE_STATE
         )
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        eventsSwipeController.removeSwipeListener()
     }
 
     override fun onRequestPermissionsResult(
@@ -112,6 +120,10 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             setHasFixedSize(true)
         }
 
+        ItemTouchHelper(eventsSwipeController).run {
+            attachToRecyclerView(binding.rvEventsFragment)
+        }
+
     }
 
     override fun bindViewModel() {
@@ -127,6 +139,15 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
             observeEvent(createNewReminder, ::openEventScreenWithLastPhoneNumber)
             observeFailure(failure, errorHandler::onHandleFailure)
         }
+        getNavigationResult<Boolean>()?.let {
+            observe(it, ::deletingCanceled)
+        }
+
+
+    }
+
+    private fun deletingCanceled(event: Boolean) {
+        remindersAdapter.notifyItemChanged(swipedPosition)
     }
 
     private fun openEventScreenWithLastPhoneNumber(phoneNumber: String) {
@@ -157,7 +178,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
         binding.toolbarMonths.tvToolbarMonths.setOnClickListener { popupMenu.show() }
 
         binding.btnAddEvent.setOnClickListener {
-           model.onBtnAddNewReminderClick()
+            model.onBtnAddNewReminderClick()
         }
 
         popupMenu.setOnMenuItemClickListener { item ->
@@ -190,8 +211,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
     }
 
     private fun setItems(items: List<ItemReminder>) {
-        remindersAdapter.clear()
-        remindersAdapter.addAll(items)
+        remindersAdapter.update(items)
     }
 
     private fun setEmptyListVisibility(visible: Boolean) {
@@ -210,5 +230,37 @@ class EventsFragment : BaseFragment(R.layout.fragment_events) {
         binding.toolbarMonths.tvYears.setText(year.toString(), false)
     }
 
+    override fun swipeLeft(viewHolder: ViewHolder) {
+        doSwipe(viewHolder, SwipeDirection.ACTION_DELETE)
+    }
+
+    override fun swipeRight(viewHolder: ViewHolder) {
+        doSwipe(viewHolder, SwipeDirection.ACTION_CALL)
+    }
+
+    private fun doSwipe(viewHolder: ViewHolder, swipeAction: SwipeDirection) {
+        remindersAdapter.getItem(viewHolder).let {
+            val itemReminder = (remindersAdapter.getItem(viewHolder) as ItemReminder)
+            swipedPosition = remindersAdapter.getAdapterPosition(it)
+            when(swipeAction) {
+                SwipeDirection.ACTION_CALL -> {
+                    startActivity(getDialIntent(itemReminder.phoneNumber))
+                    remindersAdapter.notifyItemChanged(swipedPosition)
+                }
+                SwipeDirection.ACTION_DELETE -> showDeleteDialog(itemReminder.id)
+            }
+        }
+    }
+
+    private fun showDeleteDialog(id: String) {
+        findNavController().navigate(
+            R.id.action_eventsFragment_to_dialogDeleteReminder,
+            DialogDeleteParams(id).toBundle()
+        )
+    }
+
+    private enum class SwipeDirection {
+        ACTION_CALL, ACTION_DELETE
+    }
 
 }
