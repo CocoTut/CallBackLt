@@ -61,12 +61,14 @@ class CallBackItMainActivity : BaseActivity() {
                     .build()
             )
             .corePreferencesApi(ComponentManager.getOrThrow())
+            .appConfigProvider(ComponentManager.getOrThrow())
             .build()
             .also { componentManager.put(it) }
             .inject(this)
 
         model = viewModel(viewModelFactory) {
             observe(accountName, ::setAccountName)
+            observe(appVersion, tvApplicationVersion::setText)
         }
     }
 

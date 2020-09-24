@@ -21,8 +21,7 @@ import ru.cherepanovk.feature_settings_impl.SettingsFragment
         RootViewProvider::class,
         CorePreferencesApi::class,
         CoreGoogleCalendarApi::class,
-        FeatureAlarmApi::class,
-        AppConfigProvider::class
+        FeatureAlarmApi::class
     ]
 )
 interface SettingsComponent : SettingsFeatureApi {

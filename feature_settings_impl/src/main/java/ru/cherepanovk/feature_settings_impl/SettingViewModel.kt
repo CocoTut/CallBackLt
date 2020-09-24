@@ -22,8 +22,7 @@ class SettingViewModel @Inject constructor(
     private val getGoogleAccount: GetGoogleAccount,
     private val googleCalendarApi: GoogleCalendarApi,
     private val preferencesApi: PreferencesApi,
-    private val notificationChannelCreator: NotificationChannelCreator,
-    private val appConfig: AppConfig
+    private val notificationChannelCreator: NotificationChannelCreator
 ) : BaseViewModel() {
     private val _googleAccount = MutableLiveData<String>()
     val googleAccount: LiveData<String>
@@ -55,11 +54,6 @@ class SettingViewModel @Inject constructor(
     val ringtoneTitle: LiveData<Uri>
         get() = _ringtoneTitle
 
-    private val _appVersion = MutableLiveData<String>()
-    val appVersion: LiveData<String>
-        get() = _appVersion
-
-
     init {
         loadAccount()
         loadPreferences()
@@ -67,7 +61,6 @@ class SettingViewModel @Inject constructor(
         _missedIncomingEnabled.addSource(allIncomingChecked) { checked ->
             _missedIncomingEnabled.postValue(!checked)
         }
-        _appVersion.postValue(appConfig.appVersion)
     }
 
 

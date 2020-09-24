@@ -89,7 +89,6 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             observe(missedIncomingChecked, binding.swIncomingMissed::setChecked)
             observe(missedIncomingEnabled, binding.swIncomingMissed::setEnabled)
             observe(ringtoneTitle, ::setRingtoneTitle)
-            observe(appVersion, binding.tvAppVersion::setText)
             observeEvent(chosenRingtone, ::chooseRingtone)
             observeFailure(failure, errorHandler::onHandleFailure)
         }

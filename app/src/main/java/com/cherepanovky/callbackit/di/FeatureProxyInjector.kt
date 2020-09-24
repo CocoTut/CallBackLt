@@ -62,7 +62,6 @@ class FeatureProxyInjector {
                             .build()
                             .also { ComponentManager.put(it) }
                 )
-                .appConfigProvider(ComponentManager.getOrThrow())
                 .build()
                 .also { ComponentManager.put(it) }
         }
