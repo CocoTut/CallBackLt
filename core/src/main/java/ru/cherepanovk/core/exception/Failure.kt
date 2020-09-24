@@ -18,6 +18,8 @@ sealed class Failure {
     object DataBaseError: Failure()
     object CreateNotificationError: Failure()
     object NoGoogleAccount: Failure()
+    object UrlError: Failure()
+    object UnexpectedError: Failure()
 
     /** * Extend this class for feature specific failures.*/
     abstract class FeatureFailure: Failure()

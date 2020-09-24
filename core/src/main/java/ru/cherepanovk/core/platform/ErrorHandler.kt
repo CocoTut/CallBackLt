@@ -25,6 +25,10 @@ class ErrorHandler @Inject constructor(
                 notifyMessageShower.notify(R.string.error_io)
             is Failure.NoGoogleAccount ->
                 notifyMessageShower.notify(R.string.error_no_account)
+            is Failure.UrlError ->
+                notifyMessageShower.notify(R.string.error_url)
+            is Failure.UnexpectedError ->
+                notifyMessageShower.notify(R.string.error_unexpected)
         }
     }
 

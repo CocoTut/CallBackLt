@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">CallBackIt</string>
 
-    <string name="privacyURL">"http://cherepanovk.ru/privacy_policy"</string>
-    <string name="rateURL">"market://details?id=com.cherepanovky.callbackit"</string>
-    <string name="url_error">Can\'t open this URL</string>
-
     <string name="request_permissions">"This app needs to access the phone, otherwise it will not track calls. Click OK and select the action."</string>
     <string name="request_permissions_contacts">"This app needs to access the Contacts to define a contact name and your Google account (via Contacts). Click OK and select the action."</string>
     <string name="no_contacts_permissions">\"You need enable the permission for Contacts in your smartphone settings\"</string>

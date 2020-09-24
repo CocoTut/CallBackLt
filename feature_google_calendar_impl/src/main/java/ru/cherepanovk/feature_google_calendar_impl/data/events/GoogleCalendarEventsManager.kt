@@ -58,7 +58,7 @@ class GoogleCalendarEventsManager @Inject constructor(
             filtered.map { event ->
                 Reminder(
                     id = event.id,
-                    description = event.description,
+                    description = event.description ?: "",
                     contactName = event.attendees.first()?.displayName ?: "",
                     phoneNumber = event.attendees.first()?.comment ?: "",
                     dateTimeEvent = Date(event.start.dateTime.value)

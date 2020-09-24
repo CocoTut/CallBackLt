@@ -1,5 +1,7 @@
 package com.cherepanovky.callbackit
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -14,10 +16,13 @@ import com.cherepanovky.callbackit.di.MainActivityModule
 import kotlinx.android.synthetic.main.activity_route.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseActivity
+import ru.cherepanovk.core.platform.ErrorHandler
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.viewModel
-import ru.cherepanovk.core_preferences_impl.di.DaggerCorePreferencesComponent
+import ru.cherepanovk.core.utils.getPrivacyUrlIntent
+import ru.cherepanovk.core.utils.getRateUrl
 import ru.cherepanovk.feature_alarm_impl.di.DaggerFeatureAlarmComponent
 import javax.inject.Inject
 
@@ -26,6 +31,9 @@ class CallBackItMainActivity : BaseActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var errorHandler: ErrorHandler
 
     override var navHost = R.id.nav_host_fragment
 
@@ -98,7 +106,27 @@ class CallBackItMainActivity : BaseActivity() {
     private fun openFeatureFromMenu(feature: Int) {
         when (feature) {
             R.id.settings -> openSettingsFeature()
-            else -> Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show()
+            R.id.privacy -> openPrivacy()
+            R.id.rate -> openRate()
+            else -> errorHandler.onHandleFailure(Failure.UnexpectedError)
+        }
+    }
+
+    private fun openPrivacy() {
+        try {
+            startActivity(getPrivacyUrlIntent(this))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            errorHandler.onHandleFailure(Failure.UrlError)
+        }
+    }
+
+    private fun openRate() {
+        try {
+            startActivity(getRateUrl(this))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            errorHandler.onHandleFailure(Failure.UrlError)
         }
     }
 

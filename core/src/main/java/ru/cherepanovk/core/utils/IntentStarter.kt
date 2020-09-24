@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.Settings
+import ru.cherepanovk.core.R
 
 
 fun getAppSettingsIntent(context: Context): Intent {
@@ -24,3 +25,9 @@ fun getContactsPickerIntent() =
     Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI).apply {
         type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
     }
+
+fun getPrivacyUrlIntent(context: Context) =
+    Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.privacyURL)))
+
+fun getRateUrl(context: Context) =
+    Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.rateURL)))

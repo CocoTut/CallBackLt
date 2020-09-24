@@ -43,6 +43,9 @@ dependencies {
     implementation project(':core')
     implementation project(':core_db_api')
     implementation project(':core_db_impl')
+
+    implementation project(':common')
+
     implementation project(':feature_google_calendar_api')
     implementation project(':feature_google_calendar_impl')
 

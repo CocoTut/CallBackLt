@@ -11,4 +11,9 @@
     <string name="error_create_notification">Ошибка: напоминание не создано!</string>
     <string name="error_io">Ошибка ввода-вывода</string>
     <string name="error_no_account">No Google Account for downloading</string>
+    <string name="error_url">Can\'t open this URL</string>
+
+    <string name="privacyURL" translatable="false">"http://cherepanovk.ru/privacy_policy"</string>
+    <string name="rateURL" translatable="false">"market://details?id=com.cherepanovky.callbackit"</string>
+    <string name="error_unexpected">Sorry. Something went wrong</string>
 </resources>
