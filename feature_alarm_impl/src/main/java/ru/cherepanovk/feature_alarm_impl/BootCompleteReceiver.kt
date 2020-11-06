@@ -1,6 +1,9 @@
 package ru.cherepanovk.feature_alarm_impl
 
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -33,9 +36,7 @@ class BootCompleteReceiver : BroadcastReceiver(), CoroutineScope by CoroutineSco
             .coreDbApi(ComponentManager.getOrThrow())
             .build()
             .inject(this)
-        goAsync().let {
-            recreateRemindersAfterReboot(it)
-        }
+        recreateRemindersAfterReboot(goAsync())
     }
 
     private fun recreateRemindersAfterReboot(result: PendingResult) {

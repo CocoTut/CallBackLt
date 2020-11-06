@@ -5,7 +5,7 @@
         <item
             android:id="@+id/settingsFragment"
             android:title="@string/menuDrawlerSettings"
-            android:icon="@drawable/baseline_settings_white_24"/>
+           />
 
         <item
             android:id="@+id/rate"
@@ -15,7 +15,6 @@
             android:id="@+id/privacy"
             android:title="@string/privacypolicy"
             android:icon="@drawable/baseline_lock_white_24"/>
-
 
     </group>
 </menu>

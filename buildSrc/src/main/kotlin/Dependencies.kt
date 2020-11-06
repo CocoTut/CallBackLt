@@ -12,10 +12,11 @@ object Versions {
         const val GRADLE_ANDROID = "4.0.1"
         const val KOTLIN = "1.3.71"
         const val GRADLE_VERSIONS = "0.21.0"
-        const val GOOGLE = "4.3.3"
+        const val GOOGLE = "4.3.4"
         const val DAGGER = "2.27"
         const val COROUTINES = "1.3.6"
         const val PLAY_SERVICES = "18.1.0"
+        const val FIREBASE_CRASHLITYCS = "2.2.0"
     }
 
     object AndroidX {
@@ -76,6 +77,7 @@ object BuildPlugins {
     const val GRADLE_VERSIONS =
         "com.github.ben-manes:gradle-versions-plugin:${Versions.Core.GRADLE_VERSIONS}"
     const val GOOGLE_SERVICES = "com.google.gms:google-services:${Versions.Core.GOOGLE}"
+    const val FIREBASE_CRASHLITYCS = "com.google.firebase:firebase-crashlytics-gradle:${Versions.Core.FIREBASE_CRASHLITYCS}"
 }
 
 object Libs {
