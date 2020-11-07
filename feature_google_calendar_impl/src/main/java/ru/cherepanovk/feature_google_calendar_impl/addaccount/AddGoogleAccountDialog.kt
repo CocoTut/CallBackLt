@@ -1,7 +1,6 @@
 package ru.cherepanovk.feature_google_calendar_impl.addaccount
 
 import android.content.Intent
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.cherepanovk.core.di.ComponentManager
@@ -12,11 +11,10 @@ import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.observeFailure
 import ru.cherepanovk.feature_google_calendar_impl.R
-import ru.cherepanovk.feature_google_calendar_impl.addaccount.di.AddGoogleAccountDialogComponent
 import ru.cherepanovk.feature_google_calendar_impl.databinding.DialogAddGoogleAccountBinding
 import ru.cherepanovk.feature_google_calendar_impl.data.AccountPermissionManager
 import ru.cherepanovk.feature_google_calendar_impl.di.GoogleCalendarApiComponent
-import ru.cherepanovk.imgurtest.utils.extensions.showOrHide
+import ru.cherepanovk.imgurtest.utils.extensions.showOrGone
 import javax.inject.Inject
 
 class AddGoogleAccountDialog : BaseDialogFragment(R.layout.dialog_add_google_account) {
@@ -58,7 +56,7 @@ class AddGoogleAccountDialog : BaseDialogFragment(R.layout.dialog_add_google_acc
     }
 
     private fun loading(loading: Boolean) {
-        binding.pbAccountDialog.showOrHide(loading)
+        binding.pbAccountDialog.showOrGone(loading)
     }
 
     private fun setMessage(hasAccountAlready: Boolean) {

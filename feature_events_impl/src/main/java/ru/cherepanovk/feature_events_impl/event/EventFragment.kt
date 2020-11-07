@@ -27,10 +27,12 @@ import ru.cherepanovk.feature_events_impl.ContactsPermissionChecker
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.databinding.FragmentEventBinding
 import ru.cherepanovk.feature_events_impl.event.di.DaggerEventComponent
-import ru.cherepanovk.feature_events_impl.dialog.DialogDeleteParams
+import ru.cherepanovk.feature_events_impl.dialog.delete.DialogDeleteParams
+import ru.cherepanovk.feature_events_impl.dialog.reschedule.DialogRescheduleParams
+import ru.cherepanovk.feature_events_impl.event.di.EventComponent
 import ru.cherepanovk.imgurtest.utils.extensions.afterTextChanged
 import ru.cherepanovk.imgurtest.utils.extensions.hideKeyboard
-import ru.cherepanovk.imgurtest.utils.extensions.showOrHide
+import ru.cherepanovk.imgurtest.utils.extensions.showOrGone
 import javax.inject.Inject
 
 
@@ -52,6 +54,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
     override fun inject(componentManager: ComponentManager) {
         DaggerEventComponent.builder()
+            .appConfigProvider(componentManager.getOrThrow())
             .contextProvider(componentManager.getOrThrow())
             .coreDbApi(componentManager.getOrThrow())
             .featureAlarmApi(componentManager.getOrThrow())
@@ -59,6 +62,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             .coreGoogleCalendarApi(componentManager.getOrThrow())
             .rootViewProvider(componentManager.getOrThrow())
             .build()
+            .also { componentManager.put(it) }
             .inject(this)
     }
 
@@ -74,12 +78,19 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         if (firstTimeCreated(savedInstanceState)) {
             model.loadReminder(openParams?.reminderId)
             model.trySetPhoneNumber(openParams?.phoneNumber)
+            model.openReschedule(openParams?.openReschedule)
         }
     }
 
     override fun onDestroyView() {
         view?.hideKeyboard()
         super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (requireActivity().isFinishing)
+            ComponentManager.remove(EventComponent::class)
     }
 
 
@@ -98,13 +109,14 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             observe(contactName, ::setContactName)
             observe(phoneNumber, ::setPhoneNumber)
             observe(isLoading, ::showLoading)
+            observe(whatsappEnabled, binding.btnSendToWhatsApp::showOrGone)
+            observe(openRescheduleEvent, ::showRescheduleDialog)
             observeFailure(failure, errorHandler::onHandleFailure)
-
         }
     }
 
     private fun showLoading(loading: Boolean) {
-        binding.pbEvent.showOrHide(loading)
+        binding.pbEvent.showOrGone(loading)
     }
 
     override fun bindListeners() {
@@ -256,6 +268,13 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         findNavController().navigate(
             R.id.action_eventFragment_to_dialogDeleteReminder,
             DialogDeleteParams(id).toBundle()
+        )
+    }
+
+    private fun showRescheduleDialog(id: String) {
+        findNavController().navigate(
+            R.id.action_eventFragment_to_dialogRescheduleFragment,
+            DialogRescheduleParams(id).toBundle()
         )
     }
 

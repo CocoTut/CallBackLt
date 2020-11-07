@@ -3,14 +3,13 @@ package ru.cherepanovk.feature_alarm_impl
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
-import ru.cherepanovk.core_db_api.data.DbApi
+import ru.cherepanovk.core_db_api.data.RemindersDbApi
 import ru.cherepanovk.feature_alarm_api.data.AlarmApi
 import ru.cherepanovk.feature_alarm_api.data.AlarmReminderModel
 import ru.cherepanovk.feature_alarm_impl.di.DaggerBootRecreateRemindersComponent
@@ -21,7 +20,7 @@ import javax.inject.Inject
 class BootCompleteReceiver : BroadcastReceiver(), CoroutineScope by CoroutineScope(Dispatchers.IO) {
 
     @Inject
-    lateinit var dbApi: DbApi
+    lateinit var remindersDbApi: RemindersDbApi
 
     @Inject
     lateinit var alarmApi: AlarmApi
@@ -41,7 +40,7 @@ class BootCompleteReceiver : BroadcastReceiver(), CoroutineScope by CoroutineSco
 
     private fun recreateRemindersAfterReboot(result: PendingResult) {
         launch {
-            dbApi.getRemindersAfterDate(Date())
+            remindersDbApi.getRemindersAfterDate(Date())
                 .map { reminder ->
                     AlarmReminderModel(
                         id = reminder.id,

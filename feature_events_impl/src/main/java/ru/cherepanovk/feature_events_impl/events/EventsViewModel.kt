@@ -11,10 +11,9 @@ import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core.platform.SingleLiveEvent
 import ru.cherepanovk.core.utils.DateTimeHelper
-import ru.cherepanovk.core_db_api.data.Reminder
+import ru.cherepanovk.core_db_api.data.models.Reminder
 import ru.cherepanovk.core_preferences_api.data.PreferencesApi
 import ru.cherepanovk.feature_events_impl.events.domain.*
-import java.util.*
 import javax.inject.Inject
 
 class EventsViewModel @Inject constructor(
@@ -27,7 +26,8 @@ class EventsViewModel @Inject constructor(
     private val dateHelper: DateTimeHelper,
     private val loadEventsOfCalendar: LoadEventsOfCalendar,
     private val preferencesApi: PreferencesApi,
-    private val getGoogleAccountFromOldDb: GetGoogleAccountFromOldDb
+    private val getGoogleAccountFromOldDb: GetGoogleAccountFromOldDb,
+    private val moveReschedulesFromOldDb: MoveReschedulesFromOldDb
 ) : BaseViewModel() {
 
     private val _currentMonth = MutableLiveData<Int>()
@@ -62,6 +62,7 @@ class EventsViewModel @Inject constructor(
 
         if (!preferencesApi.isOldBaseMigrated()) {
             loadRemindersFromOldDb()
+            migrateOldReschedules()
             loadGoogleAccountFromOldDb()
         }
 
@@ -190,6 +191,12 @@ class EventsViewModel @Inject constructor(
     private fun saveRemindersFromOldBase(reminders: List<Reminder>) {
         launchLoading {
             saveRemindersToDb(reminders)
+        }
+    }
+
+    private fun migrateOldReschedules() {
+        launch {
+            moveReschedulesFromOldDb(UseCase.None()){}
         }
     }
 

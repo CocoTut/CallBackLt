@@ -59,11 +59,14 @@
         android:padding="8dp"
         android:src="@drawable/ic_whatsapp"
         android:layout_marginEnd="8dp"
+        android:visibility="gone"
         android:background="@drawable/background_ripple_rounded_mask"
         app:layout_constraintTop_toTopOf="@id/btnOpenContacts"
         app:layout_constraintBottom_toBottomOf="@id/btnOpenContacts"
         app:layout_constraintStart_toEndOf="@id/btnOpenContacts"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible"
+        />
 
 
 
@@ -229,8 +232,8 @@
 
     <ImageButton
         android:id="@+id/btnSaveEvent"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="@dimen/btn_circle_height"
+        android:layout_height="@dimen/btn_circle_width"
         android:layout_marginEnd="8dp"
         android:background="@drawable/btn_background_selector"
         android:src="@drawable/baseline_done_white_24"

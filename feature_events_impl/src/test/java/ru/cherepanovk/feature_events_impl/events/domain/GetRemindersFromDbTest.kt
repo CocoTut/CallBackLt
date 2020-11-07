@@ -12,13 +12,11 @@ import org.mockito.Mockito.*
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.ArgumentMatchers
 import ru.cherepanovk.core.exception.ErrorHandler
 import ru.cherepanovk.core.exception.Failure
-import ru.cherepanovk.core.functional.Either
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.platform.NetworkHandler
-import ru.cherepanovk.core_db_api.data.Reminder
+import ru.cherepanovk.core_db_api.data.models.Reminder
 import ru.cherepanovk.core_tests.MainCoroutineRule
 import ru.cherepanovk.feature_events_impl.events.data.EventsRepository
 import java.io.IOException

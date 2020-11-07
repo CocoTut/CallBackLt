@@ -1,3 +1,17 @@
 <resources>
     <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="item_list_simple_text_height">48dp</dimen>
+
+
+    <dimen name="dialog_start_margin">32dp</dimen>
+    <dimen name="dialog_end_margin">32dp</dimen>
+    <dimen name="dialog_top_margin">64dp</dimen>
+    <dimen name="dialog_bottom_margin">64dp</dimen>
+
+    <dimen name="button_background_radius">48dp</dimen>
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="button_margin_top">16dp</dimen>
+    <dimen name="button_margin_bottom">16dp</dimen>
+    <dimen name="btn_circle_height">55dp</dimen>
+    <dimen name="btn_circle_width">55dp</dimen>
 </resources>

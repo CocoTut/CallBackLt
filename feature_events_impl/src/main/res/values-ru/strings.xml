@@ -120,7 +120,12 @@
     <string name="mute_notification_channel_name">Mute channel</string>
     <string name="title_toolbar_new_reminder">Новое напоминание</string>
     <string name="title_toolbar_edit_reminder">Редактирование</string>
-    <string name="error_empry_phone_number">Phone number is empty</string>
+    <string name="error_empry_phone_number">Номер телефона пуст</string>
+    <string name="title_dialog_reschedule">Выберите время:</string>
+    <string name="btn_create_time">Добавить шаблон</string>
+    <string name="title_dialog_create_reschedule">Новый шаблон</string>
+    <string name="hint_dialog_create_reschedule">Количество</string>
+    <string name="error_add_reschedule_empty_number">Количество пусто</string>
 
     <string-array name="units_array">
         <item>минуты</item>

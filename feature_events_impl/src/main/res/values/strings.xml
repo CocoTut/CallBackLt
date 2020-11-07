@@ -117,6 +117,12 @@
     <string name="title_toolbar_new_reminder">A new reminder</string>
     <string name="title_toolbar_edit_reminder">Editing</string>
     <string name="error_empry_phone_number">Phone number is empty</string>
+    <string name="title_dialog_reschedule">Select time:</string>
+    <string name="btn_create_time">Add template</string>
+    <string name="title_dialog_create_reschedule">A new template</string>
+    <string name="hint_dialog_create_reschedule">Enter number</string>
+    <string name="btn_add_dialog_create_reschedule">Add</string>
+    <string name="error_add_reschedule_empty_number">The number is empty</string>
 
     <string-array name="units_array">
         <item>minutes</item>

@@ -1,5 +1,7 @@
 package com.cherepanovky.callbackit.notifications
 
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -17,6 +19,9 @@ import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams
 import ru.cherepanovk.feature_events_impl.event.EventOpenParams
 
 class NotificationActivity : BaseActivity() {
+    private val params: NotificationParams?
+        get() = NotificationParams.fromBundle(intent.extras)
+
     override var navHost = R.id.nav_host_fragment_notification
 
     override fun inject(componentManager: ComponentManager) {
@@ -35,37 +40,8 @@ class NotificationActivity : BaseActivity() {
         setContentView(R.layout.activity_notification)
         inject(ComponentManager)
         setNavigation()
+        cancelNotification(params)
     }
-
-    private fun setNavigation() {
-        val navGraph = FeatureProxyInjector.getEventsFeature().eventsFeatureStarter()
-            .getEventNavGraph(navController.navInflater)
-
-        val params = NotificationParams.fromBundle(intent.extras)
-        startDestination = navGraph.startDestination
-        navGraph.addArgument(
-            EventOpenParams.REMINDER_ID,
-            NavArgument.Builder()
-                .setType(NavType.StringType)
-                .setDefaultValue(params?.reminderId ?: "")
-                .build()
-        )
-
-        navGraph.addArgument(
-            EventOpenParams.PHONE_NUMBER,
-            NavArgument.Builder()
-                .setType(NavType.StringType)
-                .setDefaultValue(params?.phoneNumber ?: "")
-                .build()
-        )
-        navController.graph = navGraph
-
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            if (arguments == null)
-                onBackPressed()
-        }
-    }
-
     override fun onBackPressed() {
         startActivity(Intent(this, CallBackItMainActivity::class.java))
         super.onBackPressed()
@@ -74,5 +50,49 @@ class NotificationActivity : BaseActivity() {
     override fun onDestroy() {
         ComponentManager.remove(DaggerNotificationActivityComponent::class)
         super.onDestroy()
+    }
+    private fun setNavigation() {
+        val navGraph = FeatureProxyInjector.getEventsFeature().eventsFeatureStarter()
+            .getEventNavGraph(navController.navInflater)
+
+        startDestination = navGraph.startDestination
+        navGraph.apply {
+            addArgument(
+                EventOpenParams.REMINDER_ID,
+                NavArgument.Builder()
+                    .setType(NavType.StringType)
+                    .setDefaultValue(params?.reminderId ?: "")
+                    .build()
+            )
+            addArgument(
+                EventOpenParams.PHONE_NUMBER,
+                NavArgument.Builder()
+                    .setType(NavType.StringType)
+                    .setDefaultValue(params?.phoneNumber ?: "")
+                    .build()
+            )
+            addArgument(
+                EventOpenParams.RESCHEDULE_EVENT,
+                NavArgument.Builder()
+                    .setType(NavType.BoolType)
+                    .setDefaultValue(intent.action == "com.cherepanovky.action.reschedule")
+                    .build()
+            )
+        }
+
+        navController.graph = navGraph
+
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            if (arguments == null)
+                onBackPressed()
+        }
+    }
+
+
+
+    private fun cancelNotification(params: NotificationParams?) {
+        val notificationId = params?.notificationId ?: NotificationParams.NOTIFICATION_ID_DEFAULT
+        val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(notificationId)
     }
 }

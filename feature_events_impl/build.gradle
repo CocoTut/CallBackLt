@@ -71,6 +71,7 @@ dependencies {
     //groupie fro RecyclerView
     implementation Libs.Ui.GROUPIE
     implementation Libs.Ui.GROUPIE_KOTLIN_EXTENSIONS
+    implementation Libs.Ui.GROUPIE_VIEW_BINDING
 
     //permissions
     implementation Libs.Utils.EASY_PERMISSIONS

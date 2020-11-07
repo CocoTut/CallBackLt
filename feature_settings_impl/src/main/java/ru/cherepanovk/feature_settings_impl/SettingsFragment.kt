@@ -20,7 +20,7 @@ import ru.cherepanovk.feature_google_calendar_api.data.GoogleAccountFeatureStart
 import ru.cherepanovk.feature_settings_impl.RingtoneChooser.RequiredStater.START_ACTIVITY
 import ru.cherepanovk.feature_settings_impl.databinding.FragmentSettingsBinding
 import ru.cherepanovk.feature_settings_impl.di.SettingsComponent
-import ru.cherepanovk.imgurtest.utils.extensions.showOrHide
+import ru.cherepanovk.imgurtest.utils.extensions.showOrGone
 import javax.inject.Inject
 
 private const val REQUEST_RINGTONE = 999
@@ -124,7 +124,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     }
 
     private fun setLogoutVisibility(visible: Boolean) {
-        binding.btnLogOut.showOrHide(visible)
+        binding.btnLogOut.showOrGone(visible)
     }
 
 

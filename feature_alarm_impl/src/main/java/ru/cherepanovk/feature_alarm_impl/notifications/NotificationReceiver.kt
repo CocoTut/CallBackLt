@@ -11,11 +11,14 @@ class NotificationReceiver : BroadcastReceiver() {
         val params = NotificationParams.fromBundle(intent.extras)
             ?: throw CallBackItException.CreateNotificationException
 
-        val notificationCreator = NotificationCreator.Builder(context)
+        NotificationCreator.Builder(context)
             .addCallAction(params)
+            .addRescheduleAction(params)
             .addOpenReminderAction(params)
             .setMessage(params)
             .build()
-        notificationCreator.createNotification()
+            .run {
+                createNotification()
+            }
     }
 }

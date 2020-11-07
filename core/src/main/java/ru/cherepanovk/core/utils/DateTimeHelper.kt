@@ -110,6 +110,13 @@ class DateTimeHelper @Inject constructor() {
         return calendar.time
     }
 
+    fun addTimeToDate(date: Date, minutes: Int): Date {
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.time = date
+        calendar.add(Calendar.MINUTE, minutes)
+        return calendar.time
+    }
+
     private fun getCalendarRequiredMonthYear(month: Int, year: Int): Calendar {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.MONTH, month)
@@ -128,10 +135,4 @@ class DateTimeHelper @Inject constructor() {
         return formatter.format(date)
     }
 
-    fun addTimeToDate(date: Date, minutes: Int): Date {
-        val calendar: Calendar = Calendar.getInstance()
-        calendar.time = date
-        calendar.add(Calendar.MINUTE, minutes)
-        return calendar.time
-    }
 }

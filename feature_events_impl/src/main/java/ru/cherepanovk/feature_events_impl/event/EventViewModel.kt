@@ -3,11 +3,12 @@ package ru.cherepanovk.feature_events_impl.event
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import ru.cherepanovk.core.config.AppConfig
 import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core.platform.ContactPicker
 import ru.cherepanovk.core.platform.SingleLiveEvent
 import ru.cherepanovk.core.utils.DateTimeHelper
-import ru.cherepanovk.core_db_api.data.Reminder
+import ru.cherepanovk.core_db_api.data.models.Reminder
 import ru.cherepanovk.core_preferences_api.data.PreferencesApi
 import ru.cherepanovk.feature_events_impl.event.domain.CreateReminderAlarm
 import ru.cherepanovk.feature_events_impl.event.domain.GetReminderFromDb
@@ -23,7 +24,8 @@ class EventViewModel @Inject constructor(
     private val dateTimeHelper: DateTimeHelper,
     private val createReminderAlarm: CreateReminderAlarm,
     private val contactPicker: ContactPicker,
-    private val preferencesApi: PreferencesApi
+    private val preferencesApi: PreferencesApi,
+    private val appConfig: AppConfig
 ) : BaseViewModel() {
 
     private val _reminderView = MutableLiveData<ReminderView>()
@@ -75,8 +77,19 @@ class EventViewModel @Inject constructor(
     val phoneNumber: LiveData<String>
         get() = _phoneNumber
 
+    private val _whatsappEnabled = MutableLiveData<Boolean>()
+    val whatsappEnabled: LiveData<Boolean>
+        get() = _whatsappEnabled
+
+    private val _openRescheduleEvent = SingleLiveEvent<String>()
+    val openRescheduleEvent: LiveData<String>
+        get() = _openRescheduleEvent
+
     private var id: String? = null
 
+    init {
+        _whatsappEnabled.postValue(appConfig.whatsappEnabled)
+    }
 
     fun loadReminder(id: String?) {
         _toolbarTitleNewReminder.postValue(!hasId(id))
@@ -116,6 +129,11 @@ class EventViewModel @Inject constructor(
 
             }
         }
+    }
+
+    fun openReschedule(open: Boolean?) {
+        if (open != null && id != null && open)
+            _openRescheduleEvent.postValue(id)
     }
 
     private fun hasId(id: String?) =

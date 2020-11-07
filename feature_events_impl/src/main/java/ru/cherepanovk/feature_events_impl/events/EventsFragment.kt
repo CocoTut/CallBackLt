@@ -1,8 +1,6 @@
 package ru.cherepanovk.feature_events_impl.events
 
 import android.Manifest
-import com.xwray.groupie.kotlinandroidextensions.ViewHolder
-
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -14,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.dependencies.FeatureNavigator
 import ru.cherepanovk.core.di.getOrThrow
@@ -23,7 +22,7 @@ import ru.cherepanovk.core.utils.extentions.*
 import ru.cherepanovk.core.utils.getDialIntent
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.databinding.FragmentEventsBinding
-import ru.cherepanovk.feature_events_impl.dialog.DialogDeleteParams
+import ru.cherepanovk.feature_events_impl.dialog.delete.DialogDeleteParams
 import ru.cherepanovk.feature_events_impl.event.EventOpenParams
 import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
 import ru.cherepanovk.feature_google_calendar_api.data.GoogleAccountFeatureStarter
@@ -42,12 +41,12 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
     @Inject
     lateinit var featureNavigator: FeatureNavigator
 
-    private val eventsSwipeController = EventsSwipeController(this)
+    private val eventsSwipeController: EventsSwipeController = EventsSwipeController(this)
 
     private var swipedPosition = 0
 
 
-    private val remindersAdapter = GroupAdapter<ViewHolder>().apply {
+    private val remindersAdapter = GroupAdapter<GroupieViewHolder>().apply {
         setOnItemClickListener { item, _ ->
             openEventScreen(id = (item as ItemReminder).id)
         }
@@ -230,15 +229,15 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
         binding.toolbarMonths.tvYears.setText(year.toString(), false)
     }
 
-    override fun swipeLeft(viewHolder: ViewHolder) {
+    override fun swipeLeft(viewHolder: GroupieViewHolder) {
         doSwipe(viewHolder, SwipeDirection.ACTION_DELETE)
     }
 
-    override fun swipeRight(viewHolder: ViewHolder) {
+    override fun swipeRight(viewHolder: GroupieViewHolder) {
         doSwipe(viewHolder, SwipeDirection.ACTION_CALL)
     }
 
-    private fun doSwipe(viewHolder: ViewHolder, swipeAction: SwipeDirection) {
+    private fun doSwipe(viewHolder: GroupieViewHolder, swipeAction: SwipeDirection) {
         remindersAdapter.getItem(viewHolder).let {
             val itemReminder = (remindersAdapter.getItem(viewHolder) as ItemReminder)
             swipedPosition = remindersAdapter.getAdapterPosition(it)

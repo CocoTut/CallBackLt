@@ -28,7 +28,11 @@ abstract class BaseDialogFragment(@LayoutRes private val layout: Int) : DialogFr
     protected abstract fun inject(componentManager: ComponentManager)
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View =
         inflater.inflate(layout, container, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +55,10 @@ abstract class BaseDialogFragment(@LayoutRes private val layout: Int) : DialogFr
 
     override fun onResume() {
         super.onResume()
-        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        dialog?.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 

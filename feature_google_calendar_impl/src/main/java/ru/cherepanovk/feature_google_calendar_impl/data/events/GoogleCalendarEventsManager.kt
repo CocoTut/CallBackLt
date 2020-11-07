@@ -2,16 +2,11 @@ package ru.cherepanovk.feature_google_calendar_impl.data.events
 
 import com.google.api.client.util.DateTime
 import com.google.api.services.calendar.model.Event
-import com.google.api.services.calendar.model.EventAttendee
-import com.google.api.services.calendar.model.EventDateTime
-import com.google.api.services.calendar.model.EventReminder
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import ru.cherepanovk.core.exception.CallBackItException
-import ru.cherepanovk.core_db_api.data.DbApi
-import ru.cherepanovk.core_db_api.data.Reminder
+import ru.cherepanovk.core_db_api.data.RemindersDbApi
+import ru.cherepanovk.core_db_api.data.models.Reminder
 import ru.cherepanovk.feature_alarm_api.data.AlarmApi
 import ru.cherepanovk.feature_alarm_api.data.AlarmReminderModel
 import ru.cherepanovk.feature_google_calendar_api.data.GoogleCalendarEvent
@@ -21,7 +16,7 @@ import javax.inject.Inject
 
 class GoogleCalendarEventsManager @Inject constructor(
     private val googleAccountManager: GoogleAccountManager,
-    private val dbApi: DbApi,
+    private val remindersDbApi: RemindersDbApi,
     private val alarmApi: AlarmApi,
     private val calendarEventMapper: CalendarEventMapper
 ) {
@@ -67,7 +62,7 @@ class GoogleCalendarEventsManager @Inject constructor(
             }
 
 
-        dbApi.saveReminders(reminders)
+        remindersDbApi.saveReminders(reminders)
         reminders.forEach {
             alarmApi.createAlarm(
                 AlarmReminderModel(
