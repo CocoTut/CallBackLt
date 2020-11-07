@@ -21,6 +21,7 @@ import ru.cherepanovk.core.platform.BaseActivity
 import ru.cherepanovk.core.platform.ErrorHandler
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.viewModel
+import ru.cherepanovk.core.utils.getEmailIntent
 import ru.cherepanovk.core.utils.getPrivacyUrlIntent
 import ru.cherepanovk.core.utils.getRateUrl
 import ru.cherepanovk.feature_alarm_impl.di.DaggerFeatureAlarmComponent
@@ -110,7 +111,17 @@ class CallBackItMainActivity : BaseActivity() {
             R.id.settings -> openSettingsFeature()
             R.id.privacy -> openPrivacy()
             R.id.rate -> openRate()
+            R.id.contact_by_email -> openEmail()
             else -> errorHandler.onHandleFailure(Failure.UnexpectedError)
+        }
+    }
+
+    private fun openEmail() {
+        try {
+            startActivity(getEmailIntent(this))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            errorHandler.onHandleFailure(Failure.NoEmailApplication)
         }
     }
 

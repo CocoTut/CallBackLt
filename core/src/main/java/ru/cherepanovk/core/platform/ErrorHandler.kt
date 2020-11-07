@@ -29,6 +29,9 @@ class ErrorHandler @Inject constructor(
                 notifyMessageShower.notify(R.string.error_url)
             is Failure.UnexpectedError ->
                 notifyMessageShower.notify(R.string.error_unexpected)
+            is Failure.NoEmailApplication ->
+                notifyMessageShower.notify(R.string.error_no_email_application)
+
         }
     }
 

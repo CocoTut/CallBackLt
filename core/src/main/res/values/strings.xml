@@ -15,5 +15,7 @@
 
     <string name="privacyURL" translatable="false">"http://cherepanovk.ru/privacy_policy"</string>
     <string name="rateURL" translatable="false">"market://details?id=com.cherepanovky.callbackit"</string>
+    <string name="contact_email" translatable="false">"cherepanovky@gmail.com"</string>
     <string name="error_unexpected">Sorry. Something went wrong</string>
+    <string name="error_no_email_application">No application to send email</string>
 </resources>

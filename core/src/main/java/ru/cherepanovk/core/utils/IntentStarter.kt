@@ -31,3 +31,9 @@ fun getPrivacyUrlIntent(context: Context) =
 
 fun getRateUrl(context: Context) =
     Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.rateURL)))
+
+fun getEmailIntent(context: Context): Intent =
+    Intent(Intent.ACTION_SENDTO).apply {
+        data = Uri.parse("mailto:${context.getString(R.string.contact_email)}")
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    }

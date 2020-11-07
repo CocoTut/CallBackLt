@@ -13,12 +13,12 @@ sealed class Failure {
     }
     object Unauthorized: Failure()
     object Unregistered: Failure()
-    object TokenEmpty: Failure()
     object TimeOut: Failure()
     object DataBaseError: Failure()
     object CreateNotificationError: Failure()
     object NoGoogleAccount: Failure()
     object UrlError: Failure()
+    object NoEmailApplication: Failure()
     object UnexpectedError: Failure()
 
     /** * Extend this class for feature specific failures.*/

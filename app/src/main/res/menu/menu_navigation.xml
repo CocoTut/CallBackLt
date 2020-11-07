@@ -12,6 +12,10 @@
             android:title="@string/rate"
             android:icon="@drawable/baseline_star_rate_white_24"/>
         <item
+            android:id="@+id/contact_by_email"
+            android:title="@string/menu_contact_us"
+            android:icon="@drawable/ic_email_white_24dp"/>
+        <item
             android:id="@+id/privacy"
             android:title="@string/privacypolicy"
             android:icon="@drawable/baseline_lock_white_24"/>
