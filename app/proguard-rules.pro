@@ -19,3 +19,23 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-dontwarn org.xmlpull.v1.XmlPullParser
+-dontwarn org.xmlpull.v1.XmlSerializer
+-keep class org.xmlpull.v1.* {*;}
+-keepattributes Signature
+-keepattributes EnclosingMethod
+-keepattributes InnerClasses
+-keepattributes Annotation
+-keep class com.google.api.** {*;}
+-keep class com.j256.**
+-keepclassmembers class com.j256.** { *; }
+-keep enum com.j256.**
+-keepclassmembers enum com.j256.** { *; }
+-keep interface com.j256.**
+-keepclassmembers interface com.j256.** { *; }
+-dontwarn com.j256.ormlite.logger.**
+-dontwarn com.j256.ormlite.misc.**
+-dontwarn org.mockito.**
+-keep class ru.cherepanovk.core_db_impl.db.** { *; }
+-assumenosideeffects class android.util.Log { public static int d(...); }

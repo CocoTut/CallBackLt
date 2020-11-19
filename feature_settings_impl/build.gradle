@@ -1,0 +1,65 @@
+import dependencies.Libs
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+android {
+    compileSdkVersion 28
+
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':core')
+    implementation project(':core_db_api')
+    implementation project(':core_preferences_api')
+    implementation project(':common')
+    implementation project(':feature_settings_api')
+    implementation project(':feature_google_calendar_api')
+    implementation project(':feature_alarm_api')
+
+
+    testImplementation Libs.Test.TEST_LIB_JUNIT
+    androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
+    androidTestImplementation Libs.Test.TEST_ANDROIDX_ESPRESSO_CORE
+
+    implementation Libs.AndroidX.ANDROIDX_CONSTRAINT_LAYOUT
+    implementation Libs.AndroidX.ANDROIDX_CARD_VIEW
+    implementation Libs.AndroidX.ANDROIDX_FRAGMENT_KTX
+
+    //dagger 2
+    implementation Libs.Core.DAGGER
+    kapt Libs.Core.DAGGER_COMPILER
+
+    //navigation component
+    implementation Libs.AndroidX.ANDROIDX_NAVIGATION_FRAGMENT
+    implementation Libs.AndroidX.ANDROIDX_NAVIGATION_UI
+
+    //kotlin coroutines
+    implementation Libs.Core.COROUTINES_CORE
+    implementation Libs.Core.COROUTINES_ANDROID
+
+}

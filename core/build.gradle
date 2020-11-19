@@ -1,0 +1,86 @@
+import dependencies.Libs
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 28
+
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    viewBinding {
+        enabled = true
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api Libs.Ui.MATERIAL
+
+    api Libs.Core.KOTLIN_STDLIB
+    api Libs.AndroidX.ANDROIDX_APPCOMPAT
+    api Libs.AndroidX.ANDROIDX_CORE_KTX
+
+    api Libs.AndroidX.ANDROIDX_LIFECYCLE_EXTENSIONS
+    api Libs.AndroidX.ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX
+    api Libs.AndroidX.ANDROIDX_LIFECYCLE_LIVEDATA_KTX
+    api Libs.AndroidX.ANDROIDX_LIFECYCLE_RUNTIME
+    api Libs.AndroidX.ANDROIDX_LIFECYCLE_COMMON_JAVA8
+
+
+    testImplementation Libs.Test.TEST_LIB_JUNIT
+    androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
+    androidTestImplementation Libs.Test.TEST_ANDROIDX_ESPRESSO_CORE
+    testImplementation Libs.Test.TEST_ANDROIDX_ARCH_CORE
+    testImplementation Libs.Test.TEST_MOCKITO_CORE
+    testImplementation Libs.Test.TEST_MOCKITO_INLINE
+    testImplementation Libs.Test.TEST_KOTLINX_COROUTINES
+    testImplementation Libs.Core.COROUTINES_ANDROID
+
+    //navigation component
+    api Libs.AndroidX.ANDROIDX_NAVIGATION_FRAGMENT
+    api Libs.AndroidX.ANDROIDX_NAVIGATION_UI
+
+    //kotlin coroutines
+    implementation Libs.Core.COROUTINES_CORE
+    implementation Libs.Core.COROUTINES_ANDROID
+
+
+    //dagger 2 for DI
+    implementation Libs.Core.DAGGER
+    kapt Libs.Core.DAGGER_COMPILER
+
+    //timber for logging
+    api Libs.Utils.TIMBER
+
+    //gson
+    implementation Libs.Network.GSON
+
+    //retrofit
+    api Libs.Network.RETROFIT
+
+    //kotlin coroutines
+    implementation Libs.Core.COROUTINES_CORE
+    implementation Libs.Core.COROUTINES_ANDROID
+
+}

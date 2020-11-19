@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/settingsFragment"
+            android:title="@string/menuDrawlerSettings"
+           />
+
+        <item
+            android:id="@+id/rate"
+            android:title="@string/rate"
+            android:icon="@drawable/baseline_star_rate_white_24"/>
+        <item
+            android:id="@+id/privacy"
+            android:title="@string/privacypolicy"
+            android:icon="@drawable/baseline_lock_white_24"/>
+
+    </group>
+</menu>

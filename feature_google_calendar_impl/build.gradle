@@ -1,0 +1,81 @@
+import dependencies.Libs
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+
+    defaultConfig {
+        versionCode 1
+        versionName "1.0"
+
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    viewBinding {
+        enabled = true
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':feature_google_calendar_api')
+    implementation project(':core')
+    implementation project(':core_preferences_api')
+    implementation project(':core_db_api')
+    implementation project(':feature_alarm_api')
+
+    implementation Libs.Core.KOTLIN_STDLIB
+    implementation Libs.AndroidX.ANDROIDX_APPCOMPAT
+    implementation Libs.AndroidX.ANDROIDX_CORE_KTX
+
+    implementation Libs.AndroidX.ANDROIDX_CONSTRAINT_LAYOUT
+
+    testImplementation Libs.Test.TEST_LIB_JUNIT
+    androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
+    androidTestImplementation Libs.Test.TEST_ANDROIDX_ESPRESSO_CORE
+
+    //dagger 2
+    implementation Libs.Core.DAGGER
+    kapt Libs.Core.DAGGER_COMPILER
+
+    //kotlin coroutines
+    implementation Libs.Core.COROUTINES_CORE
+    implementation Libs.Core.COROUTINES_ANDROID
+
+    //retrofit 2
+    implementation Libs.Network.RETROFIT
+
+    //GSON
+    implementation Libs.Network.GSON
+
+    //OkHttp
+    implementation Libs.Network.OKHTTP
+    implementation Libs.Network.OKHTTP_LOGGING
+
+    //google calendar
+    implementation (Libs.Network.GOOGLE_API_CLIENT ){
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation (Libs.Network.GOOGLE_SERVICES_CALENDAR){
+        exclude group: 'org.apache.httpcomponents'
+    }
+
+    //navigation component
+    implementation Libs.AndroidX.ANDROIDX_NAVIGATION_FRAGMENT
+    implementation Libs.AndroidX.ANDROIDX_NAVIGATION_UI
+
+
+
+
+}

@@ -3,7 +3,7 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/settingsFragment"
+            android:id="@+id/settings"
             android:title="@string/menuDrawlerSettings"
             android:icon="@drawable/baseline_settings_white_24"/>
 
@@ -15,7 +15,9 @@
             android:id="@+id/privacy"
             android:title="@string/privacypolicy"
             android:icon="@drawable/baseline_lock_white_24"/>
-
-
+        <item
+            android:id="@+id/contact_by_email"
+            android:title="@string/menu_contact_us"
+            android:icon="@drawable/ic_email_black_24dp"/>
     </group>
 </menu>

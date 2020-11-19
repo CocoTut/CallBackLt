@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/add_google_account_graph"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/addGoogleAccountDialog">
+
+    <dialog
+        android:id="@+id/addGoogleAccountDialog"
+        android:name="ru.cherepanovk.feature_google_calendar_impl.addaccount.AddGoogleAccountDialog"
+        tools:layout="@layout/dialog_add_google_account"
+        android:label="AddGoogleAccountDialog" >
+        <action
+            android:id="@+id/action_addGoogleAccountDialog_to_DialogLoadEvents"
+            app:destination="@id/DialogLoadEvents" />
+    </dialog>
+    <dialog
+        android:id="@+id/DialogLoadEvents"
+        android:name="ru.cherepanovk.feature_google_calendar_impl.loadevents.DialogLoadEvents"
+        tools:layout="@layout/dialog_load_events"
+        android:label="DialogLoadEvents" />
+</navigation>

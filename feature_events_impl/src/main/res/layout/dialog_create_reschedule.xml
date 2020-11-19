@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent_accent"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    >
+
+    <View
+        android:id="@+id/dialogBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/dialog_start_margin"
+        android:layout_marginEnd="@dimen/dialog_end_margin"
+        android:paddingTop="16dp"
+        android:background="@drawable/background_rounded_dialog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvTitleDialog"
+        app:layout_constraintBottom_toBottomOf="@id/btnCancel"
+        >
+    </View>
+    <TextView
+        android:id="@+id/tvTitleDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/title_dialog_create_reschedule"
+        android:textSize="16sp"
+        android:textColor="@color/main_black"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:paddingTop="@dimen/button_margin_top"
+        app:layout_constraintStart_toStartOf="@id/dialogBackground"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/dialogBackground"
+        app:layout_constraintBottom_toTopOf="@id/tilNumberUnit"
+        app:layout_constraintVertical_chainStyle="packed"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilNumberUnit"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@id/tvTitleDialog"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleDialog"
+        app:layout_constraintBottom_toTopOf="@id/btnCancel"
+        app:layout_constraintEnd_toStartOf="@id/tvUnitReschedule"
+        app:layout_constraintVertical_chainStyle="packed"
+
+        >
+
+        <EditText
+            android:id="@+id/etNumberUnit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:hint="@string/hint_dialog_create_reschedule"
+            android:inputType="numberDecimal|numberSigned"
+            android:maxLength="3"
+          />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <AutoCompleteTextView
+        android:id="@+id/tvUnitReschedule"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textColor="@color/selector_white_accent_dark"
+        android:dropDownWidth="100dp"
+        android:gravity="start"
+        app:layout_constraintStart_toEndOf="@id/tilNumberUnit"
+        app:layout_constraintEnd_toEndOf="@id/dialogBackground"
+        app:layout_constraintTop_toTopOf="@id/tilNumberUnit"
+        app:layout_constraintBottom_toBottomOf="@id/tilNumberUnit"
+        tools:text="2019" />
+
+
+    <Button
+        android:id="@+id/btnCancel"
+        style="@style/Button.DialogBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/btn_dialog_cancel"
+        app:layout_constraintTop_toBottomOf="@id/tilNumberUnit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnAddReschedule"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <Button
+        android:id="@+id/btnAddReschedule"
+        style="@style/Button.DialogBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/btn_add_dialog_create_reschedule"
+        app:layout_constraintTop_toTopOf="@id/btnCancel"
+        app:layout_constraintBottom_toBottomOf="@id/btnCancel"
+        app:layout_constraintEnd_toEndOf="@id/dialogBackground"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

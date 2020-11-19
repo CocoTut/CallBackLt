@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootEventLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_back_title"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilPhoneNumber"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="8dp"
+        android:paddingBottom="@dimen/padding_top"
+        app:layout_constraintEnd_toStartOf="@+id/btnOpenContacts"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <EditText
+            android:id="@+id/etPhoneNumberEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:hint="@string/hintPhoneNumber"
+            android:inputType="phone"
+            android:paddingStart="@dimen/padding_left"
+            android:paddingEnd="0dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageButton
+        android:id="@+id/btnOpenContacts"
+        style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/baseline_people_black_48"
+        android:background="@drawable/background_ripple_rounded_mask"
+        app:layout_constraintBottom_toBottomOf="@+id/tilPhoneNumber"
+        app:layout_constraintEnd_toStartOf="@id/btnSendToWhatsApp"
+        app:layout_constraintStart_toEndOf="@id/tilPhoneNumber"
+        app:layout_constraintTop_toTopOf="@+id/tilPhoneNumber" />
+
+    <ImageView
+        android:id="@+id/btnSendToWhatsApp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:padding="8dp"
+        android:src="@drawable/ic_whatsapp"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone"
+        android:background="@drawable/background_ripple_rounded_mask"
+        app:layout_constraintTop_toTopOf="@id/btnOpenContacts"
+        app:layout_constraintBottom_toBottomOf="@id/btnOpenContacts"
+        app:layout_constraintStart_toEndOf="@id/btnOpenContacts"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible"
+        />
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilContactName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tilDescription"
+        app:layout_constraintTop_toBottomOf="@+id/tilPhoneNumber">
+
+        <EditText
+            android:id="@+id/etContactNameEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="left"
+            android:hint="@string/hintContactName"
+            android:inputType="textPersonName"
+            android:paddingLeft="@dimen/padding_left" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilDescription"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tilPhoneNumber"
+        app:layout_constraintTop_toBottomOf="@+id/tilContactName">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etDescriptionEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|top"
+            android:hint="@string/hintDescription"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="3"
+            android:minLines="2"
+            android:lineSpacingExtra="2sp"
+            android:paddingStart="@dimen/padding_left"
+            android:paddingEnd="10dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:background="?attr/selectableItemBackground"
+        android:drawableEnd="@drawable/ic_calendar_month"
+        android:drawablePadding="8dp"
+        android:minWidth="200dp"
+        android:padding="8dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toStartOf="@id/tvTime"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilDescription"
+        tools:text="Sun, 01 Jan 2017" />
+
+    <TextView
+        android:id="@+id/tvDateHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/colorAccent"
+        android:text="@string/error_date"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/tvDate"
+        app:layout_constraintTop_toBottomOf="@id/tvDate"
+        tools:visibility="visible"
+        />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:background="?attr/selectableItemBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:drawableEnd="@drawable/ic_timer"
+        android:drawablePadding="8dp"
+        android:padding="8dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:minWidth="100dp"
+        app:layout_constraintStart_toEndOf="@id/tvDate"
+        app:layout_constraintTop_toBottomOf="@+id/tilDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        tools:text="00:00" />
+
+    <TextView
+        android:id="@+id/tvTimeHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/colorAccent"
+        android:text="@string/error_time"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/tvTime"
+        app:layout_constraintTop_toBottomOf="@id/tvTime"
+        tools:visibility="visible"
+
+        />
+
+
+    <ImageButton
+        android:id="@+id/btnDeleteEvent"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/btn_background_selector"
+        android:src="@drawable/baseline_delete_white_24"
+        android:text="@string/btnDeleteEvent"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnSaveEvent"
+        app:layout_constraintTop_toTopOf="@+id/btnSaveEvent"
+        tools:visibility="visible"
+        />
+
+    <ImageButton
+        android:id="@+id/btnCall"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/btn_background_selector"
+        android:src="@drawable/baseline_call_white_24"
+        android:text="@string/btnCallEvent"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSaveEvent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="invisible"
+
+        />
+
+    <ImageButton
+        android:id="@+id/btnSaveEvent"
+        android:layout_width="@dimen/btn_circle_height"
+        android:layout_height="@dimen/btn_circle_width"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/btn_background_selector"
+        android:src="@drawable/baseline_done_white_24"
+        android:text="@string/btnCreateEvent"
+        android:transitionName="@string/btn_transition_name"
+        app:layout_constraintEnd_toStartOf="@+id/btnDeleteEvent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnCall"
+        app:layout_constraintTop_toTopOf="@+id/btnCall"
+        />
+
+
+    <ProgressBar
+        android:id="@+id/pbEvent"
+        style="@style/ProgressBar"
+        android:layout_width="51dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

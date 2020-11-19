@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CallBackIt</string>
+
+    <string name="privacyURL">"http://cherepanovk.ru/privacy_policy"</string>
+    <string name="rateURL">"market://details?id=com.cherepanovky.callbackit"</string>
+    <string name="url_error">Ссылка не доступна</string>
+
+    <string name="hintDescription">Описание</string>
+    <string name="hintPhoneNumber">"Номер телефона"</string>
+    <string name="hintContactName">"Имя контакта"</string>
+
+    <string name="hintetValue">"Значение"</string>
+
+    <string name="tvAccount">"Google Account"</string>
+    <string name="tvSetGoogleAccount">"Добавить аккаунт"</string>
+    <string name="btnLogOut">"Выйти"</string>
+
+    <string name="request_permissions">"Этому приложению необходим доступ к телефону. В противном случае оно не сможет отслеживать звонки. Нажмите ОК и выберете действие."</string>
+    <string name="request_permissions_contacts">"Этому приложению необходим доступ к Контактам для определения имени контакта и работы с Google Account. Нажмите ОК и выберите действие."</string>
+    <string name="no_contacts_permissions">\"Вам необходим включить разрешение на доступ к Контактам для данного приложения в настройках Вашего телефона"</string>
+    <string name="title_activity_time_select">ActivityTimeSelect</string>
+    <string name="ContactNameIsEmpty">"Имя контакта не должно быть пустым"</string>
+    <string name="eventHasCreated">"Напоминание создано"</string>
+    <string name="eventHasDeleted">"Напоминание удалено"</string>
+    <string name="eventHasUpdated">"Напоминание обновлено"</string>
+    <string name="isAccountGranted">"Аккаунт добавлен"</string>
+    <string name="eventError">"Ошибка. Напоминанеие не создано"</string>
+    <string name="isListEventsEmpty">"Список напоминаний пуст"</string>
+    <string name="isGoogleEventsEmpty">"Напоминаний с номером телефоно не найдено"</string>
+    <string name="isGoogleEventsDownloaded">"Напоминания загружены"</string>
+    <string name="noNetwork">"Интернет-соединение не доступно"</string>
+    <string name="messageProgressDialog">"Пожалуйста, подождите..."</string>
+    <string name="title_dialog_delete_reminder">"Удалить напоминание?"</string>
+    <string name="btn_dialog_yes">"Да"</string>
+    <string name="btn_dialog_cancel">"Отмена"</string>
+
+    <string name="titleEvent">"Напоминание"</string>
+
+    <string name="needGoogleAccount">"Этому приложению нужен доступ к Google Account (через доступ к Контактам)"</string>
+    <string name="needGooglePlay">"Это приложение требует Google Play Services. Пожалуйста, установите " +
+                                    "Google Play Services на Ваше устройство и перезапустите приложение."</string>
+    <string name="headerMenutListEvent">"Выберите действие"</string>
+    <string name="menuItemCall">"Позвонить"</string>
+    <string name="menuItemDelete">"Удалить"</string>
+
+    <string name="titleDelayDialog">"Отложить на:"</string>
+
+    <string name="unitMinutes">"мин."</string>
+    <string name="unitHours">"ч."</string>
+    <string name="unitDays">"д."</string>
+
+    <string name="titleOptionalTimeDialog">"Укажите время"</string>
+
+    <string name="btnCreateEvent">"Сохранить"</string>
+    <string name="btnCallEvent">"Позвонить"</string>
+    <string name="btnDeleteEvent">"Удалить"</string>
+
+
+    <string name="drawer_open">Открыть</string>
+    <string name="drawer_close">Закрыть</string>
+
+    <string name="messageUseGoogleAccountDialog">"Использовать Google Calendar для хранения напоминаний?"</string>
+    <string name="btnNegativeGoogleAccountDialog">"Нет"</string>
+    <string name="btnPositiveGoogleAccountDialog">"Да"</string>
+    <string name="messageNegativeAnswerGoogleCalendar">"Вы сможете включить использование Google Calendar в настройках"</string>
+
+    <string name="preference_file_key">"callbackit_preference"</string>
+    <string name="logTAG">"CallBackLogTAG"</string>
+    <string name="menuDrawlerMain">Главная</string>
+    <string name="menuDrawlerSettings">Настройки</string>
+    <string name="btnActionMonth">Месяц</string>
+    <string name="january">Январь</string>
+    <string name="february">Февраль</string>
+    <string name="march">Март</string>
+    <string name="november">Ноябрь</string>
+    <string name="december">Декабрь</string>
+    <string name="april">Апрель</string>
+    <string name="may">Май</string>
+    <string name="june">Июнь</string>
+    <string name="july">Июль</string>
+    <string name="august">Август</string>
+    <string name="september">Сентябрь</string>
+    <string name="october">Октябрь</string>
+    <string name="privacypolicy">Политика конфедециальности</string>
+    <string name="rate">Оцените приложение!</string>
+
+    <string name="tracingParameters">Параметры отслеживания</string>
+    <string name="incomingCalls">Все входящие</string>
+    <string name="outgoingingCalls">Все исходящие</string>
+    <string name="outgoingingCallsMissed">Пропущенные исходящие</string>
+    <string name="incomingCallsMissed">Пропущенные входящие</string>
+    <string name="btnOptionalTime">Произвольное время</string>
+
+    <string name="btnNotifHoldOver">Отложить</string>
+    <string name="btnNotifCall">Позвонить</string>
+    <string name="textEmptyList">ПУСТОЙ СПИСОК</string>
+    <string name="textTapButton">Нажмите конопку \"+\", чтобы добавить,\nили просто позвоните</string>
+
+    <string name="notificationChannelName">По умолчанию</string>
+    <string name="errorTryAgain">Ошибка. Повторите снова.</string>
+    <string name="downloadDialogMessage">Загрузить напоминания из Google Calendar?</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="btn_ok_optional_time">OK</string>
+    <string name="et_time_optional_time">Количество</string>
+    <string name="btn_cancel_optional_time">Отменить</string>
+    <string name="cb_save_to_list">Сохранить</string>
+    <string name="msg_empty_amount">Количество не может быть пустым</string>
+    <string name="popup_menu_item_delete">Удалить</string>
+    <string name="title_toolbar_settings">Настройки</string>
+    <string name="title_toolbar_reminder">Напоминание</string>
+    <string name="error_optional_time_dialog">Количество не заполнено</string>
+    <string name="notifications_settings">Уведомления</string>
+    <string name="text_tv_ringtone">Звук</string>
+    <string name="error_date">Дата меньше текущей</string>
+    <string name="error_time">Время меньше текущего</string>
+    <string name="notification_new_call">Новый звонок!</string>
+
+    <string name="btn_transition_name">btnSaveTransitionName</string>
+    <string name="mute_notification_channel_name">Mute channel</string>
+    <string name="title_toolbar_new_reminder">Новое напоминание</string>
+    <string name="title_toolbar_edit_reminder">Редактирование</string>
+    <string name="error_empry_phone_number">Номер телефона пуст</string>
+    <string name="title_dialog_reschedule">Выберите время:</string>
+    <string name="btn_create_time">Добавить шаблон</string>
+    <string name="title_dialog_create_reschedule">Новый шаблон</string>
+    <string name="hint_dialog_create_reschedule">Количество</string>
+    <string name="error_add_reschedule_empty_number">Количество пусто</string>
+
+    <string-array name="units_array">
+        <item>минуты</item>
+        <item>часы</item>
+        <item>дни</item>
+    </string-array>
+
+    <plurals name="plurals_minute">
+        <item quantity="zero">%1$d минут</item>
+        <item quantity="one">%1$d минута</item>
+        <item quantity="two">%1$d минуты</item>
+        <item quantity="few">%1$d минуты</item>
+        <item quantity="many">%1$d минут</item>
+        <item quantity="other">%1$d минут</item>
+    </plurals>
+
+    <plurals name="plurals_hour">
+        <item quantity="zero">%1$d часов</item>
+        <item quantity="one">%1$d час</item>
+        <item quantity="two">%1$d часа</item>
+        <item quantity="few">%1$d часа</item>
+        <item quantity="many">%1$d часов</item>
+        <item quantity="other">%1$d часов</item>
+    </plurals>
+
+    <plurals name="plurals_day">
+        <item quantity="zero">%1$d дней</item>
+        <item quantity="one">%1$d день</item>
+        <item quantity="two">%1$d дня</item>
+        <item quantity="few">%1$d дня</item>
+        <item quantity="many">%1$d дней</item>
+        <item quantity="other">%1$d дней</item>
+    </plurals>
+</resources>

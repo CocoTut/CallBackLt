@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">core</string>
+    <string name="error_no_connection">Проверьте соединение с интернетом</string>
+    <string name="error_token_expired">Сессия на устройстве истекла. Необходимо пройти авторизацию заново</string>
+    <string name="error_api">Извините, произошла ошибка сервера</string>
+    <string name="error_api_with_description">Извините, произошла ошибка сервера: %s</string>
+    <string name="error_server_timeout">Система на данный момент недоступна. Попробуйте войти позднее</string>
+    <string name="error_server">Извините, произошла ошибка сервера</string>
+    <string name="error_unregistered">Данный номер не найден в системе</string>
+    <string name="error_common">Извините, произошла ошибка при выполнении запроса</string>
+    <string name="error_create_notification">Ошибка: напоминание не создано!</string>
+    <string name="error_io">Ошибка ввода-вывода</string>
+    <string name="error_no_account">No Google Account for downloading</string>
+    <string name="error_url">Can\'t open this URL</string>
+
+    <string name="privacyURL" translatable="false">"http://cherepanovk.ru/privacy_policy"</string>
+    <string name="rateURL" translatable="false">"market://details?id=com.cherepanovky.callbackit"</string>
+    <string name="contact_email" translatable="false">"cherepanovky@gmail.com"</string>
+    <string name="error_unexpected">Sorry. Something went wrong</string>
+    <string name="error_no_email_application">No application to send email</string>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">feature_settings_impl</string>
+    <string name="tvAccount">"Google Account"</string>
+    <string name="tvSetGoogleAccount">"Добавить аккаунт"</string>
+    <string name="btnLogOut">"Выйти"</string>
+    <string name="tracingParameters">Параметры отслеживания</string>
+    <string name="incomingCalls">Все входящие</string>
+    <string name="outgoingingCalls">Все исходящие</string>
+    <string name="outgoingingCallsMissed">Пропущенные исходящие</string>
+    <string name="incomingCallsMissed">Пропущенные входящие</string>
+    <string name="notifications_settings">Уведомления</string>
+    <string name="text_tv_ringtone">Звук</string>
+    <string name="title_select_ringtone">Выберите мелодию для уведомлений:</string>
+    <string name="title_toolbar_settings">Настройки</string>
+    <string name="content_description_choose_ringtone">Выберете мелодию</string>
+    <string name="inscription_ringtone">Мелодия</string>
+</resources>
