@@ -25,7 +25,7 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="@string/intent_callback_notification_service" />
+                <action android:name="intent_callback_notification_service" />
             </intent-filter>
         </receiver>
 
