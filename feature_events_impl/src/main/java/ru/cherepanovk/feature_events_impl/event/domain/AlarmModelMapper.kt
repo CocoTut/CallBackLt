@@ -1,6 +1,6 @@
 package ru.cherepanovk.feature_events_impl.event.domain
 
-import ru.cherepanovk.core_db_api.data.Reminder
+import ru.cherepanovk.core_db_api.data.models.Reminder
 import javax.inject.Inject
 
 class AlarmModelMapper @Inject constructor() {

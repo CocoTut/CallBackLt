@@ -1,10 +1,10 @@
 package ru.cherepanovk.feature_events_impl.event.data
 
-import ru.cherepanovk.core_db_api.data.DbApi
-import ru.cherepanovk.core_db_api.data.Reminder
+import ru.cherepanovk.core_db_api.data.RemindersDbApi
+import ru.cherepanovk.core_db_api.data.models.Reminder
 import javax.inject.Inject
 
-class EventRepositoryImpl @Inject constructor(private val dataBase: DbApi) : EventRepository {
+class EventRepositoryImpl @Inject constructor(private val dataBase: RemindersDbApi) : EventRepository {
 
     override suspend fun getReminderFromDb(id: String): Reminder? {
         return dataBase.getReminderById(id)

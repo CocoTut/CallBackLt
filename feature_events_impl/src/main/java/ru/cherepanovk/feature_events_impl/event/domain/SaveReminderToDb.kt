@@ -3,7 +3,7 @@ package ru.cherepanovk.feature_events_impl.event.domain
 import ru.cherepanovk.core.exception.ErrorHandler
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.utils.DateTimeHelper
-import ru.cherepanovk.core_db_api.data.Reminder
+import ru.cherepanovk.core_db_api.data.models.Reminder
 import ru.cherepanovk.core_preferences_api.data.PreferencesApi
 import ru.cherepanovk.feature_alarm_api.data.AlarmApi
 import ru.cherepanovk.feature_events_impl.event.data.EventRepository

@@ -10,7 +10,7 @@ import ru.cherepanovk.core.utils.extentions.observeFailure
 import ru.cherepanovk.feature_google_calendar_impl.R
 import ru.cherepanovk.feature_google_calendar_impl.databinding.DialogLoadEventsBinding
 import ru.cherepanovk.feature_google_calendar_impl.di.GoogleCalendarApiComponent
-import ru.cherepanovk.imgurtest.utils.extensions.showOrHide
+import ru.cherepanovk.imgurtest.utils.extensions.showOrGone
 
 class DialogLoadEvents : BaseDialogFragment(R.layout.dialog_load_events) {
     private val model: LoadEventsViewModel by viewModels { viewModelFactory }
@@ -42,6 +42,6 @@ class DialogLoadEvents : BaseDialogFragment(R.layout.dialog_load_events) {
     private fun loading(loading: Boolean) {
         if (!loading)
             dismiss()
-        binding.pbDialog.showOrHide(loading)
+        binding.pbDialog.showOrGone(loading)
     }
 }

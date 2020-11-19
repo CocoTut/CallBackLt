@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "661001be4a94d63c283ddc3cb3c577be",
+    "identityHash": "2ebebc363211f63fcbb269e77f63e2ac",
     "entities": [
       {
         "tableName": "ReminderEntity",
@@ -53,12 +53,44 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "RescheduleEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `number` INTEGER NOT NULL, `unit` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "number",
+            "columnName": "number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unit",
+            "columnName": "unit",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '661001be4a94d63c283ddc3cb3c577be')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2ebebc363211f63fcbb269e77f63e2ac')"
     ]
   }
 }

@@ -26,7 +26,7 @@
         <activity android:name=".notifications.NotificationActivity">
             <intent-filter>
                 <action android:name="com.cherepanovky.action.open_reminder" />
-
+                <action android:name="com.cherepanovky.action.reschedule" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

@@ -8,7 +8,7 @@ class NotificationParams(
     val reminderId: String? = null,
     val notificationId: Int? = null,
     val description: String? = null,
-    val contactName: String? = null
+    val contactName: String? = null,
 ) : OpenParams {
 
     override fun toBundle(bundle: Bundle?): Bundle {
@@ -28,7 +28,7 @@ class NotificationParams(
                 reminderId = bundle?.getString(REMINDER_ID),
                 notificationId = bundle?.getInt(NOTIFICATION_ID) ?: NOTIFICATION_ID_DEFAULT,
                 description = bundle?.getString(DESCRIPTION),
-                contactName = bundle?.getString(CONTACT_NAME)
+                contactName = bundle?.getString(CONTACT_NAME),
             )
         }
 
@@ -37,6 +37,7 @@ class NotificationParams(
         private const val REMINDER_ID = "reminderId"
         private const val CONTACT_NAME = "contactName"
         private const val NOTIFICATION_ID = "notification_id"
+        private const val RESCHEDULE_EVENT = "rescheduleEvent"
         const val NOTIFICATION_ID_DEFAULT = 3827
     }
 }

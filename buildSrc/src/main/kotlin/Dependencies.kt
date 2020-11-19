@@ -10,7 +10,7 @@ object Versions {
 
     object Core {
         const val GRADLE_ANDROID = "4.0.1"
-        const val KOTLIN = "1.3.71"
+        const val KOTLIN = "1.4.10"
         const val GRADLE_VERSIONS = "0.21.0"
         const val GOOGLE = "4.3.4"
         const val DAGGER = "2.27"
@@ -23,7 +23,7 @@ object Versions {
         const val ANDROIDX_CORE = "1.0.2"
         const val ANDROIDX_APPCOMPAT = "1.0.2"
         const val ANDROIDX_RECYCLER_VIEW = "1.0.0"
-        const val ANDROIDX_NAVIGATION = "2.3.0"
+        const val ANDROIDX_NAVIGATION = "2.3.1"
         const val ANDROIDX_CONSTRAINT_LAYOUT = "1.1.3"
         const val ANDROIDX_CARD_VIEW = "1.0.0"
         const val ANDROIDX_LEGACY_SUPPORT = "1.0.0"
@@ -44,7 +44,7 @@ object Versions {
     }
 
     object Ui {
-        const val GROUPIE = "2.5.0"
+        const val GROUPIE = "2.8.1"
         const val MATERIAL = "1.0.0"
     }
 
@@ -142,6 +142,7 @@ object Libs {
 
     object Ui {
         const val GROUPIE = "com.xwray:groupie:${Versions.Ui.GROUPIE}"
+        const val GROUPIE_VIEW_BINDING = "com.xwray:groupie-viewbinding:${Versions.Ui.GROUPIE}"
         const val GROUPIE_KOTLIN_EXTENSIONS =
             "com.xwray:groupie-kotlin-android-extensions:${Versions.Ui.GROUPIE}"
         const val MATERIAL = "com.google.android.material:material:${Versions.Ui.MATERIAL}"

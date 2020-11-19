@@ -1,8 +1,7 @@
 package ru.cherepanovk.feature_events_impl.event
 
 import ru.cherepanovk.core.utils.DateTimeHelper
-import ru.cherepanovk.core.utils.Mapper
-import ru.cherepanovk.core_db_api.data.Reminder
+import ru.cherepanovk.core_db_api.data.models.Reminder
 import javax.inject.Inject
 
 

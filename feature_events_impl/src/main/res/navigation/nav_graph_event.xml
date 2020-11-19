@@ -16,19 +16,46 @@
             android:id="@+id/action_eventFragment_to_dialogDeleteReminder"
             app:destination="@id/dialogDeleteReminderFromNotification"
             />
+        <action
+            android:id="@+id/action_eventFragment_to_dialogRescheduleFragment"
+            app:destination="@id/dialogRescheduleFromNotification" />
+
     </fragment>
 
     <dialog
         android:id="@+id/dialogDeleteReminderFromNotification"
-        android:name="ru.cherepanovk.feature_events_impl.dialog.DialogDeleteReminderFragment"
+        android:name="ru.cherepanovk.feature_events_impl.dialog.delete.DialogDeleteReminderFragment"
         android:label="DialogDeleteReminderFromNotification"
         tools:layout ="@layout/dialog_delete_reminder"
         >
         <action
             android:id="@+id/action_dialogDeleteReminder_to_eventsFragment"
-            app:popUpTo="@id/eventsFragment"
+            app:popUpTo="@id/eventFragmentFromNotification"
             app:popUpToInclusive="true"
             app:destination="@id/eventFragmentFromNotification"
            />
+    </dialog>
+    <dialog
+        android:id="@+id/dialogRescheduleFromNotification"
+        android:name="ru.cherepanovk.feature_events_impl.dialog.reschedule.DialogRescheduleFragment"
+        android:label="DialogRescheduleFragment"
+        tools:layout ="@layout/dialog_reschedule"
+        >
+        <action
+            android:id="@+id/action_dialogRescheduleFragment_to_eventsFragment"
+            app:popUpTo="@id/eventFragmentFromNotification"
+            app:popUpToInclusive="true"
+            app:destination="@id/eventFragmentFromNotification" />
+        <action
+            android:id="@+id/action_dialogReschedule_to_dialogCreateReschedule"
+            app:destination="@id/dialogCreateRescheduleFromNotification" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/dialogCreateRescheduleFromNotification"
+        android:name="ru.cherepanovk.feature_events_impl.dialog.reschedule.DialogCreateRescheduleFragment"
+        android:label="DialogCreateRescheduleFragment"
+        tools:layout ="@layout/dialog_create_reschedule"
+        >
     </dialog>
 </navigation>

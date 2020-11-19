@@ -8,7 +8,7 @@ import kotlinx.coroutines.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.platform.ContactPicker
-import ru.cherepanovk.core_db_api.data.DbApi
+import ru.cherepanovk.core_db_api.data.RemindersDbApi
 import ru.cherepanovk.core_preferences_api.data.PreferencesApi
 import ru.cherepanovk.feature_alarm_impl.callservices.di.DaggerCallServicesComponent
 import ru.cherepanovk.feature_alarm_impl.notifications.CallListenerNotificationCreator
@@ -24,7 +24,7 @@ class CallNotificationService : Service(), CoroutineScope by CoroutineScope(Disp
     lateinit var contactPicker: ContactPicker
 
     @Inject
-    lateinit var dbApi: DbApi
+    lateinit var remindersDbApi: RemindersDbApi
 
     @Inject
     lateinit var callListenerNotificationCreator: CallListenerNotificationCreator
@@ -131,7 +131,7 @@ class CallNotificationService : Service(), CoroutineScope by CoroutineScope(Disp
     }
 
     private suspend fun getNotificationsParamsFromDb(phoneNumber: String): NotificationParams? {
-        return dbApi.getReminderByPhoneNumber(phoneNumber)?.let {
+        return remindersDbApi.getReminderByPhoneNumber(phoneNumber)?.let {
             NotificationParams(
                 contactName = it.contactName,
                 phoneNumber = it.phoneNumber,
@@ -150,12 +150,14 @@ class CallNotificationService : Service(), CoroutineScope by CoroutineScope(Disp
     }
 
     private fun createNotification(params: NotificationParams) {
-        val notificationCreator = NotificationCreator.Builder(this@CallNotificationService)
+        NotificationCreator.Builder(this@CallNotificationService)
             .addCallAction(params)
             .addOpenReminderAction(params)
+            .addRescheduleAction(params)
             .setMessage(params)
-            .build()
-        notificationCreator.createNotification()
+            .build().run {
+                createNotification()
+            }
     }
 
 

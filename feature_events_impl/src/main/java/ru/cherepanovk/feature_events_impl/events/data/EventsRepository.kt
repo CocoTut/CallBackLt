@@ -1,7 +1,7 @@
 package ru.cherepanovk.feature_events_impl.events.data
 
 import kotlinx.coroutines.flow.Flow
-import ru.cherepanovk.core_db_api.data.Reminder
+import ru.cherepanovk.core_db_api.data.models.Reminder
 import java.util.*
 
 interface EventsRepository {

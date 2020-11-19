@@ -26,6 +26,15 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
     })
 }
 
-fun View.showOrHide(visible: Boolean) {
-    visibility = if (visible) View.VISIBLE else View.GONE
+fun View.showOrGone(visible: Boolean) {
+    if (visible) show() else gone()
 }
+
+fun View.show() {
+    visibility = View.VISIBLE
+}
+
+fun View.gone() {
+    visibility = View.GONE
+}
+

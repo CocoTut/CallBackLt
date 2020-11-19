@@ -3,7 +3,7 @@ package ru.cherepanovk.feature_events_impl.events
 import android.graphics.*
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.xwray.groupie.kotlinandroidextensions.ViewHolder
+import com.xwray.groupie.GroupieViewHolder
 import ru.cherepanovk.feature_events_impl.R
 
 class EventsSwipeController(private var swipeListener: SwipeListener? = null) : ItemTouchHelper.Callback() {
@@ -24,8 +24,8 @@ class EventsSwipeController(private var swipeListener: SwipeListener? = null) : 
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         when(direction) {
-            ItemTouchHelper.LEFT -> swipeListener?.swipeLeft(viewHolder as ViewHolder)
-            ItemTouchHelper.RIGHT -> swipeListener?.swipeRight(viewHolder as ViewHolder)
+            ItemTouchHelper.LEFT -> swipeListener?.swipeLeft(viewHolder as GroupieViewHolder)
+            ItemTouchHelper.RIGHT -> swipeListener?.swipeRight(viewHolder as GroupieViewHolder)
         }
     }
 
@@ -91,8 +91,8 @@ class EventsSwipeController(private var swipeListener: SwipeListener? = null) : 
     }
 
     interface SwipeListener {
-        fun swipeLeft(viewHolder: ViewHolder)
+        fun swipeLeft(viewHolder: GroupieViewHolder)
 
-        fun swipeRight(viewHolder: ViewHolder)
+        fun swipeRight(viewHolder: GroupieViewHolder)
     }
 }
