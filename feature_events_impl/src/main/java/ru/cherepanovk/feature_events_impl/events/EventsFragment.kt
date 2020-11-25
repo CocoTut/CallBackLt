@@ -70,9 +70,9 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
         eventsSwipeController.removeSwipeListener()
+        super.onDestroyView()
     }
 
     override fun onRequestPermissionsResult(

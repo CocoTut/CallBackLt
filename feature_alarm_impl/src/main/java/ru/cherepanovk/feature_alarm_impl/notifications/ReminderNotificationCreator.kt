@@ -152,7 +152,9 @@ class NotificationCreator private constructor(
 
             val actionIntent = when (openActivity) {
                 true -> Intent(action)
-                false -> Intent(context, NotificationActionsReceiver::class.java)
+                false -> Intent(context, NotificationActionsReceiver::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
             }
 
             actionIntent.apply {

@@ -3,6 +3,8 @@ package ru.cherepanovk.feature_events_impl.events
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -58,6 +60,8 @@ class EventsViewModel @Inject constructor(
     val createNewReminder: LiveData<Event<String>>
     get() = _createNewReminder
 
+    private lateinit var remindersJob: Job
+
     init {
 
         if (!preferencesApi.isOldBaseMigrated()) {
@@ -82,11 +86,13 @@ class EventsViewModel @Inject constructor(
     }
 
     fun onMonthClick(month: Int) {
+        remindersJob.cancel()
         _currentMonth.postValue(month)
         loadReminders(month, currentYear.value ?: dateHelper.getCurrentYear())
     }
 
     fun yearSelected(year: Int?) {
+        remindersJob.cancel()
         _currentYear.value = year ?: dateHelper.getCurrentYear()
         loadReminders(currentMonth.value ?: dateHelper.getCurrentMonth(), currentYear.value!!)
     }
@@ -116,7 +122,10 @@ class EventsViewModel @Inject constructor(
                         year = dateHelper.getCurrentYear()
                     )
                 )
-            ) { it.handleOnlyFailure() }
+            ) {
+
+                it.handleOnlyFailure()
+            }
         }
     }
 
@@ -158,11 +167,13 @@ class EventsViewModel @Inject constructor(
     }
 
     private fun createItems(reminders: Flow<List<Reminder>>) {
-        launch {
+        remindersJob = launch {
+
             reminders.collect {
                 val items = it.map { reminder -> itemReminderMapper.map(reminder) }
                 _itemsReminder.postValue(items)
             }
+
         }
     }
 
