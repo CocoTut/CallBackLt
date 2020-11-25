@@ -48,14 +48,16 @@ class GoogleCalendarEventsManager @Inject constructor(
     private suspend fun saveEventsToDb(events: List<Event>) {
         val filtered = events.filter { event ->
             event.attendees?.any { it?.email == ATTENDEE_NAME } ?: false
+                    || (event.extendedProperties != null && event.extendedProperties.isNotEmpty())
         }
         val reminders =
             filtered.map { event ->
+                val properties = event.extendedProperties?.let { CalendarEventExtendedProperties.fromExtendedProperties(event.extendedProperties) }
                 Reminder(
                     id = event.id,
                     description = event.description ?: "",
-                    contactName = event.attendees.first()?.displayName ?: "",
-                    phoneNumber = event.attendees.first()?.comment ?: "",
+                    contactName = properties?.contactName ?: event.attendees.first()?.displayName ?: "",
+                    phoneNumber = properties?.phoneNumber ?: event.attendees.first()?.comment ?: "",
                     dateTimeEvent = Date(event.start.dateTime.value)
                 )
 

@@ -11,16 +11,11 @@ import java.util.*
 import javax.inject.Inject
 
 
-
 class CalendarEventMapper @Inject constructor() {
 
     fun map(calendarEvent: GoogleCalendarEvent): Event {
         return Event().apply {
             id = calendarEvent.id
-            attendees = listOf(
-                EventAttendee().setEmail(ATTENDEE_NAME).setComment(calendarEvent.phoneNumber)
-                    .setDisplayName(calendarEvent.contactName)
-            )
             reminders = getCalendarReminders()
             summary =
                 if (calendarEvent.description.isEmpty()) calendarEvent.contactName
@@ -34,6 +29,13 @@ class CalendarEventMapper @Inject constructor() {
                 dateTime = DateTime(calendarEvent.endTime)
                 timeZone = TimeZone.getDefault().id
             }
+            extendedProperties = Event.ExtendedProperties()
+                .setPrivate(
+                    CalendarEventExtendedProperties(
+                        phoneNumber = calendarEvent.phoneNumber,
+                        contactName = calendarEvent.contactName
+                    ).toExtendedProperties()
+                )
         }
     }
 
