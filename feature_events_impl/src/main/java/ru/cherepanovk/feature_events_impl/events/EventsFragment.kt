@@ -135,6 +135,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
             observe(itemsReminder, ::setItems)
             observe(askGoogleCalendarAccount, ::showAddGoogleAccountDialog)
             observe(isLoading, ::loading)
+            observe(sortByDescending) { binding.toolbarMonths.ivToolbarSort.isSelected = it }
             observeEvent(createNewReminder, ::openEventScreenWithLastPhoneNumber)
             observeFailure(failure, errorHandler::onHandleFailure)
         }
@@ -188,6 +189,10 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
 
         binding.srlEventList.setOnRefreshListener {
             model.updateReminders()
+        }
+
+        binding.toolbarMonths.ivToolbarSort.setOnClickListener {
+            model.onSortClick()
         }
 
     }

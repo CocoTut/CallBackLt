@@ -10,29 +10,48 @@
     <TextView
         android:id="@+id/tvToolbarMonths"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="54dp"
+        android:minWidth="110dp"
         android:gravity="center"
         android:padding="10dp"
+        android:includeFontPadding="false"
         android:textColor="@color/selector_white_accent_dark"
         android:textSize="20sp"
+        android:drawablePadding="4dp"
+        android:drawableEnd="@drawable/selector_expand_more_white_clickable"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="April" />
+        tools:text="Декабрь" />
 
     <AutoCompleteTextView
         android:id="@+id/tvYears"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_height="54dp"
+        android:dropDownWidth="100dp"
+        android:gravity="center"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
+        android:layout_marginStart="2dp"
+        android:includeFontPadding="false"
         android:textColor="@color/selector_white_accent_dark"
-        android:dropDownWidth="100dp"
-        android:gravity="start"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:drawablePadding="4dp"
+        android:drawableEnd="@drawable/selector_expand_more_white_clickable"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvToolbarMonths"
+        app:layout_constraintStart_toEndOf="@id/tvToolbarMonths"
         tools:text="2019" />
+
+    <ImageView
+        android:id="@+id/ivToolbarSort"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="4dp"
+        android:padding="6dp"
+        android:src="@drawable/selector_sort_selectable"
+        android:baselineAlignBottom="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

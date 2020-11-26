@@ -32,4 +32,8 @@ interface PreferencesApi {
     fun setLastCalledPhoneNumber(phoneNumber: String?)
 
     fun getLastCalledPhoneNumber(): String?
+
+    fun setDescendingSort(sortByDescending: Boolean)
+
+    fun getDescendingSort(): Boolean
 }

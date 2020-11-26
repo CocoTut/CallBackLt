@@ -58,7 +58,10 @@ class EventsViewModel @Inject constructor(
 
     private val _createNewReminder = MutableLiveData<Event<String>>()
     val createNewReminder: LiveData<Event<String>>
-    get() = _createNewReminder
+        get() = _createNewReminder
+
+    private val _sortByDescending = MutableLiveData<Boolean>()
+    val sortByDescending: LiveData<Boolean> = _sortByDescending
 
     private lateinit var remindersJob: Job
 
@@ -69,6 +72,8 @@ class EventsViewModel @Inject constructor(
             migrateOldReschedules()
             loadGoogleAccountFromOldDb()
         }
+
+        _sortByDescending.value = preferencesApi.getDescendingSort()
 
         loadData()
 
@@ -129,9 +134,17 @@ class EventsViewModel @Inject constructor(
         }
     }
 
+
+    fun onSortClick() {
+        _sortByDescending.value = !_sortByDescending.value!!
+        preferencesApi.setDescendingSort(_sortByDescending.value!!)
+        remindersJob.cancel()
+        loadReminders(currentMonth.value ?: dateHelper.getCurrentMonth(), currentYear.value!!)
+    }
+
     private fun loadGoogleAccountFromOldDb() {
         launch {
-            getGoogleAccountFromOldDb(UseCase.None()){
+            getGoogleAccountFromOldDb(UseCase.None()) {
                 it.handleSuccess { account ->
                     account?.let {
                         preferencesApi.setGoogleAccount(account)
@@ -170,7 +183,13 @@ class EventsViewModel @Inject constructor(
         remindersJob = launch {
 
             reminders.collect {
-                val items = it.map { reminder -> itemReminderMapper.map(reminder) }
+                val items = it.sortedWith(
+                    if (sortByDescending.value == true)
+                        compareByDescending { reminder -> reminder.dateTimeEvent }
+                    else
+                        compareBy { reminder -> reminder.dateTimeEvent }
+                )
+                    .map { reminder -> itemReminderMapper.map(reminder) }
                 _itemsReminder.postValue(items)
             }
 
@@ -207,7 +226,7 @@ class EventsViewModel @Inject constructor(
 
     private fun migrateOldReschedules() {
         launch {
-            moveReschedulesFromOldDb(UseCase.None()){}
+            moveReschedulesFromOldDb(UseCase.None()) {}
         }
     }
 

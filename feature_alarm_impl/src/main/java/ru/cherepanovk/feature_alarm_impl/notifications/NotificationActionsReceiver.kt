@@ -22,7 +22,11 @@ class NotificationActionsReceiver : BroadcastReceiver() {
     }
 
     private fun openDialActivity(context: Context, params: NotificationParams?) {
+        //close notification panel
+        context.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+
         val phoneNumber = params?.phoneNumber
         context.startActivity(getDialIntent(phoneNumber))
+
     }
 }

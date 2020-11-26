@@ -18,6 +18,7 @@ fun getDialIntent(phoneNumber: String?): Intent {
         action = Intent.ACTION_DIAL
         data = Uri.parse("tel:$phoneNumber")
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
     }
 }
 

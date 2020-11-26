@@ -69,6 +69,15 @@ class Preferences @Inject constructor(
     override fun getLastCalledPhoneNumber() =
         sharedPreferences.getString(LAST_CALLED_PHONE_NUMBER, null)
 
+    override fun setDescendingSort(sortByDescending: Boolean) {
+        sharedPreferences.edit().putBoolean(SORT_BY_DESCENDING, sortByDescending).apply()
+    }
+
+    override fun getDescendingSort(): Boolean {
+        return sharedPreferences.getBoolean(SORT_BY_DESCENDING, false)
+    }
+
+
 
     companion object {
         private const val FIRST_START = "FIRST_START"
@@ -79,5 +88,6 @@ class Preferences @Inject constructor(
         private const val INCOMING_MISSED_ON = "IN_MISSED_ON"
         private const val OLD_BASE_MIGRATED = "OLD_BASE_MIGRATED"
         private const val LAST_CALLED_PHONE_NUMBER = "LAST_CALLED_PHONE_NUMBER"
+        private const val SORT_BY_DESCENDING = "SORT_BY_DESCENDING"
     }
 }
