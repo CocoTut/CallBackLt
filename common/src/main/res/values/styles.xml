@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Text">
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+
+
+
+    <style name="Text.Medium">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Text.Medium.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="Text.Small">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+</resources>

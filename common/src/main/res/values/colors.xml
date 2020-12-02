@@ -25,4 +25,6 @@
     <color name="image_placeholder_background_color">#C7C7CC</color>
 
     <color name="transparent_accent">#26f7961c</color>
+    <color name="light_grey">#737373</color>
+    <color name="gray">#eeeeeeee</color>
 </resources>

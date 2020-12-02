@@ -6,6 +6,8 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
+import kotlin.math.ceil
 
 fun View.hideKeyboard() {
     val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -36,5 +38,11 @@ fun View.show() {
 
 fun View.gone() {
     visibility = View.GONE
+}
+
+fun TextView.isEllipsized(): Boolean {
+    val textPixelLength = paint.measureText(text.toString())
+    val numberOfLines = ceil((textPixelLength / measuredWidth).toDouble())
+    return lineHeight * numberOfLines > measuredHeight
 }
 
