@@ -95,7 +95,7 @@
     <string name="btnNotifHoldOver">Отложить</string>
     <string name="btnNotifCall">Позвонить</string>
     <string name="textEmptyList">ПУСТОЙ СПИСОК</string>
-    <string name="textTapButton">Нажмите конопку \"+\", чтобы добавить,\nили просто позвоните</string>
+    <string name="textTapButton">Нажмите кнопку \"+\", чтобы добавить,\nили просто позвоните</string>
 
     <string name="notificationChannelName">По умолчанию</string>
     <string name="errorTryAgain">Ошибка. Повторите снова.</string>
