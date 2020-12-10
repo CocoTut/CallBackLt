@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ru.cherepanovk.feature_events_impl.events.view.ItemEventLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/rvCardView"
+        android:id="@+id/rootItemReminder"
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
@@ -50,11 +50,13 @@
         android:textAppearance="@style/Text.Small"
         android:maxLines="1"
         android:ellipsize="end"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/tvTime"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvPhoneNumber"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:text="Description" />
+        tools:text="Description"
+        tools:visibility="visible"/>
 
     <TextView
         android:id="@+id/tvDate"
@@ -90,8 +92,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_ripple_rounded_gray"
         android:padding="@dimen/padding_xxxs"
-        android:src="@drawable/ic_expand_more_accent_dark_24dp"
         android:visibility="gone"
+        android:src="@drawable/ic_expand_more_accent_dark_24dp"
         android:layout_marginTop="@dimen/margin_xxs"
         app:layout_constraintTop_toBottomOf="@id/tvTime"
         app:layout_constraintStart_toEndOf="@id/tvDescription"
@@ -109,4 +111,4 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ru.cherepanovk.feature_events_impl.events.view.ItemEventLayout>

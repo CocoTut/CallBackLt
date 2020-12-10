@@ -14,7 +14,7 @@ import dependencies.Libs
 android {
     defaultConfig {
         applicationId "com.cherepanovky.callbackit"
-        versionCode 60
+        versionCode 61
         versionName "2.0.$versionCode"
         setProperty("archivesBaseName", "callbackit-$versionName($versionCode)")
     }

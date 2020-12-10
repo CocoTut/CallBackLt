@@ -1,23 +1,14 @@
 package ru.cherepanovk.feature_events_impl.events
 
-import android.graphics.Typeface
+import android.graphics.Paint
+import android.graphics.Rect
 import android.graphics.drawable.Animatable
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.SpannedString
-import android.text.style.StyleSpan
-import android.text.style.TypefaceSpan
+import android.os.Handler
 import android.view.View
-import android.widget.ImageView
-import androidx.core.text.buildSpannedString
-import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
-import com.xwray.groupie.kotlinandroidextensions.Item
+import android.widget.TextView
 import com.xwray.groupie.viewbinding.BindableItem
-import kotlinx.android.synthetic.main.item_reminder.view.*
 import ru.cherepanovk.feature_events_impl.R
-import ru.cherepanovk.feature_events_impl.databinding.ItemDialogRescheduleBinding
 import ru.cherepanovk.feature_events_impl.databinding.ItemReminderBinding
-import ru.cherepanovk.imgurtest.utils.extensions.isEllipsized
 import ru.cherepanovk.imgurtest.utils.extensions.showOrGone
 
 class ItemReminder(
@@ -29,6 +20,12 @@ class ItemReminder(
     private val time: String
 ) : BindableItem<ItemReminderBinding>() {
 
+    private val paint = Paint()
+    private var bounds = Rect()
+    private val handler = Handler()
+    private var expandDescriptionRequestLayoutCallback: Runnable? = null
+    private var descriptionMaxLines = 1
+
     override fun getLayout() = R.layout.item_reminder
 
     override fun initializeViewBinding(view: View): ItemReminderBinding {
@@ -36,19 +33,35 @@ class ItemReminder(
     }
 
     override fun bind(viewBinding: ItemReminderBinding, position: Int) {
+        viewBinding.btnExpandDescription.setImageResource(R.drawable.ic_expand_more_accent_dark_24dp)
+        expandDescriptionRequestLayoutCallback?.let {
+            handler.removeCallbacks(it)
+        }
+        expandDescriptionRequestLayoutCallback = Runnable { viewBinding.btnExpandDescription.requestLayout() }
         viewBinding.tvDescription.apply {
+            maxLines = descriptionMaxLines
             text = description
             showOrGone(description.isNotBlank())
         }
+        viewBinding.tvDescription.measure(0, 0)
+        viewBinding.rootItemReminder.setDescriptionEllipsizedListener {
+            viewBinding.rootItemReminder.setDescriptionEllipsizedListener(null)
+            viewBinding.btnExpandDescription.showOrGone(it)
+            expandDescriptionRequestLayoutCallback?.let { runnable ->
+                handler.post(runnable)
+            }
+        }
+
+        viewBinding.root.requestLayout()
         viewBinding.tvContactName.text = contactName
         viewBinding.tvPhoneNumber.text = phoneNumber
         viewBinding.tvDate.text = date
         viewBinding.tvTime.text = time
         viewBinding.btnExpandDescription.apply {
-            showOrGone(viewBinding.tvDescription.isEllipsized())
+            setImageResource(if (descriptionMaxLines > 1) R.drawable.collapse_animated else R.drawable.expand_animated)
             setOnClickListener {
-                viewBinding.tvDescription.maxLines =
-                    if (viewBinding.tvDescription.maxLines > 1) 1 else 3
+                descriptionMaxLines = if (viewBinding.tvDescription.maxLines > 1) 1 else 3
+                viewBinding.tvDescription.maxLines = descriptionMaxLines
                 bindIcon(viewBinding)
             }
         }
@@ -57,7 +70,7 @@ class ItemReminder(
     private fun bindIcon(viewBinding: ItemReminderBinding) {
         viewBinding.btnExpandDescription.apply {
             setImageResource(
-                if (viewBinding.tvDescription.maxLines > 1)
+                if (descriptionMaxLines > 1)
                     R.drawable.collapse_animated
                 else
                     R.drawable.expand_animated
