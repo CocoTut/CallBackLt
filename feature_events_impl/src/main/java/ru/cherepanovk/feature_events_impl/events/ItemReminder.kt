@@ -20,8 +20,6 @@ class ItemReminder(
     private val time: String
 ) : BindableItem<ItemReminderBinding>() {
 
-    private val paint = Paint()
-    private var bounds = Rect()
     private val handler = Handler()
     private var expandDescriptionRequestLayoutCallback: Runnable? = null
     private var descriptionMaxLines = 1
