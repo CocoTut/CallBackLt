@@ -13,5 +13,5 @@ interface EventsRepository {
 
     fun getRemindersBetweenDates(startDate: Date, endDate: Date): Flow<List<Reminder>>
 
-    suspend fun getYears(): List<String>
+    fun getYears(): Flow<List<String>>
 }

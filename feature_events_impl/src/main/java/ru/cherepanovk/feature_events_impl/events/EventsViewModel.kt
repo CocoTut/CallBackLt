@@ -199,8 +199,16 @@ class EventsViewModel @Inject constructor(
     private fun loadYears() {
         launchLoading {
             getYearsFromDb(UseCase.None()) {
-                it.handleSuccess { list ->
-                    _years.postValue(list)
+                it.handleSuccess { listYears ->
+                    launch {
+                        listYears.collect { list ->
+                            list.toMutableList().run {
+                                if (list.contains(dateHelper.getCurrentYear().toString()).not())
+                                    add(dateHelper.getCurrentYear().toString())
+                                _years.postValue(this)
+                            }
+                        }
+                    }
                 }
             }
         }

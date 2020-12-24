@@ -25,7 +25,7 @@ class EventsRepositoryImpl @Inject constructor(
         return dataBase.getRemindersBetweenDates(startDate, endDate)
     }
 
-    override suspend fun getYears(): List<String> {
+    override fun getYears(): Flow<List<String>>  {
         return  dataBase.getYears()
     }
 }

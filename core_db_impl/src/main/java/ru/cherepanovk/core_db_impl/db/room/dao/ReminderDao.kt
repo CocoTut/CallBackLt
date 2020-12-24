@@ -17,7 +17,7 @@ interface ReminderDao {
     fun getRemindersAfterDate(dateAfter: Long): List<ReminderEntity>
 
     @Query("SELECT strftime('%Y', dateTimeEvent / 1000, 'unixepoch') as year FROM ReminderEntity GROUP BY year")
-    suspend fun getYears(): List<String>
+    fun getYears(): Flow<List<String>>
 
     @Query("SELECT * FROM ReminderEntity WHERE id =:id")
     suspend fun getReminderById(id: String): ReminderEntity?

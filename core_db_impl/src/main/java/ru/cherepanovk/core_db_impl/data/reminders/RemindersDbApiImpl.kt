@@ -45,7 +45,7 @@ class RemindersDbApiImpl @Inject constructor(
             }
     }
 
-    override suspend fun getYears(): List<String> {
+    override fun getYears(): Flow<List<String>>  {
         return reminderDao.getYears()
     }
 
