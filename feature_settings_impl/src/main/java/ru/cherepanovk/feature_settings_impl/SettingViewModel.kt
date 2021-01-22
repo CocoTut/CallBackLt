@@ -46,6 +46,10 @@ class SettingViewModel @Inject constructor(
     val missedIncomingEnabled: LiveData<Boolean>
         get() = _missedIncomingEnabled
 
+    private val _whatsAppEnabled = MutableLiveData<Boolean>()
+    val whatsAppEnabled: LiveData<Boolean>
+        get() = _whatsAppEnabled
+
     private val _chosenRingtone = MutableLiveData<Event<Pair<String, String>>>()
     val chosenRingtone: LiveData<Event<Pair<String, String>>>
         get() = _chosenRingtone
@@ -87,6 +91,10 @@ class SettingViewModel @Inject constructor(
         preferencesApi.setTrackingMissedIncomingCalls(checked)
     }
 
+    fun setWhatsAppEnabled(checked: Boolean) {
+        preferencesApi.setWhatsApp(checked)
+    }
+
     fun onAddAccountClick() {
     }
 
@@ -117,6 +125,7 @@ class SettingViewModel @Inject constructor(
         _missedIncomingChecked.postValue(preferencesApi.getTrackingMissedIncomingCalls())
         _allIncomingChecked.postValue(preferencesApi.getTrackingAllIncomingCalls())
         _allOutgoingChecked.postValue(preferencesApi.getTrackingAllOutgoingCalls())
+        _whatsAppEnabled.postValue(preferencesApi.getWhatsApp())
     }
 
     private fun observeAccountState() {

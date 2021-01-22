@@ -77,6 +77,13 @@ class Preferences @Inject constructor(
         return sharedPreferences.getBoolean(SORT_BY_DESCENDING, false)
     }
 
+    override fun getWhatsApp(): Boolean {
+        return sharedPreferences.getBoolean(WHATSAPP, true)
+    }
+
+    override fun setWhatsApp(enable: Boolean) {
+        sharedPreferences.edit().putBoolean(WHATSAPP, enable).apply()
+    }
 
 
     companion object {
@@ -89,5 +96,6 @@ class Preferences @Inject constructor(
         private const val OLD_BASE_MIGRATED = "OLD_BASE_MIGRATED"
         private const val LAST_CALLED_PHONE_NUMBER = "LAST_CALLED_PHONE_NUMBER"
         private const val SORT_BY_DESCENDING = "SORT_BY_DESCENDING"
+        private const val WHATSAPP = "WHATSAPP"
     }
 }

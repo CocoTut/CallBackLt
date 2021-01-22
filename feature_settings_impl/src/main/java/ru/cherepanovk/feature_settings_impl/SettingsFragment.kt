@@ -77,6 +77,10 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             model.onRingtoneClick()
         }
 
+        binding.swWhatsApp.setOnCheckedChangeListener { _, checked ->
+            model.setWhatsAppEnabled(checked)
+        }
+
         binding.toolbar.ivBack.setOnClickListener { requireActivity().onBackPressed() }
     }
 
@@ -88,6 +92,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             observe(allOutgoingChecked, binding.swOutgoing::setChecked)
             observe(missedIncomingChecked, binding.swIncomingMissed::setChecked)
             observe(missedIncomingEnabled, binding.swIncomingMissed::setEnabled)
+            observe(whatsAppEnabled, binding.swWhatsApp::setChecked)
             observe(ringtoneTitle, ::setRingtoneTitle)
             observeEvent(chosenRingtone, ::chooseRingtone)
             observeFailure(failure, errorHandler::onHandleFailure)

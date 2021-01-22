@@ -36,4 +36,8 @@ interface PreferencesApi {
     fun setDescendingSort(sortByDescending: Boolean)
 
     fun getDescendingSort(): Boolean
+
+    fun getWhatsApp(): Boolean
+
+    fun setWhatsApp(enable: Boolean)
 }

@@ -82,9 +82,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:gravity="left"
+            android:gravity="start"
             android:hint="@string/hintContactName"
-            android:inputType="textPersonName"
+            android:inputType="textCapWords"
             android:paddingLeft="@dimen/padding_left" />
     </com.google.android.material.textfield.TextInputLayout>
 

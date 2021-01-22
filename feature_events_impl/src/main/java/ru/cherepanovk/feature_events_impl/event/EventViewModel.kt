@@ -88,7 +88,7 @@ class EventViewModel @Inject constructor(
     private var id: String? = null
 
     init {
-        _whatsappEnabled.postValue(appConfig.whatsappEnabled)
+        _whatsappEnabled.value = preferencesApi.getWhatsApp()
     }
 
     fun loadReminder(id: String?) {

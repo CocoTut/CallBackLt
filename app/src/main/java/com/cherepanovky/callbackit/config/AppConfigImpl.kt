@@ -9,5 +9,5 @@ import com.cherepanovky.callbackit.BuildConfig
 class AppConfigImpl @Inject constructor() : AppConfig {
     override val isLoggingEnabled: Boolean = BuildConfig.DEBUG
     override val appVersion: String = BuildConfig.VERSION_NAME
-    override val whatsappEnabled: Boolean = false
+    override val whatsappEnabled: Boolean = true
 }

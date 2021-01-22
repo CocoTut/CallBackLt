@@ -33,6 +33,7 @@ abstract class BaseFragment(@LayoutRes private val layout: Int) : Fragment(), Ac
 
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindViewModel()
