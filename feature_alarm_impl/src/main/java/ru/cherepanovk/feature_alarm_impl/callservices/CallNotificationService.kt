@@ -1,10 +1,13 @@
 package ru.cherepanovk.feature_alarm_impl.callservices
 
+import android.Manifest
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.IBinder
 import android.telephony.TelephonyManager
+import androidx.core.content.ContextCompat
 import kotlinx.coroutines.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
@@ -41,6 +44,7 @@ class CallNotificationService : Service(), CoroutineScope by CoroutineScope(Disp
 
     override fun onCreate() {
         super.onCreate()
+
         DaggerCallServicesComponent.builder()
             .contextProvider(ComponentManager.getOrThrow())
             .coreDbApi(ComponentManager.getOrThrow())
@@ -50,15 +54,24 @@ class CallNotificationService : Service(), CoroutineScope by CoroutineScope(Disp
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (intent?.action == STOP_FOREGROUND_ACTION) {
-            stopSelf()
+        startForegroundAction()
+        if ( hasCallLogPermissions()) {
+            if (intent?.action == STOP_FOREGROUND_ACTION) {
+                stopSelf()
+            } else {
+                parseIntent(intent)
+            }
         } else {
-            startForegroundAction()
-            parseIntent(intent)
+            stopSelf()
         }
+
 
         return super.onStartCommand(intent, flags, startId)
     }
+
+    private fun hasCallLogPermissions(): Boolean =
+        ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) ==
+                PackageManager.PERMISSION_GRANTED
 
     private fun parseIntent(intent: Intent?) {
         intent?.extras?.let { extras ->
