@@ -20,12 +20,12 @@ import ru.cherepanovk.feature_google_calendar_api.data.GoogleAccountFeatureStart
 import ru.cherepanovk.feature_settings_impl.RingtoneChooser.RequiredStater.START_ACTIVITY
 import ru.cherepanovk.feature_settings_impl.databinding.FragmentSettingsBinding
 import ru.cherepanovk.feature_settings_impl.di.SettingsComponent
+import ru.cherepanovk.imgurtest.utils.extensions.afterTextChanged
 import ru.cherepanovk.imgurtest.utils.extensions.showOrGone
 import javax.inject.Inject
 
-private const val REQUEST_RINGTONE = 999
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
-    private val model by viewModels<SettingViewModel> { viewModelFactory }
+    private val model by viewModels<SettingsViewModel> { viewModelFactory }
     private val binding: FragmentSettingsBinding by viewBinding(FragmentSettingsBinding::bind)
 
     @Inject
@@ -82,6 +82,44 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         }
 
         binding.toolbar.ivBack.setOnClickListener { requireActivity().onBackPressed() }
+
+        binding.swLongAlarm.setOnCheckedChangeListener { _, checked ->
+            model.onLongAlarmClick(checked)
+        }
+
+        binding.etDurationAlarm.apply {
+            setOnFocusChangeListener { _, changed ->
+                if (changed) {
+                    setSelection(this.text.length)
+                }
+            }
+            afterTextChanged {
+                model.setDurationAlarm(it)
+            }
+        }
+
+        binding.etDurationDelayAlarm.apply {
+            setOnFocusChangeListener { _, changed ->
+                if (changed) {
+                    setSelection(this.text.length)
+                }
+            }
+            afterTextChanged {
+                model.setDelayDurationAlarm(it)
+            }
+        }
+
+        binding.etRepeatTimesAlarm.apply {
+            setOnFocusChangeListener { _, changed ->
+                if (changed) {
+                    setSelection(this.text.length)
+                }
+            }
+            afterTextChanged {
+                model.setRepeatTimesAlarm(it)
+            }
+        }
+
     }
 
     override fun bindViewModel() {
@@ -94,9 +132,31 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             observe(missedIncomingEnabled, binding.swIncomingMissed::setEnabled)
             observe(whatsAppEnabled, binding.swWhatsApp::setChecked)
             observe(ringtoneTitle, ::setRingtoneTitle)
+            observe(longAlarmEnabled, binding.swLongAlarm::setChecked)
+            observe(longAlarmEnabled, binding.tvDurationAlarm::setEnabled)
+            observe(longAlarmEnabled, binding.etDurationAlarm::setEnabled)
+            observe(longAlarmEnabled, binding.tvDurationDelayAlarm::setEnabled)
+            observe(longAlarmEnabled, binding.etDurationDelayAlarm::setEnabled)
+            observe(longAlarmEnabled, binding.tvRepeatTimesAlarm::setEnabled)
+            observe(longAlarmEnabled, binding.etRepeatTimesAlarm::setEnabled)
+            observe(durationAlarmSeconds) { setDurationAlarmSeconds(it)}
+            observe(durationDelayAlarmSeconds) { setDurationDelaAlarmSeconds(it) }
+            observe(repeatTimesAlarm) { setRepeatAlarmTimes(it) }
             observeEvent(chosenRingtone, ::chooseRingtone)
             observeFailure(failure, errorHandler::onHandleFailure)
         }
+    }
+
+    private fun setDurationAlarmSeconds(duration: Long) {
+        binding.etDurationAlarm.setText(duration.toString())
+    }
+
+    private fun setDurationDelaAlarmSeconds(duration: Long) {
+        binding.etDurationDelayAlarm. setText(duration.toString())
+    }
+
+    private fun setRepeatAlarmTimes(times: Int) {
+        binding.etRepeatTimesAlarm.setText(times.toString())
     }
 
     private fun setRingtoneTitle(ringtoneUri: Uri) {
@@ -119,9 +179,13 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     }
 
     private fun chooseRingtone(ringtoneData: Pair<String, String>) {
-        ringtoneChooser.chooseRingtone(requireContext(), ringtoneData.first, ringtoneData.second)
+        ringtoneChooser.chooseRingtone(
+            requireContext(),
+            ringtoneData.first,
+            ringtoneData.second
+        )
             .run {
-                when(first) {
+                when (first) {
                     START_ACTIVITY -> startActivity(second)
                     else -> startActivityForResult(second, REQUEST_RINGTONE)
                 }
@@ -139,5 +203,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
                 getString(R.string.tvSetGoogleAccount)
             else
                 account
+    }
+
+    companion object {
+        private const val REQUEST_RINGTONE = 999
     }
 }

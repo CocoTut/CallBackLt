@@ -10,9 +10,6 @@ import androidx.core.app.NotificationCompat
 import ru.cherepanovk.feature_alarm_impl.*
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams.Companion.NOTIFICATION_ID_DEFAULT
 
-private const val CALL_REQUEST_CODE = 1
-private const val OPEN_REMINDER_CODE = 0
-private const val RESCHEDULE_CODE = 2
 
 class NotificationCreator private constructor(
     private val context: Context,
@@ -27,7 +24,7 @@ class NotificationCreator private constructor(
     }
 
 
-    private fun getNotification(): Notification {
+    fun getNotification(): Notification {
         val icon =
             if (builder.reminderId == null) R.drawable.ic_alarm_add else R.drawable.ic_ring_volume
         val notificationBuilder =
@@ -63,6 +60,14 @@ class NotificationCreator private constructor(
             )
         }
 
+        builder.stopAlarmPendingIntent?.let {
+            notificationBuilder.addAction(
+                R.drawable.ic_snooze_black_24dp,
+                context.getString(R.string.stop_foreground),
+                it
+            )
+        }
+
         builder.openReminderPendingIntent?.let {
             notificationBuilder.setContentIntent(it)
         }
@@ -72,11 +77,15 @@ class NotificationCreator private constructor(
 
 
     class Builder(private val context: Context) {
+        private val notificationActionProvider = NotificationActionProvider()
+
         var callPendingIntent: PendingIntent? = null
             private set
         var reschedulePendingIntent: PendingIntent? = null
             private set
         var openReminderPendingIntent: PendingIntent? = null
+            private set
+        var stopAlarmPendingIntent: PendingIntent? = null
             private set
         var ringtoneUri: Uri? = null
             private set
@@ -90,7 +99,7 @@ class NotificationCreator private constructor(
 
         fun addCallAction(params: NotificationParams) = apply {
             params.reminderId?.let {
-                val action = context.resources.getString(R.string.action_call)
+                val action = notificationActionProvider.getCallAction(context)
                 callPendingIntent = getPendingEventForAction(
                     getActionIntent(params, action, false),
                     CALL_REQUEST_CODE
@@ -101,21 +110,25 @@ class NotificationCreator private constructor(
 
         fun addRescheduleAction(params: NotificationParams) = apply {
             params.reminderId?.let {
-                val action = context.resources.getString(R.string.action_reschedule)
+                val action = notificationActionProvider.getRescheduleAction(context)
                 reschedulePendingIntent = getPendingEventForAction(
                     getActionIntent(params, action, true),
                     RESCHEDULE_CODE
                 )
             }
-        };
+        }
 
 
         fun addOpenReminderAction(params: NotificationParams) = apply {
-            val action = context.resources.getString(R.string.action_open_reminder)
+            val action = notificationActionProvider.getOpenReminderAction(context)
             openReminderPendingIntent = getPendingEventForAction(
                 getActionIntent(params, action, true),
                 OPEN_REMINDER_CODE
             )
+        }
+
+        fun addStopAlarmAction(pendingIntent: PendingIntent) = apply {
+            stopAlarmPendingIntent = pendingIntent
         }
 
         fun setMessage(params: NotificationParams) = apply {
@@ -144,6 +157,7 @@ class NotificationCreator private constructor(
             this.reminderId = params.reminderId
             val reminderId = params.reminderId
             val phoneNumber = params.phoneNumber
+            val alarmed = params.alarmed
             val notificationId = when {
                 reminderId != null -> getNotificationId(reminderId)
                 phoneNumber != null -> getNotificationId(phoneNumber)
@@ -164,7 +178,8 @@ class NotificationCreator private constructor(
                         reminderId,
                         notificationId,
                         contactName = params.contactName,
-                        description = params.description
+                        description = params.description,
+                        alarmed = alarmed
                     ).toBundle()
                 )
             }
@@ -207,5 +222,11 @@ class NotificationCreator private constructor(
             return notificationId
         }
 
+    }
+
+    companion object {
+        private const val CALL_REQUEST_CODE = 1
+        private const val OPEN_REMINDER_CODE = 0
+        private const val RESCHEDULE_CODE = 2
     }
 }

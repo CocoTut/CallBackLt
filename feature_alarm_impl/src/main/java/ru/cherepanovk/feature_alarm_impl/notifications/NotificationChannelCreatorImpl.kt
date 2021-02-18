@@ -27,7 +27,6 @@ class NotificationChannelCreatorImpl @Inject constructor(
 
 
     override fun createDefaultNotificationChannel(ringtoneUri: Uri?) {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             if (isChannelCreated(channelDefaultId) && ringtoneUri == null)
@@ -86,6 +85,17 @@ class NotificationChannelCreatorImpl @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getDefaultChannel(): NotificationChannel? =
         notificationManager.getNotificationChannel(channelDefaultId)
+
+    override fun getRingtoneUri(): Uri {
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            getDefaultChannel()?.sound
+        } else {
+            null
+        } ?: RingtoneManager.getDefaultUri(
+            RingtoneManager.TYPE_NOTIFICATION
+        )
+    }
 
     private fun isChannelCreated(channelId: String): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)

@@ -14,11 +14,18 @@ import com.cherepanovky.callbackit.notifications.di.DaggerNotificationActivityCo
 import com.cherepanovky.callbackit.notifications.di.NotificationActivityModule
 import kotlinx.android.synthetic.main.activity_notification.*
 import ru.cherepanovk.core.di.ComponentManager
+import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.platform.BaseActivity
+import ru.cherepanovk.feature_alarm_api.data.AlarmNotificationServiceLauncher
+import ru.cherepanovk.feature_alarm_impl.di.DaggerFeatureAlarmComponent
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams
 import ru.cherepanovk.feature_events_impl.event.EventOpenParams
+import javax.inject.Inject
 
 class NotificationActivity : BaseActivity() {
+    @Inject
+    lateinit var alarmNotificationServiceLauncher: AlarmNotificationServiceLauncher
+
     private val params: NotificationParams?
         get() = NotificationParams.fromBundle(intent.extras)
 
@@ -27,6 +34,11 @@ class NotificationActivity : BaseActivity() {
     override fun inject(componentManager: ComponentManager) {
         DaggerNotificationActivityComponent.builder()
             .notificationActivityModule(NotificationActivityModule(fragmentContainer()))
+            .featureAlarmApi(
+                DaggerFeatureAlarmComponent.builder().contextProvider(componentManager.getOrThrow())
+                    .build()
+                    .also { componentManager.put(it) }
+            )
             .build()
             .also { componentManager.put(it) }
             .inject(this)
@@ -42,6 +54,7 @@ class NotificationActivity : BaseActivity() {
         setNavigation()
         cancelNotification(params)
     }
+
     override fun onBackPressed() {
         startActivity(Intent(this, CallBackItMainActivity::class.java))
         super.onBackPressed()
@@ -51,6 +64,7 @@ class NotificationActivity : BaseActivity() {
         ComponentManager.remove(DaggerNotificationActivityComponent::class)
         super.onDestroy()
     }
+
     private fun setNavigation() {
         val navGraph = FeatureProxyInjector.getEventsFeature().eventsFeatureStarter()
             .getEventNavGraph(navController.navInflater)
@@ -89,10 +103,15 @@ class NotificationActivity : BaseActivity() {
     }
 
 
-
     private fun cancelNotification(params: NotificationParams?) {
         val notificationId = params?.notificationId ?: NotificationParams.NOTIFICATION_ID_DEFAULT
-        val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.cancel(notificationId)
+
+        if (params?.alarmed == true)
+            startService(alarmNotificationServiceLauncher.stopAlarmService())
+        else
+            startService(alarmNotificationServiceLauncher.stopAlarm())
     }
 }

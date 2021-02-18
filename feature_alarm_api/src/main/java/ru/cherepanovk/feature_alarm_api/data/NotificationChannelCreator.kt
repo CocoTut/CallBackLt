@@ -16,4 +16,6 @@ interface NotificationChannelCreator {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getDefaultChannel(): NotificationChannel?
+
+    fun getRingtoneUri(): Uri
 }

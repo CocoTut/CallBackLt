@@ -8,7 +8,7 @@ import ru.cherepanovk.core.di.dependencies.FeatureNavigator
 import ru.cherepanovk.core.di.viewmodel.ViewModelKey
 import ru.cherepanovk.core.platform.FeatureNavigatorImpl
 import ru.cherepanovk.feature_settings_api.SettingsFeatureStarter
-import ru.cherepanovk.feature_settings_impl.SettingViewModel
+import ru.cherepanovk.feature_settings_impl.SettingsViewModel
 import ru.cherepanovk.feature_settings_impl.SettingsFeatureStarterImpl
 
 @Module
@@ -18,8 +18,8 @@ abstract class SettingsModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(SettingViewModel::class)
-    abstract fun bindsViewModel(settingViewModel: SettingViewModel): ViewModel
+    @ViewModelKey(SettingsViewModel::class)
+    abstract fun bindsViewModel(settingsViewModel: SettingsViewModel): ViewModel
 
     @Binds
     abstract fun bindFeatureNavigator(featureNavigatorImpl: FeatureNavigatorImpl): FeatureNavigator

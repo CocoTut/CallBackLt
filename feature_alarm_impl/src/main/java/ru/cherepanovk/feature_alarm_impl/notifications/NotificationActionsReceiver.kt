@@ -8,16 +8,24 @@ import ru.cherepanovk.core.utils.getDialIntent
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams.Companion.NOTIFICATION_ID_DEFAULT
 
 class NotificationActionsReceiver : BroadcastReceiver() {
+    val notificationActionsProvider = NotificationActionProvider()
+
+
     override fun onReceive(context: Context, intent: Intent) {
         val notificationParams = NotificationParams.fromBundle(intent.extras)
-        openDialActivity(context, notificationParams)
+        when(intent.action) {
+            notificationActionsProvider.getCallAction(context) ->  openDialActivity(context, notificationParams)
+            else -> context.sendBroadcast(intent)
+        }
+//        openDialActivity(context, notificationParams)
         cancelNotification(context, notificationParams)
     }
 
     private fun cancelNotification(context: Context, params: NotificationParams?) {
 
         val notificationId = params?.notificationId ?: NOTIFICATION_ID_DEFAULT
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.cancel(notificationId)
     }
 

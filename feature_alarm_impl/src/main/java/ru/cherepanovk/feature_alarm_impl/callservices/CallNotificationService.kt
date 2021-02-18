@@ -21,9 +21,6 @@ import ru.cherepanovk.feature_alarm_impl.notifications.NotificationCreator
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams
 import javax.inject.Inject
 
-private const val NOTIFICATION_ID = 22091983
-private const val STOP_CALL_NOTIFICATION_SERVICE_FOREGROUND_REQUEST_CODE = 1403021987
-private const val STOP_FOREGROUND_ACTION = "STOP_CALL_NOTIFICATION_SERVICE_FOREGROUND_ACTION"
 
 class CallNotificationService : Service(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
 
@@ -193,5 +190,9 @@ class CallNotificationService : Service(), CoroutineScope by CoroutineScope(Disp
             }
     }
 
-
+    private companion object {
+        private const val NOTIFICATION_ID = 22091983
+        private const val STOP_CALL_NOTIFICATION_SERVICE_FOREGROUND_REQUEST_CODE = 1403021987
+        private const val STOP_FOREGROUND_ACTION = "STOP_CALL_NOTIFICATION_SERVICE_FOREGROUND_ACTION"
+    }
 }

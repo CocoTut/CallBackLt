@@ -8,8 +8,9 @@ import ru.cherepanovk.core_preferences_api.data.PreferencesApi
 import ru.cherepanovk.feature_alarm_api.data.NotificationChannelCreator
 import javax.inject.Inject
 
+
 class CallBackItMainViewModel @Inject constructor(
-    notificationChannelCreator: NotificationChannelCreator,
+    private val notificationChannelCreator: NotificationChannelCreator,
     private val preferencesApi: PreferencesApi,
     private val appConfig: AppConfig
 ) : BaseViewModel() {
@@ -24,6 +25,17 @@ class CallBackItMainViewModel @Inject constructor(
     init {
         notificationChannelCreator.createDefaultNotificationChannel(ringtoneUri = null)
         notificationChannelCreator.createMuteNotificationChannel()
+        setRingtone()
+    }
+
+    private fun setRingtone() {
+        if (preferencesApi.getRingToneUri().isEmpty()) {
+            notificationChannelCreator.getRingtoneUri()
+                .toString()
+                .also {
+                    preferencesApi.setRingToneUri(it)
+                }
+        }
     }
 
     fun initAccountName() {

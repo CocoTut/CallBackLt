@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application>
         <receiver
@@ -39,6 +40,10 @@
 
         <service
             android:name="ru.cherepanovk.feature_alarm_impl.callservices.CallNotificationService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name="ru.cherepanovk.feature_alarm_impl.notifications.NotificationAlarmService"
             android:enabled="true"
             android:exported="false" />
 

@@ -15,15 +15,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_s"
-        android:layout_marginTop="@dimen/margin_m"
+        android:layout_marginTop="@dimen/margin_xxxs"
         android:layout_marginEnd="@dimen/margin_xs"
         android:maxLines="1"
         android:ellipsize="end"
         app:layout_constraintEnd_toStartOf="@+id/tvDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/tvPhoneNumber"
+        app:layout_constraintBottom_toTopOf="@id/tvPhoneNumber"
         app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="Contact name"
         android:textAppearance="@style/Text.Medium.Bold" />
 
@@ -38,6 +39,7 @@
         app:layout_constraintBottom_toTopOf="@id/tvDescription"
         app:layout_constraintBaseline_toBaselineOf="@id/tvTime"
         app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="PhoneNumber" />
 
     <TextView
@@ -45,8 +47,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="@dimen/margin_xs"
-        android:layout_marginBottom="@dimen/margin_xs"
+        android:layout_marginTop="@dimen/margin_xxxs"
+        android:layout_marginBottom="@dimen/margin_xxxs"
         android:textAppearance="@style/Text.Small"
         android:maxLines="1"
         android:ellipsize="end"
@@ -55,6 +57,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvPhoneNumber"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="Description"
         tools:visibility="visible"/>
 
@@ -74,7 +77,7 @@
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_xs"
+        android:layout_marginTop="@dimen/margin_xxxs"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:gravity="end"

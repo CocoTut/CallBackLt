@@ -7,6 +7,7 @@ import ru.cherepanovk.core_preferences_api.data.PreferencesApi
 import ru.cherepanovk.core_preferences_api.di.CorePreferencesApi
 import ru.cherepanovk.feature_alarm_impl.callservices.CallListenerService
 import ru.cherepanovk.feature_alarm_impl.callservices.CallNotificationService
+import ru.cherepanovk.feature_alarm_impl.notifications.NotificationAlarmService
 
 @Component(
     dependencies = [

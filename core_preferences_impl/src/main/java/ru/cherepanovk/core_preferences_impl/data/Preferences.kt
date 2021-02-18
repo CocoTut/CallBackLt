@@ -85,6 +85,35 @@ class Preferences @Inject constructor(
         sharedPreferences.edit().putBoolean(WHATSAPP, enable).apply()
     }
 
+    override fun setLongAlarmEnable(enable: Boolean) {
+        sharedPreferences.edit().putBoolean(LONG_ALARM_ENABLED, enable).apply()
+    }
+
+    override fun isLongAlarmEnable(): Boolean =
+        sharedPreferences.getBoolean(LONG_ALARM_ENABLED, true)
+
+    override fun setRepeatAlarmTimes(times: Int) {
+        sharedPreferences.edit().putInt(REPEAT_ALARM_TIMES, times).apply()
+    }
+
+    override fun getRepeatAlarmTimes(): Int =
+        sharedPreferences.getInt(REPEAT_ALARM_TIMES, REPEAT_ALARM_TIMES_DEFAULT)
+
+
+    override fun setDurationAlarmSeconds(seconds: Long) {
+        sharedPreferences.edit().putLong(DURATION_ALARM_SECONDS, seconds).apply()
+    }
+
+    override fun getDurationAlarmSeconds(): Long =
+        sharedPreferences.getLong(DURATION_ALARM_SECONDS, DURATION_ALARM_SECONDS_DEFAULT)
+
+    override fun setDurationDelayAlarmSeconds(seconds: Long) {
+        sharedPreferences.edit().putLong(DURATION_DELAY_ALARM_SECONDS, seconds).apply()
+    }
+
+    override fun getDurationDelayAlarmSeconds(): Long =
+        sharedPreferences.getLong(DURATION_DELAY_ALARM_SECONDS, DURATION_DELAY_ALARM_SECONDS_DEFAULT)
+
 
     companion object {
         private const val FIRST_START = "FIRST_START"
@@ -97,5 +126,13 @@ class Preferences @Inject constructor(
         private const val LAST_CALLED_PHONE_NUMBER = "LAST_CALLED_PHONE_NUMBER"
         private const val SORT_BY_DESCENDING = "SORT_BY_DESCENDING"
         private const val WHATSAPP = "WHATSAPP"
+        private const val REPEAT_ALARM_TIMES = "REPEAT_ALARM_TIMES"
+        private const val DURATION_ALARM_SECONDS = "DURATION_ALARM_SECONDS"
+        private const val DURATION_DELAY_ALARM_SECONDS = "DURATION_DELAY_ALARM_SECONDS"
+        private const val LONG_ALARM_ENABLED = "LONG_ALARM_ENABLED"
+
+        private const val REPEAT_ALARM_TIMES_DEFAULT = 2
+        private const val DURATION_ALARM_SECONDS_DEFAULT = 10L
+        private const val DURATION_DELAY_ALARM_SECONDS_DEFAULT = 60L
     }
 }

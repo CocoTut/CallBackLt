@@ -15,6 +15,7 @@
     <dimen name="btn_circle_height">55dp</dimen>
     <dimen name="btn_circle_width">55dp</dimen>
 
+    <dimen name="margin_xxxs">2dp</dimen>
     <dimen name="margin_xxs">8dp</dimen>
     <dimen name="margin_xs">12dp</dimen>
     <dimen name="margin_s">16dp</dimen>

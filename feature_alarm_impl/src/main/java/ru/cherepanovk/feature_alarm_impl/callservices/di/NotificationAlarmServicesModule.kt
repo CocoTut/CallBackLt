@@ -10,11 +10,13 @@ import ru.cherepanovk.feature_alarm_impl.notifications.CallListenerNotificationC
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationChannelCreatorImpl
 
 @Module
-abstract class CallServicesModule {
+abstract class NotificationAlarmServicesModule {
    @Binds
    abstract fun bindCallListenerNotificationCreator(callListenerNotificationCreatorImpl: CallListenerNotificationCreatorImpl): CallListenerNotificationCreator
 
    @Binds
    abstract fun bindNotificationChannelCreator(notificationChannelCreatorImpl: NotificationChannelCreatorImpl)
            : NotificationChannelCreator
+   @Binds
+   abstract fun bindAlarmNotificationServiceLauncher(alarmNotificationServiceLauncherImpl: AlarmNotificationServiceLauncherImpl): AlarmNotificationServiceLauncher
 }

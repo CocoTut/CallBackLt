@@ -40,4 +40,20 @@ interface PreferencesApi {
     fun getWhatsApp(): Boolean
 
     fun setWhatsApp(enable: Boolean)
+
+    fun setLongAlarmEnable(enable: Boolean)
+
+    fun isLongAlarmEnable(): Boolean
+
+    fun setRepeatAlarmTimes(times: Int)
+
+    fun getRepeatAlarmTimes(): Int
+
+    fun setDurationAlarmSeconds(seconds: Long)
+
+    fun getDurationAlarmSeconds(): Long
+
+    fun setDurationDelayAlarmSeconds(seconds: Long)
+
+    fun getDurationDelayAlarmSeconds(): Long
 }

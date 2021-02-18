@@ -16,5 +16,9 @@
     <string name="inscription_ringtone">Ringtone</string>
     <string name="title_messengers">Messengers</string>
     <string name="title_switch_whatsapp">WhatsApp</string>
+    <string name="long_alarm">Long alarm</string>
+    <string name="title_duration_ringtone">Duration of the alarm (seconds)</string>
+    <string name="title_duration_delay_alarm">Delay between the alarms (seconds)</string>
+    <string name="title_repeat_times_alarm">Repeat times</string>
 
 </resources>

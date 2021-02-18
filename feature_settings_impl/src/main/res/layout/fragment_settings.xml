@@ -183,10 +183,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvNotificationSettings">
-
-
-
             </View>
+
             <TextView
                 android:id="@+id/tvRingtone"
                 android:layout_width="wrap_content"
@@ -212,6 +210,99 @@
                 app:layout_constraintTop_toTopOf="@id/clSound"
                 app:layout_constraintBottom_toBottomOf="@id/clSound" />
 
+            <Switch
+                android:id="@+id/swLongAlarm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/long_alarm"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCurrentRingtone" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/alarmGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="tvDurationAlarm,etDurationAlarm,tvDurationDelayAlarm,etDurationDelayAlarm,tvRepeatTimesAlarm,etRepeatTimesAlarm"/>
+
+            <TextView
+                android:id="@+id/tvDurationAlarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/title_duration_ringtone"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/swLongAlarm" />
+
+            <EditText
+                android:id="@+id/etDurationAlarm"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="2"
+                app:layout_constraintTop_toTopOf="@id/tvDurationAlarm"
+                app:layout_constraintBottom_toBottomOf="@id/tvDurationAlarm"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+            <TextView
+                android:id="@+id/tvRepeatTimesAlarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/title_repeat_times_alarm"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDurationAlarm" />
+
+            <EditText
+                android:id="@+id/etRepeatTimesAlarm"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                app:layout_constraintTop_toTopOf="@id/tvRepeatTimesAlarm"
+                app:layout_constraintBottom_toBottomOf="@id/tvRepeatTimesAlarm"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+            <TextView
+                android:id="@+id/tvDurationDelayAlarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/title_duration_delay_alarm"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvRepeatTimesAlarm" />
+
+            <EditText
+                android:id="@+id/etDurationDelayAlarm"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="2"
+                app:layout_constraintTop_toTopOf="@id/tvDurationDelayAlarm"
+                app:layout_constraintBottom_toBottomOf="@id/tvDurationDelayAlarm"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+
             <TextView
                 android:id="@+id/tvTitleMessengers"
                 android:layout_width="0dp"
@@ -222,7 +313,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/clSound" />
+                app:layout_constraintTop_toBottomOf="@id/tvDurationDelayAlarm" />
 
             <View
                 android:id="@+id/view4"
@@ -241,11 +332,13 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
+                android:layout_marginBottom="24dp"
                 android:text="@string/title_switch_whatsapp"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view4" />
+                app:layout_constraintTop_toBottomOf="@+id/view4"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
