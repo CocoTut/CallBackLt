@@ -18,4 +18,6 @@
     <string name="contact_email" translatable="false">"cherepanovky@gmail.com"</string>
     <string name="error_unexpected">Sorry. Something went wrong</string>
     <string name="error_no_email_application">No application to send email</string>
+    <string name="error_no_whatsapp">Whatsapp is not installed</string>
+    <string name="error_no_whatsapp_action">Install</string>
 </resources>

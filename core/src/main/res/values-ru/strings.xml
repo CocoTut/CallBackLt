@@ -15,4 +15,6 @@
     <string name="error_url">Ссылка не доступна</string>
     <string name="error_unexpected">Извините. Что-то пошло не так</string>
     <string name="error_no_email_application">Нет приложения для отправки email</string>
+    <string name="error_no_whatsapp">Whatsapp не установлен</string>
+    <string name="error_no_whatsapp_action">Установить</string>
 </resources>

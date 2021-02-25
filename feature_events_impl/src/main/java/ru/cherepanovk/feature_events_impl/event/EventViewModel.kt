@@ -25,7 +25,7 @@ class EventViewModel @Inject constructor(
     private val createReminderAlarm: CreateReminderAlarm,
     private val contactPicker: ContactPicker,
     private val preferencesApi: PreferencesApi,
-    private val appConfig: AppConfig
+    private val analyticsPlugin: EventAnalyticsPlugin
 ) : BaseViewModel() {
 
     private val _reminderView = MutableLiveData<ReminderView>()
@@ -193,6 +193,10 @@ class EventViewModel @Inject constructor(
         _eventTime.postValue(dateTimeHelper.getTimeString(date))
 
         _hintTimeIsLessThanCurrent.postValue(isDateLessThanCurrent(date))
+    }
+
+    fun onWhatsAppButtonClick() {
+        analyticsPlugin.onWhatsAppClick()
     }
 
     private fun isDateLessThanCurrent(date: Date): Boolean {

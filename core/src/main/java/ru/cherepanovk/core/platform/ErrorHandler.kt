@@ -31,8 +31,19 @@ class ErrorHandler @Inject constructor(
                 notifyMessageShower.notify(R.string.error_unexpected)
             is Failure.NoEmailApplication ->
                 notifyMessageShower.notify(R.string.error_no_email_application)
-
+            is Failure.WhatsAppNotInstalled ->
+                notifyMessageShower.notify(R.string.error_no_whatsapp)
         }
     }
 
+    fun onHandleFailure(failure: Failure?, action: () -> Unit) {
+        when (failure) {
+            is Failure.WhatsAppNotInstalled ->
+                notifyMessageShower.notifyWithAction(
+                    R.string.error_no_whatsapp,
+                    R.string.error_no_whatsapp_action,
+                    action
+                )
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package ru.cherepanovk.feature_alarm_impl.notifications
+package ru.cherepanovk.feature_alarm_impl.alarm
 
 import android.app.Notification
 import android.app.NotificationManager
@@ -9,6 +9,7 @@ import android.net.Uri
 import androidx.core.app.NotificationCompat
 import ru.cherepanovk.feature_alarm_impl.*
 import ru.cherepanovk.feature_alarm_impl.callservices.AlarmNotificationServiceLauncherImpl.Companion.STOP_FOREGROUND_ACTION
+import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams.Companion.NOTIFICATION_ID_DEFAULT
 
 

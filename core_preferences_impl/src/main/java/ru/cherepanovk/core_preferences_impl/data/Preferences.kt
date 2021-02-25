@@ -5,7 +5,8 @@ import ru.cherepanovk.core_preferences_api.data.PreferencesApi
 import javax.inject.Inject
 
 class Preferences @Inject constructor(
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
+    private val analyticsPlugin: PreferencesAnalyticsPlugin
 ): PreferencesApi {
     override fun isFirstStart(): Boolean {
         return sharedPreferences.getBoolean(FIRST_START, true)
@@ -82,10 +83,12 @@ class Preferences @Inject constructor(
     }
 
     override fun setWhatsApp(enable: Boolean) {
+        analyticsPlugin.sendWhatsAppEnableEvent(enable)
         sharedPreferences.edit().putBoolean(WHATSAPP, enable).apply()
     }
 
     override fun setLongAlarmEnable(enable: Boolean) {
+        analyticsPlugin.sendLongAlarmEnableEvent(enable)
         sharedPreferences.edit().putBoolean(LONG_ALARM_ENABLED, enable).apply()
     }
 
@@ -94,6 +97,9 @@ class Preferences @Inject constructor(
 
     override fun setRepeatAlarmTimes(times: Int) {
         sharedPreferences.edit().putInt(REPEAT_ALARM_TIMES, times).apply()
+        if (times != REPEAT_ALARM_TIMES_DEFAULT) {
+            analyticsPlugin.sendLongAlarmRepeatTimesValue(times)
+        }
     }
 
     override fun getRepeatAlarmTimes(): Int =
@@ -102,6 +108,9 @@ class Preferences @Inject constructor(
 
     override fun setDurationAlarmSeconds(seconds: Long) {
         sharedPreferences.edit().putLong(DURATION_ALARM_SECONDS, seconds).apply()
+        if (seconds != DURATION_ALARM_SECONDS_DEFAULT) {
+            analyticsPlugin.sendLongAlarmDurationValue(seconds)
+        }
     }
 
     override fun getDurationAlarmSeconds(): Long =
@@ -109,6 +118,9 @@ class Preferences @Inject constructor(
 
     override fun setDurationDelayAlarmSeconds(seconds: Long) {
         sharedPreferences.edit().putLong(DURATION_DELAY_ALARM_SECONDS, seconds).apply()
+        if (seconds != DURATION_DELAY_ALARM_SECONDS_DEFAULT) {
+            analyticsPlugin.sendLongAlarmDelayValue(seconds)
+        }
     }
 
     override fun getDurationDelayAlarmSeconds(): Long =

@@ -6,8 +6,10 @@ import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.dependencies.FeatureNavigator
 import ru.cherepanovk.core.di.getOrThrow
@@ -21,6 +23,7 @@ import ru.cherepanovk.feature_settings_impl.RingtoneChooser.RequiredStater.START
 import ru.cherepanovk.feature_settings_impl.databinding.FragmentSettingsBinding
 import ru.cherepanovk.feature_settings_impl.di.SettingsComponent
 import ru.cherepanovk.imgurtest.utils.extensions.afterTextChanged
+import ru.cherepanovk.imgurtest.utils.extensions.afterTextChangedFlow
 import ru.cherepanovk.imgurtest.utils.extensions.showOrGone
 import javax.inject.Inject
 
@@ -47,6 +50,8 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         binding.toolbar.tvToolbarTitle.text = getString(R.string.title_toolbar_settings)
     }
 
+    @FlowPreview
+    @ExperimentalCoroutinesApi
     override fun bindListeners() {
         binding.tvSetGoogleAccount.setOnClickListener {
             model.onAddAccountClick()
@@ -93,9 +98,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
                     setSelection(this.text.length)
                 }
             }
-            afterTextChanged {
-                model.setDurationAlarm(it)
-            }
+            model.setDurationAlarm(afterTextChangedFlow())
         }
 
         binding.etDurationDelayAlarm.apply {
@@ -104,9 +107,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
                     setSelection(this.text.length)
                 }
             }
-            afterTextChanged {
-                model.setDelayDurationAlarm(it)
-            }
+            model.setDelayDurationAlarm(afterTextChangedFlow())
         }
 
         binding.etRepeatTimesAlarm.apply {
@@ -115,12 +116,11 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
                     setSelection(this.text.length)
                 }
             }
-            afterTextChanged {
-                model.setRepeatTimesAlarm(it)
-            }
+            model.setRepeatTimesAlarm(afterTextChangedFlow())
         }
 
     }
+
 
     override fun bindViewModel() {
         with(model) {
@@ -139,7 +139,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             observe(longAlarmEnabled, binding.etDurationDelayAlarm::setEnabled)
             observe(longAlarmEnabled, binding.tvRepeatTimesAlarm::setEnabled)
             observe(longAlarmEnabled, binding.etRepeatTimesAlarm::setEnabled)
-            observe(durationAlarmSeconds) { setDurationAlarmSeconds(it)}
+            observe(durationAlarmSeconds) { setDurationAlarmSeconds(it) }
             observe(durationDelayAlarmSeconds) { setDurationDelaAlarmSeconds(it) }
             observe(repeatTimesAlarm) { setRepeatAlarmTimes(it) }
             observeEvent(chosenRingtone, ::chooseRingtone)
@@ -152,7 +152,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     }
 
     private fun setDurationDelaAlarmSeconds(duration: Long) {
-        binding.etDurationDelayAlarm. setText(duration.toString())
+        binding.etDurationDelayAlarm.setText(duration.toString())
     }
 
     private fun setRepeatAlarmTimes(times: Int) {

@@ -33,6 +33,7 @@ object Versions {
 
     object FireBase {
         const val FIREBASE = "5.0.0"
+        const val FIREBASE_BOM = "26.5.0"
     }
 
     object Network {
@@ -129,6 +130,7 @@ object Libs {
 
     object FireBase {
         const val FIREBASE_UI_AUTH = "com.firebaseui:firebase-ui-auth:${Versions.FireBase.FIREBASE}"
+        const val FIREBASE_BOM = "com.google.firebase:firebase-bom:${Versions.FireBase.FIREBASE_BOM}"
     }
 
     object Network {
@@ -161,7 +163,7 @@ object Libs {
         const val TIMBER = "com.jakewharton.timber:timber:${Versions.Utils.TIMBER}"
         const val EASY_PERMISSIONS = "pub.devrel:easypermissions:${Versions.Utils.EASY_PERMISSIONS}"
         const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics:${Versions.Utils.CRASHLYTICS}"
-        const val ANALYTICS = "com.google.firebase:firebase-analytics:${Versions.Utils.ANALYTICS}"
+        const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
     }
 
     object Test {
