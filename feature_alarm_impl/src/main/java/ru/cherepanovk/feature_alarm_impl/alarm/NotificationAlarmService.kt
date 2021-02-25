@@ -1,4 +1,4 @@
-package ru.cherepanovk.feature_alarm_impl.notifications
+package ru.cherepanovk.feature_alarm_impl.alarm
 
 import android.app.Notification
 import android.app.PendingIntent
@@ -6,6 +6,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.IBinder
@@ -21,6 +22,10 @@ import ru.cherepanovk.feature_alarm_api.data.NotificationChannelCreator
 import ru.cherepanovk.feature_alarm_impl.callservices.AlarmNotificationServiceLauncherImpl.Companion.STOP_FOREGROUND_ACTION
 import ru.cherepanovk.feature_alarm_impl.callservices.AlarmNotificationServiceLauncherImpl.Companion.STOP_PLAY_ALARM
 import ru.cherepanovk.feature_alarm_impl.callservices.di.DaggerNotificationAlarmServiceComponent
+import ru.cherepanovk.feature_alarm_impl.notifications.CallListenerNotificationCreator
+import ru.cherepanovk.feature_alarm_impl.notifications.NotificationActionProvider
+import ru.cherepanovk.feature_alarm_impl.notifications.NotificationCreator
+import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams
 import javax.inject.Inject
 
 class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dispatchers.IO) {
@@ -113,8 +118,9 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
                 setDataSource(this@NotificationAlarmService, ringtone)
                 setAudioAttributes(
                     AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_ALARM)
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
                         .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+
                         .build()
                 )
             }
@@ -125,11 +131,7 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
                     isLooping = true
                 }
                 mediaPlayer.start()
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createWaveform(vibratePattern,REPEAT_INDEFINITELY))
-                } else {
-                    vibrator.vibrate(vibratePattern, REPEAT_INDEFINITELY)
-                }
+                vibrate()
                 delay(preferencesApi.getDurationAlarmSeconds() * 1000)
                 if (times == preferencesApi.getRepeatAlarmTimes() - 1) {
                     getNotification(intent).createNotification()
@@ -142,6 +144,27 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
             }
         }
 
+    }
+
+    private fun vibrate() {
+        if (isSilentMode()) return
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createWaveform(vibratePattern,
+                REPEAT_INDEFINITELY
+            ))
+        } else {
+            vibrator.vibrate(vibratePattern, REPEAT_INDEFINITELY)
+        }
+    }
+
+    private fun isSilentMode(): Boolean {
+        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        return when (am.ringerMode) {
+            AudioManager.RINGER_MODE_VIBRATE -> false
+            AudioManager.RINGER_MODE_NORMAL -> false
+            else -> true
+        }
     }
 
     private fun startForegroundAction(notification: Notification) {

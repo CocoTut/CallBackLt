@@ -1,8 +1,9 @@
-package ru.cherepanovk.feature_alarm_impl.notifications
+package ru.cherepanovk.feature_alarm_impl.alarm
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import ru.cherepanovk.feature_alarm_impl.notifications.NotificationActionsReceiver
 import javax.inject.Inject
 
 class AlarmPendingIntentProvider @Inject constructor() {

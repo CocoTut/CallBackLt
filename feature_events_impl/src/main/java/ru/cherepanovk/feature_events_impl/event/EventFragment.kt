@@ -18,6 +18,7 @@ import androidx.transition.TransitionInflater
 import pub.devrel.easypermissions.EasyPermissions
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.ActivityStarter
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.platform.viewBinding
@@ -54,7 +55,6 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
     override fun inject(componentManager: ComponentManager) {
         DaggerEventComponent.builder()
-            .appConfigProvider(componentManager.getOrThrow())
             .contextProvider(componentManager.getOrThrow())
             .coreDbApi(componentManager.getOrThrow())
             .featureAlarmApi(componentManager.getOrThrow())
@@ -187,21 +187,20 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
     }
 
     private fun sendToWhatsApp() {
+        model.onWhatsAppButtonClick()
         when {
             !isPhoneNumberNameNotEmpty() -> binding.tilPhoneNumber.error =
                 getString(R.string.error_empry_phone_number)
             isWhatsappInstalled("com.whatsapp") -> openWhatsApp()
             !isWhatsappInstalled("com.whatsapp") -> showWhatsAppError()
         }
-
-
     }
 
     private fun showWhatsAppError() {
-        Toast.makeText(
-            requireContext(), "WhatsApp not Installed",
-            Toast.LENGTH_SHORT
-        ).show()
+        errorHandler.onHandleFailure(Failure.WhatsAppNotInstalled, ::installWhatsApp)
+    }
+
+    private fun installWhatsApp() {
         val uri = Uri.parse("market://details?id=com.whatsapp")
         val goToMarket = Intent(Intent.ACTION_VIEW, uri)
         startActivity(goToMarket)

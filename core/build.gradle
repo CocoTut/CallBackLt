@@ -83,4 +83,7 @@ dependencies {
     implementation Libs.Core.COROUTINES_CORE
     implementation Libs.Core.COROUTINES_ANDROID
 
+    implementation platform(Libs.FireBase.FIREBASE_BOM)
+    api Libs.Utils.ANALYTICS
+
 }

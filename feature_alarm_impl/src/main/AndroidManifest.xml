@@ -43,7 +43,7 @@
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name="ru.cherepanovk.feature_alarm_impl.notifications.NotificationAlarmService"
+            android:name="ru.cherepanovk.feature_alarm_impl.alarm.NotificationAlarmService"
             android:enabled="true"
             android:exported="false" />
 

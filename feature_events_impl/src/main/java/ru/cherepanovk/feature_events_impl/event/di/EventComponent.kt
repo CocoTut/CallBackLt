@@ -15,7 +15,6 @@ import ru.cherepanovk.feature_google_calendar_api.di.CoreGoogleCalendarApi
 @Component(
     modules = [EventModule::class],
     dependencies = [
-        AppConfigProvider::class,
         CoreDbApi::class,
         ContextProvider::class,
         FeatureAlarmApi::class,

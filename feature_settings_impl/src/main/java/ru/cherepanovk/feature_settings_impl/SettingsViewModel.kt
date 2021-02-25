@@ -2,11 +2,13 @@ package ru.cherepanovk.feature_settings_impl
 
 import android.media.RingtoneManager
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.cherepanovk.core.acc.Event
 import ru.cherepanovk.core.interactor.UseCase
@@ -21,8 +23,10 @@ class SettingsViewModel @Inject constructor(
     private val getGoogleAccount: GetGoogleAccount,
     private val googleCalendarApi: GoogleCalendarApi,
     private val preferencesApi: PreferencesApi,
-    private val notificationChannelCreator: NotificationChannelCreator
+    private val notificationChannelCreator: NotificationChannelCreator,
+    private val analyticsPlugin: SettingsAnalyticsPlugin
 ) : BaseViewModel() {
+
     private val _googleAccount = MutableLiveData<String>()
     val googleAccount: LiveData<String>
         get() = _googleAccount
@@ -141,22 +145,43 @@ class SettingsViewModel @Inject constructor(
         preferencesApi.setLongAlarmEnable(checked)
     }
 
-    fun setDurationAlarm(duration: String) {
-        if (duration.isNotEmpty()) {
-            preferencesApi.setDurationAlarmSeconds(duration.toLong())
+
+    @FlowPreview
+    fun setDurationAlarm(durationFlow: Flow<String>) {
+        launch {
+            durationFlow
+                .distinctUntilChanged()
+                .debounce(DEBOUNCE_DELAY)
+                .collect {
+                    if (it.isNotEmpty() && preferencesApi.getDurationAlarmSeconds() != it.toLong()) {
+                        preferencesApi.setDurationAlarmSeconds(it.toLong())
+                    }
+                }
+        }
+
+    }
+
+    @FlowPreview
+    fun setDelayDurationAlarm(delay: Flow<String>) {
+        launch {
+            delay.debounce(DEBOUNCE_DELAY)
+                .collect {
+                    if (it.isNotEmpty() && preferencesApi.getDurationDelayAlarmSeconds() != it.toLong()) {
+                        preferencesApi.setDurationDelayAlarmSeconds(it.toLong())
+                    }
+                }
         }
     }
 
-    fun setDelayDurationAlarm(delay: String) {
-        if (delay.isNotEmpty()) {
-            preferencesApi.setDurationDelayAlarmSeconds(delay.toLong())
-        }
-
-    }
-
-    fun setRepeatTimesAlarm(times: String) {
-        if (times.isNotEmpty()) {
-            preferencesApi.setRepeatAlarmTimes(times.toInt())
+    @FlowPreview
+    fun setRepeatTimesAlarm(times: Flow<String>) {
+        launch {
+            times.debounce(DEBOUNCE_DELAY)
+                .collect {
+                    if (it.isNotEmpty() && preferencesApi.getRepeatAlarmTimes() != it.toInt()) {
+                        preferencesApi.setRepeatAlarmTimes(it.toInt())
+                    }
+                }
         }
     }
 
@@ -189,5 +214,9 @@ class SettingsViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    companion object {
+        private const val DEBOUNCE_DELAY = 1000L
     }
 }

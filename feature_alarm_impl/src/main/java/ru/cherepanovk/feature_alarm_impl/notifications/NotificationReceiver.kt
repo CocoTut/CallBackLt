@@ -8,6 +8,7 @@ import android.os.Bundle
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core_preferences_api.data.PreferencesApi
+import ru.cherepanovk.feature_alarm_impl.alarm.NotificationAlarmService
 import ru.cherepanovk.feature_alarm_impl.callservices.di.DaggerNotificationAlarmServiceComponent
 import javax.inject.Inject
 
