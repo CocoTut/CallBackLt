@@ -28,7 +28,10 @@ class NotificationCreator private constructor(
         val icon =
             if (builder.reminderId == null) R.drawable.ic_alarm_add else R.drawable.ic_ring_volume
         val notificationBuilder =
-            NotificationCompat.Builder(context, context.getString(R.string.channel_id))
+            NotificationCompat.Builder(
+                context,
+                context.getString(if (builder.muted) R.string.mute_channel_id else R.string.channel_id)
+            )
                 .setSmallIcon(icon)
                 .setAutoCancel(true)
 
@@ -40,7 +43,7 @@ class NotificationCreator private constructor(
                         .bigText(it)
                 )
         }
-        builder.ringtoneUri?.let {
+        builder.ringtoneUri.let {
             notificationBuilder.setSound(it)
         }
 
@@ -92,6 +95,9 @@ class NotificationCreator private constructor(
         var message: String? = null
             private set
         var reminderId: String? = null
+            private set
+
+        var muted = false
             private set
 
         var notificationId = 0
@@ -148,6 +154,9 @@ class NotificationCreator private constructor(
             return NotificationCreator(context, this)
         }
 
+        fun setMuted(muted: Boolean) {
+            this.muted = muted
+        }
 
         private fun getActionIntent(
             params: NotificationParams,

@@ -52,6 +52,8 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
     private val vibrator: Vibrator by lazy { getSystemService(Context.VIBRATOR_SERVICE) as Vibrator }
     private val vibratePattern = longArrayOf(0, 1000, 300)
     private var alarmed = false
+    private var playingCounter = 0L
+    private var countPlaying = 0
 
     override fun onCreate() {
         DaggerNotificationAlarmServiceComponent.builder()
@@ -125,25 +127,39 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
                 )
             }
 
-            repeat(preferencesApi.getRepeatAlarmTimes()) { times->
-                mediaPlayer.apply {
-                    prepare()
-                    isLooping = true
-                }
-                mediaPlayer.start()
-                vibrate()
-                delay(preferencesApi.getDurationAlarmSeconds() * 1000)
-                if (times == preferencesApi.getRepeatAlarmTimes() - 1) {
-                    getNotification(intent).createNotification()
-                    stopAlarm()
-                }
-                mediaPlayer.stop()
-                vibrator.cancel()
 
+            mediaPlayer.setOnCompletionListener {
+                playingCounter++
+                if (playingCounter == preferencesApi.getDurationAlarmSeconds()) {
+                    mediaPlayer.stop()
+                    vibrator.cancel()
+                    if (countPlaying == preferencesApi.getRepeatAlarmTimes()) {
+                        getNotification(intent).createNotification()
+                        stopAlarm()
+                    }
+                } else {
+                    mediaPlayer.start()
+                }
+            }
+
+
+            repeat(preferencesApi.getRepeatAlarmTimes()) { times->
+                countPlaying++
+                playingCounter = 0L
+                playRingtone()
+                vibrate()
                 delay(preferencesApi.getDurationDelayAlarmSeconds() * 1000)
             }
         }
 
+    }
+
+    private fun playRingtone() {
+        mediaPlayer.apply {
+            prepare()
+            isLooping = false
+        }
+        mediaPlayer.start()
     }
 
     private fun vibrate() {
@@ -196,6 +212,7 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
 
         if (!alarmed) {
             builder.addStopAlarmAction(getPendingIntent())
+            builder.setMuted(true)
         }
         return builder.setMessage(params)
             .build()

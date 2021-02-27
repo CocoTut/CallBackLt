@@ -88,13 +88,13 @@ class NotificationChannelCreatorImpl @Inject constructor(
 
     override fun getRingtoneUri(): Uri {
 
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val channelRingtone = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             getDefaultChannel()?.sound
         } else {
             null
-        } ?: RingtoneManager.getDefaultUri(
-            RingtoneManager.TYPE_NOTIFICATION
-        )
+        }
+
+        return channelRingtone ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
     }
 
     private fun isChannelCreated(channelId: String): Boolean {
