@@ -130,10 +130,10 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
 
             mediaPlayer.setOnCompletionListener {
                 playingCounter++
-                if (playingCounter == preferencesApi.getDurationAlarmTimes()) {
+                if (playingCounter >= preferencesApi.getDurationAlarmTimes()) {
                     mediaPlayer.stop()
                     vibrator.cancel()
-                    if (countPlaying == preferencesApi.getRepeatAlarmTimes()) {
+                    if (countPlaying >= preferencesApi.getRepeatAlarmTimes()) {
                         getNotification(intent).createNotification()
                         stopAlarm()
                     }
