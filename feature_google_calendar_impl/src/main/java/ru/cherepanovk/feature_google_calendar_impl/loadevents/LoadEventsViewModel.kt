@@ -1,6 +1,5 @@
 package ru.cherepanovk.feature_google_calendar_impl.loadevents
 
-import com.google.api.client.util.DateTime
 import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core.utils.DateTimeHelper
 import ru.cherepanovk.feature_google_calendar_impl.loadevents.domain.LoadEventsOfCalendar
@@ -18,18 +17,27 @@ class LoadEventsViewModel @Inject constructor(
         launchLoading {
             loadEventsOfCalendar(
                 LoadEventsOfCalendar.Params(
-                    startDate = getDate(0),
-                    endTime = getDate(12)
+                    startDate = getStartDate(),
+                    endTime = getEndDate()
                 )
             )
         }
     }
+    private fun getStartDate(): Date =
+            dateTimeHelper.getStartDate(
+                month = JANUARY,
+                year = dateTimeHelper.getPreviousYear()
+            )
 
-    private fun getDate(month: Int): Date =
+
+    private fun getEndDate(): Date =
         dateTimeHelper.getStartDate(
-            month = month,
+            month = DECEMBER,
             year = dateTimeHelper.getCurrentYear()
         )
 
-
+    private companion object {
+        const val JANUARY = 0
+        const val DECEMBER = 11
+    }
 }

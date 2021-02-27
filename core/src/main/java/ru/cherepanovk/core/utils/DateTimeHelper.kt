@@ -90,6 +90,12 @@ class DateTimeHelper @Inject constructor() {
         return Calendar.getInstance().get(Calendar.YEAR)
     }
 
+    fun getPreviousYear(): Int {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.YEAR, -1)
+        return calendar.get(Calendar.YEAR)
+    }
+
     fun getStartDate(month: Int, year: Int): Date {
         val calendar = getCalendarRequiredMonthYear(month, year)
         calendar.set(Calendar.DAY_OF_MONTH, 1)
