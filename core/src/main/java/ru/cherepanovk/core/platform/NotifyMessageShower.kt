@@ -18,7 +18,7 @@ class NotifyMessageShower @Inject constructor(
     }
 
     fun notifyWithAction(@StringRes message: Int, @StringRes actionText: Int, action: () -> Unit): Snackbar {
-        val snackBar = Snackbar.make(view.rootView, message, Snackbar.LENGTH_INDEFINITE)
+        val snackBar = Snackbar.make(view.rootView, message, Snackbar.LENGTH_LONG)
         snackBar.setAction(actionText) { action.invoke() }
         snackBar.show()
         return snackBar
