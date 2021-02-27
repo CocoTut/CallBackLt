@@ -2,7 +2,6 @@ package ru.cherepanovk.feature_settings_impl
 
 import android.media.RingtoneManager
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -61,13 +60,13 @@ class SettingsViewModel @Inject constructor(
     val ringtoneTitle: LiveData<Uri>
         get() = _ringtoneTitle
 
-    private val _durationAlarmSeconds = MutableLiveData<Long>()
-    val durationAlarmSeconds: LiveData<Long>
-        get() = _durationAlarmSeconds
+    private val _durationAlarmTimes = MutableLiveData<Int>()
+    val durationAlarmTimes: LiveData<Int>
+        get() = _durationAlarmTimes
 
-    private val _durationDelayAlarmSeconds = MutableLiveData<Long>()
-    val durationDelayAlarmSeconds: LiveData<Long>
-        get() = _durationDelayAlarmSeconds
+    private val _durationDelayAlarmMinutes = MutableLiveData<Int>()
+    val durationDelayAlarmMinutes: LiveData<Int>
+        get() = _durationDelayAlarmMinutes
 
     private val _repeatTimesAlarm = MutableLiveData<Int>()
     val repeatTimesAlarm: LiveData<Int>
@@ -153,8 +152,8 @@ class SettingsViewModel @Inject constructor(
                 .distinctUntilChanged()
                 .debounce(DEBOUNCE_DELAY)
                 .collect {
-                    if (it.isNotEmpty() && preferencesApi.getDurationAlarmSeconds() != it.toLong()) {
-                        preferencesApi.setDurationAlarmSeconds(it.toLong())
+                    if (it.isNotEmpty() && preferencesApi.getDurationAlarmTimes() != it.toInt()) {
+                        preferencesApi.setDurationAlarmTimes(it.toInt())
                     }
                 }
         }
@@ -166,8 +165,8 @@ class SettingsViewModel @Inject constructor(
         launch {
             delay.debounce(DEBOUNCE_DELAY)
                 .collect {
-                    if (it.isNotEmpty() && preferencesApi.getDurationDelayAlarmSeconds() != it.toLong()) {
-                        preferencesApi.setDurationDelayAlarmSeconds(it.toLong())
+                    if (it.isNotEmpty() && preferencesApi.getDurationDelayAlarmMinutes() != it.toInt()) {
+                        preferencesApi.setDurationDelayAlarmMinutes(it.toInt())
                     }
                 }
         }
@@ -191,8 +190,8 @@ class SettingsViewModel @Inject constructor(
         _allOutgoingChecked.postValue(preferencesApi.getTrackingAllOutgoingCalls())
         _whatsAppEnabled.postValue(preferencesApi.getWhatsApp())
         _ringtoneTitle.postValue(Uri.parse(preferencesApi.getRingToneUri()))
-        _durationAlarmSeconds.postValue(preferencesApi.getDurationAlarmSeconds())
-        _durationDelayAlarmSeconds.postValue(preferencesApi.getDurationDelayAlarmSeconds())
+        _durationAlarmTimes.postValue(preferencesApi.getDurationAlarmTimes())
+        _durationDelayAlarmMinutes.postValue(preferencesApi.getDurationDelayAlarmMinutes())
         _longAlarmEnabled.postValue(preferencesApi.isLongAlarmEnable())
         _repeatTimesAlarm.postValue(preferencesApi.getRepeatAlarmTimes())
     }

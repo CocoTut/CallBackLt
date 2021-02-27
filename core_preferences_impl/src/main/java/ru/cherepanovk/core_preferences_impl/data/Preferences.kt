@@ -106,25 +106,25 @@ class Preferences @Inject constructor(
         sharedPreferences.getInt(REPEAT_ALARM_TIMES, REPEAT_ALARM_TIMES_DEFAULT)
 
 
-    override fun setDurationAlarmSeconds(seconds: Long) {
-        sharedPreferences.edit().putLong(DURATION_ALARM_SECONDS, seconds).apply()
-        if (seconds != DURATION_ALARM_SECONDS_DEFAULT) {
-            analyticsPlugin.sendLongAlarmDurationValue(seconds)
+    override fun setDurationAlarmTimes(times: Int) {
+        sharedPreferences.edit().putInt(DURATION_ALARM_TIMES, times).apply()
+        if (times != DURATION_ALARM_SECONDS_DEFAULT) {
+            analyticsPlugin.sendLongAlarmDurationValue(times)
         }
     }
 
-    override fun getDurationAlarmSeconds(): Long =
-        sharedPreferences.getLong(DURATION_ALARM_SECONDS, DURATION_ALARM_SECONDS_DEFAULT)
+    override fun getDurationAlarmTimes(): Int =
+        sharedPreferences.getInt(DURATION_ALARM_TIMES, DURATION_ALARM_SECONDS_DEFAULT)
 
-    override fun setDurationDelayAlarmSeconds(seconds: Long) {
-        sharedPreferences.edit().putLong(DURATION_DELAY_ALARM_SECONDS, seconds).apply()
-        if (seconds != DURATION_DELAY_ALARM_SECONDS_DEFAULT) {
-            analyticsPlugin.sendLongAlarmDelayValue(seconds)
+    override fun setDurationDelayAlarmMinutes(minutes: Int) {
+        sharedPreferences.edit().putInt(DURATION_DELAY_ALARM_MINUTES, minutes).apply()
+        if (minutes != DURATION_DELAY_ALARM_SECONDS_DEFAULT) {
+            analyticsPlugin.sendLongAlarmDelayValue(minutes)
         }
     }
 
-    override fun getDurationDelayAlarmSeconds(): Long =
-        sharedPreferences.getLong(DURATION_DELAY_ALARM_SECONDS, DURATION_DELAY_ALARM_SECONDS_DEFAULT)
+    override fun getDurationDelayAlarmMinutes(): Int =
+        sharedPreferences.getInt(DURATION_DELAY_ALARM_MINUTES, DURATION_DELAY_ALARM_SECONDS_DEFAULT)
 
 
     companion object {
@@ -139,12 +139,12 @@ class Preferences @Inject constructor(
         private const val SORT_BY_DESCENDING = "SORT_BY_DESCENDING"
         private const val WHATSAPP = "WHATSAPP"
         private const val REPEAT_ALARM_TIMES = "REPEAT_ALARM_TIMES"
-        private const val DURATION_ALARM_SECONDS = "DURATION_ALARM_SECONDS"
-        private const val DURATION_DELAY_ALARM_SECONDS = "DURATION_DELAY_ALARM_SECONDS"
+        private const val DURATION_ALARM_TIMES = "DURATION_ALARM_TIMES"
+        private const val DURATION_DELAY_ALARM_MINUTES = "DURATION_DELAY_ALARM_MINUTES"
         private const val LONG_ALARM_ENABLED = "LONG_ALARM_ENABLED"
 
         private const val REPEAT_ALARM_TIMES_DEFAULT = 2
-        private const val DURATION_ALARM_SECONDS_DEFAULT = 10L
-        private const val DURATION_DELAY_ALARM_SECONDS_DEFAULT = 60L
+        private const val DURATION_ALARM_SECONDS_DEFAULT = 3
+        private const val DURATION_DELAY_ALARM_SECONDS_DEFAULT = 1
     }
 }

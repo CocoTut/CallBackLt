@@ -6,7 +6,6 @@ import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.*
@@ -22,7 +21,6 @@ import ru.cherepanovk.feature_google_calendar_api.data.GoogleAccountFeatureStart
 import ru.cherepanovk.feature_settings_impl.RingtoneChooser.RequiredStater.START_ACTIVITY
 import ru.cherepanovk.feature_settings_impl.databinding.FragmentSettingsBinding
 import ru.cherepanovk.feature_settings_impl.di.SettingsComponent
-import ru.cherepanovk.imgurtest.utils.extensions.afterTextChanged
 import ru.cherepanovk.imgurtest.utils.extensions.afterTextChangedFlow
 import ru.cherepanovk.imgurtest.utils.extensions.showOrGone
 import javax.inject.Inject
@@ -139,20 +137,23 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             observe(longAlarmEnabled, binding.etDurationDelayAlarm::setEnabled)
             observe(longAlarmEnabled, binding.tvRepeatTimesAlarm::setEnabled)
             observe(longAlarmEnabled, binding.etRepeatTimesAlarm::setEnabled)
-            observe(durationAlarmSeconds) { setDurationAlarmSeconds(it) }
-            observe(durationDelayAlarmSeconds) { setDurationDelaAlarmSeconds(it) }
+            observe(longAlarmEnabled, binding.tvDurationAlarmDescription::setEnabled)
+            observe(longAlarmEnabled, binding.tvDurationDelayAlarmDescription::setEnabled)
+            observe(longAlarmEnabled, binding.tvRepeatTimesAlarmDescription::setEnabled)
+            observe(durationAlarmTimes) { setDurationAlarmTimes(it) }
+            observe(durationDelayAlarmMinutes) { setDurationDelaAlarmMinutes(it) }
             observe(repeatTimesAlarm) { setRepeatAlarmTimes(it) }
             observeEvent(chosenRingtone, ::chooseRingtone)
             observeFailure(failure, errorHandler::onHandleFailure)
         }
     }
 
-    private fun setDurationAlarmSeconds(duration: Long) {
+    private fun setDurationAlarmTimes(duration: Int) {
         binding.etDurationAlarm.setText(duration.toString())
     }
 
-    private fun setDurationDelaAlarmSeconds(duration: Long) {
-        binding.etDurationDelayAlarm.setText(duration.toString())
+    private fun setDurationDelaAlarmMinutes(delay: Int) {
+        binding.etDurationDelayAlarm.setText(delay.toString())
     }
 
     private fun setRepeatAlarmTimes(times: Int) {

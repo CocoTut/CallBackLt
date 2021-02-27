@@ -22,13 +22,13 @@ class PreferencesAnalyticsPlugin @Inject constructor() {
         }
     }
 
-    fun sendLongAlarmDurationValue(duration: Long) {
+    fun sendLongAlarmDurationValue(duration: Int) {
         firebaseAnalytics.logEvent(EVENT_LONG_ALARM_CHANGE_DURATION){
             param(PARAM_LONG_ALARM_DELAY, duration.toString())
         }
     }
 
-    fun sendLongAlarmDelayValue(delay: Long) {
+    fun sendLongAlarmDelayValue(delay: Int) {
         firebaseAnalytics.logEvent(EVENT_LONG_ALARM_CHANGE_DELAY){
             param(PARAM_LONG_ALARM_DURATION, delay.toString())
         }
@@ -46,14 +46,14 @@ class PreferencesAnalyticsPlugin @Inject constructor() {
         private const val PARAM_WHATSAPP = "enabled"
 
         private const val EVENT_LONG_ALARM_CHANGE_DURATION = "long_alarm_feature_duration"
-        private const val EVENT_LONG_ALARM_CHANGE_DELAY = "long_alarm_feature_delay"
+        private const val EVENT_LONG_ALARM_CHANGE_DELAY = "long_alarm_feature_interval"
         private const val EVENT_LONG_ALARM_CHANGE_TIMES = "long_alarm_feature_repeat_times"
         private const val EVENT_LONG_ALARM_ENABLED = "long_alarm_feature_enabled"
         private const val EVENT_LONG_ALARM_DISABLED = "long_alarm_feature_disabled"
 
         private const val PARAM_LONG_ALARM_ENABLED = "enabled"
         private const val PARAM_LONG_ALARM_DURATION = "duration"
-        private const val PARAM_LONG_ALARM_DELAY = "delay"
+        private const val PARAM_LONG_ALARM_DELAY = "interal"
         private const val PARAM_LONG_ALARM_REPEAT_TIMES = "repeat_times"
 
     }

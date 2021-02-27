@@ -14,7 +14,7 @@ object Versions {
         const val GRADLE_VERSIONS = "0.21.0"
         const val GOOGLE = "4.3.4"
         const val DAGGER = "2.27"
-        const val COROUTINES = "1.3.6"
+        const val COROUTINES = "1.4.2"
         const val PLAY_SERVICES = "18.1.0"
         const val FIREBASE_CRASHLITYCS = "2.2.0"
     }

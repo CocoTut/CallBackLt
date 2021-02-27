@@ -26,8 +26,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/tvAccount"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,7 +53,7 @@
                 android:elevation="0dp"
                 android:paddingTop="@dimen/padding_top"
                 android:text="@string/tvSetGoogleAccount"
-                android:textSize="18sp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintEnd_toStartOf="@+id/btnLogOut"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAccount" />
@@ -73,80 +72,40 @@
 
 
             <TextView
-                android:id="@+id/tvCallSettings"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvTitleMessengers"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="@dimen/margin_top_settings_title"
-                android:text="@string/tracingParameters"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:text="@string/title_messengers"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvSetGoogleAccount" />
+                app:layout_constraintTop_toBottomOf="@id/btnLogOut" />
 
             <View
-                android:id="@+id/view2"
+                android:id="@+id/view4"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorAccent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCallSettings" />
-
-
-            <Switch
-                android:id="@+id/swIncoming"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:text="@string/incomingCalls"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCallSettings" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleMessengers" />
 
             <Switch
-                android:id="@+id/swIncomingMissed"
+                android:id="@+id/swWhatsApp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:text="@string/incomingCallsMissed"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/swIncoming" />
-
-            <Switch
-                android:id="@+id/swOutgoing"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="@string/outgoingingCalls"
-                android:textSize="18sp"
+                android:layout_marginBottom="24dp"
+                android:text="@string/title_switch_whatsapp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/swIncomingMissed" />
+                app:layout_constraintTop_toBottomOf="@+id/view4" />
 
-            <Switch
-                android:id="@+id/swOutgoingMissed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:text="@string/outgoingingCallsMissed"
-                android:textSize="18sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/swOutgoing" />
 
             <TextView
                 android:id="@+id/tvNotificationSettings"
@@ -155,10 +114,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="@dimen/margin_top_settings_title"
                 android:text="@string/notifications_settings"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/swOutgoing" />
+                app:layout_constraintTop_toBottomOf="@+id/swWhatsApp" />
 
             <View
                 android:id="@+id/view3"
@@ -192,7 +150,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="4dp"
                 android:text="@string/text_tv_ringtone"
-                android:textSize="18sp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/clSound"
                 app:layout_constraintBottom_toBottomOf="@id/clSound"/>
@@ -214,20 +172,14 @@
                 android:id="@+id/swLongAlarm"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/long_alarm"
-                android:textSize="18sp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCurrentRingtone" />
-
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/alarmGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="tvDurationAlarm,etDurationAlarm,tvDurationDelayAlarm,etDurationDelayAlarm,tvRepeatTimesAlarm,etRepeatTimesAlarm"/>
 
             <TextView
                 android:id="@+id/tvDurationAlarm"
@@ -235,12 +187,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="@dimen/margin_s"
                 android:layout_marginBottom="4dp"
-                android:text="@string/title_duration_ringtone"
-                android:textSize="18sp"
+                android:text="@string/title_long_alarm_duration"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/swLongAlarm" />
+                app:layout_constraintTop_toBottomOf="@id/swLongAlarm"
+                app:layout_constraintEnd_toEndOf="@id/etDurationAlarm"
+                app:layout_constraintHorizontal_bias="0.0"/>
+
+            <TextView
+                android:id="@+id/tvDurationAlarmDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/margin_xxxxs"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="@dimen/margin_l"
+                android:text="@string/description_long_alarm_duration"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/etDurationAlarm"
+                app:layout_constraintTop_toBottomOf="@id/tvDurationAlarm" />
 
             <EditText
                 android:id="@+id/etDurationAlarm"
@@ -253,6 +221,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/tvDurationAlarm"
                 app:layout_constraintEnd_toEndOf="parent"
                 />
+
             <TextView
                 android:id="@+id/tvRepeatTimesAlarm"
                 android:layout_width="wrap_content"
@@ -261,10 +230,24 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
-                android:text="@string/title_repeat_times_alarm"
-                android:textSize="18sp"
+                android:text="@string/title_long_alarm_count_of_repeats"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvDurationAlarm" />
+                app:layout_constraintTop_toBottomOf="@id/tvDurationAlarmDescription" />
+
+            <TextView
+                android:id="@+id/tvRepeatTimesAlarmDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/margin_xxxxs"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="@dimen/margin_l"
+                android:text="@string/description_long_alarm_count_of_repeats"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/etRepeatTimesAlarm"
+                app:layout_constraintTop_toBottomOf="@id/tvRepeatTimesAlarm" />
 
             <EditText
                 android:id="@+id/etRepeatTimesAlarm"
@@ -277,6 +260,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/tvRepeatTimesAlarm"
                 app:layout_constraintEnd_toEndOf="parent"
                 />
+
             <TextView
                 android:id="@+id/tvDurationDelayAlarm"
                 android:layout_width="wrap_content"
@@ -284,11 +268,23 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="4dp"
-                android:text="@string/title_duration_delay_alarm"
-                android:textSize="18sp"
+                android:text="@string/title_long_alarm_interval"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvRepeatTimesAlarm" />
+                app:layout_constraintTop_toBottomOf="@id/tvRepeatTimesAlarmDescription" />
+
+            <TextView
+                android:id="@+id/tvDurationDelayAlarmDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/margin_xxxxs"
+                android:layout_marginEnd="@dimen/margin_l"
+                android:text="@string/description_long_alarm_interval"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/etDurationDelayAlarm"
+                app:layout_constraintTop_toBottomOf="@id/tvDurationDelayAlarm"/>
 
             <EditText
                 android:id="@+id/etDurationDelayAlarm"
@@ -302,48 +298,85 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 />
 
-
             <TextView
-                android:id="@+id/tvTitleMessengers"
-                android:layout_width="0dp"
+                android:id="@+id/tvCallSettings"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="@dimen/margin_top_settings_title"
-                android:text="@string/title_messengers"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:text="@string/tracingParameters"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvDurationDelayAlarm" />
+                app:layout_constraintTop_toBottomOf="@+id/tvDurationDelayAlarmDescription" />
 
             <View
-                android:id="@+id/view4"
+                android:id="@+id/view2"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorAccent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitleMessengers" />
+                app:layout_constraintTop_toBottomOf="@+id/tvCallSettings" />
+
 
             <Switch
-                android:id="@+id/swWhatsApp"
+                android:id="@+id/swIncoming"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="24dp"
-                android:text="@string/title_switch_whatsapp"
-                android:textSize="18sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/incomingCalls"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view4"
+                app:layout_constraintTop_toBottomOf="@+id/tvCallSettings" />
+
+            <Switch
+                android:id="@+id/swIncomingMissed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/incomingCallsMissed"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/swIncoming" />
+
+            <Switch
+                android:id="@+id/swOutgoing"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:text="@string/outgoingingCalls"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/swIncomingMissed"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
+            <Switch
+                android:id="@+id/swOutgoingMissed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:text="@string/outgoingingCallsMissed"
+                android:textSize="18sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/swOutgoing"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
-
 
     <ProgressBar
         android:id="@+id/pbSettings"

@@ -49,11 +49,11 @@ interface PreferencesApi {
 
     fun getRepeatAlarmTimes(): Int
 
-    fun setDurationAlarmSeconds(seconds: Long)
+    fun setDurationAlarmTimes(times: Int)
 
-    fun getDurationAlarmSeconds(): Long
+    fun getDurationAlarmTimes(): Int
 
-    fun setDurationDelayAlarmSeconds(seconds: Long)
+    fun setDurationDelayAlarmMinutes(minutes: Int)
 
-    fun getDurationDelayAlarmSeconds(): Long
+    fun getDurationDelayAlarmMinutes(): Int
 }

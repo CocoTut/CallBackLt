@@ -17,8 +17,11 @@
     <string name="title_messengers">Messengers</string>
     <string name="title_switch_whatsapp">WhatsApp</string>
     <string name="long_alarm">Long alarm</string>
-    <string name="title_duration_ringtone">Duration of the alarm (seconds)</string>
-    <string name="title_duration_delay_alarm">Delay between the alarms (seconds)</string>
-    <string name="title_repeat_times_alarm">Repeat times</string>
+    <string name="title_long_alarm_duration">Repeat the ringtone times</string>
+    <string name="title_long_alarm_interval">Interval before the next repeat (min)</string>
+    <string name="title_long_alarm_count_of_repeats">Repeat times</string>
+    <string name="description_long_alarm_duration">Number of repeats of the set ringtone within the notification</string>
+    <string name="description_long_alarm_count_of_repeats">Number of repeats of the missed notification</string>
+    <string name="description_long_alarm_interval">The interval between repeats of the missed notification</string>
 
 </resources>

@@ -52,7 +52,7 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
     private val vibrator: Vibrator by lazy { getSystemService(Context.VIBRATOR_SERVICE) as Vibrator }
     private val vibratePattern = longArrayOf(0, 1000, 300)
     private var alarmed = false
-    private var playingCounter = 0L
+    private var playingCounter = 0
     private var countPlaying = 0
 
     override fun onCreate() {
@@ -130,7 +130,7 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
 
             mediaPlayer.setOnCompletionListener {
                 playingCounter++
-                if (playingCounter == preferencesApi.getDurationAlarmSeconds()) {
+                if (playingCounter == preferencesApi.getDurationAlarmTimes()) {
                     mediaPlayer.stop()
                     vibrator.cancel()
                     if (countPlaying == preferencesApi.getRepeatAlarmTimes()) {
@@ -145,10 +145,10 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
 
             repeat(preferencesApi.getRepeatAlarmTimes()) { times->
                 countPlaying++
-                playingCounter = 0L
+                playingCounter = 0
                 playRingtone()
                 vibrate()
-                delay(preferencesApi.getDurationDelayAlarmSeconds() * 1000)
+                delay(preferencesApi.getDurationDelayAlarmMinutes() * 1000L * 60)
             }
         }
 

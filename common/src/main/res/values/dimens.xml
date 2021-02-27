@@ -15,11 +15,14 @@
     <dimen name="btn_circle_height">55dp</dimen>
     <dimen name="btn_circle_width">55dp</dimen>
 
-    <dimen name="margin_xxxs">2dp</dimen>
+    <dimen name="margin_xxxxxs">2dp</dimen>
+    <dimen name="margin_xxxxs">4dp</dimen>
+    <dimen name="margin_xxxs">6dp</dimen>
     <dimen name="margin_xxs">8dp</dimen>
     <dimen name="margin_xs">12dp</dimen>
     <dimen name="margin_s">16dp</dimen>
     <dimen name="margin_m">22dp</dimen>
+    <dimen name="margin_l">24dp</dimen>
 
     <dimen name="padding_no">0dp</dimen>
     <dimen name="padding_xxxs">4dp</dimen>

@@ -18,7 +18,10 @@
     <string name="title_messengers">Мессенджеры</string>
     <string name="title_switch_whatsapp">WhatsApp</string>
     <string name="long_alarm">Продолжительная нотификация</string>
-    <string name="title_duration_ringtone">Длительность нотификации (сек)</string>
-    <string name="title_duration_delay_alarm">Период между нотификациями (сек)</string>
-    <string name="title_repeat_times_alarm">Повторить раз</string>
+    <string name="title_long_alarm_duration">Повтор мелодии (раз)</string>
+    <string name="title_long_alarm_interval">Пауза (мин)</string>
+    <string name="title_long_alarm_count_of_repeats">Повторить (раз)</string>
+    <string name="description_long_alarm_duration">Количество повторов установленной мелодии за одну нотификацию</string>
+    <string name="description_long_alarm_count_of_repeats">Количество повторов нотификации в случае пропущенного уведомления</string>
+    <string name="description_long_alarm_interval">Интервал между повторами нотификации в случае пропущенного уведомления</string>
 </resources>
