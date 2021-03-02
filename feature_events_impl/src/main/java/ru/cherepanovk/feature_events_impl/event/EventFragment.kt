@@ -12,15 +12,18 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import pub.devrel.easypermissions.EasyPermissions
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.di.viewmodel.GenericSavedStateViewModelFactory
 import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.ActivityStarter
 import ru.cherepanovk.core.platform.BaseFragment
+import ru.cherepanovk.core.platform.ErrorHandler
 import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.*
 import ru.cherepanovk.core.utils.getDialIntent
@@ -44,13 +47,22 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
     TimePickerDialog.OnTimeSetListener,
     ActivityStarter {
 
-    private val model: EventViewModel by viewModels { viewModelFactory }
+    @Inject
+    internal lateinit var eventViewModelFactory: EventViewModelFactory
+
+    @Inject
+    lateinit var contactsPermissionChecker: ContactsPermissionChecker
+
+    private val model: EventViewModel by viewModels {
+        GenericSavedStateViewModelFactory(eventViewModelFactory, this)
+    }
+
     private val binding: FragmentEventBinding by viewBinding(FragmentEventBinding::bind)
     private val openParams
         get() = arguments?.let { EventOpenParams.fromBundle(it) }
 
-    @Inject
-    lateinit var contactsPermissionChecker: ContactsPermissionChecker
+
+
 
 
     override fun inject(componentManager: ComponentManager) {
@@ -79,6 +91,8 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             model.loadReminder(openParams?.reminderId)
             model.trySetPhoneNumber(openParams?.phoneNumber)
             model.openReschedule(openParams?.openReschedule)
+        } else {
+            model.setEventId(openParams?.reminderId)
         }
     }
 
@@ -319,8 +333,6 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         binding.etPhoneNumberEvent.setText(reminder.phoneNumber)
         binding.etContactNameEvent.setText(reminder.contactName)
         binding.etDescriptionEvent.setText(reminder.description)
-        binding.tvDate.text = reminder.date
-        binding.tvTime.text = reminder.time
     }
 
     private fun setTitleNewReminder(newReminder: Boolean) {
@@ -349,8 +361,6 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             true
         ).apply { show() }
     }
-
-
 }
 
 

@@ -112,6 +112,8 @@ object Libs {
 
         const val ANDROIDX_NAVIGATION_UI =
             "androidx.navigation:navigation-ui-ktx:${Versions.AndroidX.ANDROIDX_NAVIGATION}"
+        const val ANDROIDX_NAVIGATION_DYNAMIC_FEATURE =
+            "androidx.navigation:navigation-dynamic-features-fragment:${Versions.AndroidX.ANDROIDX_NAVIGATION}"
 
         const val ANDROIDX_RECYCLER_VIEW =
             "androidx.recyclerview:recyclerview:${Versions.AndroidX.ANDROIDX_RECYCLER_VIEW}"
@@ -125,6 +127,8 @@ object Libs {
         const val ANDROIDX_LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.AndroidX.ANDROIDX_LIFECYCLE}"
         const val ANDROIDX_LIFECYCLE_RUNTIME = "androidx.lifecycle:lifecycle-runtime:${Versions.AndroidX.ANDROIDX_LIFECYCLE}"
         const val ANDROIDX_LIFECYCLE_COMMON_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.AndroidX.ANDROIDX_LIFECYCLE}"
+        const val ANDROIDX_LIFECYCLE_SAVED_STATE = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${Versions.AndroidX.ANDROIDX_LIFECYCLE}"
+
         const val ANDROIDX_FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Versions.AndroidX.ANDROIDX_FRAGMENT_KTX}"
         const val ANDROIDX_ACTIVITY_KTX = "androidx.activity:activity-ktx:${Versions.AndroidX.ANDROIDX_ACTIVITY_KTX}"
 

@@ -3,6 +3,7 @@ package ru.cherepanovk.feature_events_impl.event
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import ru.cherepanovk.core.config.AppConfig
 import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core.platform.ContactPicker
@@ -16,7 +17,7 @@ import ru.cherepanovk.feature_events_impl.event.domain.SaveReminderToDb
 import java.util.*
 import javax.inject.Inject
 
-class EventViewModel @Inject constructor(
+class EventViewModel(
     private val getReminderFromDb: GetReminderFromDb,
     private val mapper: ReminderViewMapper,
     private val newReminderMapper: NewReminderMapper,
@@ -25,7 +26,8 @@ class EventViewModel @Inject constructor(
     private val createReminderAlarm: CreateReminderAlarm,
     private val contactPicker: ContactPicker,
     private val preferencesApi: PreferencesApi,
-    private val analyticsPlugin: EventAnalyticsPlugin
+    private val analyticsPlugin: EventAnalyticsPlugin,
+    private val savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
 
     private val _reminderView = MutableLiveData<ReminderView>()
@@ -49,11 +51,11 @@ class EventViewModel @Inject constructor(
     val showTimePickerEvent: LiveData<TimeForPicker>
         get() = _showTimePickerEvent
 
-    private val _eventDate = MutableLiveData<String>()
+    private val _eventDate = savedStateHandle.getLiveData<String>(EVENT_DATE)
     val eventDate: LiveData<String>
         get() = _eventDate
 
-    private val _eventTime = MutableLiveData<String>()
+    private val _eventTime = savedStateHandle.getLiveData<String>(EVENT_TIME)
     val eventTime: LiveData<String>
         get() = _eventTime
 
@@ -77,6 +79,10 @@ class EventViewModel @Inject constructor(
     val phoneNumber: LiveData<String>
         get() = _phoneNumber
 
+    private val _description = MutableLiveData<String>()
+    val descriptio: LiveData<String>
+        get() = _description
+
     private val _whatsappEnabled = MutableLiveData<Boolean>()
     val whatsappEnabled: LiveData<Boolean>
         get() = _whatsappEnabled
@@ -94,15 +100,20 @@ class EventViewModel @Inject constructor(
     fun loadReminder(id: String?) {
         _toolbarTitleNewReminder.postValue(!hasId(id))
         _buttonsVisibility.postValue(hasId(id))
+        setEventId(id)
+        if (id != null) {
+            launchLoading {
+                getReminderFromDb(id) { it.handleSuccess { reminder -> handleReminder(reminder) } }
+            }
+        }
+
+    }
+
+    fun setEventId(id: String?) {
         if (!hasId(id)) {
             setCurrentDate()
-            return
         }
         this.id = id
-
-        launchLoading {
-            getReminderFromDb(id!!) { it.handleSuccess { reminder -> handleReminder(reminder) } }
-        }
     }
 
     fun trySetPhoneNumber(phoneNumber: String?) {
@@ -141,7 +152,18 @@ class EventViewModel @Inject constructor(
 
 
     private fun handleReminder(reminder: Reminder) {
-        _reminderView.postValue(mapper.map(reminder))
+        mapper.map(reminder).let {
+            _reminderView.postValue(it)
+
+            if (_eventDate.value == null) {
+                saveDate(it.date)
+                _eventDate.postValue(it.date)
+            }
+            if (_eventTime.value == null) {
+                saveTime(it.time)
+                _eventTime.postValue(it.time)
+            }
+        }
     }
 
 
@@ -180,7 +202,10 @@ class EventViewModel @Inject constructor(
             dateForPicker.month,
             dateForPicker.day
         )
-        _eventDate.postValue(dateTimeHelper.getDateString(date))
+        dateTimeHelper.getDateString(date).let {
+            _eventDate.postValue(it)
+            saveDate(it)
+        }
 
         _hintDateIsLessThanCurrent.postValue(isDateLessThanCurrent(date))
     }
@@ -190,7 +215,11 @@ class EventViewModel @Inject constructor(
             timeForPicker.hours,
             timeForPicker.minutes
         )
-        _eventTime.postValue(dateTimeHelper.getTimeString(date))
+        dateTimeHelper.getTimeString(date).let {
+            _eventTime.postValue(it)
+            saveTime(it)
+        }
+
 
         _hintTimeIsLessThanCurrent.postValue(isDateLessThanCurrent(date))
     }
@@ -205,9 +234,35 @@ class EventViewModel @Inject constructor(
     }
 
     private fun setCurrentDate() {
-        val currentDate = dateTimeHelper.getCurrentDatePlusMinutes(1)
-        _eventDate.postValue(dateTimeHelper.getDateString(currentDate))
-        _eventTime.postValue(dateTimeHelper.getTimeString(currentDate))
+        getCurrentDateString().let {
+            _eventDate.postValue(it)
+            saveDate(it)
+        }
+
+        getCurrentTimeString().let {
+            _eventTime.postValue(it)
+            saveTime(it)
+        }
+
+    }
+
+    private fun saveDate(date: String) {
+        savedStateHandle[EVENT_DATE] = date
+    }
+
+    private fun saveTime(time: String) {
+        savedStateHandle[EVENT_TIME] = time
+    }
+
+    private fun getCurrentDate(): Date = dateTimeHelper.getCurrentDatePlusMinutes(1)
+
+    private fun getCurrentDateString(): String = dateTimeHelper.getDateString(getCurrentDate())
+
+    private fun getCurrentTimeString(): String = dateTimeHelper.getTimeString(getCurrentDate())
+
+    companion object {
+        private const val EVENT_DATE = "event_date"
+        private const val EVENT_TIME = "event_time"
     }
 
 }

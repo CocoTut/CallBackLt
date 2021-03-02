@@ -8,9 +8,12 @@ import ru.cherepanovk.core_preferences_impl.di.DaggerCorePreferencesComponent
 import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
 
 import ru.cherepanovk.feature_alarm_impl.di.DaggerFeatureAlarmComponent
+import ru.cherepanovk.feature_alarm_impl.di.FeatureAlarmComponent
 import ru.cherepanovk.feature_events_api.EventsFeatureApi
 import ru.cherepanovk.feature_events_impl.events.di.DaggerEventsComponent
+import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
 import ru.cherepanovk.feature_google_calendar_impl.di.DaggerGoogleCalendarApiComponent
+import ru.cherepanovk.feature_google_calendar_impl.di.GoogleCalendarApiComponent
 import ru.cherepanovk.feature_settings_api.SettingsFeatureApi
 import ru.cherepanovk.feature_settings_impl.di.DaggerSettingsComponent
 
@@ -18,29 +21,11 @@ import ru.cherepanovk.feature_settings_impl.di.DaggerSettingsComponent
 class FeatureProxyInjector {
     companion object {
         fun getEventsFeature(): EventsFeatureApi {
-            return DaggerEventsComponent.builder()
-                .contextProvider(ComponentManager.getOrThrow())
-                .rootViewProvider(ComponentManager.getOrThrow())
-                .coreDbApi(
-                    ComponentManager.getOrThrow()
-                )
-                .featureAlarmApi(
-                    if (ComponentManager.has(FeatureAlarmApi::class))
-                        ComponentManager.getOrThrow()
-                    else
-                        DaggerFeatureAlarmComponent.builder()
-                            .contextProvider(ComponentManager.getOrThrow())
-                            .build()
-                            .also { ComponentManager.put(it) }
-                )
-                .corePreferencesApi(
-                    ComponentManager.getOrThrow()
-                )
-                .coreGoogleCalendarApi(
-                    getGoogleCalendarApi()
-                )
-                .build()
-                .also { ComponentManager.put(it) }
+            return ComponentManager.get(EventsComponent::class) ?: getEventsComponent()
+        }
+
+        fun getEventsFeatureComponent(): EventsFeatureApi {
+            return ComponentManager.get(EventsComponent::class) ?: getEventsComponent()
         }
 
         fun getSettingsFeature(): SettingsFeatureApi {
@@ -54,25 +39,46 @@ class FeatureProxyInjector {
                     ComponentManager.getOrThrow()
                 )
                 .featureAlarmApi(
-                    if (ComponentManager.has(FeatureAlarmApi::class))
-                        ComponentManager.getOrThrow()
-                    else
-                        DaggerFeatureAlarmComponent.builder()
-                            .contextProvider(ComponentManager.getOrThrow())
-                            .build()
-                            .also { ComponentManager.put(it) }
+                    ComponentManager.get(FeatureAlarmComponent::class) ?: getFeatureAlarmApi()
+                )
+                .build()
+                .also { ComponentManager.put(it) }
+        }
+
+        private fun getEventsComponent(): EventsComponent {
+            return DaggerEventsComponent.builder()
+                .contextProvider(ComponentManager.getOrThrow())
+                .rootViewProvider(ComponentManager.getOrThrow())
+                .coreDbApi(
+                    ComponentManager.getOrThrow()
+                )
+                .featureAlarmApi(
+                    ComponentManager.get(FeatureAlarmComponent::class) ?: getFeatureAlarmApi()
+                )
+                .corePreferencesApi(
+                    ComponentManager.getOrThrow()
+                )
+                .coreGoogleCalendarApi(
+                    getGoogleCalendarApi()
                 )
                 .build()
                 .also { ComponentManager.put(it) }
         }
 
         private fun getGoogleCalendarApi() =
-            DaggerGoogleCalendarApiComponent.builder()
+            ComponentManager.get(GoogleCalendarApiComponent::class)
+                ?: DaggerGoogleCalendarApiComponent.builder()
+                    .contextProvider(ComponentManager.getOrThrow())
+                    .corePreferencesApi(ComponentManager.getOrThrow())
+                    .rootViewProvider(ComponentManager.getOrThrow())
+                    .coreDbApi(ComponentManager.getOrThrow())
+                    .featureAlarmApi(ComponentManager.getOrThrow())
+                    .build()
+                    .also { ComponentManager.put(it) }
+
+        private fun getFeatureAlarmApi(): FeatureAlarmComponent  =
+            DaggerFeatureAlarmComponent.builder()
                 .contextProvider(ComponentManager.getOrThrow())
-                .corePreferencesApi(ComponentManager.getOrThrow())
-                .rootViewProvider(ComponentManager.getOrThrow())
-                .coreDbApi(ComponentManager.getOrThrow())
-                .featureAlarmApi(ComponentManager.getOrThrow())
                 .build()
                 .also { ComponentManager.put(it) }
     }

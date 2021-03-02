@@ -12,6 +12,7 @@ import kotlinx.coroutines.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.dependencies.FeatureNavigator
 import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.di.viewmodel.ViewModelFactory
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.observe
@@ -26,8 +27,8 @@ import ru.cherepanovk.imgurtest.utils.extensions.showOrGone
 import javax.inject.Inject
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
-    private val model by viewModels<SettingsViewModel> { viewModelFactory }
-    private val binding: FragmentSettingsBinding by viewBinding(FragmentSettingsBinding::bind)
+
+    @Inject lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
     lateinit var googleAccountFeatureStarter: GoogleAccountFeatureStarter
@@ -37,6 +38,9 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
     @Inject
     lateinit var ringtoneChooser: RingtoneChooser
+
+    private val model by viewModels<SettingsViewModel> { viewModelFactory }
+    private val binding: FragmentSettingsBinding by viewBinding(FragmentSettingsBinding::bind)
 
     override fun inject(componentManager: ComponentManager) {
         componentManager.getOrThrow<SettingsComponent>()

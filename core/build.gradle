@@ -46,6 +46,7 @@ dependencies {
     api Libs.AndroidX.ANDROIDX_LIFECYCLE_LIVEDATA_KTX
     api Libs.AndroidX.ANDROIDX_LIFECYCLE_RUNTIME
     api Libs.AndroidX.ANDROIDX_LIFECYCLE_COMMON_JAVA8
+    api Libs.AndroidX.ANDROIDX_LIFECYCLE_SAVED_STATE
 
 
     testImplementation Libs.Test.TEST_LIB_JUNIT
@@ -60,6 +61,7 @@ dependencies {
     //navigation component
     api Libs.AndroidX.ANDROIDX_NAVIGATION_FRAGMENT
     api Libs.AndroidX.ANDROIDX_NAVIGATION_UI
+    api Libs.AndroidX.ANDROIDX_NAVIGATION_DYNAMIC_FEATURE
 
     //kotlin coroutines
     implementation Libs.Core.COROUTINES_CORE
