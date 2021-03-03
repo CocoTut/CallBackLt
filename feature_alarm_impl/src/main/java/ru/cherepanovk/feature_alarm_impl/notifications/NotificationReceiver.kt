@@ -27,7 +27,7 @@ class NotificationReceiver : BroadcastReceiver() {
             showNotification(context,intent)
         } else {
             intent.extras?.let {
-                startCallLister(context, it)
+                startAlarmService(context, it)
             }
         }
     }
@@ -46,7 +46,7 @@ class NotificationReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun startCallLister(context: Context, extras: Bundle) {
+    private fun startAlarmService(context: Context, extras: Bundle) {
         val intent = Intent(context.applicationContext, NotificationAlarmService::class.java).apply {
             putExtras(extras)
         }

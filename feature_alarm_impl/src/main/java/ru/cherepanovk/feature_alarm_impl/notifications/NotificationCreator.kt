@@ -43,7 +43,7 @@ class NotificationCreator private constructor(
                         .bigText(it)
                 )
         }
-        builder.ringtoneUri.let {
+        builder.ringtoneUri?.let {
             notificationBuilder.setSound(it)
         }
 

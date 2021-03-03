@@ -20,15 +20,16 @@ object Versions {
     }
 
     object AndroidX {
-        const val ANDROIDX_CORE = "1.0.2"
+        const val ANDROIDX_CORE = "1.3.2"
         const val ANDROIDX_APPCOMPAT = "1.0.2"
         const val ANDROIDX_RECYCLER_VIEW = "1.0.0"
-        const val ANDROIDX_NAVIGATION = "2.3.1"
-        const val ANDROIDX_CONSTRAINT_LAYOUT = "1.1.3"
+        const val ANDROIDX_NAVIGATION = "2.3.3"
+        const val ANDROIDX_CONSTRAINT_LAYOUT = "2.0.4"
         const val ANDROIDX_CARD_VIEW = "1.0.0"
         const val ANDROIDX_LEGACY_SUPPORT = "1.0.0"
-        const val ANDROIDX_LIFECYCLE = "2.2.0"
-        const val ANDROIDX_FRAGMENT_KTX = "1.2.4"
+        const val ANDROIDX_LIFECYCLE = "2.3.0"
+        const val ANDROIDX_FRAGMENT_KTX = "1.3.0"
+        const val ANDROIDX_ACTIVITY_KTX = "1.2.0"
     }
 
     object FireBase {
@@ -46,7 +47,7 @@ object Versions {
 
     object Ui {
         const val GROUPIE = "2.8.1"
-        const val MATERIAL = "1.0.0"
+        const val MATERIAL = "1.3.0"
     }
 
     object DataBase {
@@ -111,6 +112,8 @@ object Libs {
 
         const val ANDROIDX_NAVIGATION_UI =
             "androidx.navigation:navigation-ui-ktx:${Versions.AndroidX.ANDROIDX_NAVIGATION}"
+        const val ANDROIDX_NAVIGATION_DYNAMIC_FEATURE =
+            "androidx.navigation:navigation-dynamic-features-fragment:${Versions.AndroidX.ANDROIDX_NAVIGATION}"
 
         const val ANDROIDX_RECYCLER_VIEW =
             "androidx.recyclerview:recyclerview:${Versions.AndroidX.ANDROIDX_RECYCLER_VIEW}"
@@ -124,7 +127,10 @@ object Libs {
         const val ANDROIDX_LIFECYCLE_LIVEDATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.AndroidX.ANDROIDX_LIFECYCLE}"
         const val ANDROIDX_LIFECYCLE_RUNTIME = "androidx.lifecycle:lifecycle-runtime:${Versions.AndroidX.ANDROIDX_LIFECYCLE}"
         const val ANDROIDX_LIFECYCLE_COMMON_JAVA8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.AndroidX.ANDROIDX_LIFECYCLE}"
+        const val ANDROIDX_LIFECYCLE_SAVED_STATE = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${Versions.AndroidX.ANDROIDX_LIFECYCLE}"
+
         const val ANDROIDX_FRAGMENT_KTX = "androidx.fragment:fragment-ktx:${Versions.AndroidX.ANDROIDX_FRAGMENT_KTX}"
+        const val ANDROIDX_ACTIVITY_KTX = "androidx.activity:activity-ktx:${Versions.AndroidX.ANDROIDX_ACTIVITY_KTX}"
 
     }
 

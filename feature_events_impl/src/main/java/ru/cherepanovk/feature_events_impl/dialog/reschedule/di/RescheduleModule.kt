@@ -21,4 +21,7 @@ abstract class RescheduleModule {
 
     @Binds
     abstract fun bindRescheduleRepository(rescheduleRepositoryImpl: RescheduleRepositoryImpl): RescheduleRepository
+
+    @Binds
+    abstract fun bindRepository(eventRepositoryImpl: EventRepositoryImpl): EventRepository
 }

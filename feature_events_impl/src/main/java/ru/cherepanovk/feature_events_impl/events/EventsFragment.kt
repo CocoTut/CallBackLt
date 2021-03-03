@@ -16,6 +16,7 @@ import com.xwray.groupie.GroupieViewHolder
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.dependencies.FeatureNavigator
 import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.di.viewmodel.ViewModelFactory
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.*
@@ -24,6 +25,7 @@ import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.databinding.FragmentEventsBinding
 import ru.cherepanovk.feature_events_impl.dialog.delete.DialogDeleteParams
 import ru.cherepanovk.feature_events_impl.event.EventOpenParams
+import ru.cherepanovk.feature_events_impl.events.di.DaggerEventsComponent
 import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
 import ru.cherepanovk.feature_google_calendar_api.data.GoogleAccountFeatureStarter
 import javax.inject.Inject
@@ -32,14 +34,16 @@ const val PERMISSIONS_REQUEST_CODE = 302
 
 class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeController.SwipeListener{
 
-    private val model by viewModels<EventsViewModel> { viewModelFactory }
-    private val binding: FragmentEventsBinding by viewBinding(FragmentEventsBinding::bind)
+    @Inject lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
     lateinit var googleAccountFeatureStarter: GoogleAccountFeatureStarter
 
     @Inject
     lateinit var featureNavigator: FeatureNavigator
+
+    private val model by viewModels<EventsViewModel> { viewModelFactory }
+    private val binding: FragmentEventsBinding by viewBinding(FragmentEventsBinding::bind)
 
     private val eventsSwipeController: EventsSwipeController = EventsSwipeController(this)
 
@@ -85,8 +89,16 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
     }
 
     override fun inject(componentManager: ComponentManager) {
-        componentManager.getOrThrow<EventsComponent>()
-            .inject(this)
+       val component =  componentManager.get(EventsComponent::class)
+           ?: DaggerEventsComponent.builder()
+            .contextProvider(componentManager.getOrThrow())
+            .coreDbApi(componentManager.getOrThrow())
+            .coreGoogleCalendarApi(componentManager.getOrThrow())
+            .featureAlarmApi(componentManager.getOrThrow())
+            .corePreferencesApi(componentManager.getOrThrow())
+            .rootViewProvider(componentManager.getOrThrow())
+            .build()
+        component.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -39,3 +39,6 @@
 -dontwarn org.mockito.**
 -keep class ru.cherepanovk.core_db_impl.db.** { *; }
 -assumenosideeffects class android.util.Log { public static int d(...); }
+
+-keepattributes SourceFile,LineNumberTable        # Keep file names and line numbers.
+-keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.

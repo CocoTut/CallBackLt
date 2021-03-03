@@ -1,11 +1,8 @@
 package com.cherepanovky.callbackit
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +12,7 @@ import com.cherepanovky.callbackit.di.FeatureProxyInjector
 import com.cherepanovky.callbackit.di.MainActivityModule
 import kotlinx.android.synthetic.main.activity_route.*
 import ru.cherepanovk.core.di.ComponentManager
+import ru.cherepanovk.core.di.dependencies.FeatureNavigator
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseActivity
@@ -36,6 +34,9 @@ class CallBackItMainActivity : BaseActivity() {
     @Inject
     lateinit var errorHandler: ErrorHandler
 
+    @Inject
+    lateinit var featureNavigator: FeatureNavigator
+
     override var navHost = R.id.nav_host_fragment
 
 
@@ -49,6 +50,7 @@ class CallBackItMainActivity : BaseActivity() {
         setContentView(R.layout.activity_route)
         inject(ComponentManager)
         setNavigation()
+
 
         bindListeners()
     }
@@ -156,14 +158,25 @@ class CallBackItMainActivity : BaseActivity() {
         val settingsGraph = FeatureProxyInjector.getSettingsFeature()
             .settingsFeatureStarter()
             .getNavGraph(navController.navInflater)
-        navigateToFeature(settingsGraph)
+        featureNavigator.navigateToFeature(navController,settingsGraph)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
 
-    private fun navigateToFeature(featureNavGraph: NavGraph) {
-        navController.graph.addDestination(featureNavGraph)
-        navController.navigate(featureNavGraph.id)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBundle(NAV_GRAPH, navController.saveState())
+    }
 
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        navController.restoreState(savedInstanceState.getBundle(NAV_GRAPH))
+    }
+
+    companion object {
+        private const val NAV_GRAPH = "NAV_GRAPH"
+    }
 }
