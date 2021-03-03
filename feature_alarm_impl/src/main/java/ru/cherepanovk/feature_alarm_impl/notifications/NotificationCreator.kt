@@ -177,6 +177,7 @@ class NotificationCreator private constructor(
                 true -> Intent(action)
                 false -> Intent(context, NotificationActionsReceiver::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    this.action = action
                 }
             }
 
