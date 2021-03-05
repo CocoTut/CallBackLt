@@ -33,7 +33,6 @@ class NotificationActivity : BaseActivity() {
 
     override fun inject(componentManager: ComponentManager) {
         DaggerNotificationActivityComponent.builder()
-            .notificationActivityModule(NotificationActivityModule(fragmentContainer()))
             .featureAlarmApi(
                 DaggerFeatureAlarmComponent.builder().contextProvider(componentManager.getOrThrow())
                     .build()

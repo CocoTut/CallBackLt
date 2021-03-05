@@ -54,7 +54,6 @@ class DialogDeleteReminderFragment : DialogFragment() {
             .featureAlarmApi(componentManager.getOrThrow())
             .coreGoogleCalendarApi(componentManager.getOrThrow())
             .corePreferencesApi(componentManager.getOrThrow())
-            .rootViewProvider(componentManager.getOrThrow())
             .build()
             .injectDialog(this)
     }
@@ -121,7 +120,9 @@ class DialogDeleteReminderFragment : DialogFragment() {
     }
 
     private fun handleError(failure: Failure?) {
-        errorHandler.onHandleFailure(failure)
+        view?.let {
+            errorHandler.onHandleFailure(it, failure)
+        }
         dismiss()
     }
 

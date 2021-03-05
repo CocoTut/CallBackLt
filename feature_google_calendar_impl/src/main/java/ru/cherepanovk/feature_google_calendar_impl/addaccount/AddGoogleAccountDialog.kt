@@ -51,7 +51,10 @@ class AddGoogleAccountDialog : BaseDialogFragment(R.layout.dialog_add_google_acc
     }
 
     private fun showFailure(failure: Failure?) {
-        errorHandler.onHandleFailure(failure)
+        view?.let {
+            errorHandler.onHandleFailure(it, failure)
+        }
+
         this.dismiss()
     }
 

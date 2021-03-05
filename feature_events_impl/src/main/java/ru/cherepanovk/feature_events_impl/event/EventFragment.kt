@@ -72,7 +72,6 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             .featureAlarmApi(componentManager.getOrThrow())
             .corePreferencesApi(componentManager.getOrThrow())
             .coreGoogleCalendarApi(componentManager.getOrThrow())
-            .rootViewProvider(componentManager.getOrThrow())
             .build()
             .also { componentManager.put(it) }
             .inject(this)
@@ -125,8 +124,15 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             observe(isLoading, ::showLoading)
             observe(whatsappEnabled, binding.btnSendToWhatsApp::showOrGone)
             observe(openRescheduleEvent, ::showRescheduleDialog)
-            observeFailure(failure, errorHandler::onHandleFailure)
+            observeFailure(failure, ::showFailure)
         }
+    }
+
+    private fun showFailure(failure: Failure?) {
+        view?.let {
+            errorHandler.onHandleFailure(it, failure)
+        }
+
     }
 
     private fun showLoading(loading: Boolean) {
@@ -211,7 +217,9 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
     }
 
     private fun showWhatsAppError() {
-        errorHandler.onHandleFailure(Failure.WhatsAppNotInstalled, ::installWhatsApp)
+        view?.let {
+            errorHandler.onHandleFailure(it, Failure.WhatsAppNotInstalled, ::installWhatsApp)
+        }
     }
 
     private fun installWhatsApp() {

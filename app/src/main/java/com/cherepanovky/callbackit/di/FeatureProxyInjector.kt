@@ -2,11 +2,6 @@ package com.cherepanovky.callbackit.di
 
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
-import ru.cherepanovk.core_db_api.di.CoreDbApi
-import ru.cherepanovk.core_db_impl.di.DaggerCoreDbComponent
-import ru.cherepanovk.core_preferences_impl.di.DaggerCorePreferencesComponent
-import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
-
 import ru.cherepanovk.feature_alarm_impl.di.DaggerFeatureAlarmComponent
 import ru.cherepanovk.feature_alarm_impl.di.FeatureAlarmComponent
 import ru.cherepanovk.feature_events_api.EventsFeatureApi
@@ -34,7 +29,6 @@ class FeatureProxyInjector {
                     ComponentManager.getOrThrow()
                 )
                 .contextProvider(ComponentManager.getOrThrow())
-                .rootViewProvider(ComponentManager.getOrThrow())
                 .coreGoogleCalendarApi(
                     ComponentManager.getOrThrow()
                 )
@@ -48,7 +42,6 @@ class FeatureProxyInjector {
         private fun getEventsComponent(): EventsComponent {
             return DaggerEventsComponent.builder()
                 .contextProvider(ComponentManager.getOrThrow())
-                .rootViewProvider(ComponentManager.getOrThrow())
                 .coreDbApi(
                     ComponentManager.getOrThrow()
                 )
@@ -70,7 +63,6 @@ class FeatureProxyInjector {
                 ?: DaggerGoogleCalendarApiComponent.builder()
                     .contextProvider(ComponentManager.getOrThrow())
                     .corePreferencesApi(ComponentManager.getOrThrow())
-                    .rootViewProvider(ComponentManager.getOrThrow())
                     .coreDbApi(ComponentManager.getOrThrow())
                     .featureAlarmApi(ComponentManager.getOrThrow())
                     .build()

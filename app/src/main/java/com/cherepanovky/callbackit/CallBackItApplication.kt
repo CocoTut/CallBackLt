@@ -8,13 +8,13 @@ import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core_db_impl.di.DaggerCoreDbComponent
 import ru.cherepanovk.core_preferences_impl.di.DaggerCorePreferencesComponent
 import ru.cherepanovk.feature_alarm_impl.di.DaggerFeatureAlarmComponent
+import ru.cherepanovk.feature_google_calendar_impl.di.DaggerGoogleCalendarApiComponent
 
 
 class CallBackItApplication : Application() {
     override fun onCreate() {
-        super.onCreate()
-        println("CallBackItApplication")
         initComponentManager()
+        super.onCreate()
     }
 
     private fun initComponentManager() {
@@ -23,7 +23,6 @@ class CallBackItApplication : Application() {
             .build()
             .also {
                 ComponentManager.put(it)
-
             }
             .inject(this)
 
@@ -42,5 +41,12 @@ class CallBackItApplication : Application() {
             .build()
             .also { ComponentManager.put(it) }
 
+        DaggerGoogleCalendarApiComponent.builder()
+            .contextProvider(ComponentManager.getOrThrow())
+            .corePreferencesApi(ComponentManager.getOrThrow())
+            .coreDbApi(ComponentManager.getOrThrow())
+            .featureAlarmApi(ComponentManager.getOrThrow())
+            .build()
+            .also { ComponentManager.put(it) }
     }
 }

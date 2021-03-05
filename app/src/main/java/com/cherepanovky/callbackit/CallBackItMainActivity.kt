@@ -57,11 +57,8 @@ class CallBackItMainActivity : BaseActivity() {
 
     override fun inject(componentManager: ComponentManager) {
         DaggerMainActivityComponent.builder()
-            .mainActivityModule(MainActivityModule(fragmentContainer()))
             .featureAlarmApi(
-                DaggerFeatureAlarmComponent.builder()
-                    .contextProvider(componentManager.getOrThrow())
-                    .build()
+                componentManager.getOrThrow()
             )
             .corePreferencesApi(ComponentManager.getOrThrow())
             .appConfigProvider(ComponentManager.getOrThrow())
@@ -114,7 +111,7 @@ class CallBackItMainActivity : BaseActivity() {
             R.id.privacy -> openPrivacy()
             R.id.rate -> openRate()
             R.id.contact_by_email -> openEmail()
-            else -> errorHandler.onHandleFailure(Failure.UnexpectedError)
+            else -> errorHandler.onHandleFailure(fragmentContainer(), Failure.UnexpectedError)
         }
     }
 
@@ -123,7 +120,7 @@ class CallBackItMainActivity : BaseActivity() {
             startActivity(getEmailIntent(this))
         } catch (e: Exception) {
             e.printStackTrace()
-            errorHandler.onHandleFailure(Failure.NoEmailApplication)
+            errorHandler.onHandleFailure(fragmentContainer(), Failure.NoEmailApplication)
         }
     }
 
@@ -132,7 +129,7 @@ class CallBackItMainActivity : BaseActivity() {
             startActivity(getPrivacyUrlIntent(this))
         } catch (e: Exception) {
             e.printStackTrace()
-            errorHandler.onHandleFailure(Failure.UrlError)
+            errorHandler.onHandleFailure(fragmentContainer(), Failure.UrlError)
         }
     }
 
@@ -141,7 +138,7 @@ class CallBackItMainActivity : BaseActivity() {
             startActivity(getRateUrl(this))
         } catch (e: Exception) {
             e.printStackTrace()
-            errorHandler.onHandleFailure(Failure.UrlError)
+            errorHandler.onHandleFailure(fragmentContainer(), Failure.UrlError)
         }
     }
 

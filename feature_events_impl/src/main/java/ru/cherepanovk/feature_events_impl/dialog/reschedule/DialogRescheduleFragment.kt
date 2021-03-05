@@ -10,16 +10,14 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseDialogFragment
 import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.observeFailure
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.databinding.DialogRescheduleBinding
-import ru.cherepanovk.feature_events_impl.databinding.FragmentEventsBinding
 import ru.cherepanovk.feature_events_impl.dialog.reschedule.di.DaggerRescheduleComponent
-import ru.cherepanovk.feature_events_impl.event.di.EventComponent
-import ru.cherepanovk.feature_events_impl.events.EventsViewModel
 import ru.cherepanovk.imgurtest.utils.extensions.showOrGone
 
 class DialogRescheduleFragment : BaseDialogFragment(R.layout.dialog_reschedule) {
@@ -43,7 +41,6 @@ class DialogRescheduleFragment : BaseDialogFragment(R.layout.dialog_reschedule) 
             .featureAlarmApi(componentManager.getOrThrow())
             .coreGoogleCalendarApi(componentManager.getOrThrow())
             .corePreferencesApi(componentManager.getOrThrow())
-            .rootViewProvider(componentManager.getOrThrow())
             .build()
             .inject(this)
     }
@@ -78,8 +75,15 @@ class DialogRescheduleFragment : BaseDialogFragment(R.layout.dialog_reschedule) 
             observe(isLoading, binding.pbChangeTime::showOrGone)
             observe(openMainScreen) { openEventsScreen() }
             observe(createClick) { onCreateRescheduleClick() }
-            observeFailure(failure, errorHandler::onHandleFailure)
+            observeFailure(failure,::showFailure)
         }
+    }
+
+    private fun showFailure(failure: Failure?) {
+        view?.let {
+            errorHandler.onHandleFailure(it, failure)
+        }
+
     }
 
     private fun onCreateRescheduleClick() {

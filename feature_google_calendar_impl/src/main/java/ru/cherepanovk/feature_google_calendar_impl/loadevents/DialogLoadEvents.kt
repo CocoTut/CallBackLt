@@ -3,6 +3,7 @@ package ru.cherepanovk.feature_google_calendar_impl.loadevents
 import androidx.fragment.app.viewModels
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseDialogFragment
 import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.observe
@@ -35,7 +36,13 @@ class DialogLoadEvents : BaseDialogFragment(R.layout.dialog_load_events) {
     override fun bindViewModel() {
         with(model) {
             observe(isLoading, ::loading)
-            observeFailure(failure, errorHandler::onHandleFailure)
+            observeFailure(failure, ::showFailure)
+        }
+    }
+
+    private fun showFailure(failure: Failure?) {
+        view?.let {
+            errorHandler.onHandleFailure(it, failure)
         }
     }
 

@@ -13,6 +13,7 @@ import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.dependencies.FeatureNavigator
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.di.viewmodel.ViewModelFactory
+import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.observe
@@ -148,7 +149,13 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             observe(durationDelayAlarmMinutes) { setDurationDelaAlarmMinutes(it) }
             observe(repeatTimesAlarm) { setRepeatAlarmTimes(it) }
             observeEvent(chosenRingtone, ::chooseRingtone)
-            observeFailure(failure, errorHandler::onHandleFailure)
+            observeFailure(failure, ::showFailure)
+        }
+    }
+
+    private fun showFailure(failure: Failure?) {
+        view?.let {
+            errorHandler.onHandleFailure(it, failure)
         }
     }
 

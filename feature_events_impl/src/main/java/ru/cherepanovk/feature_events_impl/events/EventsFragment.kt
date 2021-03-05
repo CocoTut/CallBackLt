@@ -17,6 +17,7 @@ import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.dependencies.FeatureNavigator
 import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.di.viewmodel.ViewModelFactory
+import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.*
@@ -96,7 +97,6 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
             .coreGoogleCalendarApi(componentManager.getOrThrow())
             .featureAlarmApi(componentManager.getOrThrow())
             .corePreferencesApi(componentManager.getOrThrow())
-            .rootViewProvider(componentManager.getOrThrow())
             .build()
         component.inject(this)
     }
@@ -139,7 +139,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
 
     override fun bindViewModel() {
         with(model) {
-            observe(failure, errorHandler::onHandleFailure)
+            observe(failure, ::showFailure)
             observe(currentMonth, ::setCurrentMonth)
             observe(emptyListVisibility, ::setEmptyListVisibility)
             observe(years, ::setYears)
@@ -149,13 +149,17 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
             observe(isLoading, ::loading)
             observe(sortByDescending) { binding.toolbarMonths.ivToolbarSort.isSelected = it }
             observeEvent(createNewReminder, ::openEventScreenWithLastPhoneNumber)
-            observeFailure(failure, errorHandler::onHandleFailure)
+            observeFailure(failure, ::showFailure)
         }
         getNavigationResult<Boolean>()?.let {
             observe(it, ::deletingCanceled)
         }
+    }
 
-
+    private fun showFailure(failure: Failure?) {
+        view?.let {
+            errorHandler.onHandleFailure(it, failure)
+        }
     }
 
     private fun deletingCanceled(event: Boolean) {
