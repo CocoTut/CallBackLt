@@ -7,7 +7,7 @@ import javax.inject.Inject
 class Preferences @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val analyticsPlugin: PreferencesAnalyticsPlugin
-): PreferencesApi {
+) : PreferencesApi {
     override fun isFirstStart(): Boolean {
         return sharedPreferences.getBoolean(FIRST_START, true)
     }
@@ -17,11 +17,14 @@ class Preferences @Inject constructor(
     }
 
     override fun setGoogleAccount(account: String?) {
-       sharedPreferences.edit().putString(GOOGLE_ACCOUNT, account).apply()
+        if (account == null) {
+            analyticsPlugin.removeAccount()
+        }
+        sharedPreferences.edit().putString(GOOGLE_ACCOUNT, account).apply()
     }
 
     override fun getGoogleAccount(): String {
-       return sharedPreferences.getString(GOOGLE_ACCOUNT, "") ?: ""
+        return sharedPreferences.getString(GOOGLE_ACCOUNT, "") ?: ""
     }
 
     override fun setTrackingAllIncomingCalls(tracking: Boolean) {
@@ -29,7 +32,7 @@ class Preferences @Inject constructor(
     }
 
     override fun getTrackingAllIncomingCalls(): Boolean {
-       return sharedPreferences.getBoolean(INCOMING_ON, true)
+        return sharedPreferences.getBoolean(INCOMING_ON, true)
     }
 
     override fun setTrackingMissedIncomingCalls(tracking: Boolean) {
@@ -53,7 +56,7 @@ class Preferences @Inject constructor(
     }
 
     override fun getRingToneUri(): String {
-        return sharedPreferences.getString(PICKED_RINGTONE, "") ?:""
+        return sharedPreferences.getString(PICKED_RINGTONE, "") ?: ""
     }
 
     override fun setOldBaseMigrated(migrated: Boolean) {
@@ -83,12 +86,16 @@ class Preferences @Inject constructor(
     }
 
     override fun setWhatsApp(enable: Boolean) {
-        analyticsPlugin.sendWhatsAppEnableEvent(enable)
+        if (enable != getWhatsApp()) {
+            analyticsPlugin.sendWhatsAppEnableEvent(enable)
+        }
         sharedPreferences.edit().putBoolean(WHATSAPP, enable).apply()
     }
 
     override fun setLongAlarmEnable(enable: Boolean) {
-        analyticsPlugin.sendLongAlarmEnableEvent(enable)
+        if (enable != isLongAlarmEnable()) {
+            analyticsPlugin.sendLongAlarmEnableEvent(enable)
+        }
         sharedPreferences.edit().putBoolean(LONG_ALARM_ENABLED, enable).apply()
     }
 

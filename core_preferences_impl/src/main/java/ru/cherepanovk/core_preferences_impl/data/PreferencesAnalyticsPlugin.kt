@@ -1,16 +1,13 @@
 package ru.cherepanovk.core_preferences_impl.data
 
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
-import com.google.firebase.ktx.Firebase
+import ru.cherepanovk.core.analytics.BaseAnalyticsPlugin
 import javax.inject.Inject
 
-class PreferencesAnalyticsPlugin @Inject constructor() {
-    private val firebaseAnalytics: FirebaseAnalytics = Firebase.analytics
+class PreferencesAnalyticsPlugin @Inject constructor() : BaseAnalyticsPlugin() {
+
 
     fun sendWhatsAppEnableEvent(checked: Boolean) {
-
         firebaseAnalytics.logEvent(
             if (checked) EVENT_WHATSAPP_ENABLED else EVENT_WHATSAPP_DISABLED
         ){ param(PARAM_WHATSAPP, checked.toString()) }
@@ -40,6 +37,10 @@ class PreferencesAnalyticsPlugin @Inject constructor() {
         }
     }
 
+    fun removeAccount() {
+        firebaseAnalytics.logEvent(EVENT_REMOVE_ACCOUNT){}
+    }
+
     companion object {
         private const val EVENT_WHATSAPP_ENABLED = "WhatsApp_feature_enabled"
         private const val EVENT_WHATSAPP_DISABLED = "WhatsApp_feature_disabled"
@@ -56,5 +57,6 @@ class PreferencesAnalyticsPlugin @Inject constructor() {
         private const val PARAM_LONG_ALARM_DELAY = "interal"
         private const val PARAM_LONG_ALARM_REPEAT_TIMES = "repeat_times"
 
+        private const val EVENT_REMOVE_ACCOUNT = "settings_remove_account"
     }
 }

@@ -1,6 +1,7 @@
 package ru.cherepanovk.feature_google_calendar_impl.addaccount
 
 import android.content.Intent
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.cherepanovk.core.di.ComponentManager
@@ -24,6 +25,7 @@ class AddGoogleAccountDialog : BaseDialogFragment(R.layout.dialog_add_google_acc
     private val model: AddGoogleAccountViewModel by viewModels { viewModelFactory }
     private val binding: DialogAddGoogleAccountBinding by viewBinding(DialogAddGoogleAccountBinding::bind)
 
+
     override fun inject(componentManager: ComponentManager) {
        componentManager.getOrThrow<GoogleCalendarApiComponent>()
            .getAddGoogleAccountDialogComponent()
@@ -32,11 +34,12 @@ class AddGoogleAccountDialog : BaseDialogFragment(R.layout.dialog_add_google_acc
 
     override fun bindListeners() {
         binding.btnNo.setOnClickListener {
+            model.onCancelButtonClick()
             this.dismiss()
         }
         binding.btnYes.setOnClickListener {
+            model.onOkButtonClick()
             getGoogleCalendarAccount()
-
         }
     }
 
@@ -51,6 +54,7 @@ class AddGoogleAccountDialog : BaseDialogFragment(R.layout.dialog_add_google_acc
     }
 
     private fun showFailure(failure: Failure?) {
+        model.failureHappened()
         view?.let {
             errorHandler.onHandleFailure(it, failure)
         }
