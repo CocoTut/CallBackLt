@@ -19,6 +19,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/accountGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="tvAccount,view,tvSetGoogleAccount,btnLogOut"
+                />
             <TextView
                 android:id="@+id/tvAccount"
                 android:layout_width="0dp"

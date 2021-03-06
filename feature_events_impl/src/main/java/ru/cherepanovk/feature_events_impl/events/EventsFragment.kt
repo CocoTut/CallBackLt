@@ -33,9 +33,10 @@ import javax.inject.Inject
 
 const val PERMISSIONS_REQUEST_CODE = 302
 
-class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeController.SwipeListener{
+class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeController.SwipeListener {
 
-    @Inject lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
     lateinit var googleAccountFeatureStarter: GoogleAccountFeatureStarter
@@ -90,14 +91,15 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
     }
 
     override fun inject(componentManager: ComponentManager) {
-       val component =  componentManager.get(EventsComponent::class)
-           ?: DaggerEventsComponent.builder()
-            .contextProvider(componentManager.getOrThrow())
-            .coreDbApi(componentManager.getOrThrow())
-            .coreGoogleCalendarApi(componentManager.getOrThrow())
-            .featureAlarmApi(componentManager.getOrThrow())
-            .corePreferencesApi(componentManager.getOrThrow())
-            .build()
+        val component = componentManager.get(EventsComponent::class)
+            ?: DaggerEventsComponent.builder()
+                .contextProvider(componentManager.getOrThrow())
+                .coreDbApi(componentManager.getOrThrow())
+                .coreGoogleCalendarApi(componentManager.getOrThrow())
+                .featureAlarmApi(componentManager.getOrThrow())
+                .googlePlayServicesAvailabilityProvider(componentManager.getOrThrow())
+                .corePreferencesApi(componentManager.getOrThrow())
+                .build()
         component.inject(this)
     }
 
@@ -262,7 +264,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
         remindersAdapter.getItem(viewHolder).let {
             val itemReminder = (remindersAdapter.getItem(viewHolder) as ItemReminder)
             swipedPosition = remindersAdapter.getAdapterPosition(it)
-            when(swipeAction) {
+            when (swipeAction) {
                 SwipeDirection.ACTION_CALL -> {
                     startActivity(getDialIntent(itemReminder.phoneNumber))
                     remindersAdapter.notifyItemChanged(swipedPosition)

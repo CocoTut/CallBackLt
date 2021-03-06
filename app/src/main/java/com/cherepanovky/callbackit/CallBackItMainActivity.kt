@@ -6,10 +6,9 @@ import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavGraph
 import com.cherepanovky.callbackit.di.DaggerMainActivityComponent
 import com.cherepanovky.callbackit.di.FeatureProxyInjector
-import com.cherepanovky.callbackit.di.MainActivityModule
+import com.huawei.agconnect.crash.AGConnectCrash
 import kotlinx.android.synthetic.main.activity_route.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.dependencies.FeatureNavigator
@@ -22,7 +21,6 @@ import ru.cherepanovk.core.utils.extentions.viewModel
 import ru.cherepanovk.core.utils.getEmailIntent
 import ru.cherepanovk.core.utils.getPrivacyUrlIntent
 import ru.cherepanovk.core.utils.getRateUrl
-import ru.cherepanovk.feature_alarm_impl.di.DaggerFeatureAlarmComponent
 import javax.inject.Inject
 
 
@@ -50,7 +48,6 @@ class CallBackItMainActivity : BaseActivity() {
         setContentView(R.layout.activity_route)
         inject(ComponentManager)
         setNavigation()
-
 
         bindListeners()
     }
@@ -155,12 +152,7 @@ class CallBackItMainActivity : BaseActivity() {
         val settingsGraph = FeatureProxyInjector.getSettingsFeature()
             .settingsFeatureStarter()
             .getNavGraph(navController.navInflater)
-        featureNavigator.navigateToFeature(navController,settingsGraph)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
+        featureNavigator.navigateToFeature(navController, settingsGraph)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

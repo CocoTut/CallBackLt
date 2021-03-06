@@ -101,7 +101,7 @@ class EventViewModel(
         _toolbarTitleNewReminder.postValue(!hasId(id))
         _buttonsVisibility.postValue(hasId(id))
         setEventId(id)
-        if (id != null) {
+        if (id != null && id.isNotEmpty()) {
             launchLoading {
                 getReminderFromDb(id) { it.handleSuccess { reminder -> handleReminder(reminder) } }
             }
@@ -112,6 +112,7 @@ class EventViewModel(
     fun setEventId(id: String?) {
         if (!hasId(id)) {
             setCurrentDate()
+            return
         }
         this.id = id
     }

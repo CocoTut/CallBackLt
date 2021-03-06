@@ -10,6 +10,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.cherepanovk.core.acc.Event
+import ru.cherepanovk.core.config.GooglePlayServicesAvailability
 import ru.cherepanovk.core.interactor.UseCase
 import ru.cherepanovk.core.platform.BaseViewModel
 import ru.cherepanovk.core_preferences_api.data.PreferencesApi
@@ -23,7 +24,8 @@ class SettingsViewModel @Inject constructor(
     private val googleCalendarApi: GoogleCalendarApi,
     private val preferencesApi: PreferencesApi,
     private val notificationChannelCreator: NotificationChannelCreator,
-    private val analyticsPlugin: SettingsAnalyticsPlugin
+    private val analyticsPlugin: SettingsAnalyticsPlugin,
+    private val googlePlayServicesAvailability: GooglePlayServicesAvailability
 ) : BaseViewModel() {
 
     private val _googleAccount = MutableLiveData<String>()
@@ -75,6 +77,9 @@ class SettingsViewModel @Inject constructor(
     private val _longAlarmEnabled = MutableLiveData<Boolean>()
     val longAlarmEnabled: LiveData<Boolean>
         get() = _longAlarmEnabled
+
+    val googleAccountAvailable: LiveData<Boolean> =
+        MutableLiveData(googlePlayServicesAvailability.isGooglePlayServicesAvailable())
 
     init {
         loadAccount()
