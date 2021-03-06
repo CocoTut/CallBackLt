@@ -35,6 +35,7 @@ class FeatureProxyInjector {
                 .featureAlarmApi(
                     ComponentManager.get(FeatureAlarmComponent::class) ?: getFeatureAlarmApi()
                 )
+                .googlePlayServicesAvailabilityProvider(ComponentManager.getOrThrow())
                 .build()
                 .also { ComponentManager.put(it) }
         }
@@ -48,6 +49,7 @@ class FeatureProxyInjector {
                 .featureAlarmApi(
                     ComponentManager.get(FeatureAlarmComponent::class) ?: getFeatureAlarmApi()
                 )
+                .googlePlayServicesAvailabilityProvider(ComponentManager.getOrThrow())
                 .corePreferencesApi(
                     ComponentManager.getOrThrow()
                 )

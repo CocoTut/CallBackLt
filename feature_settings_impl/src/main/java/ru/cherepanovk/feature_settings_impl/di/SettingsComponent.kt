@@ -2,6 +2,7 @@ package ru.cherepanovk.feature_settings_impl.di
 
 import dagger.Component
 import ru.cherepanovk.core.di.dependencies.ContextProvider
+import ru.cherepanovk.core.di.dependencies.GooglePlayServicesAvailabilityProvider
 import ru.cherepanovk.core.di.viewmodel.ViewModelModule
 import ru.cherepanovk.core_preferences_api.di.CorePreferencesApi
 import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
@@ -18,7 +19,8 @@ import ru.cherepanovk.feature_settings_impl.SettingsFragment
         ContextProvider::class,
         CorePreferencesApi::class,
         CoreGoogleCalendarApi::class,
-        FeatureAlarmApi::class
+        FeatureAlarmApi::class,
+        GooglePlayServicesAvailabilityProvider::class
     ]
 )
 interface SettingsComponent : SettingsFeatureApi {

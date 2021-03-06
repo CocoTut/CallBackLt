@@ -1,9 +1,10 @@
 package com.cherepanovky.callbackit.config
 
+import android.content.Context
+import com.cherepanovky.callbackit.BuildConfig
 import ru.cherepanovk.core.config.AppConfig
 import javax.inject.Inject
 import javax.inject.Singleton
-import com.cherepanovky.callbackit.BuildConfig
 
 @Singleton
 class AppConfigImpl @Inject constructor() : AppConfig {

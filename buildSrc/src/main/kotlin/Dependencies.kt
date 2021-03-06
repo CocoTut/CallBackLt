@@ -17,6 +17,7 @@ object Versions {
         const val COROUTINES = "1.4.2"
         const val PLAY_SERVICES = "18.1.0"
         const val FIREBASE_CRASHLITYCS = "2.2.0"
+        const val HUAWEI_CONNECT = "1.5.0.300"
     }
 
     object AndroidX {
@@ -60,6 +61,8 @@ object Versions {
         const val EASY_PERMISSIONS = "3.0.0"
         const val CRASHLYTICS = "17.2.1"
         const val ANALYTICS = "17.5.0"
+        const val HUAWEI_CRASHLITICS = "1.4.2.300"
+        const val HUAWEI_ANALYTICS = "5.0.5.300"
     }
 
     object Test {
@@ -80,6 +83,7 @@ object BuildPlugins {
         "com.github.ben-manes:gradle-versions-plugin:${Versions.Core.GRADLE_VERSIONS}"
     const val GOOGLE_SERVICES = "com.google.gms:google-services:${Versions.Core.GOOGLE}"
     const val FIREBASE_CRASHLITYCS = "com.google.firebase:firebase-crashlytics-gradle:${Versions.Core.FIREBASE_CRASHLITYCS}"
+    const val HUAWEI_CONNECT = "com.huawei.agconnect:agcp:${Versions.Core.HUAWEI_CONNECT}"
 }
 
 object Libs {
@@ -170,6 +174,10 @@ object Libs {
         const val EASY_PERMISSIONS = "pub.devrel:easypermissions:${Versions.Utils.EASY_PERMISSIONS}"
         const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics:${Versions.Utils.CRASHLYTICS}"
         const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
+
+        const val HUAWEI_ANALITYCS = "com.huawei.hms:hianalytics:${Versions.Utils.HUAWEI_ANALYTICS}"
+        const val HUAWEI_CRASHLITICS = "com.huawei.agconnect:agconnect-crash:${Versions.Utils.HUAWEI_CRASHLITICS}"
+        const val HUAWEI_AG_CONNECT = "com.huawei.agconnect:agconnect-core:${Versions.Core.HUAWEI_CONNECT}"
     }
 
     object Test {
