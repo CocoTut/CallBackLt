@@ -41,6 +41,10 @@ class PreferencesAnalyticsPlugin @Inject constructor() : BaseAnalyticsPlugin() {
         firebaseAnalytics.logEvent(EVENT_REMOVE_ACCOUNT){}
     }
 
+    fun ringtoneChanged() {
+        firebaseAnalytics.logEvent(EVENT_RINGTONE_CHANGED){}
+    }
+
     companion object {
         private const val EVENT_WHATSAPP_ENABLED = "WhatsApp_feature_enabled"
         private const val EVENT_WHATSAPP_DISABLED = "WhatsApp_feature_disabled"
@@ -58,5 +62,6 @@ class PreferencesAnalyticsPlugin @Inject constructor() : BaseAnalyticsPlugin() {
         private const val PARAM_LONG_ALARM_REPEAT_TIMES = "repeat_times"
 
         private const val EVENT_REMOVE_ACCOUNT = "settings_remove_account"
+        private const val EVENT_RINGTONE_CHANGED = "settings_ringtone_changed"
     }
 }
