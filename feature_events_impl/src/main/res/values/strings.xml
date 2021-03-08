@@ -123,6 +123,16 @@
     <string name="hint_dialog_create_reschedule">Enter number</string>
     <string name="btn_add_dialog_create_reschedule">Add</string>
     <string name="error_add_reschedule_empty_number">The number is empty</string>
+    <string name="content_descriprion_month_menu">Month menu. The current month is %s</string>
+    <string name="content_description_years_menu">Years menu. The current year is %s</string>
+    <string name="content_decription_button_add_a_new_reminder">Add a new reminder</string>
+    <string name="content_description_choose_contact">Choose contact</string>
+    <string name="content_description_open_whatsapp">Open WhatsApp</string>
+    <string name="content_description_call_the_contact">Call the contact</string>
+    <string name="content_description_save_the_reminder">Save the reminder</string>
+    <string name="content_description_delete_the_reminder">Delete the reminder</string>
+    <string name="content_description_date_reminder">Set date of the reminder. The current date is %s</string>
+    <string name="content_description_time_reminder">Set time of the reminder. The current time is %s</string>
 
     <string-array name="units_array">
         <item>minutes</item>

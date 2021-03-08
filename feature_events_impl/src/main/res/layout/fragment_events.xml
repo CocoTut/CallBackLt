@@ -48,6 +48,7 @@
                 android:src="@drawable/baseline_alarm_add_white_24"
                 android:text="@string/btnDeleteEvent"
                 android:transitionName="@string/btn_transition_name"
+                android:contentDescription="@string/content_decription_button_add_a_new_reminder"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
