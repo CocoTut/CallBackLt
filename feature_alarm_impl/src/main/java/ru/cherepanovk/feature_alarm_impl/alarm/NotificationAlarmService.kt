@@ -50,7 +50,7 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
 
     private val mediaPlayer = MediaPlayer()
     private val vibrator: Vibrator by lazy { getSystemService(Context.VIBRATOR_SERVICE) as Vibrator }
-    private val vibratePattern = longArrayOf(0, 1000, 300)
+    private val vibratePattern = longArrayOf(0, VIBRATE_DURATION, VIBRATE_PAUSE)
     private var alarmed = false
     private var playingCounter = 0
     private var countPlaying = 0
@@ -69,7 +69,7 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        if (!isNeedStartForeground(intent)){
+        if (!isNeedStartForeground(intent)) {
             stopForeground(false)
         } else {
             val notification = getNotification(intent)
@@ -87,15 +87,15 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
     }
 
     private fun isNeedStartForeground(intent: Intent?): Boolean {
-       return when (intent?.action) {
-           STOP_FOREGROUND_ACTION -> {
-               stopAlarm()
-               false
-           }
-           STOP_PLAY_ALARM -> {
-               mediaPlayer.stop()
-               false
-           }
+        return when (intent?.action) {
+            STOP_FOREGROUND_ACTION -> {
+                stopAlarm()
+                false
+            }
+            STOP_PLAY_ALARM -> {
+                mediaPlayer.stop()
+                false
+            }
             else -> true
         }
     }
@@ -110,14 +110,17 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
 
     private fun startAlarm(intent: Intent?) {
         launch {
+            var canBePlayed = true
+            val ringtone = Uri.parse(preferencesApi.getRingToneUri())
 
-                val ringtone = if (preferencesApi.getRingToneUri().isEmpty()) {
-                    notificationChannelCreator.getRingtoneUri()
-                } else {
-                    Uri.parse(preferencesApi.getRingToneUri())
-                }
+
             mediaPlayer.apply {
-                setDataSource(this@NotificationAlarmService, ringtone)
+                try {
+                    setDataSource(this@NotificationAlarmService, ringtone)
+                } catch (e: Throwable) {
+                    canBePlayed = false
+                }
+
                 setAudioAttributes(
                     AudioAttributes.Builder()
                         .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
@@ -134,24 +137,39 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
                     mediaPlayer.stop()
                     vibrator.cancel()
                     if (countPlaying >= preferencesApi.getRepeatAlarmTimes()) {
-                        getNotification(intent).createNotification()
-                        stopAlarm()
+                        stopAlarmAndShowNotification(intent)
                     }
                 } else {
-                    mediaPlayer.start()
+                    if (canBePlayed) mediaPlayer.start()
                 }
             }
 
 
-            repeat(preferencesApi.getRepeatAlarmTimes()) { times->
+            repeat(preferencesApi.getRepeatAlarmTimes()) { times ->
                 countPlaying++
                 playingCounter = 0
-                playRingtone()
-                vibrate()
-                delay(preferencesApi.getDurationDelayAlarmMinutes() * 1000L * 60)
+                if (canBePlayed) {
+                    playRingtone()
+                    vibrate()
+                } else {
+                    repeat(preferencesApi.getDurationAlarmTimes()) {
+                        vibrate()
+                        delay(VIBRATE_DURATION + VIBRATE_PAUSE)
+                        vibrator.cancel()
+                    }
+                }
+
+                delay(preferencesApi.getDurationDelayAlarmMinutes() * MINUTE)
+                if (canBePlayed.not() && times >= preferencesApi.getRepeatAlarmTimes() - 1) {
+                    stopAlarmAndShowNotification(intent)
+                }
             }
         }
 
+    }
+    private fun stopAlarmAndShowNotification(intent: Intent?) {
+        getNotification(intent).createNotification()
+        stopAlarm()
     }
 
     private fun playRingtone() {
@@ -166,9 +184,12 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
         if (isSilentMode()) return
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createWaveform(vibratePattern,
-                REPEAT_INDEFINITELY
-            ))
+            vibrator.vibrate(
+                VibrationEffect.createWaveform(
+                    vibratePattern,
+                    REPEAT_INDEFINITELY
+                )
+            )
         } else {
             vibrator.vibrate(vibratePattern, REPEAT_INDEFINITELY)
         }
@@ -233,9 +254,12 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
 
 
     companion object {
-        private const val NOTIFICATION_ID = 22091984
         const val STOP_CALL_NOTIFICATION_SERVICE_FOREGROUND_REQUEST_CODE = 1403021988
-        private const val REPEAT_INDEFINITELY = 0
 
+        private const val MINUTE = 1000L * 60
+        private const val NOTIFICATION_ID = 22091984
+        private const val REPEAT_INDEFINITELY = 0
+        private const val VIBRATE_DURATION = 1000L
+        private const val VIBRATE_PAUSE = 300L
     }
 }

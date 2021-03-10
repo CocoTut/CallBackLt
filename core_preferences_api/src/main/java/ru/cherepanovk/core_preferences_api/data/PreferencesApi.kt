@@ -21,7 +21,7 @@ interface PreferencesApi {
 
     fun getTrackingAllOutgoingCalls(): Boolean
 
-    fun setRingToneUri(uri: String)
+    fun setRingToneUri(uri: String?)
 
     fun getRingToneUri(): String
 

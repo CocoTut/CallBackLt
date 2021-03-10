@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="@dimen/margin_xxxxxs"
-        android:layout_marginBottom="@dimen/margin_xxxxxs"
+        android:layout_marginBottom="@dimen/margin_xxxs"
         android:textAppearance="@style/Text.Small"
         android:maxLines="1"
         android:ellipsize="end"

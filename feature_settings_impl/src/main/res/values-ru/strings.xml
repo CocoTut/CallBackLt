@@ -24,4 +24,5 @@
     <string name="description_long_alarm_duration">Количество повторов установленной мелодии за одну нотификацию</string>
     <string name="description_long_alarm_count_of_repeats">Количество повторов нотификации в случае пропущенного уведомления</string>
     <string name="description_long_alarm_interval">Интервал между повторами нотификации в случае пропущенного уведомления</string>
+    <string name="settings_title_silent_ringtone">Без звука</string>
 </resources>

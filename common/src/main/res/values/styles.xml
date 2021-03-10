@@ -7,7 +7,7 @@
 
 
     <style name="Text.Medium">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="Text.Medium.Bold">

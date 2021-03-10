@@ -23,5 +23,6 @@
     <string name="description_long_alarm_duration">Number of repeats of the set ringtone within the notification</string>
     <string name="description_long_alarm_count_of_repeats">Number of repeats of the missed notification</string>
     <string name="description_long_alarm_interval">The interval between repeats of the missed notification</string>
+    <string name="settings_title_silent_ringtone">Silent</string>
 
 </resources>

@@ -51,7 +51,7 @@ class Preferences @Inject constructor(
         return sharedPreferences.getBoolean(OUTGOING_ON, true)
     }
 
-    override fun setRingToneUri(uri: String) {
+    override fun setRingToneUri(uri: String?) {
         if (isFirstStart().not() && getRingToneUri() != uri) {
             analyticsPlugin.ringtoneChanged()
         }

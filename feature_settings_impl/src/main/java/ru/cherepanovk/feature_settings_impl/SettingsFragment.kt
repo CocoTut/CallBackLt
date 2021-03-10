@@ -135,6 +135,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             observe(missedIncomingEnabled, binding.swIncomingMissed::setEnabled)
             observe(whatsAppEnabled, binding.swWhatsApp::setChecked)
             observe(ringtoneTitle, ::setRingtoneTitle)
+            observe(ringtoneSilentTitle, ::setRingtoneSilentTitle)
             observe(longAlarmEnabled, binding.swLongAlarm::setChecked)
             observe(longAlarmEnabled, binding.tvDurationAlarm::setEnabled)
             observe(longAlarmEnabled, binding.etDurationAlarm::setEnabled)
@@ -175,6 +176,11 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     private fun setRingtoneTitle(ringtoneUri: Uri) {
         binding.tvCurrentRingtone.text =
             RingtoneManager.getRingtone(context, ringtoneUri).getTitle(context)
+    }
+
+    private fun setRingtoneSilentTitle(silent: Boolean) {
+        if (silent)
+            binding.tvCurrentRingtone.text = getString(R.string.settings_title_silent_ringtone)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

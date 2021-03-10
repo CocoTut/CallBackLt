@@ -62,6 +62,10 @@ class SettingsViewModel @Inject constructor(
     val ringtoneTitle: LiveData<Uri>
         get() = _ringtoneTitle
 
+    private val _ringtoneSilentTitle = MutableLiveData<Boolean>()
+    val ringtoneSilentTitle: LiveData<Boolean>
+        get() = _ringtoneSilentTitle
+
     private val _durationAlarmTimes = MutableLiveData<Int>()
     val durationAlarmTimes: LiveData<Int>
         get() = _durationAlarmTimes
@@ -129,18 +133,19 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setPickedRingtone(ringtone: Uri?) {
-        ringtone?.let {
-            preferencesApi.setRingToneUri(it.toString())
-            _ringtoneTitle.postValue(ringtone)
+        if (ringtone != null) {
+            _ringtoneSilentTitle.value = false
+            _ringtoneTitle.postValue(ringtone!!)
+        } else {
+            _ringtoneSilentTitle.postValue(true)
         }
+        preferencesApi.setRingToneUri(ringtone.toString())
     }
 
     fun onResume() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             val ringtone = notificationChannelCreator.getDefaultChannel()?.sound
-                ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            _ringtoneTitle.postValue(ringtone)
-            preferencesApi.setRingToneUri(ringtone.toString())
+            setPickedRingtone(ringtone)
         }
     }
 
