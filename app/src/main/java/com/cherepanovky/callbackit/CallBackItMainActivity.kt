@@ -8,7 +8,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import com.cherepanovky.callbackit.di.DaggerMainActivityComponent
 import com.cherepanovky.callbackit.di.FeatureProxyInjector
-import com.huawei.agconnect.crash.AGConnectCrash
 import kotlinx.android.synthetic.main.activity_route.*
 import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.dependencies.FeatureNavigator

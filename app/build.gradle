@@ -85,10 +85,6 @@ dependencies {
     implementation Libs.AndroidX.ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX
 
     implementation Libs.Utils.CRASHLYTICS
-    implementation Libs.Utils.HUAWEI_AG_CONNECT
-    implementation Libs.Utils.HUAWEI_CRASHLITICS
-    implementation Libs.Utils.HUAWEI_ANALITYCS
-
 
     testImplementation Libs.Test.TEST_LIB_JUNIT
     androidTestImplementation Libs.Test.TEST_ANDROIDX_RUNNER
