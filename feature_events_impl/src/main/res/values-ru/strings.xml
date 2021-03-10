@@ -126,6 +126,16 @@
     <string name="title_dialog_create_reschedule">Новый шаблон</string>
     <string name="hint_dialog_create_reschedule">Количество</string>
     <string name="error_add_reschedule_empty_number">Количество пусто</string>
+    <string name="content_descriprion_month_menu">Меню месяцев. Текущий месяц %s</string>
+    <string name="content_description_years_menu">Меню выбора года. Текущий год %s</string>
+    <string name="content_decription_button_add_a_new_reminder">Добавить новое напоминание</string>
+    <string name="content_description_choose_contact">Выбрать контакт</string>
+    <string name="content_description_open_whatsapp">Открыть WhatsApp</string>
+    <string name="content_description_call_the_contact">Позвонить контакту</string>
+    <string name="content_description_save_the_reminder">Сохранить напоминание</string>
+    <string name="content_description_delete_the_reminder">Удалить напоминание</string>
+    <string name="content_description_date_reminder">Установить дату напоминания. Текущая дата %s</string>
+    <string name="content_description_time_reminder">Установить время напоминания. Текущее время %s</string>
 
     <string-array name="units_array">
         <item>минуты</item>

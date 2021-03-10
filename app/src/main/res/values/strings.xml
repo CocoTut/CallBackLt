@@ -5,5 +5,7 @@
     <string name="request_permissions_contacts">"This app needs to access the Contacts to define a contact name and your Google account (via Contacts). Click OK and select the action."</string>
     <string name="no_contacts_permissions">\"You need enable the permission for Contacts in your smartphone settings\"</string>
     <string name="menu_contact_us">Contact us</string>
+    <string name="content_description_side_menu">Side menu</string>
+
 
 </resources>

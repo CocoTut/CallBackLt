@@ -245,11 +245,17 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
         popupMenu.menu.getItem(month).apply {
             isChecked = true
             binding.toolbarMonths.tvToolbarMonths.text = title
+            binding.toolbarMonths.tvToolbarMonths.contentDescription =
+               getString(R.string.content_descriprion_month_menu, title)
         }
     }
 
     private fun setCurrentYear(year: Int) {
-        binding.toolbarMonths.tvYears.setText(year.toString(), false)
+        val yearText = year.toString()
+        binding.toolbarMonths.tvYears.contentDescription =
+            getString(R.string.content_description_years_menu, yearText)
+        binding.toolbarMonths.tvYears.setText(yearText, false)
+
     }
 
     override fun swipeLeft(viewHolder: GroupieViewHolder) {

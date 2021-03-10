@@ -17,6 +17,7 @@
         android:padding="10dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_arrow_back_black_32dp"
+        android:contentDescription="@string/content_description_toolbar_back_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

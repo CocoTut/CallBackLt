@@ -321,10 +321,12 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
     private fun setDate(eventDate: String) {
         binding.tvDate.text = eventDate
+        binding.tvDate.contentDescription = getString(R.string.content_description_date_reminder, eventDate)
     }
 
     private fun setTime(eventTime: String) {
         binding.tvTime.text = eventTime
+        binding.tvTime.contentDescription = getString(R.string.content_description_time_reminder, eventTime)
     }
 
     private fun setButtonsVisibility(visible: Boolean) {

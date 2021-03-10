@@ -37,6 +37,7 @@
             android:padding="10dp"
             android:background="?attr/selectableItemBackground"
             android:src="@drawable/outline_menu_white_24"
+            android:contentDescription="@string/content_description_side_menu"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/guideLine"
             app:layout_constraintBottom_toBottomOf="@id/guideLine"

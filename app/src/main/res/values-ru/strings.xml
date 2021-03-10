@@ -10,6 +10,7 @@
     <string name="request_permissions_contacts">"Этому приложению необходим доступ к Контактам для определения имени контакта и работы с Google Account. Нажмите ОК и выберите действие."</string>
     <string name="no_contacts_permissions">\"Вам необходим включить разрешение на доступ к Контактам для данного приложения в настройках Вашего телефона"</string>
     <string name="menu_contact_us">Напишите нам</string>
+    <string name="content_description_side_menu">Боковое меню</string>
 
 
 </resources>
