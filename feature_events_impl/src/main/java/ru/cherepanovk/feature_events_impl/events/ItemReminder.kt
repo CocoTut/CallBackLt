@@ -1,11 +1,8 @@
 package ru.cherepanovk.feature_events_impl.events
 
-import android.graphics.Paint
-import android.graphics.Rect
 import android.graphics.drawable.Animatable
 import android.os.Handler
 import android.view.View
-import android.widget.TextView
 import com.xwray.groupie.viewbinding.BindableItem
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.databinding.ItemReminderBinding
@@ -17,7 +14,8 @@ class ItemReminder(
     private val contactName: String,
     private val description: String,
     private val date: String,
-    private val time: String
+    private val time: String,
+    private val dateContentDescription: String
 ) : BindableItem<ItemReminderBinding>() {
 
     private val handler = Handler()
@@ -35,11 +33,18 @@ class ItemReminder(
         expandDescriptionRequestLayoutCallback?.let {
             handler.removeCallbacks(it)
         }
-        expandDescriptionRequestLayoutCallback = Runnable { viewBinding.btnExpandDescription.requestLayout() }
+        expandDescriptionRequestLayoutCallback =
+            Runnable { viewBinding.btnExpandDescription.requestLayout() }
         viewBinding.tvDescription.apply {
             maxLines = descriptionMaxLines
             text = description
             showOrGone(description.isNotBlank())
+            if (description.isNotBlank())
+                contentDescription =
+                    context.getString(
+                        R.string.item_reminder_content_description_description,
+                        description
+                    )
         }
         viewBinding.tvDescription.measure(0, 0)
         viewBinding.rootItemReminder.setDescriptionEllipsizedListener {
@@ -51,10 +56,28 @@ class ItemReminder(
         }
 
         viewBinding.root.requestLayout()
-        viewBinding.tvContactName.text = contactName
-        viewBinding.tvPhoneNumber.text = phoneNumber
-        viewBinding.tvDate.text = date
-        viewBinding.tvTime.text = time
+        viewBinding.tvContactName.apply {
+            text = contactName
+            contentDescription =
+                context.getString(R.string.item_reminder_content_contact_name, contactName)
+        }
+        viewBinding.tvPhoneNumber.apply {
+            text = phoneNumber
+            if (phoneNumber.isNotBlank()) {
+                contentDescription = context.getString(
+                    R.string.item_reminder_content_descrption_phone_number,
+                    phoneNumber
+                )
+            }
+        }
+        viewBinding.tvDate.apply {
+            text = date
+            contentDescription = context.getString(R.string.item_reminder_content_description_date, dateContentDescription)
+        }
+        viewBinding.tvTime.apply {
+            text = time
+            contentDescription = context.getString(R.string.item_reminder_content_description_time, time)
+        }
         viewBinding.btnExpandDescription.apply {
             setImageResource(if (descriptionMaxLines > 1) R.drawable.collapse_animated else R.drawable.expand_animated)
             setOnClickListener {

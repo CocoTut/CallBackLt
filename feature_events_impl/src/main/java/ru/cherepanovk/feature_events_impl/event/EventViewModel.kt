@@ -55,6 +55,11 @@ class EventViewModel(
     val eventDate: LiveData<String>
         get() = _eventDate
 
+    private val _eventDateContentDescription = savedStateHandle.getLiveData<String>(
+        EVENT_DATE_CONTENT_DESCRIPTION)
+    val eventDateContentDescription: LiveData<String>
+        get() = _eventDateContentDescription
+
     private val _eventTime = savedStateHandle.getLiveData<String>(EVENT_TIME)
     val eventTime: LiveData<String>
         get() = _eventTime
@@ -80,7 +85,7 @@ class EventViewModel(
         get() = _phoneNumber
 
     private val _description = MutableLiveData<String>()
-    val descriptio: LiveData<String>
+    val description: LiveData<String>
         get() = _description
 
     private val _whatsappEnabled = MutableLiveData<Boolean>()
@@ -164,6 +169,11 @@ class EventViewModel(
                 saveTime(it.time)
                 _eventTime.postValue(it.time)
             }
+
+            if (_eventDateContentDescription.value == null && it.dateContentDescription != null) {
+                saveDateContentDescription(it.dateContentDescription)
+                _eventDateContentDescription.postValue(it.dateContentDescription)
+            }
         }
     }
 
@@ -206,6 +216,11 @@ class EventViewModel(
         dateTimeHelper.getDateString(date).let {
             _eventDate.postValue(it)
             saveDate(it)
+        }
+
+        dateTimeHelper.getFullDateString(date).let {
+            _eventDateContentDescription.postValue(it)
+            saveDateContentDescription(it)
         }
 
         _hintDateIsLessThanCurrent.postValue(isDateLessThanCurrent(date))
@@ -251,6 +266,10 @@ class EventViewModel(
         savedStateHandle[EVENT_DATE] = date
     }
 
+    private fun saveDateContentDescription(date: String) {
+        savedStateHandle[EVENT_DATE_CONTENT_DESCRIPTION] = date
+    }
+
     private fun saveTime(time: String) {
         savedStateHandle[EVENT_TIME] = time
     }
@@ -263,6 +282,7 @@ class EventViewModel(
 
     companion object {
         private const val EVENT_DATE = "event_date"
+        private const val EVENT_DATE_CONTENT_DESCRIPTION = "event_date_content_description"
         private const val EVENT_TIME = "event_time"
     }
 

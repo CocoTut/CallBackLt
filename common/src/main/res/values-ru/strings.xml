@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="content_description_toolbar_back_button">Назад. Кнопка.</string>
+    <string name="content_description_toolbar_back_button">Назад.</string>
+    <string name="content_description_title_screen">Экран %s</string>
 </resources>

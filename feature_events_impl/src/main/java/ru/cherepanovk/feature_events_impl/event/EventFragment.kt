@@ -62,9 +62,6 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         get() = arguments?.let { EventOpenParams.fromBundle(it) }
 
 
-
-
-
     override fun inject(componentManager: ComponentManager) {
         DaggerEventComponent.builder()
             .contextProvider(componentManager.getOrThrow())
@@ -114,6 +111,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
             observe(success, ::handleSuccess)
             observe(showDatePickerEvent, ::showDatePickerDialog)
             observe(eventDate, ::setDate)
+            observe(eventDateContentDescription, ::setDateContentDescription)
             observe(eventTime, ::setTime)
             observe(showTimePickerEvent, ::showTimePickerDialog)
             observe(buttonsVisibility, ::setButtonsVisibility)
@@ -321,12 +319,17 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
 
     private fun setDate(eventDate: String) {
         binding.tvDate.text = eventDate
-        binding.tvDate.contentDescription = getString(R.string.content_description_date_reminder, eventDate)
+    }
+
+    private fun setDateContentDescription(eventDateContentDescription: String) {
+        binding.tvDate.contentDescription =
+            getString(R.string.content_description_date_reminder, eventDateContentDescription)
     }
 
     private fun setTime(eventTime: String) {
         binding.tvTime.text = eventTime
-        binding.tvTime.contentDescription = getString(R.string.content_description_time_reminder, eventTime)
+        binding.tvTime.contentDescription =
+            getString(R.string.content_description_time_reminder, eventTime)
     }
 
     private fun setButtonsVisibility(visible: Boolean) {
@@ -346,9 +349,11 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
     }
 
     private fun setTitleNewReminder(newReminder: Boolean) {
-        binding.toolbar.tvToolbarTitle.setText(
+        val title =
             if (newReminder) R.string.title_toolbar_new_reminder else R.string.title_toolbar_edit_reminder
-        )
+        binding.toolbar.tvToolbarTitle.setText(title)
+        binding.toolbar.tvToolbarTitle.contentDescription =
+            getString(ru.cherepanovk.common.R.string.content_description_title_screen, getString(title))
     }
 
     private fun showDatePickerDialog(dateForPicker: DateForPicker) {

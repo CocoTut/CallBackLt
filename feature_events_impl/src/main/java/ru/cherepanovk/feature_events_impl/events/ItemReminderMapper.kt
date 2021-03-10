@@ -14,7 +14,8 @@ class ItemReminderMapper @Inject constructor(private val dateTimeHelper: DateTim
             contactName = from.contactName,
             phoneNumber = from.phoneNumber,
             date = dateTimeHelper.getDateString(from.dateTimeEvent),
-            time = dateTimeHelper.getTimeString(from.dateTimeEvent)
+            time = dateTimeHelper.getTimeString(from.dateTimeEvent),
+            dateContentDescription = dateTimeHelper.getFullDateString(from.dateTimeEvent)
         )
     }
 
