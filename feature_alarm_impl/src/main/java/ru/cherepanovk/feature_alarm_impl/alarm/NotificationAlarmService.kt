@@ -26,6 +26,7 @@ import ru.cherepanovk.feature_alarm_impl.notifications.CallListenerNotificationC
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationActionProvider
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationCreator
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams
+import timber.log.Timber
 import javax.inject.Inject
 
 class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dispatchers.IO) {
@@ -110,15 +111,17 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
 
     private fun startAlarm(intent: Intent?) {
         launch {
-            var canBePlayed = true
+            var mediaSourceSet = false
+            var mediaPlayerPlayed = false
             val ringtone = Uri.parse(preferencesApi.getRingToneUri())
 
 
             mediaPlayer.apply {
                 try {
                     setDataSource(this@NotificationAlarmService, ringtone)
-                } catch (e: Throwable) {
-                    canBePlayed = false
+                    mediaSourceSet = true
+                } catch (throwable: Throwable) {
+                    Timber.e(throwable)
                 }
 
                 setAudioAttributes(
@@ -140,7 +143,7 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
                         stopAlarmAndShowNotification(intent)
                     }
                 } else {
-                    if (canBePlayed) mediaPlayer.start()
+                    if (mediaPlayerPlayed) mediaPlayer.start()
                 }
             }
 
@@ -148,8 +151,8 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
             repeat(preferencesApi.getRepeatAlarmTimes()) { times ->
                 countPlaying++
                 playingCounter = 0
-                if (canBePlayed) {
-                    playRingtone()
+                mediaPlayerPlayed = playRingtone(mediaSourceSet)
+                if (mediaPlayerPlayed) {
                     vibrate()
                 } else {
                     repeat(preferencesApi.getDurationAlarmTimes()) {
@@ -160,24 +163,35 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
                 }
 
                 delay(preferencesApi.getDurationDelayAlarmMinutes() * MINUTE)
-                if (canBePlayed.not() && times >= preferencesApi.getRepeatAlarmTimes() - 1) {
+                if (mediaPlayerPlayed.not() && times >= preferencesApi.getRepeatAlarmTimes() - 1) {
                     stopAlarmAndShowNotification(intent)
                 }
             }
         }
 
     }
+
     private fun stopAlarmAndShowNotification(intent: Intent?) {
         getNotification(intent).createNotification()
         stopAlarm()
     }
 
-    private fun playRingtone() {
-        mediaPlayer.apply {
-            prepare()
-            isLooping = false
+    private fun playRingtone(mediaSourceSet: Boolean): Boolean {
+        var mediaPlayerPrepared = false
+        if (mediaSourceSet) {
+            mediaPlayer.apply {
+                try {
+                    prepare()
+                    isLooping = false
+                    start()
+                    mediaPlayerPrepared = true
+                } catch (throwable: Throwable) {
+                    Timber.e(throwable)
+                }
+
+            }
         }
-        mediaPlayer.start()
+        return mediaPlayerPrepared
     }
 
     private fun vibrate() {
@@ -205,7 +219,6 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
     }
 
     private fun startForegroundAction(notification: Notification) {
-
         startForeground(
             NOTIFICATION_ID,
             notification

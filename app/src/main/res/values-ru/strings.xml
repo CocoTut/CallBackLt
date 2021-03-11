@@ -11,6 +11,8 @@
     <string name="no_contacts_permissions">\"Вам необходим включить разрешение на доступ к Контактам для данного приложения в настройках Вашего телефона"</string>
     <string name="menu_contact_us">Напишите нам</string>
     <string name="content_description_side_menu">Боковое меню</string>
+    <string name="main_screen_content_description_account">Ваш Google аккаунт - %s</string>
+    <string name="main_screen_content_description_app_version">Версия приложения %s</string>
 
 
 </resources>

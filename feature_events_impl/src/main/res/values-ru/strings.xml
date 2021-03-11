@@ -144,6 +144,9 @@
     <string name="item_reminder_content_description_date">Дата напоминания %s</string>
     <string name="item_reminder_content_description_button_expand_description">Раскрыть описание напоминания</string>
     <string name="item_reminder_content_description_time">Время напоминания %s</string>
+    <string name="content_description_dialog_create_template_button_close">Закрыть секцию создания шаблона</string>
+    <string name="content_description_dialog_create_template_button_save_template">Сохранить шаблон</string>
+    <string name="contentdescription_dialog_reschedule_button_item_menu">Меню элемента</string>
 
     <string-array name="units_array">
         <item>минуты</item>

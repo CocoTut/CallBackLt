@@ -24,5 +24,13 @@
     <string name="description_long_alarm_count_of_repeats">Number of repeats of the missed notification</string>
     <string name="description_long_alarm_interval">The interval between repeats of the missed notification</string>
     <string name="settings_title_silent_ringtone">Silent</string>
+    <string name="settings_content_description_google_account">Settings\'section Google Account</string>
+    <string name="settings_content_description_messengers">Settings\' section Messengers</string>
+    <string name="settings_content_description_notifications">Settings\' section Notifications</string>
+    <string name="settings_content_description_long_alarm_duration">Set count of times of playing the set ringtone within the notification.</string>
+    <string name="settings_content_description_long_count_of_repeats">Set count of repeats of the notification if the notification is missed</string>
+    <string name="settings_content_description_long_interval">Set count of minutes of an interval before the next repeat. It is an interval between repeats of the missed notification</string>
+    <string name="settings_content_description_tracing_parameters">A settings\' section Tracing parameters</string>
+    <string name="settings_content_description_account">The set account is %s</string>
 
 </resources>
