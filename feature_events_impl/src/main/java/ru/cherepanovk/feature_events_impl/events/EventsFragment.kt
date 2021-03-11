@@ -149,13 +149,22 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
             observe(itemsReminder, ::setItems)
             observe(askGoogleCalendarAccount, ::showAddGoogleAccountDialog)
             observe(isLoading, ::loading)
-            observe(sortByDescending) { binding.toolbarMonths.ivToolbarSort.isSelected = it }
+            observe(sortByDescending, ::setSorting)
             observeEvent(createNewReminder, ::openEventScreenWithLastPhoneNumber)
             observeFailure(failure, ::showFailure)
         }
         getNavigationResult<Boolean>()?.let {
             observe(it, ::deletingCanceled)
         }
+    }
+
+    private fun setSorting(sortedByDescending: Boolean) {
+        binding.toolbarMonths.ivToolbarSort.isSelected = sortedByDescending
+        binding.toolbarMonths.ivToolbarSort.contentDescription =
+            getString(
+                if (sortedByDescending) R.string.events_content_description_button_sort_by_ascending
+                else  R.string.events_content_description_button_sort_by_descending
+            )
     }
 
     private fun showFailure(failure: Failure?) {
@@ -210,6 +219,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
         }
 
         binding.toolbarMonths.ivToolbarSort.setOnClickListener {
+            it.contentDescription = null
             model.onSortClick()
         }
 
@@ -246,7 +256,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
             isChecked = true
             binding.toolbarMonths.tvToolbarMonths.text = title
             binding.toolbarMonths.tvToolbarMonths.contentDescription =
-               getString(R.string.content_descriprion_month_menu, title)
+                getString(R.string.content_descriprion_month_menu, title)
         }
     }
 

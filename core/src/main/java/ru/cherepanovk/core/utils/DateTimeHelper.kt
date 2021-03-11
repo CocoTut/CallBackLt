@@ -6,6 +6,7 @@ import javax.inject.Inject
 
 
 const val EVENT_DATE_FORMAT = "EEE, dd MMM yyyy"
+const val EVENT_FULL_DATE_FORMAT = "EEEE, dd MMMM yyyy"
 const val EVENT_TIME_FORMAT = "HH:mm"
 
 class DateTimeHelper @Inject constructor() {
@@ -45,6 +46,10 @@ class DateTimeHelper @Inject constructor() {
 
     fun getDateString(date: Date): String {
         return getStringFromDate(date, EVENT_DATE_FORMAT)
+    }
+
+    fun getFullDateString(date: Date): String {
+        return getStringFromDate(date, EVENT_FULL_DATE_FORMAT)
     }
 
     fun getTimeString(date: Date): String {

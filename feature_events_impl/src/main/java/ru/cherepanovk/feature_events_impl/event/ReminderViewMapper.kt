@@ -15,7 +15,8 @@ class ReminderViewMapper @Inject constructor(
             phoneNumber = from.phoneNumber,
             contactName = from.contactName,
             date = dateTimeHelper.getDateString(from.dateTimeEvent),
-            time = dateTimeHelper.getTimeString(from.dateTimeEvent)
+            time = dateTimeHelper.getTimeString(from.dateTimeEvent),
+            dateContentDescription = dateTimeHelper.getFullDateString(from.dateTimeEvent)
         )
     }
 }

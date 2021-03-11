@@ -50,7 +50,11 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.tvToolbarTitle.text = getString(R.string.title_toolbar_settings)
+        binding.toolbar.tvToolbarTitle.apply {
+            val title = getString(R.string.title_toolbar_settings)
+            text = title
+            contentDescription = getString(R.string.content_description_title_screen, title)
+        }
     }
 
     @FlowPreview
@@ -217,11 +221,16 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
 
     private fun setGoogleAccount(account: String) {
-        binding.tvSetGoogleAccount.text =
-            if (account.isEmpty())
+        binding.tvSetGoogleAccount.apply {
+            text = if (account.isEmpty()) {
+                contentDescription = null
                 getString(R.string.tvSetGoogleAccount)
-            else
+            } else {
+                contentDescription =context.getString(R.string.settings_content_description_account, account)
                 account
+            }
+
+        }
     }
 
     companion object {

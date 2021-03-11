@@ -136,6 +136,17 @@
     <string name="content_description_delete_the_reminder">Удалить напоминание</string>
     <string name="content_description_date_reminder">Установить дату напоминания. Текущая дата %s</string>
     <string name="content_description_time_reminder">Установить время напоминания. Текущее время %s</string>
+    <string name="events_content_description_button_sort_by_descending">Сортировать по дате убывания</string>
+    <string name="events_content_description_button_sort_by_ascending">Сортировать по дате возрастания</string>
+    <string name="item_reminder_content_description_description">Описание напоминания. %s</string>
+    <string name="item_reminder_content_contact_name">Имя контакта в напоминании. %s</string>
+    <string name="item_reminder_content_descrption_phone_number">Номер телефона в напоминании %s</string>
+    <string name="item_reminder_content_description_date">Дата напоминания %s</string>
+    <string name="item_reminder_content_description_button_expand_description">Раскрыть описание напоминания</string>
+    <string name="item_reminder_content_description_time">Время напоминания %s</string>
+    <string name="content_description_dialog_create_template_button_close">Закрыть секцию создания шаблона</string>
+    <string name="content_description_dialog_create_template_button_save_template">Сохранить шаблон</string>
+    <string name="contentdescription_dialog_reschedule_button_item_menu">Меню элемента</string>
 
     <string-array name="units_array">
         <item>минуты</item>

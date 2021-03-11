@@ -64,13 +64,24 @@ class CallBackItMainActivity : BaseActivity() {
 
         model = viewModel(viewModelFactory) {
             observe(accountName, ::setAccountName)
-            observe(appVersion, tvApplicationVersion::setText)
+            observe(appVersion, ::setApplicationVersion)
+        }
+    }
+
+    private fun setApplicationVersion(version: String) {
+        tvApplicationVersion.apply {
+            text = version
+            contentDescription =context.getString(R.string.main_screen_content_description_app_version, version)
         }
     }
 
     private fun setAccountName(accountName: String) {
         navigationView.getHeaderView(0)
-            .findViewById<TextView>(R.id.tvAccountEmail).text = accountName
+            .findViewById<TextView>(R.id.tvAccountEmail).apply {
+                text = accountName
+                contentDescription =
+                    context.getString(R.string.main_screen_content_description_account, accountName)
+            }
     }
 
 

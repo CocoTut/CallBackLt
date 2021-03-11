@@ -25,4 +25,12 @@
     <string name="description_long_alarm_count_of_repeats">Количество повторов нотификации в случае пропущенного уведомления</string>
     <string name="description_long_alarm_interval">Интервал между повторами нотификации в случае пропущенного уведомления</string>
     <string name="settings_title_silent_ringtone">Без звука</string>
+    <string name="settings_content_description_google_account">Секция настроек аккаунт</string>
+    <string name="settings_content_description_messengers">Секция настроек Мессенджеры</string>
+    <string name="settings_content_description_notifications">Секция настроек Уведомления</string>
+    <string name="settings_content_description_long_alarm_duration">Установите количество раз, которое сыграет выбранная мелодия за одно уведомление</string>
+    <string name="settings_content_description_long_count_of_repeats">Установите количество повторов нотифкации в случае пропущенного уведомления</string>
+    <string name="settings_content_description_long_interval">Установите количество минут между интервалами повтора уведомлений.</string>
+    <string name="settings_content_description_tracing_parameters">Секция настроек Параметры остлеживания</string>
+    <string name="settings_content_description_account">Установленый аккаунт %s</string>
 </resources>

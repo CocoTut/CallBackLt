@@ -6,5 +6,6 @@ class ReminderView(
     val phoneNumber: String,
     val contactName: String,
     val date: String,
-    val time: String
+    val time: String,
+    val dateContentDescription: String? = null
 )

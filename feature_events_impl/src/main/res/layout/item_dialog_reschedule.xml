@@ -29,6 +29,7 @@
         android:background="@drawable/item_reschedule_backround_selector"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
+        android:contentDescription="@string/contentdescription_dialog_reschedule_button_item_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

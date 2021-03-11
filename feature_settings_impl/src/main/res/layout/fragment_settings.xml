@@ -34,6 +34,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/tvAccount"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:contentDescription="@string/settings_content_description_google_account"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,7 +42,7 @@
                 android:id="@+id/view"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
-
+                android:importantForAccessibility="no"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorAccent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -86,6 +87,7 @@
                 android:layout_marginTop="@dimen/margin_top_settings_title"
                 android:text="@string/title_messengers"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:contentDescription="@string/settings_content_description_messengers"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnLogOut" />
 
@@ -95,6 +97,7 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorAccent"
+                android:importantForAccessibility="no"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitleMessengers" />
@@ -122,6 +125,7 @@
                 android:layout_marginTop="@dimen/margin_top_settings_title"
                 android:text="@string/notifications_settings"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:contentDescription="@string/settings_content_description_notifications"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/swWhatsApp" />
 
@@ -131,6 +135,7 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorAccent"
+                android:importantForAccessibility="no"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvNotificationSettings" />
@@ -145,6 +150,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:contentDescription="@string/content_description_choose_ringtone"
+                android:importantForAccessibility="yes"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvNotificationSettings">
@@ -158,6 +164,7 @@
                 android:layout_marginBottom="4dp"
                 android:text="@string/text_tv_ringtone"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:importantForAccessibility="no"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/clSound"
                 app:layout_constraintBottom_toBottomOf="@id/clSound"/>
@@ -171,6 +178,7 @@
                 android:gravity="center_vertical|end"
                 android:text="@string/inscription_ringtone"
                 android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+                android:importantForAccessibility="no"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/clSound"
                 app:layout_constraintBottom_toBottomOf="@id/clSound" />
@@ -198,6 +206,7 @@
                 android:layout_marginBottom="4dp"
                 android:text="@string/title_long_alarm_duration"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:contentDescription="@string/settings_content_description_long_alarm_duration"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/swLongAlarm"
                 app:layout_constraintEnd_toEndOf="@id/etDurationAlarm"
@@ -213,6 +222,7 @@
                 android:layout_marginEnd="@dimen/margin_l"
                 android:text="@string/description_long_alarm_duration"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:importantForAccessibility="no"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/etDurationAlarm"
                 app:layout_constraintTop_toBottomOf="@id/tvDurationAlarm" />
@@ -239,6 +249,7 @@
                 android:layout_marginBottom="4dp"
                 android:text="@string/title_long_alarm_count_of_repeats"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:contentDescription="@string/settings_content_description_long_count_of_repeats"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvDurationAlarmDescription" />
 
@@ -252,6 +263,7 @@
                 android:layout_marginEnd="@dimen/margin_l"
                 android:text="@string/description_long_alarm_count_of_repeats"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:importantForAccessibility="no"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/etRepeatTimesAlarm"
                 app:layout_constraintTop_toBottomOf="@id/tvRepeatTimesAlarm" />
@@ -277,6 +289,7 @@
                 android:layout_marginEnd="8dp"
                 android:text="@string/title_long_alarm_interval"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:contentDescription="@string/settings_content_description_long_interval"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvRepeatTimesAlarmDescription" />
 
@@ -289,6 +302,7 @@
                 android:layout_marginEnd="@dimen/margin_l"
                 android:text="@string/description_long_alarm_interval"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:importantForAccessibility="no"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/etDurationDelayAlarm"
                 app:layout_constraintTop_toBottomOf="@id/tvDurationDelayAlarm"/>
@@ -313,6 +327,7 @@
                 android:layout_marginTop="@dimen/margin_top_settings_title"
                 android:text="@string/tracingParameters"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:contentDescription="@string/settings_content_description_tracing_parameters"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDurationDelayAlarmDescription" />
 
@@ -322,6 +337,7 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorAccent"
+                android:importantForAccessibility="no"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCallSettings" />

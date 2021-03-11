@@ -6,6 +6,8 @@
     <string name="no_contacts_permissions">\"You need enable the permission for Contacts in your smartphone settings\"</string>
     <string name="menu_contact_us">Contact us</string>
     <string name="content_description_side_menu">Side menu</string>
+    <string name="main_screen_content_description_account">Your Google account is %s</string>
+    <string name="main_screen_content_description_app_version">The app\'s version is %s</string>
 
 
 </resources>
