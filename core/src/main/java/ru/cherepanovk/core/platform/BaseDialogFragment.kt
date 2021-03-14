@@ -10,14 +10,10 @@ import android.view.ViewGroup
 import android.view.Window
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.DialogFragment
-import ru.cherepanovk.core.di.ComponentManager
 import ru.cherepanovk.core.di.viewmodel.ViewModelFactory
 import javax.inject.Inject
 
 abstract class BaseDialogFragment(@LayoutRes private val layout: Int) : DialogFragment() {
-
-    private val componentManager: ComponentManager
-        get() = ComponentManager
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -25,7 +21,7 @@ abstract class BaseDialogFragment(@LayoutRes private val layout: Int) : DialogFr
     @Inject
     lateinit var errorHandler: ErrorHandler
 
-    protected abstract fun inject(componentManager: ComponentManager)
+    protected abstract fun inject()
 
 
     override fun onCreateView(
@@ -37,8 +33,7 @@ abstract class BaseDialogFragment(@LayoutRes private val layout: Int) : DialogFr
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        inject(componentManager)
-
+        inject()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

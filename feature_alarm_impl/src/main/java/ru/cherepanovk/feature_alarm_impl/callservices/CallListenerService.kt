@@ -7,9 +7,9 @@ import android.content.Intent
 import android.os.IBinder
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
-import ru.cherepanovk.core.di.ComponentManager
-import ru.cherepanovk.core.di.getOrThrow
-import ru.cherepanovk.feature_alarm_impl.callservices.di.DaggerCallServicesComponent
+import ru.cherepanovk.core.di.DI
+import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
+import ru.cherepanovk.feature_alarm_impl.di.FeatureAlarmComponent
 import ru.cherepanovk.feature_alarm_impl.notifications.CallListenerNotificationCreator
 import javax.inject.Inject
 
@@ -17,17 +17,15 @@ import javax.inject.Inject
 class CallListenerService : Service() {
 
     private val listener = CallPhoneStateListener()
-    private val telephonyManager: TelephonyManager by lazy {  getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager }
+    private val telephonyManager: TelephonyManager by lazy { getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager }
 
     @Inject
     lateinit var callListenerNotificationCreator: CallListenerNotificationCreator
 
     override fun onCreate() {
-
         super.onCreate()
-        DaggerCallServicesComponent.builder()
-            .contextProvider(ComponentManager.getOrThrow())
-            .build()
+        DI.getComponent(FeatureAlarmApi::class.java, FeatureAlarmComponent::class.java)
+            .getCallServicesComponent()
             .injectCallListenerJobService(this)
     }
 

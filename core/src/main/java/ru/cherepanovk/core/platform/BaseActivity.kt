@@ -3,11 +3,8 @@ package ru.cherepanovk.core.platform
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import ru.cherepanovk.core.di.ComponentManager
-import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), ActivityStarter {
 
@@ -21,7 +18,7 @@ abstract class BaseActivity : AppCompatActivity(), ActivityStarter {
         super.onCreate(savedInstanceState)
     }
 
-    protected abstract fun inject(componentManager: ComponentManager)
+    protected abstract fun inject()
 
     abstract fun fragmentContainer(): View
 

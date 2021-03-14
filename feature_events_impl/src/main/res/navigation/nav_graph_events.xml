@@ -29,9 +29,6 @@
         <action
             android:id="@+id/action_eventFragment_to_dialogRescheduleFragment"
             app:destination="@id/dialogRescheduleFragment" />
-        <action
-            android:id="@+id/action_eventFragment_to_dialogCreateReschedule"
-            app:destination="@id/dialogCreateReschedule" />
     </fragment>
     <dialog
         android:id="@+id/dialogDeleteReminder"
@@ -57,17 +54,6 @@
             app:popUpTo="@id/eventsFragment"
             app:popUpToInclusive="true"
             app:destination="@id/eventsFragment" />
-        <action
-            android:id="@+id/action_dialogReschedule_to_dialogCreateReschedule"
-            app:destination="@id/dialogCreateReschedule" />
-    </dialog>
-
-    <dialog
-        android:id="@+id/dialogCreateReschedule"
-        android:name="ru.cherepanovk.feature_events_impl.dialog.reschedule.DialogCreateRescheduleFragment"
-        android:label="DialogCreateRescheduleFragment"
-        tools:layout ="@layout/dialog_create_reschedule"
-        >
     </dialog>
 
 

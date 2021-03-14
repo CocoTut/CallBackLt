@@ -1,19 +1,18 @@
 package ru.cherepanovk.feature_google_calendar_impl.addaccount
 
 import android.content.Intent
-import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import ru.cherepanovk.core.di.ComponentManager
-import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.di.DI
 import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseDialogFragment
 import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.observeFailure
+import ru.cherepanovk.feature_google_calendar_api.di.CoreGoogleCalendarApi
 import ru.cherepanovk.feature_google_calendar_impl.R
-import ru.cherepanovk.feature_google_calendar_impl.databinding.DialogAddGoogleAccountBinding
 import ru.cherepanovk.feature_google_calendar_impl.data.AccountPermissionManager
+import ru.cherepanovk.feature_google_calendar_impl.databinding.DialogAddGoogleAccountBinding
 import ru.cherepanovk.feature_google_calendar_impl.di.GoogleCalendarApiComponent
 import ru.cherepanovk.imgurtest.utils.extensions.showOrGone
 import javax.inject.Inject
@@ -26,8 +25,8 @@ class AddGoogleAccountDialog : BaseDialogFragment(R.layout.dialog_add_google_acc
     private val binding: DialogAddGoogleAccountBinding by viewBinding(DialogAddGoogleAccountBinding::bind)
 
 
-    override fun inject(componentManager: ComponentManager) {
-       componentManager.getOrThrow<GoogleCalendarApiComponent>()
+    override fun inject() {
+       DI.getComponent(CoreGoogleCalendarApi::class.java, GoogleCalendarApiComponent::class.java )
            .getAddGoogleAccountDialogComponent()
             .inject(this)
     }

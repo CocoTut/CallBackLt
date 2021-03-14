@@ -4,11 +4,11 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import ru.cherepanovk.core.di.ComponentManager
-import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.di.DI
 import ru.cherepanovk.core.utils.getDialIntent
 import ru.cherepanovk.feature_alarm_api.data.AlarmNotificationServiceLauncher
-import ru.cherepanovk.feature_alarm_impl.di.DaggerNotificationActionsReceiverComponent
+import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
+import ru.cherepanovk.feature_alarm_impl.di.FeatureAlarmComponent
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams.Companion.NOTIFICATION_ID_DEFAULT
 import javax.inject.Inject
 
@@ -20,9 +20,7 @@ class NotificationActionsReceiver : BroadcastReceiver() {
 
 
     override fun onReceive(context: Context, intent: Intent) {
-        DaggerNotificationActionsReceiverComponent.builder()
-            .contextProvider(ComponentManager.getOrThrow())
-            .build()
+        DI.getComponent(FeatureAlarmApi::class.java, FeatureAlarmComponent::class.java)
             .inject(this)
 
         val notificationParams = NotificationParams.fromBundle(intent.extras)

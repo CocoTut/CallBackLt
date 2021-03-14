@@ -9,13 +9,12 @@ import android.os.IBinder
 import android.telephony.TelephonyManager
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.*
-import ru.cherepanovk.core.di.ComponentManager
-import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.di.DI
 import ru.cherepanovk.core.platform.ContactPicker
 import ru.cherepanovk.core_db_api.data.RemindersDbApi
 import ru.cherepanovk.core_preferences_api.data.PreferencesApi
-import ru.cherepanovk.feature_alarm_impl.callservices.CallListenerService.Companion.STOP_FOREGROUND_ACTION
-import ru.cherepanovk.feature_alarm_impl.callservices.di.DaggerCallServicesComponent
+import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
+import ru.cherepanovk.feature_alarm_impl.di.FeatureAlarmComponent
 import ru.cherepanovk.feature_alarm_impl.notifications.CallListenerNotificationCreator
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationCreator
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams
@@ -41,12 +40,8 @@ class CallNotificationService : Service(), CoroutineScope by CoroutineScope(Disp
 
     override fun onCreate() {
         super.onCreate()
-
-        DaggerCallServicesComponent.builder()
-            .contextProvider(ComponentManager.getOrThrow())
-            .coreDbApi(ComponentManager.getOrThrow())
-            .corePreferencesApi(ComponentManager.getOrThrow())
-            .build()
+        DI.getComponent(FeatureAlarmApi::class.java, FeatureAlarmComponent::class.java)
+            .getCallServicesComponent()
             .injectCallNotificationService(this)
     }
 

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.core.app.AlarmManagerCompat
+import ru.cherepanovk.core.config.AppConfig
 import ru.cherepanovk.feature_alarm_api.data.AlarmApi
 import ru.cherepanovk.feature_alarm_api.data.AlarmReminder
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams
@@ -16,13 +17,14 @@ import javax.inject.Inject
 
 class CallBackAlarm @Inject constructor(
     private val alarmManager: AlarmManager,
-    private val context: Context
+    private val context: Context,
+    private val appConfig: AppConfig
 ) : AlarmApi {
 
     override fun createAlarm(alarmReminder: AlarmReminder) {
         val dateTimeAlarm = alarmReminder.dateTimeEvent().time
 
-        if (alarmReminder.dateTimeEvent().time < Date().time && !BuildConfig.DEBUG)
+        if (alarmReminder.dateTimeEvent().time < Date().time && !appConfig.flashAlarmPastTime)
             return
 
         AlarmManagerCompat.setExactAndAllowWhileIdle(

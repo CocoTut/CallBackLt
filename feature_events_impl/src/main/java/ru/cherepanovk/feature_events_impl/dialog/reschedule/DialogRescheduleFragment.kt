@@ -8,16 +8,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import ru.cherepanovk.core.di.ComponentManager
-import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.di.DI
 import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseDialogFragment
 import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.observeFailure
+import ru.cherepanovk.feature_events_api.EventsFeatureApi
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.databinding.DialogRescheduleBinding
-import ru.cherepanovk.feature_events_impl.dialog.reschedule.di.DaggerRescheduleComponent
+import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
 import ru.cherepanovk.imgurtest.utils.extensions.showOrGone
 
 class DialogRescheduleFragment : BaseDialogFragment(R.layout.dialog_reschedule) {
@@ -34,14 +34,9 @@ class DialogRescheduleFragment : BaseDialogFragment(R.layout.dialog_reschedule) 
 
     private lateinit var linearLayoutManager: LinearLayoutManager
 
-    override fun inject(componentManager: ComponentManager) {
-        DaggerRescheduleComponent.builder()
-            .contextProvider(componentManager.getOrThrow())
-            .coreDbApi(componentManager.getOrThrow())
-            .featureAlarmApi(componentManager.getOrThrow())
-            .coreGoogleCalendarApi(componentManager.getOrThrow())
-            .corePreferencesApi(componentManager.getOrThrow())
-            .build()
+    override fun inject() {
+        DI.getComponent(EventsFeatureApi::class.java, EventsComponent::class.java)
+            .getRescheduleComponent()
             .inject(this)
     }
 
