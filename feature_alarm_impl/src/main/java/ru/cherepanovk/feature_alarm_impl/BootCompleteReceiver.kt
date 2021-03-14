@@ -7,13 +7,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import ru.cherepanovk.core.di.ComponentManager
-import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.di.DI
 import ru.cherepanovk.core_db_api.data.RemindersDbApi
 import ru.cherepanovk.feature_alarm_api.data.AlarmApi
 import ru.cherepanovk.feature_alarm_api.data.AlarmReminderModel
-import ru.cherepanovk.feature_alarm_impl.di.DaggerBootRecreateRemindersComponent
-import ru.cherepanovk.feature_alarm_impl.di.DaggerFeatureAlarmComponent
+import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
+import ru.cherepanovk.feature_alarm_impl.di.FeatureAlarmComponent
 import java.util.*
 import javax.inject.Inject
 
@@ -26,14 +25,7 @@ class BootCompleteReceiver : BroadcastReceiver(), CoroutineScope by CoroutineSco
     lateinit var alarmApi: AlarmApi
 
     override fun onReceive(context: Context, intent: Intent) {
-        DaggerBootRecreateRemindersComponent.builder()
-            .featureAlarmApi(
-                DaggerFeatureAlarmComponent.builder()
-                    .contextProvider(ComponentManager.getOrThrow())
-                    .build()
-            )
-            .coreDbApi(ComponentManager.getOrThrow())
-            .build()
+        DI.getComponent(FeatureAlarmApi::class.java, FeatureAlarmComponent::class.java)
             .inject(this)
         recreateRemindersAfterReboot(goAsync())
     }

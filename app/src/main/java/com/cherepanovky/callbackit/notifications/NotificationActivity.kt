@@ -9,16 +9,14 @@ import androidx.navigation.NavArgument
 import androidx.navigation.NavType
 import com.cherepanovky.callbackit.CallBackItMainActivity
 import com.cherepanovky.callbackit.R
-import com.cherepanovky.callbackit.di.FeatureProxyInjector
 import com.cherepanovky.callbackit.notifications.di.DaggerNotificationActivityComponent
-import com.cherepanovky.callbackit.notifications.di.NotificationActivityModule
 import kotlinx.android.synthetic.main.activity_notification.*
-import ru.cherepanovk.core.di.ComponentManager
-import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.di.DI
 import ru.cherepanovk.core.platform.BaseActivity
 import ru.cherepanovk.feature_alarm_api.data.AlarmNotificationServiceLauncher
-import ru.cherepanovk.feature_alarm_impl.di.DaggerFeatureAlarmComponent
+import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams
+import ru.cherepanovk.feature_events_api.EventsFeatureApi
 import ru.cherepanovk.feature_events_impl.event.EventOpenParams
 import javax.inject.Inject
 
@@ -31,17 +29,11 @@ class NotificationActivity : BaseActivity() {
 
     override var navHost = R.id.nav_host_fragment_notification
 
-    override fun inject(componentManager: ComponentManager) {
+    override fun inject() {
         DaggerNotificationActivityComponent.builder()
-            .featureAlarmApi(
-                DaggerFeatureAlarmComponent.builder().contextProvider(componentManager.getOrThrow())
-                    .build()
-                    .also { componentManager.put(it) }
-            )
+            .featureAlarmApi(DI.getFeature(FeatureAlarmApi::class.java))
             .build()
-            .also { componentManager.put(it) }
             .inject(this)
-
     }
 
     override fun fragmentContainer(): View = notificationFragmentContainer
@@ -49,7 +41,7 @@ class NotificationActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification)
-        inject(ComponentManager)
+        inject()
         setNavigation()
         cancelNotification(params)
     }
@@ -59,13 +51,9 @@ class NotificationActivity : BaseActivity() {
         super.onBackPressed()
     }
 
-    override fun onDestroy() {
-        ComponentManager.remove(DaggerNotificationActivityComponent::class)
-        super.onDestroy()
-    }
-
     private fun setNavigation() {
-        val navGraph = FeatureProxyInjector.getEventsFeature().eventsFeatureStarter()
+        val navGraph = DI.getFeature(EventsFeatureApi::class.java)
+            .eventsFeatureStarter()
             .getEventNavGraph(navController.navInflater)
 
         startDestination = navGraph.startDestination

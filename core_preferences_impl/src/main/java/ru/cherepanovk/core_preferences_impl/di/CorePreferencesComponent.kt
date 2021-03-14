@@ -8,5 +8,4 @@ import ru.cherepanovk.core_preferences_api.di.CorePreferencesApi
     modules = [CorePreferencesModule::class],
     dependencies = [ContextProvider::class]
 )
-interface CorePreferencesComponent : CorePreferencesApi {
-}
+interface CorePreferencesComponent : CorePreferencesApi

@@ -13,15 +13,15 @@ import android.os.IBinder
 import android.os.VibrationEffect
 import android.os.Vibrator
 import kotlinx.coroutines.*
-import ru.cherepanovk.core.di.ComponentManager
-import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.di.DI
 import ru.cherepanovk.core.exception.CallBackItException
 import ru.cherepanovk.core_preferences_api.data.PreferencesApi
 import ru.cherepanovk.feature_alarm_api.data.AlarmNotificationServiceLauncher
 import ru.cherepanovk.feature_alarm_api.data.NotificationChannelCreator
+import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
 import ru.cherepanovk.feature_alarm_impl.callservices.AlarmNotificationServiceLauncherImpl.Companion.STOP_FOREGROUND_ACTION
 import ru.cherepanovk.feature_alarm_impl.callservices.AlarmNotificationServiceLauncherImpl.Companion.STOP_PLAY_ALARM
-import ru.cherepanovk.feature_alarm_impl.callservices.di.DaggerNotificationAlarmServiceComponent
+import ru.cherepanovk.feature_alarm_impl.di.FeatureAlarmComponent
 import ru.cherepanovk.feature_alarm_impl.notifications.CallListenerNotificationCreator
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationActionProvider
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationCreator
@@ -58,10 +58,8 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
     private var mediaPlayerPlayed = false
 
     override fun onCreate() {
-        DaggerNotificationAlarmServiceComponent.builder()
-            .contextProvider(ComponentManager.getOrThrow())
-            .corePreferencesApi(ComponentManager.getOrThrow())
-            .build()
+        DI.getComponent(FeatureAlarmApi::class.java, FeatureAlarmComponent::class.java)
+            .getNotificationAlarmServiceComponent()
             .injectNotificationAlarmService(this)
         super.onCreate()
     }

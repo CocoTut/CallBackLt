@@ -7,11 +7,10 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import com.cherepanovky.callbackit.di.DaggerMainActivityComponent
-import com.cherepanovky.callbackit.di.FeatureProxyInjector
 import kotlinx.android.synthetic.main.activity_route.*
-import ru.cherepanovk.core.di.ComponentManager
+import ru.cherepanovk.core.di.DI
+import ru.cherepanovk.core.di.dependencies.AppConfigProvider
 import ru.cherepanovk.core.di.dependencies.FeatureNavigator
-import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseActivity
 import ru.cherepanovk.core.platform.ErrorHandler
@@ -20,6 +19,10 @@ import ru.cherepanovk.core.utils.extentions.viewModel
 import ru.cherepanovk.core.utils.getEmailIntent
 import ru.cherepanovk.core.utils.getPrivacyUrlIntent
 import ru.cherepanovk.core.utils.getRateUrl
+import ru.cherepanovk.core_preferences_api.di.CorePreferencesApi
+import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
+import ru.cherepanovk.feature_events_api.EventsFeatureApi
+import ru.cherepanovk.feature_settings_api.SettingsFeatureApi
 import javax.inject.Inject
 
 
@@ -45,21 +48,18 @@ class CallBackItMainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_route)
-        inject(ComponentManager)
+        inject()
         setNavigation()
 
         bindListeners()
     }
 
-    override fun inject(componentManager: ComponentManager) {
+    override fun inject() {
         DaggerMainActivityComponent.builder()
-            .featureAlarmApi(
-                componentManager.getOrThrow()
-            )
-            .corePreferencesApi(ComponentManager.getOrThrow())
-            .appConfigProvider(ComponentManager.getOrThrow())
+            .featureAlarmApi(DI.getDependency(FeatureAlarmApi::class.java))
+            .corePreferencesApi(DI.getDependency(CorePreferencesApi::class.java))
+            .appConfigProvider(DI.getDependency(AppConfigProvider::class.java))
             .build()
-            .also { componentManager.put(it) }
             .inject(this)
 
         model = viewModel(viewModelFactory) {
@@ -86,7 +86,7 @@ class CallBackItMainActivity : BaseActivity() {
 
 
     private fun setNavigation() {
-        val navGraph = FeatureProxyInjector.getEventsFeature().eventsFeatureStarter()
+        val navGraph = DI.getFeature(EventsFeatureApi::class.java).eventsFeatureStarter()
             .getEventsNavGraph(navController.navInflater)
         startDestination = navGraph.startDestination
         navController.graph = navGraph
@@ -159,7 +159,7 @@ class CallBackItMainActivity : BaseActivity() {
     }
 
     private fun openSettingsFeature() {
-        val settingsGraph = FeatureProxyInjector.getSettingsFeature()
+        val settingsGraph = DI.getFeature(SettingsFeatureApi::class.java)
             .settingsFeatureStarter()
             .getNavGraph(navController.navInflater)
         featureNavigator.navigateToFeature(navController, settingsGraph)

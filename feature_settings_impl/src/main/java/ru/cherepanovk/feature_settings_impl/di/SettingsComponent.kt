@@ -11,10 +11,7 @@ import ru.cherepanovk.feature_settings_api.SettingsFeatureApi
 import ru.cherepanovk.feature_settings_impl.SettingsFragment
 
 @Component(
-    modules = [
-        SettingsModule::class,
-        ViewModelModule::class
-    ],
+    modules = [SettingsModule::class, ViewModelModule::class],
     dependencies = [
         ContextProvider::class,
         CorePreferencesApi::class,

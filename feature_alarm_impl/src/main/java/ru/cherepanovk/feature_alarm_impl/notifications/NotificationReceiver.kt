@@ -5,11 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import ru.cherepanovk.core.di.ComponentManager
-import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.di.DI
 import ru.cherepanovk.core_preferences_api.data.PreferencesApi
+import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
 import ru.cherepanovk.feature_alarm_impl.alarm.NotificationAlarmService
-import ru.cherepanovk.feature_alarm_impl.callservices.di.DaggerNotificationAlarmServiceComponent
+import ru.cherepanovk.feature_alarm_impl.di.FeatureAlarmComponent
 import javax.inject.Inject
 
 class NotificationReceiver : BroadcastReceiver() {
@@ -17,10 +17,8 @@ class NotificationReceiver : BroadcastReceiver() {
     lateinit var preferencesApi: PreferencesApi
 
     override fun onReceive(context: Context, intent: Intent) {
-        DaggerNotificationAlarmServiceComponent.builder()
-            .contextProvider(ComponentManager.getOrThrow())
-            .corePreferencesApi(ComponentManager.getOrThrow())
-            .build()
+        DI.getComponent(FeatureAlarmApi::class.java, FeatureAlarmComponent::class.java)
+            .getNotificationAlarmServiceComponent()
             .injectNotificationReceiver(this)
 
         if (preferencesApi.isLongAlarmEnable().not()) {

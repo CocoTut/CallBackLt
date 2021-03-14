@@ -8,14 +8,13 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'com.huawei.agconnect'
 
 import dependencies.Libs
 
 android {
     defaultConfig {
         applicationId "com.cherepanovky.callbackit"
-        versionCode 80
+        versionCode 82
         versionName "2.0.$versionCode"
         setProperty("archivesBaseName", "callbackit-$versionName($versionCode)")
     }

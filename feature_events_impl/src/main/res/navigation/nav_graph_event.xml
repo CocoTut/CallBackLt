@@ -46,16 +46,6 @@
             app:popUpTo="@id/eventFragmentFromNotification"
             app:popUpToInclusive="true"
             app:destination="@id/eventFragmentFromNotification" />
-        <action
-            android:id="@+id/action_dialogReschedule_to_dialogCreateReschedule"
-            app:destination="@id/dialogCreateRescheduleFromNotification" />
     </dialog>
 
-    <dialog
-        android:id="@+id/dialogCreateRescheduleFromNotification"
-        android:name="ru.cherepanovk.feature_events_impl.dialog.reschedule.DialogCreateRescheduleFragment"
-        android:label="DialogCreateRescheduleFragment"
-        tools:layout ="@layout/dialog_create_reschedule"
-        >
-    </dialog>
 </navigation>

@@ -13,20 +13,19 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import ru.cherepanovk.core.di.ComponentManager
+import ru.cherepanovk.core.di.DI
 import ru.cherepanovk.core.di.dependencies.FeatureNavigator
-import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.di.viewmodel.ViewModelFactory
 import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseFragment
 import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.*
 import ru.cherepanovk.core.utils.getDialIntent
+import ru.cherepanovk.feature_events_api.EventsFeatureApi
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.databinding.FragmentEventsBinding
 import ru.cherepanovk.feature_events_impl.dialog.delete.DialogDeleteParams
 import ru.cherepanovk.feature_events_impl.event.EventOpenParams
-import ru.cherepanovk.feature_events_impl.events.di.DaggerEventsComponent
 import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
 import ru.cherepanovk.feature_google_calendar_api.data.GoogleAccountFeatureStarter
 import javax.inject.Inject
@@ -90,17 +89,9 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
         model.checkGoogleAccount()
     }
 
-    override fun inject(componentManager: ComponentManager) {
-        val component = componentManager.get(EventsComponent::class)
-            ?: DaggerEventsComponent.builder()
-                .contextProvider(componentManager.getOrThrow())
-                .coreDbApi(componentManager.getOrThrow())
-                .coreGoogleCalendarApi(componentManager.getOrThrow())
-                .featureAlarmApi(componentManager.getOrThrow())
-                .googlePlayServicesAvailabilityProvider(componentManager.getOrThrow())
-                .corePreferencesApi(componentManager.getOrThrow())
-                .build()
-        component.inject(this)
+    override fun inject() {
+        DI.getComponent(EventsFeatureApi::class.java, EventsComponent::class.java)
+            .inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

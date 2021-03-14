@@ -8,10 +8,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.*
-import ru.cherepanovk.core.di.ComponentManager
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import ru.cherepanovk.core.di.DI
 import ru.cherepanovk.core.di.dependencies.FeatureNavigator
-import ru.cherepanovk.core.di.getOrThrow
 import ru.cherepanovk.core.di.viewmodel.ViewModelFactory
 import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseFragment
@@ -20,6 +20,7 @@ import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.observeEvent
 import ru.cherepanovk.core.utils.extentions.observeFailure
 import ru.cherepanovk.feature_google_calendar_api.data.GoogleAccountFeatureStarter
+import ru.cherepanovk.feature_settings_api.SettingsFeatureApi
 import ru.cherepanovk.feature_settings_impl.RingtoneChooser.RequiredStater.START_ACTIVITY
 import ru.cherepanovk.feature_settings_impl.databinding.FragmentSettingsBinding
 import ru.cherepanovk.feature_settings_impl.di.SettingsComponent
@@ -40,11 +41,12 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     @Inject
     lateinit var ringtoneChooser: RingtoneChooser
 
+
     private val model by viewModels<SettingsViewModel> { viewModelFactory }
     private val binding: FragmentSettingsBinding by viewBinding(FragmentSettingsBinding::bind)
 
-    override fun inject(componentManager: ComponentManager) {
-        componentManager.getOrThrow<SettingsComponent>()
+    override fun inject() {
+        DI.getComponent(SettingsFeatureApi::class.java, SettingsComponent::class.java)
             .inject(this)
     }
 

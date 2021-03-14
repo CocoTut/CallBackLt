@@ -11,29 +11,27 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.DatePicker
 import android.widget.TimePicker
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import pub.devrel.easypermissions.EasyPermissions
-import ru.cherepanovk.core.di.ComponentManager
-import ru.cherepanovk.core.di.getOrThrow
+import ru.cherepanovk.core.di.DI
 import ru.cherepanovk.core.di.viewmodel.GenericSavedStateViewModelFactory
 import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.ActivityStarter
 import ru.cherepanovk.core.platform.BaseFragment
-import ru.cherepanovk.core.platform.ErrorHandler
 import ru.cherepanovk.core.platform.viewBinding
-import ru.cherepanovk.core.utils.extentions.*
+import ru.cherepanovk.core.utils.extentions.observe
+import ru.cherepanovk.core.utils.extentions.observeFailure
+import ru.cherepanovk.core.utils.extentions.pickContacts
 import ru.cherepanovk.core.utils.getDialIntent
+import ru.cherepanovk.feature_events_api.EventsFeatureApi
 import ru.cherepanovk.feature_events_impl.ContactsPermissionChecker
 import ru.cherepanovk.feature_events_impl.R
 import ru.cherepanovk.feature_events_impl.databinding.FragmentEventBinding
-import ru.cherepanovk.feature_events_impl.event.di.DaggerEventComponent
 import ru.cherepanovk.feature_events_impl.dialog.delete.DialogDeleteParams
 import ru.cherepanovk.feature_events_impl.dialog.reschedule.DialogRescheduleParams
-import ru.cherepanovk.feature_events_impl.event.di.EventComponent
+import ru.cherepanovk.feature_events_impl.events.di.EventsComponent
 import ru.cherepanovk.imgurtest.utils.extensions.afterTextChanged
 import ru.cherepanovk.imgurtest.utils.extensions.hideKeyboard
 import ru.cherepanovk.imgurtest.utils.extensions.showOrGone
@@ -62,15 +60,9 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         get() = arguments?.let { EventOpenParams.fromBundle(it) }
 
 
-    override fun inject(componentManager: ComponentManager) {
-        DaggerEventComponent.builder()
-            .contextProvider(componentManager.getOrThrow())
-            .coreDbApi(componentManager.getOrThrow())
-            .featureAlarmApi(componentManager.getOrThrow())
-            .corePreferencesApi(componentManager.getOrThrow())
-            .coreGoogleCalendarApi(componentManager.getOrThrow())
-            .build()
-            .also { componentManager.put(it) }
+    override fun inject() {
+        DI.getComponent(EventsFeatureApi::class.java, EventsComponent::class.java)
+            .getEventComponent()
             .inject(this)
     }
 
@@ -96,13 +88,6 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         view?.hideKeyboard()
         super.onDestroyView()
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (requireActivity().isFinishing)
-            ComponentManager.remove(EventComponent::class)
-    }
-
 
     override fun bindViewModel() {
         with(model) {

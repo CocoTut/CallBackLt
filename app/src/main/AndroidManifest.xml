@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-<!--    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>-->
+    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
 
 
     <application
@@ -18,12 +18,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".notifications.ServiceActivity">
-            <intent-filter>
-                <action android:name="com.cherepanovky.action.start_service" />
-            </intent-filter>
-
-        </activity>
         <activity android:name=".notifications.NotificationActivity">
             <intent-filter>
                 <action android:name="com.cherepanovky.action.open_reminder" />
