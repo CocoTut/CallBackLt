@@ -9,12 +9,12 @@ package dependencies
 object Versions {
 
     object Core {
-        const val GRADLE_ANDROID = "4.0.1"
-        const val KOTLIN = "1.4.30"
+        const val GRADLE_ANDROID = "4.1.2"
+        const val KOTLIN = "1.4.31"
         const val GRADLE_VERSIONS = "0.21.0"
         const val GOOGLE = "4.3.4"
         const val DAGGER = "2.27"
-        const val COROUTINES = "1.4.2"
+        const val COROUTINES = "1.4.3"
         const val PLAY_SERVICES = "18.1.0"
         const val FIREBASE_CRASHLITYCS = "2.2.0"
         const val HUAWEI_CONNECT = "1.5.0.300"
@@ -29,7 +29,7 @@ object Versions {
         const val ANDROIDX_CARD_VIEW = "1.0.0"
         const val ANDROIDX_LEGACY_SUPPORT = "1.0.0"
         const val ANDROIDX_LIFECYCLE = "2.3.0"
-        const val ANDROIDX_FRAGMENT_KTX = "1.3.0"
+        const val ANDROIDX_FRAGMENT_KTX = "1.3.1"
         const val ANDROIDX_ACTIVITY_KTX = "1.2.0"
     }
 

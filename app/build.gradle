@@ -4,8 +4,6 @@ apply plugin: 'com.google.gms.google-services'
 
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.firebase.crashlytics'
 
@@ -14,7 +12,7 @@ import dependencies.Libs
 android {
     defaultConfig {
         applicationId "com.cherepanovky.callbackit"
-        versionCode 82
+        versionCode 83
         versionName "2.0.$versionCode"
         setProperty("archivesBaseName", "callbackit-$versionName($versionCode)")
     }
@@ -80,6 +78,7 @@ dependencies {
     implementation Libs.AndroidX.ANDROIDX_CONSTRAINT_LAYOUT
     implementation Libs.AndroidX.ANDROIDX_CARD_VIEW
     implementation Libs.AndroidX.ANDROIDX_LEGACY_SUPPORT
+
 
     implementation Libs.AndroidX.ANDROIDX_LIFECYCLE_VIEW_MODEL_KTX
 

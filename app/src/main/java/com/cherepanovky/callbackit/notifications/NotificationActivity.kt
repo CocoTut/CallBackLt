@@ -9,10 +9,11 @@ import androidx.navigation.NavArgument
 import androidx.navigation.NavType
 import com.cherepanovky.callbackit.CallBackItMainActivity
 import com.cherepanovky.callbackit.R
+import com.cherepanovky.callbackit.databinding.ActivityNotificationBinding
 import com.cherepanovky.callbackit.notifications.di.DaggerNotificationActivityComponent
-import kotlinx.android.synthetic.main.activity_notification.*
 import ru.cherepanovk.core.di.DI
 import ru.cherepanovk.core.platform.BaseActivity
+import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.feature_alarm_api.data.AlarmNotificationServiceLauncher
 import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams
@@ -21,11 +22,16 @@ import ru.cherepanovk.feature_events_impl.event.EventOpenParams
 import javax.inject.Inject
 
 class NotificationActivity : BaseActivity() {
+
+    private val binding: ActivityNotificationBinding by viewBinding(ActivityNotificationBinding::inflate)
+
     @Inject
     lateinit var alarmNotificationServiceLauncher: AlarmNotificationServiceLauncher
 
     private val params: NotificationParams?
         get() = NotificationParams.fromBundle(intent.extras)
+
+
 
     override var navHost = R.id.nav_host_fragment_notification
 
@@ -36,11 +42,11 @@ class NotificationActivity : BaseActivity() {
             .inject(this)
     }
 
-    override fun fragmentContainer(): View = notificationFragmentContainer
+    override fun fragmentContainer(): View = binding.notificationFragmentContainer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_notification)
+        setContentView(binding.root)
         inject()
         setNavigation()
         cancelNotification(params)

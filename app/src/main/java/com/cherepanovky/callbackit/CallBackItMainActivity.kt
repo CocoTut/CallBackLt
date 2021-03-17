@@ -6,14 +6,16 @@ import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
+import com.cherepanovky.callbackit.databinding.ActivityMainBinding
+import com.cherepanovky.callbackit.databinding.ActivityRouteBinding
 import com.cherepanovky.callbackit.di.DaggerMainActivityComponent
-import kotlinx.android.synthetic.main.activity_route.*
 import ru.cherepanovk.core.di.DI
 import ru.cherepanovk.core.di.dependencies.AppConfigProvider
 import ru.cherepanovk.core.di.dependencies.FeatureNavigator
 import ru.cherepanovk.core.exception.Failure
 import ru.cherepanovk.core.platform.BaseActivity
 import ru.cherepanovk.core.platform.ErrorHandler
+import ru.cherepanovk.core.platform.viewBinding
 import ru.cherepanovk.core.utils.extentions.observe
 import ru.cherepanovk.core.utils.extentions.viewModel
 import ru.cherepanovk.core.utils.getEmailIntent
@@ -28,6 +30,8 @@ import javax.inject.Inject
 
 class CallBackItMainActivity : BaseActivity() {
 
+    private val binding: ActivityRouteBinding by viewBinding(ActivityRouteBinding::inflate)
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -40,14 +44,15 @@ class CallBackItMainActivity : BaseActivity() {
     override var navHost = R.id.nav_host_fragment
 
 
-    override fun fragmentContainer(): View = fragmentContainer
+    override fun fragmentContainer(): View = binding.fragmentContainer
+
 
 
     private lateinit var model: CallBackItMainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_route)
+        setContentView(binding.root)
         inject()
         setNavigation()
 
@@ -63,20 +68,20 @@ class CallBackItMainActivity : BaseActivity() {
             .inject(this)
 
         model = viewModel(viewModelFactory) {
-            observe(accountName, ::setAccountName)
-            observe(appVersion, ::setApplicationVersion)
+//            observe(accountName, ::setAccountName)
+//            observe(appVersion, ::setApplicationVersion)
         }
     }
 
     private fun setApplicationVersion(version: String) {
-        tvApplicationVersion.apply {
+        binding.tvApplicationVersion.apply {
             text = version
             contentDescription =context.getString(R.string.main_screen_content_description_app_version, version)
         }
     }
 
     private fun setAccountName(accountName: String) {
-        navigationView.getHeaderView(0)
+        binding.navigationView.getHeaderView(0)
             .findViewById<TextView>(R.id.tvAccountEmail).apply {
                 text = accountName
                 contentDescription =
@@ -94,12 +99,12 @@ class CallBackItMainActivity : BaseActivity() {
 
     private fun bindListeners() {
 
-        ivToolbarBurger.setOnClickListener {
+        binding.ivToolbarBurger.setOnClickListener {
             model.initAccountName()
-            fragmentContainer.openDrawer(GravityCompat.START, true)
+            binding.fragmentContainer.openDrawer(GravityCompat.START, true)
         }
 
-        navigationView.setNavigationItemSelectedListener { menuItem ->
+        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             openFeatureFromMenu(menuItem.itemId)
             false
         }
@@ -150,12 +155,12 @@ class CallBackItMainActivity : BaseActivity() {
     }
 
     private fun setDrawerLockMode(lockMode: Int) {
-        ivToolbarBurger.visibility = when (lockMode) {
+        binding.ivToolbarBurger.visibility = when (lockMode) {
             DrawerLayout.LOCK_MODE_UNLOCKED -> View.VISIBLE
             else -> View.GONE
         }
 
-        fragmentContainer.setDrawerLockMode(lockMode)
+        binding.fragmentContainer.setDrawerLockMode(lockMode)
     }
 
     private fun openSettingsFeature() {

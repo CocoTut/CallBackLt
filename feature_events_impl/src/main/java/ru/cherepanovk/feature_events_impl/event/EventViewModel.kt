@@ -195,7 +195,7 @@ class EventViewModel(
             month = dateTimeHelper.getMonthFromDate(date),
             day = dateTimeHelper.getDayFromDate(date)
         )
-        _showDatePickerEvent.postValue(dateForPicker)
+        _showDatePickerEvent.value = dateForPicker
     }
 
     fun onTimeClick(eventTime: String, eventDate: String) {
@@ -204,7 +204,7 @@ class EventViewModel(
             hours = dateTimeHelper.getHoursFromDate(date),
             minutes = dateTimeHelper.getMinutesFromDate(date)
         )
-        _showTimePickerEvent.postValue(timeForPicker)
+        _showTimePickerEvent.value = timeForPicker
     }
 
     fun onDateSet(dateForPicker: DateForPicker) {
