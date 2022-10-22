@@ -31,7 +31,7 @@ class SaveReminderToDb @Inject constructor(
             if (date != null)
                 cancelCurrentReminder(this.id, date)
             createAlarm(this.id)
-            saveReminderToGoogleCalendar(this, newReminder)
+//            saveReminderToGoogleCalendar(this, newReminder)
         }
     }
 
