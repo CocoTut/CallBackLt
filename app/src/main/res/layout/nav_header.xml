@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         android:importantForAccessibility="no"
+        android:visibility="gone"
         android:src="@drawable/baseline_person_white_24" />
 
     <TextView
