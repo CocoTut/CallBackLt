@@ -7,12 +7,12 @@ package ru.cherepanovk.core.exception
 sealed class Failure {
     object NetworkConnection : Failure()
     object ServerError : Failure()
-    object BadApiVersion: Failure()
+//    object BadApiVersion: Failure()
     object BadRequest: Failure(){
         var error: String? = null
     }
-    object Unauthorized: Failure()
-    object Unregistered: Failure()
+//    object Unauthorized: Failure()
+//    object Unregistered: Failure()
     object TimeOut: Failure()
     object DataBaseError: Failure()
     object CreateNotificationError: Failure()
@@ -21,9 +21,6 @@ sealed class Failure {
     object NoEmailApplication: Failure()
     object UnexpectedError: Failure()
     object WhatsAppNotInstalled: Failure()
-
-    /** * Extend this class for feature specific failures.*/
-    abstract class FeatureFailure: Failure()
 
     companion object {
         const val RESULT_CODE_UNREGISERED_USER = 403

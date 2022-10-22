@@ -9,6 +9,7 @@ import ru.cherepanovk.feature_alarm_api.data.AlarmApi
 import ru.cherepanovk.feature_events_impl.event.data.EventRepository
 import ru.cherepanovk.feature_google_calendar_api.data.GoogleCalendarApi
 import ru.cherepanovk.feature_google_calendar_api.data.GoogleCalendarEvent
+import java.util.Date
 import javax.inject.Inject
 
 class SaveReminderToDb @Inject constructor(
@@ -24,14 +25,14 @@ class SaveReminderToDb @Inject constructor(
     override suspend fun run(params: Reminder) {
 
         val newReminder = params.id.isEmpty()
+        val date = eventRepository.getReminderFromDb(params.id)?.dateTimeEvent
 
         eventRepository.saveReminderToDb(params).run {
-            cancelCurrentReminder(this.id)
+            if (date != null)
+                cancelCurrentReminder(this.id, date)
             createAlarm(this.id)
             saveReminderToGoogleCalendar(this, newReminder)
         }
-
-
     }
 
     private suspend fun saveReminderToGoogleCalendar(params: Reminder, newReminder: Boolean) {
@@ -53,9 +54,9 @@ class SaveReminderToDb @Inject constructor(
         }
     }
 
-    private suspend fun cancelCurrentReminder(reminderId: String) {
+    private suspend fun cancelCurrentReminder(reminderId: String, dateTime: Date) {
         eventRepository.getReminderFromDb(reminderId)?.let { currentReminder ->
-            alarmApi.cancelAlarm(alarmModelMapper.map(currentReminder))
+            alarmApi.cancelAlarm(alarmModelMapper.map(currentReminder, dateTime))
         }
 
     }

@@ -9,6 +9,7 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Build
 import android.os.IBinder
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -17,13 +18,10 @@ import ru.cherepanovk.core.di.DI
 import ru.cherepanovk.core.exception.CallBackItException
 import ru.cherepanovk.core_preferences_api.data.PreferencesApi
 import ru.cherepanovk.feature_alarm_api.data.AlarmNotificationServiceLauncher
-import ru.cherepanovk.feature_alarm_api.data.NotificationChannelCreator
 import ru.cherepanovk.feature_alarm_api.di.FeatureAlarmApi
 import ru.cherepanovk.feature_alarm_impl.callservices.AlarmNotificationServiceLauncherImpl.Companion.STOP_FOREGROUND_ACTION
 import ru.cherepanovk.feature_alarm_impl.callservices.AlarmNotificationServiceLauncherImpl.Companion.STOP_PLAY_ALARM
 import ru.cherepanovk.feature_alarm_impl.di.FeatureAlarmComponent
-import ru.cherepanovk.feature_alarm_impl.notifications.CallListenerNotificationCreator
-import ru.cherepanovk.feature_alarm_impl.notifications.NotificationActionProvider
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationCreator
 import ru.cherepanovk.feature_alarm_impl.notifications.NotificationParams
 import timber.log.Timber
@@ -32,19 +30,7 @@ import javax.inject.Inject
 class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dispatchers.IO) {
 
     @Inject
-    lateinit var callListenerNotificationCreator: CallListenerNotificationCreator
-
-    @Inject
-    lateinit var notificationChannelCreator: NotificationChannelCreator
-
-    @Inject
     lateinit var preferencesApi: PreferencesApi
-
-    @Inject
-    lateinit var alarmPendingIntentProvider: AlarmPendingIntentProvider
-
-    @Inject
-    lateinit var notificationActionProvider: NotificationActionProvider
 
     @Inject
     lateinit var alarmNotificationServiceLauncher: AlarmNotificationServiceLauncher
@@ -259,9 +245,17 @@ class NotificationAlarmService : Service(), CoroutineScope by CoroutineScope(Dis
             this,
             STOP_CALL_NOTIFICATION_SERVICE_FOREGROUND_REQUEST_CODE,
             actionIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT
+            getPendingFlags()
         )
 
+    }
+
+    private fun getPendingFlags(): Int {
+        return  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
     }
 
 

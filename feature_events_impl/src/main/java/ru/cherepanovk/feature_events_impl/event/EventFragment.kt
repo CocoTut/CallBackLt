@@ -111,7 +111,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         }
     }
 
-    private fun showFailure(failure: Failure?) {
+    private fun showFailure(failure: Failure) {
         view?.let {
             errorHandler.onHandleFailure(it, failure)
         }
@@ -223,8 +223,7 @@ class EventFragment : BaseFragment(R.layout.fragment_event),
         val pm: PackageManager = requireActivity().packageManager
         var app_installed = false
         app_installed = try {
-            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES)
-            true
+            pm.getApplicationInfo(uri, 0).enabled
         } catch (e: PackageManager.NameNotFoundException) {
             false
         }

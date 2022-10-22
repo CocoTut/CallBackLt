@@ -74,7 +74,7 @@ class DialogRescheduleFragment : BaseDialogFragment(R.layout.dialog_reschedule) 
         }
     }
 
-    private fun showFailure(failure: Failure?) {
+    private fun showFailure(failure: Failure) {
         view?.let {
             errorHandler.onHandleFailure(it, failure)
         }

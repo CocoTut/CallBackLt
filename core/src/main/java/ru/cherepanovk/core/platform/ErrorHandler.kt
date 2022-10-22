@@ -10,7 +10,7 @@ class ErrorHandler @Inject constructor(
     private val notifyMessageShower: NotifyMessageShower
 ) {
 
-    fun onHandleFailure(view: View, failure: Failure?) {
+    fun onHandleFailure(view: View, failure: Failure) {
         when (failure) {
             is Failure.NetworkConnection ->
                 notifyMessageShower.notify(view, R.string.error_no_connection)
@@ -38,14 +38,13 @@ class ErrorHandler @Inject constructor(
     }
 
     fun onHandleFailure(view: View, failure: Failure?, action: () -> Unit) {
-        when (failure) {
-            is Failure.WhatsAppNotInstalled ->
-                notifyMessageShower.notifyWithAction(
-                    view,
-                    R.string.error_no_whatsapp,
-                    R.string.error_no_whatsapp_action,
-                    action
-                )
+        if (failure is Failure.WhatsAppNotInstalled) {
+            notifyMessageShower.notifyWithAction(
+                view,
+                R.string.error_no_whatsapp,
+                R.string.error_no_whatsapp_action,
+                action
+            )
         }
     }
 }

@@ -40,7 +40,7 @@ class DialogLoadEvents : BaseDialogFragment(R.layout.dialog_load_events) {
         }
     }
 
-    private fun showFailure(failure: Failure?) {
+    private fun showFailure(failure: Failure) {
         view?.let {
             errorHandler.onHandleFailure(it, failure)
         }

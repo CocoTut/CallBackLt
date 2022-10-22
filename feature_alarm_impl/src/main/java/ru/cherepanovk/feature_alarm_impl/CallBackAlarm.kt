@@ -1,10 +1,13 @@
 package ru.cherepanovk.feature_alarm_impl
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.core.app.AlarmManagerCompat
 import ru.cherepanovk.core.config.AppConfig
 import ru.cherepanovk.feature_alarm_api.data.AlarmApi
@@ -39,6 +42,7 @@ class CallBackAlarm @Inject constructor(
        alarmManager.cancel(getPendingIntentForAm(alarmReminder))
     }
 
+
     private fun getPendingIntentForAm(alarmReminder: AlarmReminder): PendingIntent {
 
         val data = Uri.parse(alarmReminder.dateTimeEvent().time.toString())
@@ -53,6 +57,14 @@ class CallBackAlarm @Inject constructor(
             action = context.resources.getString(R.string.intent_callback_notification_service)
             putExtras(params.toBundle())
         }
-        return PendingIntent.getBroadcast(context, 0, intentAm, PendingIntent.FLAG_CANCEL_CURRENT)
+        return PendingIntent.getBroadcast(context, 0, intentAm, getPendingFlags())
+    }
+
+    private fun getPendingFlags(): Int {
+        return  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
     }
 }

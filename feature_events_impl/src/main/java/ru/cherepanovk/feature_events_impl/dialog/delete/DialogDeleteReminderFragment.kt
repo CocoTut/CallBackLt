@@ -114,7 +114,7 @@ class DialogDeleteReminderFragment : DialogFragment() {
         findNavController().navigate(R.id.action_dialogDeleteReminder_to_eventsFragment)
     }
 
-    private fun handleError(failure: Failure?) {
+    private fun handleError(failure: Failure) {
         view?.let {
             errorHandler.onHandleFailure(it, failure)
         }

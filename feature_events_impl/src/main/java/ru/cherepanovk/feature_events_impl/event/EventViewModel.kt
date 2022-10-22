@@ -125,7 +125,7 @@ class EventViewModel(
     fun trySetPhoneNumber(phoneNumber: String?) {
         preferencesApi.setLastCalledPhoneNumber(null)
         if (phoneNumber == null || phoneNumber.isEmpty()) return
-        _phoneNumber.postValue(phoneNumber)
+        _phoneNumber.postValue(phoneNumber!!)
         contactPicker.getContactNameByPhoneNumber(phoneNumber)?.let {
             _contactName.postValue(it)
         }
@@ -150,7 +150,7 @@ class EventViewModel(
 
     fun openReschedule(open: Boolean?) {
         if (open != null && id != null && open)
-            _openRescheduleEvent.postValue(id)
+            _openRescheduleEvent.postValue(id!!)
     }
 
     private fun hasId(id: String?) =
@@ -173,17 +173,6 @@ class EventViewModel(
             if (_eventDateContentDescription.value == null && it.dateContentDescription != null) {
                 saveDateContentDescription(it.dateContentDescription)
                 _eventDateContentDescription.postValue(it.dateContentDescription)
-            }
-        }
-    }
-
-
-    private fun createAlarm(reminder: Reminder) {
-        launchLoading {
-            createReminderAlarm(reminder) {
-                it.handleSuccess {
-                    _success.postValue(true)
-                }
             }
         }
     }

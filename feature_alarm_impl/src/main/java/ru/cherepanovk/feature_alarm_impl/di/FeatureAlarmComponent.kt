@@ -25,6 +25,5 @@ interface FeatureAlarmComponent : FeatureAlarmApi {
     fun inject(bootCompleteReceiver: BootCompleteReceiver)
     fun inject(receiver: NotificationActionsReceiver)
 
-    fun getCallServicesComponent(): CallServicesComponent
     fun getNotificationAlarmServiceComponent(): NotificationAlarmServiceComponent
 }

@@ -34,9 +34,9 @@ class ErrorHandler @Inject constructor(private val networkHandler: NetworkHandle
 
     private fun getHttpFailure(exception: HttpException) =
         when (exception.code()) {
-            Failure.RESULT_CODE_UNREGISERED_USER -> Failure.Unregistered
-            Failure.RESULT_CODE_BAD_API_VERSION -> Failure.BadApiVersion
-            Failure.RESULT_CODE_UNAUTHOTIZED -> Failure.Unauthorized
+//            Failure.RESULT_CODE_UNREGISERED_USER -> Failure.Unregistered
+//            Failure.RESULT_CODE_BAD_API_VERSION -> Failure.BadApiVersion
+//            Failure.RESULT_CODE_UNAUTHOTIZED -> Failure.Unauthorized
             Failure.RESULT_CODE_BAD_REQUEST -> getBadRequestFailure(exception)
             else -> Failure.ServerError
         }

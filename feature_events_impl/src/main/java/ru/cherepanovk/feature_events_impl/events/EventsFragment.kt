@@ -86,7 +86,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        model.checkGoogleAccount()
+//        model.checkGoogleAccount()
     }
 
     override fun inject() {
@@ -158,7 +158,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
             )
     }
 
-    private fun showFailure(failure: Failure?) {
+    private fun showFailure(failure: Failure) {
         view?.let {
             errorHandler.onHandleFailure(it, failure)
         }

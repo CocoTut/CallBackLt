@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.cherepanovk.feature_events_impl">
 
+    <queries>
+        <package android:name="com.whatsapp" />
+    </queries>
     <application>
 
     <activity android:name=".EventsActivity"></activity>

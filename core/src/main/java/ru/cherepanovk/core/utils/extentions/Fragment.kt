@@ -13,7 +13,7 @@ import ru.cherepanovk.core.platform.BaseFragment
 fun <T> Fragment.observe(liveData: LiveData<T>, block: (T) -> Unit) {
     liveData.observe(viewLifecycleOwner, Observer(block))
 }
-fun Fragment.observeFailure(liveData: LiveData<Failure>, body: (Failure?) -> Unit) =
+fun Fragment.observeFailure(liveData: LiveData<Failure>, body: (Failure) -> Unit) =
     liveData.observe(viewLifecycleOwner, Observer(body))
 
 fun <T : Any, L : LiveData<Event<T>>> Fragment.observeEvent(liveData: L, body: (T) -> Unit) =
