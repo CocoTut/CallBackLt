@@ -21,7 +21,7 @@ class DeleteReminderFromDb @Inject constructor(
     override suspend fun run(params: String) {
         cancelAlarm(params)
         eventRepository.deleteReminderById(params)
-//        googleCalendarApi.deleteEvent(preferencesApi.getGoogleAccount(), params)
+        googleCalendarApi.deleteEvent(preferencesApi.getGoogleAccount(), params)
     }
 
     private suspend fun cancelAlarm(reminderId: String) {

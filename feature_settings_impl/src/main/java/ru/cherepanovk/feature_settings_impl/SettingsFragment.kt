@@ -154,7 +154,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             observe(longAlarmEnabled, binding.tvRepeatTimesAlarmDescription::setEnabled)
             observe(durationAlarmTimes) { setDurationAlarmTimes(it) }
             observe(durationDelayAlarmMinutes) { setDurationDelaAlarmMinutes(it) }
-//            observe(googleAccountAvailable, binding.accountGroup::showOrGone)
+            observe(googleAccountAvailable, binding.accountGroup::showOrGone)
             observe(repeatTimesAlarm) { setRepeatAlarmTimes(it) }
             observeEvent(chosenRingtone, ::chooseRingtone)
             observeFailure(failure, ::showFailure)

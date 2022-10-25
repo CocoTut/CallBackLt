@@ -69,10 +69,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
             PERMISSIONS_REQUEST_CODE,
             false,
             Manifest.permission.READ_CONTACTS,
-            Manifest.permission.READ_CALL_LOG,
-            Manifest.permission.READ_PHONE_STATE
         )
-
     }
 
     override fun onDestroy() {
@@ -86,7 +83,7 @@ class EventsFragment : BaseFragment(R.layout.fragment_events), EventsSwipeContro
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        model.checkGoogleAccount()
+        model.checkGoogleAccount()
     }
 
     override fun inject() {

@@ -68,8 +68,8 @@ class CallBackItMainActivity : BaseActivity() {
             .inject(this)
 
         model = viewModel(viewModelFactory) {
-//            observe(accountName, ::setAccountName)
-//            observe(appVersion, ::setApplicationVersion)
+            observe(accountName, ::setAccountName)
+            observe(appVersion, ::setApplicationVersion)
         }
     }
 
