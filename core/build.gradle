@@ -5,15 +5,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
-
-
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -86,5 +78,6 @@ dependencies {
 
     implementation platform(Libs.FireBase.FIREBASE_BOM)
     api Libs.Utils.ANALYTICS
+    api Libs.Utils.CRASHLYTICS
 
 }
