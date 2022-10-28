@@ -6,7 +6,6 @@ import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
-import com.cherepanovky.callbackit.databinding.ActivityMainBinding
 import com.cherepanovky.callbackit.databinding.ActivityRouteBinding
 import com.cherepanovky.callbackit.di.DaggerMainActivityComponent
 import ru.cherepanovk.core.di.DI
@@ -55,7 +54,6 @@ class CallBackItMainActivity : BaseActivity() {
         setContentView(binding.root)
         inject()
         setNavigation()
-
         bindListeners()
     }
 
@@ -91,10 +89,12 @@ class CallBackItMainActivity : BaseActivity() {
 
 
     private fun setNavigation() {
-        val navGraph = DI.getFeature(EventsFeatureApi::class.java).eventsFeatureStarter()
+        val eventsGraph = DI.getFeature(EventsFeatureApi::class.java).eventsFeatureStarter()
             .getEventsNavGraph(navController.navInflater)
-        startDestination = navGraph.startDestination
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+
         navController.graph = navGraph
+        startDestination = eventsGraph.startDestination
     }
 
     private fun bindListeners() {
